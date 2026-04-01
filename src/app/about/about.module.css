@@ -1,0 +1,144 @@
+.hero {
+  text-align: center;
+  padding: 3rem 0 2rem;
+}
+.heroTitle {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 900;
+  margin-bottom: 1rem;
+}
+.heroSubtitle {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+/* Mission */
+.missionGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+.missionContent { display: flex; flex-direction: column; gap: 1rem; }
+.missionTitle { font-size: 2rem; font-weight: 800; }
+.missionDesc { font-size: 1rem; color: var(--text-secondary); line-height: 1.7; }
+.missionStats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+.missionStat {
+  padding: 1.5rem;
+  text-align: center;
+}
+.missionStatValue {
+  display: block;
+  font-size: 2rem;
+  font-weight: 900;
+  background: var(--accent-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.missionStatLabel {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+/* Values */
+.valuesGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+}
+.valueCard {
+  padding: 2rem;
+  text-align: center;
+}
+.valueIcon { font-size: 2rem; margin-bottom: 0.75rem; display: block; }
+.valueTitle { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem; }
+.valueDesc { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; }
+
+/* Team */
+.teamGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+}
+.teamCard {
+  padding: 2rem;
+  text-align: center;
+}
+.teamAvatar {
+  width: 80px;
+  height: 80px;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: white;
+  margin: 0 auto 1rem;
+}
+.teamName { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.25rem; }
+.teamRole { font-size: 0.85rem; color: var(--text-secondary); }
+
+/* Timeline */
+.timeline {
+  max-width: 700px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+.timelineItem {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+.timelineYear {
+  font-size: 1.2rem;
+  font-weight: 900;
+  background: var(--accent-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  min-width: 60px;
+  font-family: var(--font-heading);
+}
+.timelineDot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--accent-primary);
+  flex-shrink: 0;
+  box-shadow: 0 0 10px var(--accent-glow);
+}
+.timelineContent {
+  padding: 1.25rem 1.5rem;
+  flex: 1;
+}
+.timelineContent h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 0.35rem;
+}
+.timelineContent p {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+@media (max-width: 1024px) {
+  .missionGrid { grid-template-columns: 1fr; gap: 2rem; }
+  .valuesGrid, .teamGrid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 768px) {
+  .valuesGrid, .teamGrid { grid-template-columns: 1fr; }
+  .timelineItem { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+  .timelineDot { display: none; }
+}

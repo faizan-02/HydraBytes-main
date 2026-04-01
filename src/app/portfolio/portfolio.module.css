@@ -1,0 +1,184 @@
+.hero {
+  text-align: center;
+  padding: 3rem 0 2rem;
+}
+.heroTitle {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 900;
+  margin-bottom: 1rem;
+}
+.heroSubtitle {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  max-width: 550px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+.filters {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 2.5rem;
+  flex-wrap: wrap;
+}
+.filterBtn {
+  padding: 0.55rem 1.5rem;
+  border-radius: var(--radius-full);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  border: 1px solid var(--border-color);
+  background: var(--bg-card);
+  transition: all var(--transition-fast);
+}
+.filterBtn:hover {
+  border-color: var(--accent-primary);
+  color: var(--text-primary);
+}
+.filterActive {
+  background: var(--accent-gradient);
+  color: #fff;
+  border-color: transparent;
+}
+
+.projectsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+.projectCard {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.projectHeader {
+  border-left: 3px solid;
+  padding-left: 1rem;
+}
+.projectCategory {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-tertiary);
+}
+.projectTitle {
+  font-size: 1.2rem;
+  font-weight: 800;
+  margin-top: 0.25rem;
+}
+.projectDesc {
+  font-size: 0.92rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  flex: 1;
+}
+.projectMetric {
+  padding: 0.5rem 0;
+}
+.metricValue {
+  font-size: 0.9rem;
+  font-weight: 700;
+  background: var(--accent-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.projectTech {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+.techTag {
+  padding: 0.3rem 0.75rem;
+  border-radius: var(--radius-full);
+  font-size: 0.75rem;
+  font-weight: 600;
+  background: var(--bg-tertiary);
+  color: var(--text-secondary);
+}
+
+/* ===== Tech Stack Section ===== */
+.techStackSection {
+  background: var(--bg-secondary);
+}
+
+.techCategoriesGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.techCategoryCard {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg, 1rem);
+  padding: 1.75rem;
+  transition: border-color var(--transition-fast);
+}
+.techCategoryCard:hover {
+  border-color: var(--accent-primary);
+}
+
+.techCategoryHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.techCategoryIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  flex-shrink: 0;
+}
+
+.techCategoryName {
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.techBadgesGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.techBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.85rem;
+  border-radius: var(--radius-full);
+  font-size: 0.8rem;
+  font-weight: 600;
+  background: var(--bg-tertiary);
+  color: var(--text-secondary);
+  border: 1px solid transparent;
+  cursor: default;
+  transition: all var(--transition-fast);
+}
+.techBadge:hover {
+  border-color: var(--badge-accent, var(--accent-primary));
+  color: var(--text-primary);
+  background: linear-gradient(
+    135deg,
+    var(--bg-tertiary) 0%,
+    color-mix(in srgb, var(--badge-accent, var(--accent-primary)) 8%, var(--bg-tertiary)) 100%
+  );
+}
+
+@media (max-width: 1024px) {
+  .projectsGrid { grid-template-columns: repeat(2, 1fr); }
+  .techCategoriesGrid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 768px) {
+  .projectsGrid { grid-template-columns: 1fr; }
+  .techCategoriesGrid { grid-template-columns: 1fr; }
+}

@@ -1,0 +1,82 @@
+.hero { text-align: center; padding: 3rem 0 2rem; }
+.heroTitle { font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 900; margin-bottom: 1rem; }
+.heroSubtitle { font-size: 1.1rem; color: var(--text-secondary); max-width: 550px; margin: 0 auto; line-height: 1.7; }
+
+.featuredPost {
+  display: block;
+  padding: 3rem;
+  position: relative;
+  overflow: hidden;
+}
+.featuredPost::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--accent-gradient);
+}
+.featuredMeta { display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem; }
+.featuredCategory {
+  padding: 0.3rem 0.8rem;
+  border-radius: var(--radius-full);
+  background: var(--accent-gradient);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.featuredDate { font-size: 0.85rem; color: var(--text-tertiary); }
+.featuredTitle { font-size: 1.8rem; font-weight: 800; margin-bottom: 0.75rem; }
+.featuredExcerpt { font-size: 1.05rem; color: var(--text-secondary); line-height: 1.7; max-width: 700px; margin-bottom: 1.5rem; }
+.readMore { font-size: 0.95rem; font-weight: 600; color: var(--accent-primary); }
+
+.postsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+.postCard {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1.75rem;
+}
+.postMeta { display: flex; justify-content: space-between; align-items: center; }
+.postCategory {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--accent-primary);
+}
+.postDate { font-size: 0.8rem; color: var(--text-tertiary); }
+.postTitle { font-size: 1.1rem; font-weight: 700; line-height: 1.4; }
+.postExcerpt { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; flex: 1; }
+
+.newsletter {
+  display: flex;
+  gap: 0.75rem;
+  max-width: 450px;
+  margin: 0 auto;
+}
+.newsletterInput {
+  flex: 1;
+  padding: 0.85rem 1.25rem;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border-color);
+  background: var(--bg-card);
+  color: var(--text-primary);
+  outline: none;
+  font-size: 0.95rem;
+}
+.newsletterInput:focus { border-color: var(--accent-primary); }
+
+@media (max-width: 1024px) {
+  .postsGrid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 768px) {
+  .postsGrid { grid-template-columns: 1fr; }
+  .featuredPost { padding: 2rem 1.5rem; }
+  .newsletter { flex-direction: column; }
+}

@@ -1,0 +1,38 @@
+.spotlightCard {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  transition: transform 0.15s ease, border-color var(--transition-base), box-shadow var(--transition-base);
+}
+
+.spotlightCard:hover {
+  border-color: var(--border-color-hover);
+  box-shadow: var(--shadow-glow);
+}
+
+.spotlightOverlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  background: radial-gradient(
+    600px circle at var(--spotlight-x, 50%) var(--spotlight-y, 50%),
+    var(--spotlight-color, rgba(124, 58, 237, 0.15)),
+    transparent 40%
+  );
+  z-index: 1;
+}
+
+.spotlightCard:hover .spotlightOverlay {
+  opacity: 1;
+}
+
+.spotlightContent {
+  position: relative;
+  z-index: 2;
+}

@@ -1,0 +1,93 @@
+.loadingScreen {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #0a0a12;
+  transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+
+.loadingScreen.fadeOut {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.loadingContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
+
+.logoContainer {
+  display: flex;
+  justify-content: center;
+  animation: logoPulse 2s ease-in-out infinite;
+}
+
+.logoSvg {
+  width: 100%;
+  height: auto;
+}
+
+.hexPath {
+  stroke-dasharray: 200;
+  stroke-dashoffset: 200;
+  animation: drawHex 1.8s ease-in-out forwards;
+}
+
+@keyframes drawHex {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes logoPulse {
+  0%, 100% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 10px rgba(124, 58, 237, 0.3));
+  }
+  50% {
+    transform: scale(1.05);
+    filter: drop-shadow(0 0 25px rgba(124, 58, 237, 0.6));
+  }
+}
+
+.loadingBar {
+  width: 200px;
+  height: 3px;
+  background: rgba(124, 58, 237, 0.15);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.loadingBarFill {
+  width: 0;
+  height: 100%;
+  background: linear-gradient(90deg, #7c3aed, #00e5ff);
+  border-radius: 10px;
+  animation: loadFill 1.6s ease-in-out forwards;
+}
+
+@keyframes loadFill {
+  0% { width: 0; }
+  50% { width: 60%; }
+  100% { width: 100%; }
+}
+
+.loadingText {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: rgba(160, 160, 184, 0.6);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  animation: textPulse 2s ease-in-out infinite;
+}
+
+@keyframes textPulse {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
