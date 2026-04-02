@@ -9,10 +9,12 @@ import FloatingParticles from '@/components/FloatingParticles';
 import styles from './about.module.css';
 
 const team = [
-  { name: 'Alex Rivera', role: 'CEO & Founder', initials: 'AR', color: '#7c3aed' },
-  { name: 'Priya Sharma', role: 'CTO', initials: 'PS', color: '#00e5ff' },
-  { name: 'James Chen', role: 'Lead Designer', initials: 'JC', color: '#f472b6' },
-  { name: 'Sarah Kim', role: 'AI Lead', initials: 'SK', color: '#22c55e' },
+  { name: 'Faizan Jawad', role: 'CEO & Founder', initials: 'FJ', color: '#7c3aed' },
+  { name: 'Asad Ali Khan', role: 'Co-Founder', initials: 'AA', color: '#00e5ff' },
+  { name: 'Suhayb Saleem', role: 'Lead Designer', initials: 'SS', color: '#f472b6' },
+  { name: 'Haris Munir', role: 'AI Lead', initials: 'HM', color: '#22c55e' },
+  { name: 'Ali Raza', role: 'Mobile App Developer', initials: 'AR', color: '#f59e0b' },
+  { name: 'Umair Khan', role: 'Web Developer', initials: 'UK', color: '#38bdf8' },
 ];
 
 const values = [
