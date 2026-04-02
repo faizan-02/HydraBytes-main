@@ -123,7 +123,7 @@ export default function Navbar() {
                       onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}>
                       <LayoutDashboard size={15} /> Dashboard
                     </Link>
-                    {session.user?.role === 'admin' && (
+                    {(session.user as { role?: string })?.role === 'admin' && (
                       <Link href="/admin" onClick={() => setUserMenuOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 12px', borderRadius: '8px', fontSize: '14px', textDecoration: 'none', color: '#818cf8' }}
                         onMouseEnter={e => (e.currentTarget.style.background = 'rgba(99,102,241,0.08)')}
                         onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}>
