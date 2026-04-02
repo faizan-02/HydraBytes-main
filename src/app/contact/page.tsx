@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import AnimatedSection from '@/components/AnimatedSection';
@@ -19,12 +19,23 @@ const contactInfo = [
 export default function ContactPage() {
   const { data: session, status } = useSession();
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
+    name: session?.user?.name ?? '',
+    email: session?.user?.email ?? '',
     service: '',
     budget: '',
     message: '',
   });
+
+  // Pre-fill name/email once session loads
+  useEffect(() => {
+    if (session?.user) {
+      setFormData(prev => ({
+        ...prev,
+        name: prev.name || session.user?.name || '',
+        email: prev.email || session.user?.email || '',
+      }));
+    }
+  }, [session]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
