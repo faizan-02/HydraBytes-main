@@ -27,7 +27,7 @@ const PAYMENT_METHODS = [
     id: 'easypaisa',
     name: 'Easypaisa',
     icon: '📱',
-    logo: '/logos/easypaisa.svg',
+    logo: '/logos/easypaisa.png',
     color: '#00b04a',
     bg: 'rgba(0,176,74,0.08)',
     border: 'rgba(0,176,74,0.25)',
@@ -41,7 +41,7 @@ const PAYMENT_METHODS = [
     id: 'jazzcash',
     name: 'JazzCash',
     icon: '💜',
-    logo: '/logos/jazzcash.svg',
+    logo: '/logos/jazzcash.png',
     color: '#7c3aed',
     bg: 'rgba(124,58,237,0.08)',
     border: 'rgba(124,58,237,0.25)',
@@ -55,7 +55,7 @@ const PAYMENT_METHODS = [
     id: 'nayapay',
     name: 'NayaPay',
     icon: '🟡',
-    logo: '/logos/nayapay.svg',
+    logo: '/logos/nayapay.png',
     color: '#f59e0b',
     bg: 'rgba(245,158,11,0.08)',
     border: 'rgba(245,158,11,0.25)',
@@ -201,7 +201,9 @@ export default function LocalPaymentPage({ params }: { params: Promise<{ invoice
               }}
             >
               {method.logo
-                ? <img src={method.logo} alt={method.name} style={{ height: '28px', width: 'auto', borderRadius: '4px', objectFit: 'contain' }} />
+                ? <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', background: '#fff', borderRadius: '8px', padding: '4px 8px', height: '36px', boxSizing: 'border-box' }}>
+                    <img src={method.logo} alt={method.name} style={{ height: '26px', width: 'auto', objectFit: 'contain', display: 'block' }} />
+                  </span>
                 : <span style={{ fontSize: '24px' }}>{method.icon}</span>
               }
               <span style={{ fontWeight: 600, fontSize: '14px', color: selected === method.id ? method.color : 'var(--text-primary, #f0f0f5)' }}>
