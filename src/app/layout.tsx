@@ -8,6 +8,11 @@ export const metadata: Metadata = {
   description:
     'HydraBytes is a cutting-edge IT startup delivering premium web development, mobile app development, and AI/ML solutions. Transform your business with next-gen technology.',
   keywords: 'web development, app development, AI, machine learning, IT startup, software development',
+  icons: {
+    icon: '/logo.svg',
+    shortcut: '/logo.svg',
+    apple: '/transparent.png',
+  },
   openGraph: {
     title: 'HydraBytes | Next-Gen Digital Solutions',
     description: 'Transform your business with cutting-edge web, mobile, and AI solutions.',
