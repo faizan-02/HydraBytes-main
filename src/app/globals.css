@@ -265,6 +265,7 @@ h1, h2, h3, h4, h5, h6 {
   background: transparent;
   color: var(--text-primary);
   border: 1.5px solid var(--border-color-hover);
+  -webkit-text-fill-color: var(--text-primary);
 }
 
 .btn-secondary:hover {

@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
 
 import styles from './Footer.module.css';
@@ -58,6 +59,38 @@ const footerLinks = {
 };
 
 export default function Footer() {
+  const [newsletterEmail, setNewsletterEmail] = useState('');
+  const [newsletterStatus, setNewsletterStatus] = useState<'idle' | 'loading' | 'success' | 'error' | 'duplicate'>('idle');
+  const [newsletterError, setNewsletterError] = useState('');
+
+  async function handleNewsletterSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setNewsletterStatus('loading');
+    setNewsletterError('');
+
+    try {
+      const res = await fetch('/api/newsletter', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: newsletterEmail }),
+      });
+
+      if (res.ok) {
+        setNewsletterStatus('success');
+        setNewsletterEmail('');
+      } else if (res.status === 409) {
+        setNewsletterStatus('duplicate');
+        setNewsletterError('This email is already subscribed.');
+      } else {
+        setNewsletterStatus('error');
+        setNewsletterError('Invalid email address. Please try again.');
+      }
+    } catch {
+      setNewsletterStatus('error');
+      setNewsletterError('Something went wrong. Please try again.');
+    }
+  }
+
   return (
     <footer className={styles.footer}>
       <div className={`container ${styles.footerContainer}`}>
@@ -109,6 +142,86 @@ export default function Footer() {
               ))}
             </div>
           </div>
+        </div>
+
+        {/* Newsletter Section */}
+        <div style={{
+          borderTop: '1px solid rgba(124, 58, 237, 0.15)',
+          borderBottom: '1px solid rgba(124, 58, 237, 0.15)',
+          padding: '32px 0',
+          marginBottom: '24px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          flexWrap: 'wrap',
+          gap: '20px',
+        }}>
+          <div>
+            <h4 style={{ margin: '0 0 6px', fontSize: '16px', fontWeight: 700, color: 'var(--text-primary)' }}>
+              Stay in the loop
+            </h4>
+            <p style={{ margin: 0, fontSize: '14px', color: 'var(--text-secondary)', maxWidth: '360px' }}>
+              Get the latest news on web development, AI solutions, and HydraBytes updates.
+            </p>
+          </div>
+
+          {newsletterStatus === 'success' ? (
+            <div style={{
+              padding: '12px 20px',
+              background: 'rgba(74, 222, 128, 0.08)',
+              border: '1px solid rgba(74, 222, 128, 0.2)',
+              borderRadius: '10px',
+              color: '#4ade80',
+              fontSize: '14px',
+              fontWeight: 500,
+            }}>
+              ✓ Thanks for subscribing! Check your inbox.
+            </div>
+          ) : (
+            <form onSubmit={handleNewsletterSubmit} style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+              <input
+                type="email"
+                placeholder="Enter your email"
+                value={newsletterEmail}
+                onChange={e => setNewsletterEmail(e.target.value)}
+                required
+                disabled={newsletterStatus === 'loading'}
+                style={{
+                  padding: '10px 16px',
+                  borderRadius: '8px',
+                  border: '1.5px solid rgba(124, 58, 237, 0.35)',
+                  background: 'rgba(26, 26, 46, 0.6)',
+                  color: 'var(--text-primary, #f0f0f5)',
+                  fontSize: '14px',
+                  outline: 'none',
+                  minWidth: '240px',
+                }}
+              />
+              <button
+                type="submit"
+                disabled={newsletterStatus === 'loading'}
+                style={{
+                  padding: '10px 20px',
+                  borderRadius: '8px',
+                  background: 'linear-gradient(135deg, #7c3aed 0%, #00e5ff 100%)',
+                  color: '#ffffff',
+                  fontSize: '14px',
+                  fontWeight: 600,
+                  border: 'none',
+                  cursor: newsletterStatus === 'loading' ? 'not-allowed' : 'pointer',
+                  opacity: newsletterStatus === 'loading' ? 0.7 : 1,
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                {newsletterStatus === 'loading' ? 'Subscribing...' : 'Subscribe'}
+              </button>
+              {(newsletterStatus === 'error' || newsletterStatus === 'duplicate') && (
+                <p style={{ width: '100%', margin: '4px 0 0', fontSize: '13px', color: '#ef4444' }}>
+                  {newsletterError}
+                </p>
+              )}
+            </form>
+          )}
         </div>
 
         <div className={styles.footerBottom}>

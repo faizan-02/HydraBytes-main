@@ -13,6 +13,7 @@ export default function SignInPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const registered = searchParams.get('registered');
+  const reset = searchParams.get('reset');
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -43,6 +44,11 @@ export default function SignInPage() {
         {registered && (
           <p style={{ color: '#22c55e', fontSize: '14px', textAlign: 'center', marginBottom: '12px', padding: '10px', background: 'rgba(34,197,94,0.08)', borderRadius: '8px' }}>
             ✓ Account created successfully! Sign in below.
+          </p>
+        )}
+        {reset && (
+          <p style={{ color: '#22c55e', fontSize: '14px', textAlign: 'center', marginBottom: '12px', padding: '10px', background: 'rgba(34,197,94,0.08)', borderRadius: '8px' }}>
+            ✓ Password reset successfully! Sign in below.
           </p>
         )}
         <h1 className={styles.title}>Welcome back</h1>
@@ -77,7 +83,7 @@ export default function SignInPage() {
           <div className={styles.field}>
             <div className={styles.labelRow}>
               <label className={styles.label}>Password</label>
-              <Link href="#" className={styles.forgotLink}>Forgot password?</Link>
+              <Link href="/auth/forgot-password" className={styles.forgotLink}>Forgot password?</Link>
             </div>
             <div className={styles.inputWrap}>
               <Lock size={16} className={styles.inputIcon} />

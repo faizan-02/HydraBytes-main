@@ -66,3 +66,17 @@ model Invoice {
   user      User      @relation(fields: [userId], references: [id])
   project   Project?  @relation(fields: [projectId], references: [id])
 }
+
+model NewsletterSubscriber {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  createdAt DateTime @default(now())
+}
+
+model PasswordResetToken {
+  id        String   @id @default(cuid())
+  email     String
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+}

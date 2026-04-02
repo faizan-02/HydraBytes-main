@@ -34,8 +34,15 @@ interface User {
   createdAt: string;
 }
 
+interface InvoiceForm {
+  amount: string;
+  dueDate: string;
+  description: string;
+}
+
 const PROJECT_STATUSES = ['pending_verification', 'accepted', 'declined', 'planning', 'in_progress', 'review', 'completed'];
 const SUBMISSION_STATUSES = ['new', 'contacted', 'closed'];
+const INVOICE_ELIGIBLE_STATUSES = ['accepted', 'in_progress', 'completed'];
 
 const statusColors: Record<string, string> = {
   pending_verification: '#fbbf24',
@@ -60,6 +67,11 @@ export default function AdminPage() {
   const [loading, setLoading] = useState(true);
   const [updating, setUpdating] = useState<string | null>(null);
 
+  // Invoice form state: keyed by projectId
+  const [invoiceForms, setInvoiceForms] = useState<Record<string, InvoiceForm | null>>({});
+  const [invoiceSubmitting, setInvoiceSubmitting] = useState<string | null>(null);
+  const [invoiceSuccess, setInvoiceSuccess] = useState<string | null>(null);
+
   useEffect(() => {
     if (status === 'unauthenticated') { router.replace('/auth/signin'); return; }
     if (status === 'authenticated' && (session.user as { role?: string })?.role !== 'admin') { router.replace('/dashboard'); return; }
@@ -82,6 +94,46 @@ export default function AdminPage() {
     });
     await fetchData();
     setUpdating(null);
+  }
+
+  function toggleInvoiceForm(projectId: string) {
+    setInvoiceForms(prev => ({
+      ...prev,
+      [projectId]: prev[projectId] ? null : { amount: '', dueDate: '', description: '' },
+    }));
+    setInvoiceSuccess(prev => prev === projectId ? null : prev);
+  }
+
+  async function submitInvoice(project: Project) {
+    const form = invoiceForms[project.id];
+    if (!form) return;
+
+    const amount = parseFloat(form.amount);
+    if (!amount || amount <= 0) return;
+
+    // We need userId — find from data.users by matching project.user.email
+    const user = data?.users.find(u => u.email === project.user?.email);
+    if (!user) return;
+
+    setInvoiceSubmitting(project.id);
+    const res = await fetch('/api/admin', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        projectId: project.id,
+        userId: user.id,
+        amount,
+        dueDate: form.dueDate || undefined,
+        description: form.description || undefined,
+      }),
+    });
+
+    setInvoiceSubmitting(null);
+
+    if (res.ok) {
+      setInvoiceSuccess(project.id);
+      setInvoiceForms(prev => ({ ...prev, [project.id]: null }));
+    }
   }
 
   if (status === 'loading' || loading) {
@@ -213,7 +265,7 @@ export default function AdminPage() {
                       <span style={{ fontSize: '12px', color: '#64748b' }}>{new Date(p.createdAt).toLocaleDateString()}</span>
                     </div>
                   </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
                     <span style={{ padding: '4px 12px', borderRadius: '20px', fontSize: '12px', fontWeight: 600, background: `${statusColors[p.status]}22`, color: statusColors[p.status] ?? '#94a3b8' }}>
                       {p.status.replace('_', ' ')}
                     </span>
@@ -225,11 +277,111 @@ export default function AdminPage() {
                     >
                       {PROJECT_STATUSES.map(st => <option key={st} value={st}>{st.replace('_', ' ')}</option>)}
                     </select>
+                    {INVOICE_ELIGIBLE_STATUSES.includes(p.status) && p.user && (
+                      <button
+                        onClick={() => toggleInvoiceForm(p.id)}
+                        style={{
+                          padding: '6px 14px',
+                          background: invoiceForms[p.id] ? 'rgba(239,68,68,0.1)' : 'rgba(99,102,241,0.1)',
+                          border: `1px solid ${invoiceForms[p.id] ? 'rgba(239,68,68,0.3)' : 'rgba(99,102,241,0.3)'}`,
+                          color: invoiceForms[p.id] ? '#ef4444' : '#818cf8',
+                          borderRadius: '8px',
+                          fontSize: '13px',
+                          fontWeight: 600,
+                          cursor: 'pointer',
+                        }}
+                      >
+                        {invoiceForms[p.id] ? 'Cancel' : '+ Add Invoice'}
+                      </button>
+                    )}
                   </div>
                 </div>
+
                 {p.description && (
                   <div style={{ marginTop: '12px', padding: '12px', background: '#0f172a', borderRadius: '8px', fontSize: '14px', color: '#94a3b8', lineHeight: '1.6' }}>
                     {p.description}
+                  </div>
+                )}
+
+                {/* Invoice success message */}
+                {invoiceSuccess === p.id && (
+                  <div style={{ marginTop: '12px', padding: '12px 16px', background: 'rgba(74,222,128,0.08)', border: '1px solid rgba(74,222,128,0.2)', borderRadius: '8px', fontSize: '14px', color: '#4ade80' }}>
+                    ✓ Invoice created and email sent to {p.user?.email}.
+                  </div>
+                )}
+
+                {/* Invoice form */}
+                {invoiceForms[p.id] && (
+                  <div style={{ marginTop: '16px', padding: '20px', background: '#0f172a', borderRadius: '10px', border: '1px solid rgba(99,102,241,0.2)' }}>
+                    <h4 style={{ margin: '0 0 16px', fontSize: '14px', fontWeight: 600, color: '#818cf8' }}>
+                      New Invoice for {p.title}
+                    </h4>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '12px' }}>
+                      <div>
+                        <label style={{ display: 'block', fontSize: '12px', color: '#94a3b8', marginBottom: '6px', fontWeight: 600 }}>
+                          Amount (USD) *
+                        </label>
+                        <input
+                          type="number"
+                          min="0.01"
+                          step="0.01"
+                          placeholder="e.g. 1500"
+                          value={invoiceForms[p.id]?.amount ?? ''}
+                          onChange={e => setInvoiceForms(prev => ({
+                            ...prev,
+                            [p.id]: { ...prev[p.id]!, amount: e.target.value },
+                          }))}
+                          style={{ width: '100%', padding: '8px 12px', background: '#1e293b', border: '1px solid rgba(255,255,255,0.1)', color: '#e2e8f0', borderRadius: '8px', fontSize: '14px', outline: 'none' }}
+                        />
+                      </div>
+                      <div>
+                        <label style={{ display: 'block', fontSize: '12px', color: '#94a3b8', marginBottom: '6px', fontWeight: 600 }}>
+                          Due Date (optional)
+                        </label>
+                        <input
+                          type="date"
+                          value={invoiceForms[p.id]?.dueDate ?? ''}
+                          onChange={e => setInvoiceForms(prev => ({
+                            ...prev,
+                            [p.id]: { ...prev[p.id]!, dueDate: e.target.value },
+                          }))}
+                          style={{ width: '100%', padding: '8px 12px', background: '#1e293b', border: '1px solid rgba(255,255,255,0.1)', color: '#e2e8f0', borderRadius: '8px', fontSize: '14px', outline: 'none', colorScheme: 'dark' }}
+                        />
+                      </div>
+                      <div style={{ gridColumn: '1 / -1' }}>
+                        <label style={{ display: 'block', fontSize: '12px', color: '#94a3b8', marginBottom: '6px', fontWeight: 600 }}>
+                          Description (optional)
+                        </label>
+                        <input
+                          type="text"
+                          placeholder="e.g. Initial deposit for development"
+                          value={invoiceForms[p.id]?.description ?? ''}
+                          onChange={e => setInvoiceForms(prev => ({
+                            ...prev,
+                            [p.id]: { ...prev[p.id]!, description: e.target.value },
+                          }))}
+                          style={{ width: '100%', padding: '8px 12px', background: '#1e293b', border: '1px solid rgba(255,255,255,0.1)', color: '#e2e8f0', borderRadius: '8px', fontSize: '14px', outline: 'none' }}
+                        />
+                      </div>
+                    </div>
+                    <button
+                      onClick={() => submitInvoice(p)}
+                      disabled={invoiceSubmitting === p.id || !invoiceForms[p.id]?.amount}
+                      style={{
+                        marginTop: '16px',
+                        padding: '10px 24px',
+                        background: 'linear-gradient(135deg, #6366f1, #06b6d4)',
+                        color: '#fff',
+                        border: 'none',
+                        borderRadius: '8px',
+                        fontSize: '14px',
+                        fontWeight: 600,
+                        cursor: invoiceSubmitting === p.id ? 'not-allowed' : 'pointer',
+                        opacity: invoiceSubmitting === p.id ? 0.7 : 1,
+                      }}
+                    >
+                      {invoiceSubmitting === p.id ? 'Creating...' : 'Create Invoice & Send Email'}
+                    </button>
                   </div>
                 )}
               </div>
