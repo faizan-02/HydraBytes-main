@@ -2,16 +2,22 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-
+import { useRouter, useSearchParams } from 'next/navigation';
+import { signIn } from 'next-auth/react';
 import { motion } from 'framer-motion';
 import { Mail, Lock, Eye, EyeOff, ArrowRight } from 'lucide-react';
 import MagneticButton from '@/components/MagneticButton';
 import styles from './signin.module.css';
 
 export default function SignInPage() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const registered = searchParams.get('registered');
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   return (
     <div className={styles.page}>
@@ -34,10 +40,26 @@ export default function SignInPage() {
           </div>
         </Link>
 
+        {registered && (
+          <p style={{ color: '#22c55e', fontSize: '14px', textAlign: 'center', marginBottom: '12px', padding: '10px', background: 'rgba(34,197,94,0.08)', borderRadius: '8px' }}>
+            ✓ Account created successfully! Sign in below.
+          </p>
+        )}
         <h1 className={styles.title}>Welcome back</h1>
         <p className={styles.subtitle}>Sign in to your HydraBytes account</p>
 
-        <form className={styles.form} onSubmit={(e) => e.preventDefault()}>
+        <form className={styles.form} onSubmit={async (e) => {
+          e.preventDefault();
+          setIsLoading(true);
+          setError(null);
+          const result = await signIn('credentials', { email, password, redirect: false });
+          setIsLoading(false);
+          if (result?.error) {
+            setError('Invalid email or password.');
+          } else {
+            router.push('/');
+          }
+        }}>
           <div className={styles.field}>
             <label className={styles.label}>Email</label>
             <div className={styles.inputWrap}>
@@ -77,9 +99,10 @@ export default function SignInPage() {
             </div>
           </div>
 
+          {error && <p style={{ color: '#ef4444', fontSize: '14px', marginTop: '-8px' }}>{error}</p>}
           <MagneticButton>
-            <button type="submit" className={`btn btn-primary ${styles.submitBtn}`}>
-              Sign In <ArrowRight size={16} />
+            <button type="submit" className={`btn btn-primary ${styles.submitBtn}`} disabled={isLoading}>
+              {isLoading ? 'Signing in...' : <>'Sign In <ArrowRight size={16} /></>}
             </button>
           </MagneticButton>
         </form>

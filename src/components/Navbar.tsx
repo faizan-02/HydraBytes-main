@@ -2,11 +2,11 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-
 import { usePathname } from 'next/navigation';
+import { useSession, signOut } from 'next-auth/react';
 import { useTheme } from '@/lib/ThemeContext';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sun, Moon } from 'lucide-react';
+import { Sun, Moon, LayoutDashboard, LogOut, ChevronDown } from 'lucide-react';
 import styles from './Navbar.module.css';
 
 const navLinks = [
@@ -22,8 +22,10 @@ const navLinks = [
 export default function Navbar() {
   const { theme, toggleTheme } = useTheme();
   const pathname = usePathname();
+  const { data: session, status } = useSession();
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -95,13 +97,48 @@ export default function Navbar() {
             </motion.span>
           </button>
 
-          <Link href="/auth/signin" className={styles.signInBtn}>
-            Sign In
-          </Link>
-
-          <Link href="/contact" className={`btn btn-primary ${styles.ctaBtn}`}>
-            Get Started
-          </Link>
+          {status === 'authenticated' ? (
+            <div style={{ position: 'relative' }}>
+              <button
+                onClick={() => setUserMenuOpen(!userMenuOpen)}
+                style={{ display: 'flex', alignItems: 'center', gap: '8px', background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: '999px', padding: '6px 14px 6px 8px', cursor: 'pointer', color: 'inherit' }}
+              >
+                <div style={{ width: '28px', height: '28px', borderRadius: '50%', background: 'linear-gradient(135deg, #6366f1, #06b6d4)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', fontWeight: 700, color: '#fff' }}>
+                  {session.user?.name?.[0]?.toUpperCase() ?? 'U'}
+                </div>
+                <span style={{ fontSize: '14px', fontWeight: 500 }}>{session.user?.name?.split(' ')[0]}</span>
+                <ChevronDown size={14} />
+              </button>
+              <AnimatePresence>
+                {userMenuOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 8 }}
+                    transition={{ duration: 0.15 }}
+                    style={{ position: 'absolute', right: 0, top: 'calc(100% + 8px)', background: 'var(--card, #1a1a2e)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', padding: '8px', minWidth: '180px', zIndex: 100 }}
+                  >
+                    <Link href="/dashboard" onClick={() => setUserMenuOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 12px', borderRadius: '8px', fontSize: '14px', textDecoration: 'none', color: 'inherit' }}
+                      onMouseEnter={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.06)')}
+                      onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}>
+                      <LayoutDashboard size={15} /> Dashboard
+                    </Link>
+                    <button onClick={() => { setUserMenuOpen(false); signOut({ callbackUrl: '/' }); }}
+                      style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 12px', borderRadius: '8px', fontSize: '14px', width: '100%', background: 'transparent', border: 'none', cursor: 'pointer', color: '#ef4444' }}
+                      onMouseEnter={e => (e.currentTarget.style.background = 'rgba(239,68,68,0.08)')}
+                      onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}>
+                      <LogOut size={15} /> Sign Out
+                    </button>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          ) : (
+            <>
+              <Link href="/auth/signin" className={styles.signInBtn}>Sign In</Link>
+              <Link href="/contact" className={`btn btn-primary ${styles.ctaBtn}`}>Get Started</Link>
+            </>
+          )}
 
           <button
             className={`${styles.hamburger} ${isOpen ? styles.hamburgerOpen : ''}`}

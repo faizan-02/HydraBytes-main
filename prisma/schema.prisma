@@ -27,6 +27,8 @@ model User {
   role      String    @default("user")
   createdAt DateTime  @default(now())
   sessions  Session[]
+  projects  Project[]
+  invoices  Invoice[]
 }
 
 model Session {
@@ -35,4 +37,32 @@ model Session {
   token     String   @unique
   expiresAt DateTime
   user      User     @relation(fields: [userId], references: [id])
+}
+
+model Project {
+  id          String    @id @default(cuid())
+  userId      String?
+  title       String
+  service     String
+  status      String    @default("pending_verification")
+  budget      String?
+  description String?
+  verifyToken String?   @unique
+  startDate   DateTime?
+  endDate     DateTime?
+  createdAt   DateTime  @default(now())
+  user        User?     @relation(fields: [userId], references: [id])
+  invoices    Invoice[]
+}
+
+model Invoice {
+  id        String    @id @default(cuid())
+  userId    String
+  projectId String?
+  amount    Float
+  status    String    @default("pending")
+  dueDate   DateTime?
+  createdAt DateTime  @default(now())
+  user      User      @relation(fields: [userId], references: [id])
+  project   Project?  @relation(fields: [projectId], references: [id])
 }

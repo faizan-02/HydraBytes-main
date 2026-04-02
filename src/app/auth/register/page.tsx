@@ -2,17 +2,20 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-
+import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { Mail, Lock, User, Eye, EyeOff, ArrowRight } from 'lucide-react';
 import MagneticButton from '@/components/MagneticButton';
 import styles from '../signin/signin.module.css';
 
 export default function RegisterPage() {
+  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   return (
     <div className={styles.page}>
@@ -37,7 +40,25 @@ export default function RegisterPage() {
         <h1 className={styles.title}>Create Account</h1>
         <p className={styles.subtitle}>Join HydraBytes today</p>
 
-        <form className={styles.form} onSubmit={(e) => e.preventDefault()}>
+        <form className={styles.form} onSubmit={async (e) => {
+          e.preventDefault();
+          setIsLoading(true);
+          setError(null);
+          const res = await fetch('/api/auth/register', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name, email, password }),
+          });
+          const data = await res.json();
+          setIsLoading(false);
+          if (!res.ok) {
+            setError(data.error);
+          } else {
+            setError(null);
+            setTimeout(() => router.push('/auth/signin?registered=true'), 1500);
+            setError('✓ Account created! Redirecting to sign in...');
+          }
+        }}>
           <div className={styles.field}>
             <label className={styles.label}>Full Name</label>
             <div className={styles.inputWrap}>
@@ -65,9 +86,10 @@ export default function RegisterPage() {
             </div>
           </div>
 
+          {error && <p style={{ color: error.startsWith('✓') ? '#22c55e' : '#ef4444', fontSize: '14px', marginTop: '-8px' }}>{error}</p>}
           <MagneticButton>
-            <button type="submit" className={`btn btn-primary ${styles.submitBtn}`}>
-              Create Account <ArrowRight size={16} />
+            <button type="submit" className={`btn btn-primary ${styles.submitBtn}`} disabled={isLoading}>
+              {isLoading ? 'Creating account...' : <>Create Account <ArrowRight size={16} /></>}
             </button>
           </MagneticButton>
         </form>

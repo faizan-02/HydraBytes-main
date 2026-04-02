@@ -2,6 +2,7 @@
 
 import { Suspense } from 'react';
 import { usePathname } from 'next/navigation';
+import { SessionProvider } from 'next-auth/react';
 import { ThemeProvider } from '@/lib/ThemeContext';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
@@ -14,6 +15,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
   const pathname = usePathname();
 
   return (
+    <SessionProvider>
     <ThemeProvider>
       <ScrollProgress />
 
@@ -32,5 +34,6 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
       <Footer />
       <ScrollToTop />
     </ThemeProvider>
+    </SessionProvider>
   );
 }
