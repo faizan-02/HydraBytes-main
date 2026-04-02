@@ -21,6 +21,12 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     const { name, email, service, budget, message } = body;
 
+    // Require authentication
+    const sessionCheck = await auth();
+    if (!sessionCheck?.user?.id) {
+      return NextResponse.json({ error: 'You must be signed in to submit a project inquiry.' }, { status: 401 });
+    }
+
     if (!name || !email || !message || !service) {
       return NextResponse.json({ error: 'Name, email, service, and message are required.' }, { status: 400 });
     }
@@ -33,26 +39,20 @@ export async function POST(req: NextRequest) {
     const serviceLabel = SERVICE_LABELS[service] || service;
     const budgetLabel = budget || 'Not specified';
 
-    // Check if user is logged in
-    const session = await auth();
     let projectId: string | null = null;
-    let verifyToken: string | null = null;
-
-    if (session?.user?.id) {
-      verifyToken = crypto.randomBytes(32).toString('hex');
-      const project = await prisma.project.create({
-        data: {
-          userId: session.user.id,
-          title: `${serviceLabel} Project`,
-          service: serviceLabel,
-          budget: budgetLabel,
-          description: message,
-          status: 'pending_verification',
-          verifyToken,
-        },
-      });
-      projectId = project.id;
-    }
+    const verifyToken = crypto.randomBytes(32).toString('hex');
+    const project = await prisma.project.create({
+      data: {
+        userId: sessionCheck.user.id,
+        title: `${serviceLabel} Project`,
+        service: serviceLabel,
+        budget: budgetLabel,
+        description: message,
+        status: 'pending_verification',
+        verifyToken,
+      },
+    });
+    projectId = project.id;
 
     // Save contact submission
     await prisma.contactSubmission.create({

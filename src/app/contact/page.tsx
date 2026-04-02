@@ -1,6 +1,8 @@
 'use client';
 
 import { useState } from 'react';
+import { useSession } from 'next-auth/react';
+import Link from 'next/link';
 import AnimatedSection from '@/components/AnimatedSection';
 import SpotlightCard from '@/components/SpotlightCard';
 import MagneticButton from '@/components/MagneticButton';
@@ -15,6 +17,7 @@ const contactInfo = [
 ];
 
 export default function ContactPage() {
+  const { data: session, status } = useSession();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -121,6 +124,23 @@ export default function ContactPage() {
 
             <AnimatedSection direction="right" delay={0.15}>
               <SpotlightCard>
+                {status !== 'loading' && !session ? (
+                  <div className={styles.contactForm} style={{ textAlign: 'center', padding: '48px 24px' }}>
+                    <div style={{ fontSize: '48px', marginBottom: '16px' }}>🔒</div>
+                    <h3 className={styles.formTitle} style={{ marginBottom: '12px' }}>Sign In to Contact Us</h3>
+                    <p style={{ color: '#94a3b8', marginBottom: '28px', lineHeight: '1.6', fontSize: '15px' }}>
+                      You need an account to submit a project inquiry. This lets us track your project and keep you updated.
+                    </p>
+                    <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
+                      <Link href={`/auth/signin?callbackUrl=/contact`} className="btn btn-primary" style={{ padding: '12px 28px', textDecoration: 'none' }}>
+                        Sign In
+                      </Link>
+                      <Link href="/auth/register" className="btn btn-secondary" style={{ padding: '12px 28px', textDecoration: 'none' }}>
+                        Create Account
+                      </Link>
+                    </div>
+                  </div>
+                ) : (
                 <form className={styles.contactForm} onSubmit={handleSubmit}>
                 <h3 className={styles.formTitle}>Send Us a Message</h3>
 
@@ -204,6 +224,7 @@ export default function ContactPage() {
                   </button>
                 </MagneticButton>
               </form>
+                )}
               </SpotlightCard>
             </AnimatedSection>
           </div>
