@@ -158,6 +158,19 @@
   100% { transform: translateY(0)    rotate(0deg);   }
 }
 
+/* Floating decorative elements — hidden on mobile */
+.floatingChips,
+.liveStatsWidget {
+  display: contents;
+}
+
+@media (max-width: 768px) {
+  .floatingChips,
+  .liveStatsWidget {
+    display: none !important;
+  }
+}
+
 /* Mouse-tracking radial spotlight */
 .heroSpotlight {
   position: absolute;

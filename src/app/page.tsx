@@ -143,6 +143,7 @@ export default function HomePage() {
       <section ref={heroRef} className={styles.hero}>
         <div className={styles.heroBackdrop}>
           {/* Floating tech chips */}
+          <div className={styles.floatingChips}>
           {techChips.map((chip) => (
             <motion.div
               key={chip.label}
@@ -179,6 +180,7 @@ export default function HomePage() {
               {chip.label}
             </motion.div>
           ))}
+          </div>
           {/* Floating particles */}
           <FloatingParticles />
           {/* Aurora blobs — with scroll parallax */}
@@ -212,6 +214,7 @@ export default function HomePage() {
         <div ref={spotlightRef} className={styles.heroSpotlight} />
         {/* Floating live stats widget */}
         <motion.div
+          className={styles.liveStatsWidget}
           style={{
             position: 'absolute',
             bottom: '12%',
