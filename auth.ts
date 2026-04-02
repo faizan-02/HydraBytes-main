@@ -47,39 +47,27 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     }),
   ],
   callbacks: {
-    async signIn({ user, account }) {
-      if (account?.provider === 'google' || account?.provider === 'github') {
-        if (!user.email) return false;
-        try {
-          const existing = await prisma.user.findUnique({ where: { email: user.email } });
-          if (!existing) {
-            await prisma.user.create({
-              data: { email: user.email, name: user.name ?? null, role: 'user' },
-            });
-          }
-        } catch (err) {
-          console.error('OAuth DB error:', err);
-          return false;
-        }
-      }
-      return true;
-    },
     async jwt({ token, user, account }) {
       // Credentials login — user object has id and role directly
       if (user && account?.provider === 'credentials') {
         token.id = user.id;
         token.role = (user as { role?: string }).role ?? 'user';
       }
-      // OAuth first sign-in — look up DB user by email
+      // OAuth first sign-in — upsert user and get DB id/role
       if (account && (account.provider === 'google' || account.provider === 'github')) {
-        try {
-          const dbUser = await prisma.user.findUnique({ where: { email: token.email as string } });
-          if (dbUser) {
+        const email = token.email as string;
+        if (email) {
+          try {
+            const dbUser = await prisma.user.upsert({
+              where: { email },
+              update: {},
+              create: { email, name: token.name ?? null, role: 'user' },
+            });
             token.id = dbUser.id;
             token.role = dbUser.role;
+          } catch (err) {
+            console.error('OAuth JWT DB error:', err);
           }
-        } catch (err) {
-          console.error('JWT DB lookup error:', err);
         }
       }
       return token;
