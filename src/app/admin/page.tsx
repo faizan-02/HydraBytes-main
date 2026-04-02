@@ -34,6 +34,18 @@ interface User {
   createdAt: string;
 }
 
+interface Invoice {
+  id: string;
+  amount: number;
+  status: string;
+  dueDate?: string;
+  paymentRef?: string;
+  paymentMethod?: string;
+  createdAt: string;
+  user: { name?: string; email: string };
+  project?: { title: string };
+}
+
 interface InvoiceForm {
   amount: string;
   dueDate: string;
@@ -57,13 +69,13 @@ const statusColors: Record<string, string> = {
   closed: '#94a3b8',
 };
 
-type Tab = 'submissions' | 'projects' | 'users';
+type Tab = 'submissions' | 'projects' | 'invoices' | 'users';
 
 export default function AdminPage() {
   const { data: session, status } = useSession();
   const router = useRouter();
   const [tab, setTab] = useState<Tab>('submissions');
-  const [data, setData] = useState<{ submissions: Submission[]; projects: Project[]; users: User[] } | null>(null);
+  const [data, setData] = useState<{ submissions: Submission[]; projects: Project[]; users: User[]; invoices: Invoice[] } | null>(null);
   const [loading, setLoading] = useState(true);
   const [updating, setUpdating] = useState<string | null>(null);
 
@@ -85,7 +97,7 @@ export default function AdminPage() {
     setLoading(false);
   }
 
-  async function updateStatus(type: 'project' | 'submission', id: string, newStatus: string) {
+  async function updateStatus(type: 'project' | 'submission' | 'invoice', id: string, newStatus: string) {
     setUpdating(id);
     await fetch('/api/admin', {
       method: 'PATCH',
@@ -146,9 +158,12 @@ export default function AdminPage() {
 
   if (!data) return null;
 
-  const tabs: { key: Tab; label: string; count: number }[] = [
+  const pendingPayments = data.invoices?.filter(i => i.status === 'under_review').length ?? 0;
+
+  const tabs: { key: Tab; label: string; count: number; alert?: boolean }[] = [
     { key: 'submissions', label: 'Contact Submissions', count: data.submissions.length },
     { key: 'projects', label: 'Projects', count: data.projects.length },
+    { key: 'invoices', label: 'Invoices', count: data.invoices?.length ?? 0, alert: pendingPayments > 0 },
     { key: 'users', label: 'Users', count: data.users.length },
   ];
 
@@ -197,10 +212,11 @@ export default function AdminPage() {
                 fontSize: '14px',
                 fontWeight: tab === t.key ? 600 : 400,
                 marginBottom: '-1px',
+                position: 'relative' as const,
               }}
             >
               {t.label}
-              <span style={{ marginLeft: '8px', background: '#1e293b', borderRadius: '10px', padding: '2px 8px', fontSize: '12px' }}>
+              <span style={{ marginLeft: '8px', background: t.alert ? 'rgba(251,191,36,0.2)' : '#1e293b', color: t.alert ? '#fbbf24' : 'inherit', borderRadius: '10px', padding: '2px 8px', fontSize: '12px', fontWeight: t.alert ? 700 : 400 }}>
                 {t.count}
               </span>
             </button>
@@ -386,6 +402,73 @@ export default function AdminPage() {
                 )}
               </div>
             ))}
+          </div>
+        )}
+
+        {/* Invoices Tab */}
+        {tab === 'invoices' && (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+            {(!data.invoices || data.invoices.length === 0) && <p style={{ color: '#64748b' }}>No invoices yet.</p>}
+            {data.invoices?.map(inv => {
+              const methodLabels: Record<string, string> = { easypaisa: 'Easypaisa', jazzcash: 'JazzCash', nayapay: 'NayaPay', bank: 'Bank Transfer' };
+              const isUnderReview = inv.status === 'under_review';
+              return (
+                <div key={inv.id} style={{ background: '#1e293b', borderRadius: '12px', padding: '20px', border: `1px solid ${isUnderReview ? 'rgba(251,191,36,0.25)' : 'rgba(255,255,255,0.06)'}` }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '12px' }}>
+                    <div>
+                      <div style={{ fontWeight: 600, fontSize: '16px' }}>{inv.project?.title ?? 'General Invoice'}</div>
+                      <div style={{ fontSize: '13px', color: '#94a3b8', marginTop: '2px' }}>
+                        {inv.user.name ?? 'Unknown'} · <a href={`mailto:${inv.user.email}`} style={{ color: '#6366f1', textDecoration: 'none' }}>{inv.user.email}</a>
+                      </div>
+                      <div style={{ fontSize: '12px', color: '#64748b', marginTop: '4px' }}>
+                        {new Date(inv.createdAt).toLocaleDateString()}
+                        {inv.dueDate && ` · Due ${new Date(inv.dueDate).toLocaleDateString()}`}
+                      </div>
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
+                      <span style={{ fontSize: '18px', fontWeight: 700, color: inv.status === 'paid' ? '#4ade80' : '#e2e8f0' }}>
+                        ${inv.amount.toLocaleString()}
+                      </span>
+                      <span style={{ padding: '4px 12px', borderRadius: '20px', fontSize: '12px', fontWeight: 600, background: inv.status === 'paid' ? 'rgba(74,222,128,0.15)' : isUnderReview ? 'rgba(251,191,36,0.15)' : 'rgba(148,163,184,0.1)', color: inv.status === 'paid' ? '#4ade80' : isUnderReview ? '#fbbf24' : '#94a3b8' }}>
+                        {inv.status === 'under_review' ? '⏳ Under Review' : inv.status === 'paid' ? '✓ Paid' : inv.status}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Payment reference submitted by client */}
+                  {isUnderReview && inv.paymentRef && (
+                    <div style={{ marginTop: '16px', padding: '16px', background: 'rgba(251,191,36,0.06)', border: '1px solid rgba(251,191,36,0.2)', borderRadius: '10px' }}>
+                      <div style={{ fontSize: '13px', color: '#94a3b8', marginBottom: '6px' }}>Payment submitted via {methodLabels[inv.paymentMethod ?? ''] ?? inv.paymentMethod}</div>
+                      <div style={{ fontSize: '16px', fontFamily: 'monospace', fontWeight: 700, color: '#fbbf24', marginBottom: '14px' }}>
+                        Ref: {inv.paymentRef}
+                      </div>
+                      <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+                        <button
+                          disabled={updating === inv.id}
+                          onClick={() => updateStatus('invoice', inv.id, 'paid')}
+                          style={{ padding: '8px 20px', background: 'rgba(74,222,128,0.15)', border: '1px solid rgba(74,222,128,0.3)', color: '#4ade80', borderRadius: '8px', fontSize: '13px', fontWeight: 600, cursor: 'pointer' }}
+                        >
+                          {updating === inv.id ? 'Updating...' : '✓ Mark as Paid'}
+                        </button>
+                        <button
+                          disabled={updating === inv.id}
+                          onClick={() => updateStatus('invoice', inv.id, 'pending')}
+                          style={{ padding: '8px 20px', background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.2)', color: '#ef4444', borderRadius: '8px', fontSize: '13px', fontWeight: 600, cursor: 'pointer' }}
+                        >
+                          ✗ Reject
+                        </button>
+                      </div>
+                    </div>
+                  )}
+
+                  {inv.status === 'paid' && inv.paymentRef && (
+                    <div style={{ marginTop: '10px', fontSize: '13px', color: '#64748b' }}>
+                      Paid via {methodLabels[inv.paymentMethod ?? ''] ?? inv.paymentMethod} · Ref: <span style={{ fontFamily: 'monospace' }}>{inv.paymentRef}</span>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
           </div>
         )}
 

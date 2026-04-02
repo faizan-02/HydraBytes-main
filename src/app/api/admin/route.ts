@@ -4,6 +4,7 @@ import { prisma } from '@/lib/prisma';
 import { Resend } from 'resend';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
+const BASE_URL = process.env.AUTH_URL ?? process.env.NEXTAUTH_URL ?? 'https://hydrabytes.it.com';
 
 export async function GET() {
   const session = await auth();
@@ -12,7 +13,7 @@ export async function GET() {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
   }
 
-  const [submissions, projects, users] = await Promise.all([
+  const [submissions, projects, users, invoices] = await Promise.all([
     prisma.contactSubmission.findMany({ orderBy: { createdAt: 'desc' } }),
     prisma.project.findMany({
       orderBy: { createdAt: 'desc' },
@@ -22,9 +23,13 @@ export async function GET() {
       orderBy: { createdAt: 'desc' },
       select: { id: true, name: true, email: true, role: true, createdAt: true },
     }),
+    prisma.invoice.findMany({
+      orderBy: { createdAt: 'desc' },
+      include: { user: { select: { name: true, email: true } }, project: { select: { title: true } } },
+    }),
   ]);
 
-  return NextResponse.json({ submissions, projects, users });
+  return NextResponse.json({ submissions, projects, users, invoices });
 }
 
 export async function PATCH(req: Request) {
@@ -43,7 +48,6 @@ export async function PATCH(req: Request) {
       include: { user: { select: { email: true, name: true } } },
     });
 
-    // Send status notification emails for specific statuses
     const notifyStatuses: Record<string, string> = {
       in_progress: 'Great news! Your project is now in progress.',
       planning: 'Your project has entered the planning phase.',
@@ -72,7 +76,7 @@ export async function PATCH(req: Request) {
                 <p style="margin: 6px 0 0; font-size: 14px; color: #a0a0b8;">Service: ${updated.service}</p>
               </div>
               <div style="text-align: center;">
-                <a href="${process.env.NEXTAUTH_URL ?? 'https://hydrabytes.com'}/dashboard" style="display: inline-block; padding: 14px 32px; background: linear-gradient(135deg, #7c3aed 0%, #00e5ff 100%); color: #ffffff; text-decoration: none; border-radius: 999px; font-weight: 600; font-size: 15px;">
+                <a href="${BASE_URL}/dashboard" style="display: inline-block; padding: 14px 32px; background: linear-gradient(135deg, #7c3aed 0%, #00e5ff 100%); color: #ffffff; text-decoration: none; border-radius: 999px; font-weight: 600; font-size: 15px;">
                   View Dashboard
                 </a>
               </div>
@@ -82,9 +86,7 @@ export async function PATCH(req: Request) {
             </div>
           </div>
         `,
-      }).catch(() => {
-        // Don't fail the request if email fails
-      });
+      }).catch(() => {});
     }
 
     return NextResponse.json(updated);
@@ -92,6 +94,11 @@ export async function PATCH(req: Request) {
 
   if (type === 'submission') {
     const updated = await prisma.contactSubmission.update({ where: { id }, data: { status } });
+    return NextResponse.json(updated);
+  }
+
+  if (type === 'invoice') {
+    const updated = await prisma.invoice.update({ where: { id }, data: { status } });
     return NextResponse.json(updated);
   }
 
@@ -111,7 +118,6 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Invalid invoice data. Amount must be greater than 0.' }, { status: 400 });
   }
 
-  // Get user and project details for the email
   const [user, project] = await Promise.all([
     prisma.user.findUnique({ where: { id: userId }, select: { email: true, name: true } }),
     projectId ? prisma.project.findUnique({ where: { id: projectId }, select: { title: true } }) : Promise.resolve(null),
@@ -132,11 +138,11 @@ export async function POST(req: Request) {
     include: { project: { select: { title: true } } },
   });
 
-  // Send invoice email
   const formattedAmount = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount);
   const formattedDueDate = dueDate ? new Date(dueDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) : 'Not specified';
   const projectName = project?.title ?? 'General Services';
   const userName = user.name ?? 'there';
+  const paymentPageUrl = `${BASE_URL}/payment/local/${invoice.id}`;
 
   await resend.emails.send({
     from: 'HydraBytes <onboarding@resend.dev>',
@@ -150,7 +156,7 @@ export async function POST(req: Request) {
         <div style="padding: 40px 32px;">
           <p style="font-size: 16px; color: #a0a0b8; margin: 0 0 16px;">Hi ${userName},</p>
           <p style="font-size: 16px; line-height: 1.7; color: #a0a0b8; margin: 0 0 24px;">
-            A new invoice has been issued for your project. Please find the details below.
+            A new invoice has been issued for your project. Please find the details below and use the Pay Now button to complete your payment.
           </p>
           <div style="background: rgba(124,58,237,0.08); border: 1px solid rgba(124,58,237,0.2); border-radius: 10px; padding: 24px; margin-bottom: 32px;">
             <table style="width: 100%; border-collapse: collapse;">
@@ -174,19 +180,20 @@ export async function POST(req: Request) {
             </table>
           </div>
           <div style="text-align: center;">
-            <a href="${process.env.NEXTAUTH_URL ?? 'https://hydrabytes.com'}/dashboard" style="display: inline-block; padding: 14px 32px; background: linear-gradient(135deg, #7c3aed 0%, #00e5ff 100%); color: #ffffff; text-decoration: none; border-radius: 999px; font-weight: 600; font-size: 15px;">
-              View Dashboard
+            <a href="${paymentPageUrl}" style="display: inline-block; padding: 14px 32px; background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%); color: #ffffff; text-decoration: none; border-radius: 999px; font-weight: 700; font-size: 16px;">
+              💳 Pay Now
             </a>
           </div>
+          <p style="margin: 20px 0 0; font-size: 13px; color: #6c6c85; text-align: center;">
+            Supports Easypaisa · JazzCash · NayaPay · Bank Transfer
+          </p>
         </div>
         <div style="padding: 24px 32px; border-top: 1px solid rgba(124,58,237,0.15); text-align: center;">
           <p style="margin: 0; font-size: 13px; color: #6c6c85;">© ${new Date().getFullYear()} HydraBytes. All rights reserved.</p>
         </div>
       </div>
     `,
-  }).catch(() => {
-    // Don't fail the request if email fails
-  });
+  }).catch(() => {});
 
   return NextResponse.json(invoice, { status: 201 });
 }

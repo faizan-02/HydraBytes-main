@@ -21,6 +21,8 @@ interface Invoice {
   status: string;
   dueDate?: string;
   createdAt: string;
+  paymentRef?: string;
+  paymentMethod?: string;
   project?: { title: string };
 }
 
@@ -231,19 +233,38 @@ export default function DashboardPage() {
           </h2>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
             {invoices.map(inv => (
-              <div key={inv.id} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px', background: 'rgba(255,255,255,0.02)', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.05)', flexWrap: 'wrap', gap: '12px' }}>
-                <div>
-                  <div style={{ fontWeight: 600 }}>{inv.project?.title ?? 'Invoice'}</div>
-                  <div style={{ fontSize: '13px', color: 'var(--muted, #9ca3af)', marginTop: '2px' }}>
-                    {new Date(inv.createdAt).toLocaleDateString()}
+              <div key={inv.id} style={{ padding: '16px', background: 'rgba(255,255,255,0.02)', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.05)' }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px' }}>
+                  <div>
+                    <div style={{ fontWeight: 600 }}>{inv.project?.title ?? 'Invoice'}</div>
+                    <div style={{ fontSize: '13px', color: 'var(--muted, #9ca3af)', marginTop: '2px' }}>
+                      {new Date(inv.createdAt).toLocaleDateString()}
+                      {inv.dueDate && ` · Due ${new Date(inv.dueDate).toLocaleDateString()}`}
+                    </div>
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                    <span style={{ fontWeight: 700, fontSize: '16px' }}>${inv.amount.toLocaleString()}</span>
+                    <span style={{
+                      padding: '4px 10px', borderRadius: '999px', fontSize: '12px', fontWeight: 500,
+                      background: inv.status === 'paid' ? 'rgba(74,222,128,0.1)' : inv.status === 'under_review' ? 'rgba(56,189,248,0.1)' : 'rgba(251,191,36,0.1)',
+                      color: inv.status === 'paid' ? '#4ade80' : inv.status === 'under_review' ? '#38bdf8' : '#fbbf24',
+                    }}>
+                      {inv.status === 'under_review' ? 'Under Review' : inv.status.charAt(0).toUpperCase() + inv.status.slice(1)}
+                    </span>
                   </div>
                 </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                  <span style={{ fontWeight: 700 }}>${inv.amount.toLocaleString()}</span>
-                  <span style={{ padding: '4px 10px', borderRadius: '999px', fontSize: '12px', fontWeight: 500, background: inv.status === 'paid' ? 'rgba(74,222,128,0.1)' : 'rgba(251,191,36,0.1)', color: inv.status === 'paid' ? '#4ade80' : '#fbbf24' }}>
-                    {inv.status}
-                  </span>
-                </div>
+                {inv.status === 'pending' && (
+                  <div style={{ marginTop: '12px' }}>
+                    <a href={`/payment/local/${inv.id}`} style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '8px 18px', background: 'linear-gradient(135deg,#22c55e,#16a34a)', color: '#fff', borderRadius: '8px', textDecoration: 'none', fontSize: '13px', fontWeight: 600 }}>
+                      💳 Pay Now
+                    </a>
+                  </div>
+                )}
+                {inv.status === 'under_review' && inv.paymentRef && (
+                  <div style={{ marginTop: '10px', padding: '8px 12px', background: 'rgba(56,189,248,0.06)', border: '1px solid rgba(56,189,248,0.15)', borderRadius: '8px', fontSize: '13px', color: '#38bdf8' }}>
+                    ⏳ Payment under review · Ref: <span style={{ fontFamily: 'monospace', fontWeight: 600 }}>{inv.paymentRef}</span>
+                  </div>
+                )}
               </div>
             ))}
           </div>

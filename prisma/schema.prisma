@@ -56,15 +56,17 @@ model Project {
 }
 
 model Invoice {
-  id        String    @id @default(cuid())
-  userId    String
-  projectId String?
-  amount    Float
-  status    String    @default("pending")
-  dueDate   DateTime?
-  createdAt DateTime  @default(now())
-  user      User      @relation(fields: [userId], references: [id])
-  project   Project?  @relation(fields: [projectId], references: [id])
+  id            String    @id @default(cuid())
+  userId        String
+  projectId     String?
+  amount        Float
+  status        String    @default("pending")
+  dueDate       DateTime?
+  paymentRef    String?
+  paymentMethod String?
+  createdAt     DateTime  @default(now())
+  user          User      @relation(fields: [userId], references: [id])
+  project       Project?  @relation(fields: [projectId], references: [id])
 }
 
 model NewsletterSubscriber {
