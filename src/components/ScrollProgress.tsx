@@ -9,7 +9,7 @@ export default function ScrollProgress() {
     damping: 30,
     restDelta: 0.001,
   });
-  const opacity = useTransform(scrollYProgress, [0, 0.01], [0, 1]);
+  const opacity = useTransform(scrollYProgress, [0, 0.03], [0, 1]);
 
   return (
     <>

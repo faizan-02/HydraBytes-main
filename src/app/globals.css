@@ -350,7 +350,7 @@ h1, h2, h3, h4, h5, h6 {
 /* ====== BACKGROUND EFFECTS ====== */
 .bg-grid {
   position: fixed;
-  top: 0;
+  top: 80px;
   left: 0;
   right: 0;
   bottom: 0;
@@ -361,8 +361,6 @@ h1, h2, h3, h4, h5, h6 {
   pointer-events: none;
   z-index: 0;
   opacity: 0.3;
-  mask-image: linear-gradient(to bottom, transparent 70px, black 110px);
-  -webkit-mask-image: linear-gradient(to bottom, transparent 70px, black 110px);
 }
 
 .bg-glow-orb {
