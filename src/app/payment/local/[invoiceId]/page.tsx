@@ -5,7 +5,23 @@ import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { CheckCircle, Copy, AlertCircle } from 'lucide-react';
 
-// ─── UPDATE THESE WITH YOUR REAL ACCOUNT DETAILS ─────────────────────────────
+// ─── INTERNATIONAL PAYMENT METHODS ───────────────────────────────────────────
+const INTERNATIONAL_METHODS = [
+  {
+    id: 'usdt_trc20',
+    name: 'USDT (TRC20)',
+    icon: '₮',
+    color: '#26a17b',
+    bg: 'rgba(38,161,123,0.08)',
+    border: 'rgba(38,161,123,0.25)',
+    fields: [
+      { label: 'Network', value: 'TRON (TRC20)' },
+      { label: 'Wallet Address', value: 'TMwcAY6Qi23Crsm4YEuVpS2BKTmWaMNMgr' },
+    ],
+    instructions: 'Send USDT on the TRC20 (TRON) network only. Do NOT send on ERC20 or BEP20 — funds will be lost. After sending, enter the transaction hash below.',
+  },
+];
+// ─── LOCAL PAYMENT METHODS ────────────────────────────────────────────────────
 const PAYMENT_METHODS = [
   {
     id: 'easypaisa',
@@ -74,7 +90,7 @@ export default function LocalPaymentPage({ params }: { params: Promise<{ invoice
   const [error, setError] = useState<string | null>(null);
   const [copied, setCopied] = useState<string | null>(null);
 
-  const selectedMethod = PAYMENT_METHODS.find(m => m.id === selected);
+  const selectedMethod = [...INTERNATIONAL_METHODS, ...PAYMENT_METHODS].find(m => m.id === selected);
 
   const copyToClipboard = (text: string, label: string) => {
     navigator.clipboard.writeText(text).then(() => {
@@ -130,8 +146,40 @@ export default function LocalPaymentPage({ params }: { params: Promise<{ invoice
           Select your preferred payment method, send the amount, then submit your transaction reference below.
         </p>
 
-        {/* Method Selection */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '12px', marginBottom: '28px' }}>
+        {/* International Methods */}
+        <div style={{ marginBottom: '28px' }}>
+          <p style={{ fontSize: '12px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--text-secondary, #9ca3af)', marginBottom: '10px' }}>International</p>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '12px' }}>
+            {INTERNATIONAL_METHODS.map(method => (
+              <button
+                key={method.id}
+                onClick={() => setSelected(method.id)}
+                style={{
+                  padding: '16px',
+                  borderRadius: '12px',
+                  border: `1.5px solid ${selected === method.id ? method.border : 'rgba(255,255,255,0.08)'}`,
+                  background: selected === method.id ? method.bg : 'rgba(255,255,255,0.02)',
+                  cursor: 'pointer',
+                  textAlign: 'left',
+                  transition: 'all 0.2s',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '10px',
+                }}
+              >
+                <span style={{ fontSize: '22px', fontWeight: 700, color: '#26a17b' }}>{method.icon}</span>
+                <span style={{ fontWeight: 600, fontSize: '14px', color: selected === method.id ? method.color : 'var(--text-primary, #f0f0f5)' }}>
+                  {method.name}
+                </span>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Local Methods */}
+        <div style={{ marginBottom: '28px' }}>
+          <p style={{ fontSize: '12px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--text-secondary, #9ca3af)', marginBottom: '10px' }}>Pakistan (Local)</p>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '12px' }}>
           {PAYMENT_METHODS.map(method => (
             <button
               key={method.id}
@@ -155,6 +203,7 @@ export default function LocalPaymentPage({ params }: { params: Promise<{ invoice
               </span>
             </button>
           ))}
+          </div>
         </div>
 
         {/* Account Details */}
