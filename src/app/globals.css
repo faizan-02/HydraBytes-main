@@ -358,6 +358,7 @@ h1, h2, h3, h4, h5, h6 {
     linear-gradient(var(--border-color) 1px, transparent 1px),
     linear-gradient(90deg, var(--border-color) 1px, transparent 1px);
   background-size: 60px 60px;
+  background-position: 0 30px;
   pointer-events: none;
   z-index: 0;
   opacity: 0.3;
