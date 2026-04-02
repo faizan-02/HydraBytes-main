@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
+import { Mail, Phone, MapPin, Clock } from 'lucide-react';
 import AnimatedSection from '@/components/AnimatedSection';
 import SpotlightCard from '@/components/SpotlightCard';
 import MagneticButton from '@/components/MagneticButton';
@@ -10,10 +11,10 @@ import FloatingParticles from '@/components/FloatingParticles';
 import styles from './contact.module.css';
 
 const contactInfo = [
-  { icon: '📧', label: 'Email', value: 'hydrabytes4@gmail.com', href: 'mailto:hydrabytes4@gmail.com' },
-  { icon: '📱', label: 'Phone', value: '+92 323 9999 000', href: 'tel:+923239999000' },
-  { icon: '📍', label: 'Office', value: 'Islamabad, Main Pwd Rd, Pakistan', href: '#' },
-  { icon: '⏰', label: 'Hours', value: 'Mon-Sat, 8AM-8PM PST', href: '#' },
+  { icon: <Mail size={20} strokeWidth={1.5} />, label: 'Email', value: 'hydrabytes4@gmail.com', href: 'mailto:hydrabytes4@gmail.com' },
+  { icon: <Phone size={20} strokeWidth={1.5} />, label: 'Phone', value: '+92 323 9999 000', href: 'tel:+923239999000' },
+  { icon: <MapPin size={20} strokeWidth={1.5} />, label: 'Office', value: 'Islamabad, Main Pwd Rd, Pakistan', href: '#' },
+  { icon: <Clock size={20} strokeWidth={1.5} />, label: 'Hours', value: 'Mon-Sat, 8AM-8PM PST', href: '#' },
 ];
 
 export default function ContactPage() {
@@ -105,7 +106,7 @@ export default function ContactPage() {
                   {contactInfo.map((item) => (
                     <SpotlightCard key={item.label}>
                       <a href={item.href} className={styles.infoCard}>
-                        <span className={styles.infoIcon}>{item.icon}</span>
+                        <span className={styles.infoIcon} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '40px', height: '40px', borderRadius: '10px', background: 'rgba(99,102,241,0.12)', color: '#818cf8', flexShrink: 0 }}>{item.icon}</span>
                         <div>
                           <span className={styles.infoLabel}>{item.label}</span>
                           <span className={styles.infoValue}>{item.value}</span>
