@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="190 0 76 62" fill="none">
+  <defs>
+    <linearGradient id="fg" x1="190" y1="0" x2="266" y2="62" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#1e3a8a"/>
+      <stop offset="40%" stop-color="#1a6b7a"/>
+      <stop offset="100%" stop-color="#00b4d8"/>
+    </linearGradient>
+  </defs>
+  <line x1="218" y1="46" x2="210" y2="34" stroke="url(#fg)" stroke-width="1.5" opacity="0.6"/>
+  <line x1="218" y1="46" x2="230" y2="34" stroke="url(#fg)" stroke-width="1.5" opacity="0.6"/>
+  <line x1="210" y1="34" x2="202" y2="22" stroke="url(#fg)" stroke-width="1.5" opacity="0.6"/>
+  <line x1="210" y1="34" x2="220" y2="22" stroke="url(#fg)" stroke-width="1.5" opacity="0.6"/>
+  <line x1="230" y1="34" x2="220" y2="22" stroke="url(#fg)" stroke-width="1.5" opacity="0.6"/>
+  <line x1="230" y1="34" x2="242" y2="22" stroke="url(#fg)" stroke-width="1.5" opacity="0.6"/>
+  <line x1="202" y1="22" x2="212" y2="10" stroke="url(#fg)" stroke-width="1.5" opacity="0.6"/>
+  <line x1="220" y1="22" x2="228" y2="10" stroke="url(#fg)" stroke-width="1.5" opacity="0.6"/>
+  <line x1="242" y1="22" x2="228" y2="10" stroke="url(#fg)" stroke-width="1.5" opacity="0.6"/>
+  <line x1="242" y1="22" x2="254" y2="10" stroke="url(#fg)" stroke-width="1.5" opacity="0.6"/>
+  <polygon points="218,42 223,45 223,51 218,54 213,51 213,45" fill="#1e3a8a"/>
+  <polygon points="210,30 215,33 215,39 210,42 205,39 205,33" fill="#1a5272"/>
+  <polygon points="230,30 235,33 235,39 230,42 225,39 225,33" fill="#176882"/>
+  <polygon points="202,18 207,21 207,27 202,30 197,27 197,21" fill="#158090"/>
+  <polygon points="220,18 225,21 225,27 220,30 215,27 215,21" fill="#1198a0"/>
+  <polygon points="242,18 247,21 247,27 242,30 237,27 237,21" fill="#0ab0b8"/>
+  <polygon points="212,6 217,9 217,15 212,18 207,15 207,9" fill="#08c0c0"/>
+  <polygon points="228,6 233,9 233,15 228,18 223,15 223,9" fill="#05cacc"/>
+  <polygon points="254,6 259,9 259,15 254,18 249,15 249,9" fill="#00b4d8"/>
+</svg>
