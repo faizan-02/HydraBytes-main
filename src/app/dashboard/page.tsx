@@ -23,6 +23,7 @@ interface Invoice {
   createdAt: string;
   paymentRef?: string;
   paymentMethod?: string;
+  projectId?: string;
   project?: { title: string };
 }
 
@@ -145,6 +146,8 @@ export default function DashboardPage() {
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
             {projects.map(project => {
               const s = statusConfig[project.status] ?? statusConfig.planning;
+              const pendingInvoice = invoices.find(i => i.projectId === project.id && i.status === 'pending');
+              const underReviewInvoice = invoices.find(i => i.projectId === project.id && i.status === 'under_review');
               return (
                 <div key={project.id} style={{ padding: '16px', background: 'rgba(255,255,255,0.02)', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.05)' }}>
                   <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px' }}>
@@ -206,6 +209,41 @@ export default function DashboardPage() {
                           💬 WhatsApp Us
                         </a>
                       </div>
+                    </div>
+                  )}
+
+                  {/* Payment prompt for completed projects with pending invoice */}
+                  {project.status === 'completed' && pendingInvoice && (
+                    <div style={{ marginTop: '16px', padding: '20px', background: 'rgba(99,102,241,0.06)', border: '1px solid rgba(99,102,241,0.2)', borderRadius: '12px' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px', marginBottom: '16px' }}>
+                        <div>
+                          <p style={{ margin: '0 0 4px', fontSize: '14px', fontWeight: 600, color: '#a5b4fc' }}>🎉 Project Complete — Payment Required</p>
+                          <p style={{ margin: 0, fontSize: '13px', color: 'var(--muted, #9ca3af)' }}>
+                            Amount due: <strong style={{ color: '#f0f0f5' }}>${pendingInvoice.amount.toLocaleString()}</strong>
+                            {pendingInvoice.dueDate && ` · Due ${new Date(pendingInvoice.dueDate).toLocaleDateString()}`}
+                          </p>
+                        </div>
+                      </div>
+                      <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+                        <a href={`/payment/local/${pendingInvoice.id}`} style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '10px 20px', background: 'linear-gradient(135deg,#22c55e,#16a34a)', color: '#fff', borderRadius: '8px', textDecoration: 'none', fontSize: '13px', fontWeight: 700 }}>
+                          📱 Pay via Local Transfer
+                        </a>
+                        <a href={`/payment/local/${pendingInvoice.id}`} style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '10px 20px', background: 'rgba(38,161,123,0.15)', border: '1px solid rgba(38,161,123,0.3)', color: '#26a17b', borderRadius: '8px', textDecoration: 'none', fontSize: '13px', fontWeight: 700 }}>
+                          ₮ Pay via Crypto (USDT)
+                        </a>
+                      </div>
+                    </div>
+                  )}
+
+                  {project.status === 'completed' && underReviewInvoice && (
+                    <div style={{ marginTop: '16px', padding: '14px 16px', background: 'rgba(56,189,248,0.06)', border: '1px solid rgba(56,189,248,0.15)', borderRadius: '10px', fontSize: '13px', color: '#38bdf8' }}>
+                      ⏳ Payment submitted and under review · Ref: <span style={{ fontFamily: 'monospace', fontWeight: 600 }}>{underReviewInvoice.paymentRef}</span>
+                    </div>
+                  )}
+
+                  {project.status === 'completed' && invoices.some(i => i.projectId === project.id && i.status === 'paid') && (
+                    <div style={{ marginTop: '16px', padding: '14px 16px', background: 'rgba(74,222,128,0.06)', border: '1px solid rgba(74,222,128,0.15)', borderRadius: '10px', fontSize: '13px', color: '#4ade80' }}>
+                      ✓ Payment received — thank you! We hope to work with you again.
                     </div>
                   )}
 
