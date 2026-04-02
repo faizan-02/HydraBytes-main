@@ -6,6 +6,7 @@ import bcrypt from 'bcryptjs';
 import { prisma } from '@/lib/prisma';
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
+  secret: process.env.NEXTAUTH_SECRET ?? process.env.AUTH_SECRET,
   session: { strategy: 'jwt' },
   pages: {
     signIn: '/auth/signin',
@@ -49,31 +50,44 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     async signIn({ user, account }) {
       if (account?.provider === 'google' || account?.provider === 'github') {
         if (!user.email) return false;
-        const existing = await prisma.user.findUnique({ where: { email: user.email } });
-        if (!existing) {
-          const created = await prisma.user.create({
-            data: { email: user.email, name: user.name, role: 'user' },
-          });
-          user.id = created.id;
-          (user as { role?: string }).role = created.role;
-        } else {
-          user.id = existing.id;
-          (user as { role?: string }).role = existing.role;
+        try {
+          const existing = await prisma.user.findUnique({ where: { email: user.email } });
+          if (!existing) {
+            await prisma.user.create({
+              data: { email: user.email, name: user.name ?? null, role: 'user' },
+            });
+          }
+        } catch (err) {
+          console.error('OAuth DB error:', err);
+          return false;
         }
       }
       return true;
     },
-    async jwt({ token, user }) {
-      if (user) {
+    async jwt({ token, user, account }) {
+      // Credentials login — user object has id and role directly
+      if (user && account?.provider === 'credentials') {
         token.id = user.id;
         token.role = (user as { role?: string }).role ?? 'user';
+      }
+      // OAuth first sign-in — look up DB user by email
+      if (account && (account.provider === 'google' || account.provider === 'github')) {
+        try {
+          const dbUser = await prisma.user.findUnique({ where: { email: token.email as string } });
+          if (dbUser) {
+            token.id = dbUser.id;
+            token.role = dbUser.role;
+          }
+        } catch (err) {
+          console.error('JWT DB lookup error:', err);
+        }
       }
       return token;
     },
     async session({ session, token }) {
       if (token) {
         (session.user as { id?: string; role?: string }).id = token.id as string;
-        (session.user as { id?: string; role?: string }).role = token.role as string;
+        (session.user as { id?: string; role?: string }).role = (token.role as string) ?? 'user';
       }
       return session;
     },
