@@ -27,10 +27,36 @@ export default function ContactPage() {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    alert('Thank you! We will get back to you shortly.');
-    setFormData({ name: '', email: '', service: '', budget: '', message: '' });
+    setIsSubmitting(true);
+    setError(null);
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        setError(data.error || 'Something went wrong. Please try again.');
+        return;
+      }
+
+      setIsSubmitted(true);
+      setFormData({ name: '', email: '', service: '', budget: '', message: '' });
+    } catch {
+      setError('Network error. Please check your connection and try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -162,9 +188,19 @@ export default function ContactPage() {
                   />
                 </div>
 
+                {isSubmitted && (
+                  <p style={{ color: '#22c55e', marginBottom: '12px', fontSize: '14px' }}>
+                    ✓ Message sent! We&apos;ll get back to you within 24 hours.
+                  </p>
+                )}
+                {error && (
+                  <p style={{ color: '#ef4444', marginBottom: '12px', fontSize: '14px' }}>
+                    {error}
+                  </p>
+                )}
                 <MagneticButton>
-                  <button type="submit" className="btn btn-primary" style={{ width: '100%' }}>
-                    Send Message <span>→</span>
+                  <button type="submit" className="btn btn-primary" style={{ width: '100%' }} disabled={isSubmitting}>
+                    {isSubmitting ? 'Sending...' : <>Send Message <span>→</span></>}
                   </button>
                 </MagneticButton>
               </form>

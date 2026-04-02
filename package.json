@@ -9,12 +9,14 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@prisma/client": "^5.22.0",
     "framer-motion": "^12.38.0",
     "lucide-react": "^1.7.0",
     "next": "^16.2.1",
     "ogl": "^1.0.11",
     "react": "^19.2.4",
-    "react-dom": "^19.2.4"
+    "react-dom": "^19.2.4",
+    "resend": "^6.10.0"
   },
   "devDependencies": {
     "@types/node": "^20.19.37",
@@ -22,6 +24,7 @@
     "@types/react-dom": "^19.2.3",
     "eslint": "^9.39.4",
     "eslint-config-next": "^16.2.1",
+    "prisma": "^5.22.0",
     "typescript": "^5.9.3"
   }
 }
