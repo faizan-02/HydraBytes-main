@@ -74,17 +74,11 @@ export default function Footer() {
               web development, mobile apps, and AI-driven solutions.
             </p>
             <div className={styles.socials}>
-              <a href="https://www.facebook.com/people/Hydra-Bytes/61576555270817/" aria-label="Facebook" className={styles.socialLink} target="_blank" rel="noopener noreferrer">
-                <FacebookIcon />
-              </a>
               <a href="https://github.com/HydraBytes-tech" aria-label="GitHub" className={styles.socialLink} target="_blank" rel="noopener noreferrer">
                 <GithubIcon />
               </a>
               <a href="https://www.linkedin.com/company/hydrabytes4/" aria-label="LinkedIn" className={styles.socialLink} target="_blank" rel="noopener noreferrer">
                 <LinkedinIcon />
-              </a>
-              <a href="https://www.instagram.com/thehydrabytes/" aria-label="Instagram" className={styles.socialLink} target="_blank" rel="noopener noreferrer">
-                <InstagramIcon />
               </a>
             </div>
           </div>
