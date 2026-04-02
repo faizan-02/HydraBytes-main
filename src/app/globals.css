@@ -361,6 +361,8 @@ h1, h2, h3, h4, h5, h6 {
   pointer-events: none;
   z-index: 0;
   opacity: 0.3;
+  mask-image: linear-gradient(to bottom, transparent 70px, black 110px);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 70px, black 110px);
 }
 
 .bg-glow-orb {
