@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
+import { Lightbulb, Users, Star, Globe } from 'lucide-react';
 import AnimatedSection from '@/components/AnimatedSection';
 import SpotlightCard from '@/components/SpotlightCard';
 import MagneticButton from '@/components/MagneticButton';
@@ -19,10 +20,10 @@ const team = [
 ];
 
 const values = [
-  { icon: '💡', title: 'Innovation First', desc: 'We push boundaries, embracing emerging technologies to deliver solutions ahead of the curve.' },
-  { icon: '🤝', title: 'Client Partnership', desc: 'Your success is our success. We build lasting relationships through transparency and trust.' },
-  { icon: '🎯', title: 'Excellence Always', desc: 'Every line of code, every pixel, every interaction is crafted to the highest standard.' },
-  { icon: '🌍', title: 'Global Impact', desc: 'We build technology that scales globally and creates positive change in the world.' },
+  { icon: Lightbulb, color: '#7c3aed', title: 'Innovation First', desc: 'We push boundaries, embracing emerging technologies to deliver solutions ahead of the curve.' },
+  { icon: Users, color: '#00e5ff', title: 'Client Partnership', desc: 'Your success is our success. We build lasting relationships through transparency and trust.' },
+  { icon: Star, color: '#f472b6', title: 'Excellence Always', desc: 'Every line of code, every pixel, every interaction is crafted to the highest standard.' },
+  { icon: Globe, color: '#22c55e', title: 'Global Impact', desc: 'We build technology that scales globally and creates positive change in the world.' },
 ];
 
 const timeline = [
@@ -125,9 +126,14 @@ export default function AboutPage() {
           <div className={styles.valuesGrid}>
             {values.map((v, i) => (
               <AnimatedSection key={v.title} delay={i * 0.1}>
-                <SpotlightCard>
+                <SpotlightCard spotlightColor={`${v.color}20`}>
                   <div className={styles.valueCard}>
-                    <span className={styles.valueIcon}>{v.icon}</span>
+                    <div
+                      className={styles.valueIcon}
+                      style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: '52px', height: '52px', borderRadius: '14px', background: `${v.color}18`, color: v.color, marginBottom: '1rem' }}
+                    >
+                      <v.icon size={26} strokeWidth={1.6} />
+                    </div>
                     <h3 className={styles.valueTitle}>{v.title}</h3>
                     <p className={styles.valueDesc}>{v.desc}</p>
                   </div>
