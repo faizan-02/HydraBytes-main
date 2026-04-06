@@ -8,6 +8,7 @@ import { useTheme } from '@/lib/ThemeContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sun, Moon, LayoutDashboard, LogOut, ChevronDown, ShieldCheck } from 'lucide-react';
 import styles from './Navbar.module.css';
+import LogoNetworkAnimation from './LogoNetworkAnimation';
 
 const navLinks = [
   { href: '/', label: 'Home' },
@@ -63,7 +64,8 @@ export default function Navbar() {
       transition={{ duration: 0.5, ease: 'easeOut' }}
     >
       <div className={`container ${styles.navContainer}`}>
-        <Link href="/" className={styles.logo} onClick={handleLogoClick}>
+        <Link href="/" className={styles.logo} onClick={handleLogoClick} style={{ position: 'relative' }}>
+          <LogoNetworkAnimation />
           <div style={{ width: '180px', height: '86px', overflow: 'hidden', position: 'relative', flexShrink: 0 }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/transparent.png" alt="HydraBytes" style={{ position: 'absolute', width: '226px', top: '-55px', left: '-22px' }} />
