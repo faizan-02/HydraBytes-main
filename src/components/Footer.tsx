@@ -190,9 +190,9 @@ export default function Footer() {
                 style={{
                   padding: '10px 16px',
                   borderRadius: '8px',
-                  border: '1.5px solid rgba(124, 58, 237, 0.35)',
-                  background: 'rgba(26, 26, 46, 0.6)',
-                  color: 'var(--text-primary, #f0f0f5)',
+                  border: '1.5px solid var(--border-color-hover)',
+                  background: 'var(--bg-tertiary)',
+                  color: 'var(--text-primary)',
                   fontSize: '14px',
                   outline: 'none',
                   minWidth: '240px',

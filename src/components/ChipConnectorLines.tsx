@@ -50,11 +50,11 @@ export default function ChipConnectorLines() {
           to { opacity: 1; }
         }
         ${reducedMotion ? '' : `
-        @keyframes dashTravel0 { to { stroke-dashoffset: -28; } }
-        @keyframes dashTravel1 { to { stroke-dashoffset: -28; } }
-        @keyframes dashTravel2 { to { stroke-dashoffset: -28; } }
-        @keyframes dashTravel3 { to { stroke-dashoffset: -28; } }
-        @keyframes dashTravel4 { to { stroke-dashoffset: -28; } }
+        @keyframes linePulse0 { 0%,100%{opacity:0.18} 50%{opacity:0.45} }
+        @keyframes linePulse1 { 0%,100%{opacity:0.15} 50%{opacity:0.40} }
+        @keyframes linePulse2 { 0%,100%{opacity:0.20} 50%{opacity:0.48} }
+        @keyframes linePulse3 { 0%,100%{opacity:0.14} 50%{opacity:0.38} }
+        @keyframes linePulse4 { 0%,100%{opacity:0.16} 50%{opacity:0.42} }
         `}
       `}</style>
       <defs>
@@ -83,15 +83,13 @@ export default function ChipConnectorLines() {
             x2={`${b.x}%`}
             y2={`${b.y}%`}
             stroke="url(#connLineGrad)"
-            strokeWidth={0.8}
-            strokeDasharray="6 8"
-            strokeDashoffset={0}
+            strokeWidth={0.7}
             style={
               reducedMotion
-                ? undefined
+                ? { opacity: 0.25 }
                 : {
-                    animation: `dashTravel${i} 4s linear infinite`,
-                    animationDelay: `${i * 0.8}s`,
+                    animation: `linePulse${i} ${3.5 + i * 0.4}s ease-in-out infinite`,
+                    animationDelay: `${i * 0.6}s`,
                   }
             }
           />
