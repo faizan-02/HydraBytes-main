@@ -82,6 +82,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         const email = token.email as string;
         if (email) {
           try {
+            const existingUser = await prisma.user.findUnique({ where: { email } });
             const dbUser = await prisma.user.upsert({
               where: { email },
               update: {},
@@ -89,6 +90,25 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             });
             token.id = dbUser.id;
             token.role = dbUser.role;
+
+            // New OAuth user — link any accepted guest submissions to projects
+            if (!existingUser) {
+              const contactedSubmissions = await prisma.contactSubmission.findMany({
+                where: { email: { equals: email, mode: 'insensitive' }, status: 'contacted' },
+              });
+              if (contactedSubmissions.length > 0) {
+                await prisma.project.createMany({
+                  data: contactedSubmissions.map(s => ({
+                    userId: dbUser.id,
+                    title: `${s.service} Project`,
+                    service: s.service,
+                    budget: s.budget,
+                    description: s.message,
+                    status: 'accepted',
+                  })),
+                });
+              }
+            }
           } catch (err) {
             console.error('OAuth JWT DB error:', err);
           }

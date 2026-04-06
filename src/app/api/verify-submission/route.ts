@@ -73,10 +73,34 @@ export async function GET(req: NextRequest) {
     return html(page('Inquiry Declined', `${submission.name}'s inquiry has been declined and they have been notified.`, 'error'));
   }
 
-  // Accept — update status and send invite email
+  // Accept — update status
   await prisma.contactSubmission.update({ where: { id }, data: { status: 'contacted' } });
 
+  // If user already registered with this email, create the project immediately
+  const existingUser = await prisma.user.findUnique({
+    where: { email: submission.email },
+  });
+
+  if (existingUser) {
+    await prisma.project.create({
+      data: {
+        userId: existingUser.id,
+        title: `${submission.service} Project`,
+        service: submission.service,
+        budget: submission.budget,
+        description: submission.message,
+        status: 'accepted',
+      },
+    });
+  }
+
+  const dashboardUrl = `${BASE_URL}/dashboard`;
   const registerUrl = `${BASE_URL}/auth/register?email=${encodeURIComponent(submission.email)}`;
+  const ctaUrl = existingUser ? dashboardUrl : registerUrl;
+  const ctaText = existingUser ? 'View Your Dashboard →' : 'Create Your Free Account →';
+  const ctaDesc = existingUser
+    ? `Your project has been added to your dashboard.`
+    : `Create your free HydraBytes account using the email address you submitted your inquiry with (<strong style="color:#c4b5fd">${submission.email}</strong>) to:`;
 
   await resend.emails.send({
     from: 'HydraBytes <hello@hydrabytes.it.com>',
@@ -96,15 +120,15 @@ export async function GET(req: NextRequest) {
 
           <div style="background:rgba(124,58,237,0.08);border:1px solid rgba(124,58,237,0.25);border-radius:12px;padding:24px;margin-bottom:32px;">
             <p style="margin:0 0 12px;font-size:15px;font-weight:700;color:#f0f0f5;">Track your project in real-time</p>
-            <p style="margin:0 0 16px;font-size:14px;color:#a0a0b8;line-height:1.6;">Create your free HydraBytes account using the email address you submitted your inquiry with (<strong style="color:#c4b5fd">${submission.email}</strong>) to:</p>
-            <ul style="margin:0 0 20px;padding-left:20px;color:#a0a0b8;font-size:14px;line-height:1.8;">
+            <p style="margin:0 0 16px;font-size:14px;color:#a0a0b8;line-height:1.6;">${ctaDesc}</p>
+            ${!existingUser ? `<ul style="margin:0 0 20px;padding-left:20px;color:#a0a0b8;font-size:14px;line-height:1.8;">
               <li>See your project status update in real-time</li>
               <li>Receive and pay invoices directly</li>
               <li>Book consultations and contact your developer</li>
               <li>Get notified at every milestone</li>
-            </ul>
-            <a href="${registerUrl}" style="display:inline-block;padding:14px 32px;background:linear-gradient(135deg,#7c3aed,#00e5ff);color:#fff;text-decoration:none;border-radius:999px;font-weight:700;font-size:15px;">
-              Create Your Free Account →
+            </ul>` : ''}
+            <a href="${ctaUrl}" style="display:inline-block;padding:14px 32px;background:linear-gradient(135deg,#7c3aed,#00e5ff);color:#fff;text-decoration:none;border-radius:999px;font-weight:700;font-size:15px;">
+              ${ctaText}
             </a>
           </div>
 
@@ -120,7 +144,7 @@ export async function GET(req: NextRequest) {
       </div>`,
   }).catch(() => {});
 
-  return html(page('Inquiry Accepted', `${submission.name} has been notified with an invitation to create their account and track progress.`, 'success'));
+  return html(page('Inquiry Accepted', `${submission.name} has been notified${existingUser ? ' and their project is live on their dashboard' : ' with an invitation to create their account and track progress'}.`, 'success'));
 }
 
 function html(content: string, status = 200) {
