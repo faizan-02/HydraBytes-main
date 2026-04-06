@@ -15,7 +15,7 @@ const featured = {
   date: 'Mar 15, 2024',
   category: 'AI & Technology',
   readTime: '8 min read',
-  image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=85',
+  image: 'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&w=1600&q=90',
 };
 
 const posts = [
@@ -25,7 +25,7 @@ const posts = [
     date: 'Mar 10, 2024',
     category: 'Web Development',
     readTime: '6 min read',
-    image: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=600&q=80',
+    image: 'https://images.unsplash.com/photo-1587620962725-abab7fe55159?auto=format&fit=crop&w=800&q=85',
   },
   {
     title: 'Mobile-First Design: Why It Matters More Than Ever',
@@ -33,7 +33,7 @@ const posts = [
     date: 'Mar 5, 2024',
     category: 'Design',
     readTime: '5 min read',
-    image: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=600&q=80',
+    image: 'https://images.unsplash.com/photo-1531297484001-80022131f5a1?auto=format&fit=crop&w=800&q=85',
   },
   {
     title: 'Machine Learning for Business: A Practical Guide',
@@ -41,7 +41,7 @@ const posts = [
     date: 'Feb 28, 2024',
     category: 'AI & ML',
     readTime: '7 min read',
-    image: 'https://images.unsplash.com/photo-1488229297570-58520851e868?auto=format&fit=crop&w=600&q=80',
+    image: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=800&q=85',
   },
   {
     title: 'The Rise of Progressive Web Apps',
@@ -49,7 +49,7 @@ const posts = [
     date: 'Feb 20, 2024',
     category: 'Web Development',
     readTime: '5 min read',
-    image: 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=600&q=80',
+    image: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=800&q=85',
   },
   {
     title: 'Cybersecurity Best Practices for Startups',
@@ -57,7 +57,7 @@ const posts = [
     date: 'Feb 15, 2024',
     category: 'Security',
     readTime: '6 min read',
-    image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=600&q=80',
+    image: 'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?auto=format&fit=crop&w=800&q=85',
   },
   {
     title: 'Optimizing React Performance: Advanced Techniques',
@@ -65,7 +65,7 @@ const posts = [
     date: 'Feb 10, 2024',
     category: 'Web Development',
     readTime: '8 min read',
-    image: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=600&q=80',
+    image: 'https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=800&q=85',
   },
 ];
 

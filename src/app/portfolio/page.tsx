@@ -54,7 +54,7 @@ const projects = [
     tech: ['React', 'Node.js', 'D3.js', 'PostgreSQL', 'TypeScript', 'Redis', 'Chart.js', 'Stripe'],
     color: '#7c3aed',
     metric: '40% faster decisions',
-    image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=900&q=85',
   },
   {
     title: 'GreenLeaf Mobile App',
@@ -63,7 +63,7 @@ const projects = [
     tech: ['React Native', 'Firebase', 'GraphQL', 'TypeScript', 'Redux', 'Mapbox', 'Stripe'],
     color: '#22c55e',
     metric: '100K+ downloads',
-    image: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=900&q=85',
   },
   {
     title: 'DataPulse AI Engine',
@@ -72,7 +72,7 @@ const projects = [
     tech: ['Python', 'TensorFlow', 'AWS SageMaker', 'scikit-learn', 'FastAPI', 'Docker', 'PostgreSQL'],
     color: '#f472b6',
     metric: '60% less downtime',
-    image: 'https://images.unsplash.com/photo-1488229297570-58520851e868?auto=format&fit=crop&w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&w=900&q=85',
   },
   {
     title: 'CloudSync Platform',
@@ -81,7 +81,7 @@ const projects = [
     tech: ['Next.js', 'TypeScript', 'Docker', 'K8s', 'AWS', 'Terraform', 'Redis', 'PostgreSQL'],
     color: '#00e5ff',
     metric: '35% cost savings',
-    image: 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=900&q=85',
   },
   {
     title: 'NexGen Health App',
@@ -90,7 +90,7 @@ const projects = [
     tech: ['Flutter', 'Node.js', 'WebRTC', 'Firebase', 'Stripe', 'TypeScript', 'Redux'],
     color: '#f59e0b',
     metric: '50K+ patients served',
-    image: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=900&q=85',
   },
   {
     title: 'SmartRetail AI',
@@ -99,7 +99,7 @@ const projects = [
     tech: ['PyTorch', 'OpenCV', 'FastAPI', 'Redis', 'PostgreSQL', 'Docker', 'AWS'],
     color: '#ef4444',
     metric: '25% revenue increase',
-    image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?auto=format&fit=crop&w=900&q=85',
   },
 ];
 

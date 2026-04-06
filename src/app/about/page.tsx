@@ -74,7 +74,7 @@ export default function AboutPage() {
             <AnimatedSection direction="right" delay={0.15}>
               <div style={{ position: 'relative', width: '100%', height: '220px', borderRadius: '1rem', overflow: 'hidden', marginBottom: '1.5rem' }}>
                 <Image
-                  src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=900&q=85"
+                  src="https://images.unsplash.com/photo-1587620962725-abab7fe55159?auto=format&fit=crop&w=1200&q=90"
                   alt="HydraBytes team collaborating"
                   fill
                   style={{ objectFit: 'cover' }}
