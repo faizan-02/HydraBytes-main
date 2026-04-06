@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { Globe, Smartphone, Brain, Check, ArrowRight } from 'lucide-react';
 import AnimatedSection from '@/components/AnimatedSection';
@@ -13,6 +14,7 @@ const services = [
     id: 'web',
     icon: Globe,
     color: '#7c3aed',
+    image: 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=900&q=85',
     title: 'Web Development',
     subtitle: 'Custom websites that convert visitors into customers',
     desc: 'We build blazing-fast, SEO-optimized websites and web applications using the latest technologies. From marketing pages to complex SaaS platforms, we deliver solutions that drive real business results.',
@@ -30,6 +32,7 @@ const services = [
     id: 'app',
     icon: Smartphone,
     color: '#00e5ff',
+    image: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=900&q=85',
     title: 'App Development',
     subtitle: 'Mobile experiences that users love',
     desc: 'We create native and cross-platform mobile applications that deliver seamless, intuitive experiences. Our apps are built for performance, scalability, and user engagement.',
@@ -47,6 +50,7 @@ const services = [
     id: 'ai',
     icon: Brain,
     color: '#f472b6',
+    image: 'https://images.unsplash.com/photo-1488229297570-58520851e868?auto=format&fit=crop&w=900&q=85',
     title: 'AI & ML Solutions',
     subtitle: 'Intelligent systems that learn and adapt',
     desc: 'Harness the power of artificial intelligence and machine learning to automate processes, gain insights from data, and create intelligent products that evolve with your business.',
@@ -137,6 +141,16 @@ export default function ServicesPage() {
 
               <AnimatedSection direction={i % 2 === 0 ? 'right' : 'left'} delay={0.15}>
                 <div className={styles.serviceDetails}>
+                  <div style={{ position: 'relative', width: '100%', height: '220px', borderRadius: '1rem', overflow: 'hidden', marginBottom: '1.5rem' }}>
+                    <Image
+                      src={service.image}
+                      alt={service.title}
+                      fill
+                      style={{ objectFit: 'cover' }}
+                      sizes="(max-width: 768px) 100vw, 500px"
+                    />
+                    <div style={{ position: 'absolute', inset: 0, background: `linear-gradient(135deg, ${service.color}30, transparent)` }} />
+                  </div>
                   <SpotlightCard spotlightColor={`${service.color}20`} className={styles.featuresCard}>
                     <div className={styles.featuresCardInner}>
                       <h4>Key Features</h4>
