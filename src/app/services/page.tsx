@@ -32,7 +32,7 @@ const services = [
     id: 'app',
     icon: Smartphone,
     color: '#00e5ff',
-    image: 'https://images.unsplash.com/photo-1531297484001-80022131f5a1?auto=format&fit=crop&w=1200&q=90',
+    image: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=1200&q=90',
     title: 'App Development',
     subtitle: 'Mobile experiences that users love',
     desc: 'We create native and cross-platform mobile applications that deliver seamless, intuitive experiences. Our apps are built for performance, scalability, and user engagement.',
@@ -50,7 +50,7 @@ const services = [
     id: 'ai',
     icon: Brain,
     color: '#f472b6',
-    image: 'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&w=1200&q=90',
+    image: 'https://images.unsplash.com/photo-1488229297570-58520851e868?auto=format&fit=crop&w=1200&q=90',
     title: 'AI & ML Solutions',
     subtitle: 'Intelligent systems that learn and adapt',
     desc: 'Harness the power of artificial intelligence and machine learning to automate processes, gain insights from data, and create intelligent products that evolve with your business.',
@@ -146,7 +146,7 @@ export default function ServicesPage() {
                       src={service.image}
                       alt={service.title}
                       fill
-                      style={{ objectFit: 'cover' }}
+                      style={{ objectFit: 'cover', objectPosition: 'center center' }}
                       sizes="(max-width: 768px) 100vw, 500px"
                     />
                     <div style={{ position: 'absolute', inset: 0, background: `linear-gradient(135deg, ${service.color}30, transparent)` }} />
