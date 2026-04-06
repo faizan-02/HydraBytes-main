@@ -10,7 +10,6 @@ import LoadingScreen from '@/components/LoadingScreen';
 import PageTransition from '@/components/PageTransition';
 import ScrollProgress from '@/components/ScrollProgress';
 import ScrollToTop from '@/components/ScrollToTop';
-import TawkToChat from '@/components/TawkToChat';
 
 export default function ClientLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -34,7 +33,6 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
       </main>
       <Footer />
       <ScrollToTop />
-      <TawkToChat />
     </ThemeProvider>
     </SessionProvider>
   );
