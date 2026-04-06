@@ -56,7 +56,7 @@ export default function ForgotPasswordPage() {
         {submitted ? (
           <div style={{ width: '100%' }}>
             <div style={{ padding: '16px', background: 'rgba(34,197,94,0.08)', border: '1px solid rgba(34,197,94,0.2)', borderRadius: '10px', textAlign: 'center', color: '#22c55e', fontSize: '15px', marginBottom: '20px' }}>
-              ✓ Check your email for a reset link.
+              Check your email for a reset link.
             </div>
             <p style={{ fontSize: '13px', color: 'var(--text-secondary)', textAlign: 'center', marginBottom: '20px' }}>
               If an account exists for that email, you will receive a password reset link shortly. Check your spam folder if you don&apos;t see it.

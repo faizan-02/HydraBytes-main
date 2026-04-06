@@ -43,12 +43,12 @@ export default function SignInPage() {
 
         {registered && (
           <p style={{ color: '#22c55e', fontSize: '14px', textAlign: 'center', marginBottom: '12px', padding: '10px', background: 'rgba(34,197,94,0.08)', borderRadius: '8px' }}>
-            ✓ Account created successfully! Sign in below.
+            Account created successfully. Sign in below.
           </p>
         )}
         {reset && (
           <p style={{ color: '#22c55e', fontSize: '14px', textAlign: 'center', marginBottom: '12px', padding: '10px', background: 'rgba(34,197,94,0.08)', borderRadius: '8px' }}>
-            ✓ Password reset successfully! Sign in below.
+            Password reset successfully. Sign in below.
           </p>
         )}
         <h1 className={styles.title}>Welcome back</h1>

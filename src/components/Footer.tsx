@@ -175,7 +175,7 @@ export default function Footer() {
               fontSize: '14px',
               fontWeight: 500,
             }}>
-              ✓ Thanks for subscribing! Check your inbox.
+              Subscribed! Check your inbox.
             </div>
           ) : (
             <form onSubmit={handleNewsletterSubmit} style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>

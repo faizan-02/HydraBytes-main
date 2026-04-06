@@ -3,14 +3,14 @@
 import { useState, use } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { CheckCircle, Copy, AlertCircle } from 'lucide-react';
+import { CheckCircle, Copy, AlertCircle, Building2, Send } from 'lucide-react';
 
 // ─── INTERNATIONAL PAYMENT METHODS ───────────────────────────────────────────
 const INTERNATIONAL_METHODS = [
   {
     id: 'payoneer',
     name: 'Payoneer',
-    icon: '🅿',
+    icon: 'P',
     color: '#ff4800',
     bg: 'rgba(255,72,0,0.08)',
     border: 'rgba(255,72,0,0.25)',
@@ -22,7 +22,7 @@ const INTERNATIONAL_METHODS = [
   {
     id: 'usdt_trc20',
     name: 'USDT (TRC20)',
-    icon: '₮',
+    icon: 'T',
     color: '#26a17b',
     bg: 'rgba(38,161,123,0.08)',
     border: 'rgba(38,161,123,0.25)',
@@ -38,7 +38,7 @@ const PAYMENT_METHODS = [
   {
     id: 'easypaisa',
     name: 'Easypaisa',
-    icon: '📱',
+    icon: 'EP',
     logo: '/logos/easypaisa.png',
     color: '#00b04a',
     bg: 'rgba(0,176,74,0.08)',
@@ -52,7 +52,7 @@ const PAYMENT_METHODS = [
   {
     id: 'jazzcash',
     name: 'JazzCash',
-    icon: '💜',
+    icon: 'JC',
     logo: '/logos/jazzcash.png',
     color: '#7c3aed',
     bg: 'rgba(124,58,237,0.08)',
@@ -66,7 +66,7 @@ const PAYMENT_METHODS = [
   {
     id: 'nayapay',
     name: 'NayaPay',
-    icon: '🟡',
+    icon: 'NP',
     logo: '/logos/nayapay.png',
     color: '#f59e0b',
     bg: 'rgba(245,158,11,0.08)',
@@ -80,7 +80,7 @@ const PAYMENT_METHODS = [
   {
     id: 'bank',
     name: 'Bank Transfer',
-    icon: '🏦',
+    icon: 'BK',
     color: '#38bdf8',
     bg: 'rgba(56,189,248,0.08)',
     border: 'rgba(56,189,248,0.25)',
@@ -182,7 +182,7 @@ export default function LocalPaymentPage({ params }: { params: Promise<{ invoice
                   gap: '10px',
                 }}
               >
-                <span style={{ fontSize: '22px', fontWeight: 700, color: '#26a17b' }}>{method.icon}</span>
+                <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 36, height: 36, borderRadius: 8, background: 'rgba(38,161,123,0.12)', color: '#26a17b', fontSize: '11px', fontWeight: 800, letterSpacing: '-0.5px', flexShrink: 0 }}>{method.icon}</span>
                 <span style={{ fontWeight: 600, fontSize: '14px', color: selected === method.id ? method.color : 'var(--text-primary, #f0f0f5)' }}>
                   {method.name}
                 </span>
@@ -216,7 +216,7 @@ export default function LocalPaymentPage({ params }: { params: Promise<{ invoice
                 ? <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', background: '#fff', borderRadius: '8px', padding: '4px 8px', height: '36px', boxSizing: 'border-box' }}>
                     <img src={method.logo} alt={method.name} style={{ height: '26px', width: 'auto', objectFit: 'contain', display: 'block' }} />
                   </span>
-                : <span style={{ fontSize: '24px' }}>{method.icon}</span>
+                : <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 36, height: 36, borderRadius: 8, background: `${selected === method.id ? method.color : '#38bdf8'}18`, color: selected === method.id ? method.color : '#38bdf8', fontSize: '11px', fontWeight: 800, letterSpacing: '-0.5px', flexShrink: 0 }}>{method.icon}</span>
               }
               <span style={{ fontWeight: 600, fontSize: '14px', color: selected === method.id ? method.color : 'var(--text-primary, #f0f0f5)' }}>
                 {method.name}
@@ -288,7 +288,7 @@ export default function LocalPaymentPage({ params }: { params: Promise<{ invoice
               className="btn btn-primary"
               style={{ width: '100%', padding: '14px', fontSize: '15px', opacity: (!transactionRef.trim() || submitting) ? 0.5 : 1, cursor: (!transactionRef.trim() || submitting) ? 'not-allowed' : 'pointer' }}
             >
-              {submitting ? 'Submitting...' : '✅ Submit Payment Reference'}
+              {submitting ? 'Submitting...' : <><Send size={15} style={{ marginRight: 8 }} />Submit Payment Reference</>}
             </button>
             <p style={{ fontSize: '12px', color: 'var(--text-secondary, #9ca3af)', textAlign: 'center', marginTop: '12px' }}>
               Our team will verify your payment within a few hours and confirm via email.

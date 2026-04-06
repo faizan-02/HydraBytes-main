@@ -322,7 +322,7 @@ export default function AdminPage() {
                 {/* Invoice success message */}
                 {invoiceSuccess === p.id && (
                   <div style={{ marginTop: '12px', padding: '12px 16px', background: 'rgba(74,222,128,0.08)', border: '1px solid rgba(74,222,128,0.2)', borderRadius: '8px', fontSize: '14px', color: '#4ade80' }}>
-                    ✓ Invoice created and email sent to {p.user?.email}.
+                    Invoice created and email sent to {p.user?.email}.
                   </div>
                 )}
 
@@ -430,7 +430,7 @@ export default function AdminPage() {
                         ${inv.amount.toLocaleString()}
                       </span>
                       <span style={{ padding: '4px 12px', borderRadius: '20px', fontSize: '12px', fontWeight: 600, background: inv.status === 'paid' ? 'rgba(74,222,128,0.15)' : isUnderReview ? 'rgba(251,191,36,0.15)' : 'rgba(148,163,184,0.1)', color: inv.status === 'paid' ? '#4ade80' : isUnderReview ? '#fbbf24' : '#94a3b8' }}>
-                        {inv.status === 'under_review' ? '⏳ Under Review' : inv.status === 'paid' ? '✓ Paid' : inv.status}
+                        {inv.status === 'under_review' ? 'Under Review' : inv.status === 'paid' ? 'Paid' : inv.status}
                       </span>
                     </div>
                   </div>
@@ -448,7 +448,7 @@ export default function AdminPage() {
                           onClick={() => updateStatus('invoice', inv.id, 'paid')}
                           style={{ padding: '8px 20px', background: 'rgba(74,222,128,0.15)', border: '1px solid rgba(74,222,128,0.3)', color: '#4ade80', borderRadius: '8px', fontSize: '13px', fontWeight: 600, cursor: 'pointer' }}
                         >
-                          {updating === inv.id ? 'Updating...' : '✓ Mark as Paid'}
+                          {updating === inv.id ? 'Updating...' : 'Mark as Paid'}
                         </button>
                         <button
                           disabled={updating === inv.id}

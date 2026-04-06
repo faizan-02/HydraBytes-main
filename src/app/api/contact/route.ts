@@ -64,16 +64,16 @@ export async function POST(req: NextRequest) {
 
     const verifySection = projectId && verifyToken ? `
       <div style="margin-top:24px;padding:20px;background:#0f172a;border-radius:10px;border:1px solid rgba(99,102,241,0.3);">
-        <p style="margin:0 0 4px;font-weight:600;color:#a5b4fc;">👤 Registered User Project</p>
+        <p style="margin:0 0 4px;font-weight:600;color:#a5b4fc;">Registered User Project</p>
         <p style="margin:0 0 16px;font-size:13px;color:#94a3b8;">Review this inquiry and accept or decline it. The client will be notified automatically.</p>
         <div style="display:flex;gap:12px;flex-wrap:wrap;">
           <a href="${BASE_URL}/api/verify-project?token=${verifyToken}&action=accept"
              style="display:inline-block;padding:12px 24px;background:#4ade80;color:#0a0a0f;text-decoration:none;border-radius:8px;font-weight:700;font-size:14px;">
-            ✅ Accept Project
+            Accept Project
           </a>
           <a href="${BASE_URL}/api/verify-project?token=${verifyToken}&action=decline"
              style="display:inline-block;padding:12px 24px;background:#ef4444;color:#fff;text-decoration:none;border-radius:8px;font-weight:700;font-size:14px;">
-            ❌ Decline Project
+            Decline Project
           </a>
         </div>
         <p style="margin:12px 0 0;font-size:12px;color:#64748b;">Project ID: ${projectId}</p>

@@ -61,7 +61,7 @@ export async function POST(req: Request) {
   await resend.emails.send({
     from: 'HydraBytes <hello@hydrabytes.it.com>',
     to: ADMIN_EMAIL,
-    subject: `💰 Payment Submitted — ${formattedAmount} via ${methodLabels[method] ?? method}`,
+    subject: `Payment Submitted — ${formattedAmount} via ${methodLabels[method] ?? method}`,
     html: `
       <div style="font-family: Inter, sans-serif; max-width: 600px; margin: 0 auto; background: #0a0a12; color: #f0f0f5; border-radius: 12px; overflow: hidden;">
         <div style="background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%); padding: 32px; text-align: center;">

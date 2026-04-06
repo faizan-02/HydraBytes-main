@@ -225,7 +225,7 @@ function ContactForm() {
 
                 {isSubmitted && (
                   <p style={{ color: '#22c55e', marginBottom: '12px', fontSize: '14px' }}>
-                    ✓ Message sent! We&apos;ll get back to you within 24 hours.
+                    Message sent! We&apos;ll get back to you within 24 hours.
                   </p>
                 )}
                 {error && (

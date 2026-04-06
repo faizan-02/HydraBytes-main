@@ -52,7 +52,7 @@ export async function PATCH(req: Request) {
       in_progress: 'Great news! Your project is now in progress.',
       planning: 'Your project has entered the planning phase.',
       review: 'Your project is currently under review.',
-      completed: 'Your project has been completed! 🎉',
+      completed: 'Your project has been completed.',
     };
 
     if (updated.user?.email && notifyStatuses[status]) {
@@ -233,7 +233,7 @@ export async function POST(req: Request) {
           </div>
           <div style="text-align: center;">
             <a href="${paymentPageUrl}" style="display: inline-block; padding: 14px 32px; background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%); color: #ffffff; text-decoration: none; border-radius: 999px; font-weight: 700; font-size: 16px;">
-              💳 Pay Now
+              Pay Now
             </a>
           </div>
           <p style="margin: 20px 0 0; font-size: 13px; color: #6c6c85; text-align: center;">

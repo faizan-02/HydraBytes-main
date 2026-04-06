@@ -85,10 +85,10 @@ export async function GET(req: NextRequest) {
     await resend.emails.send({
       from: 'HydraBytes <hello@hydrabytes.it.com>',
       to: project.user.email,
-      subject: '🎉 Your project has been accepted — HydraBytes',
+      subject: 'Your project has been accepted — HydraBytes',
       html: `
         <div style="font-family:sans-serif;max-width:600px;margin:0 auto;padding:24px;">
-          <h2 style="color:#6366f1;">Great News, ${project.user.name ?? 'there'}! 🎉</h2>
+          <h2 style="color:#6366f1;">Great News, ${project.user.name ?? 'there'}!</h2>
           <p style="color:#374151;line-height:1.6;">Your project inquiry for <strong>${project.title}</strong> has been reviewed and accepted by our team!</p>
           <div style="margin:24px 0;padding:20px;background:#f0fdf4;border-radius:12px;border-left:4px solid #4ade80;">
             <p style="margin:0 0 8px;font-weight:600;color:#166534;">What happens next?</p>
@@ -96,8 +96,8 @@ export async function GET(req: NextRequest) {
           </div>
           <p style="color:#374151;line-height:1.6;">Want to discuss sooner? You can:</p>
           <div style="margin:20px 0;">
-            <a href="${CALENDLY_LINK}" style="display:inline-block;padding:12px 24px;background:linear-gradient(135deg,#6366f1,#06b6d4);color:#fff;text-decoration:none;border-radius:8px;font-weight:600;margin-right:12px;">📅 Book a Free Consultation</a>
-            <a href="${WA_LINK}" style="display:inline-block;padding:12px 24px;background:#25d366;color:#fff;text-decoration:none;border-radius:8px;font-weight:600;margin-top:8px;">💬 WhatsApp Us</a>
+            <a href="${CALENDLY_LINK}" style="display:inline-block;padding:12px 24px;background:linear-gradient(135deg,#6366f1,#06b6d4);color:#fff;text-decoration:none;border-radius:8px;font-weight:600;margin-right:12px;">Book a Free Consultation</a>
+            <a href="${WA_LINK}" style="display:inline-block;padding:12px 24px;background:#25d366;color:#fff;text-decoration:none;border-radius:8px;font-weight:600;margin-top:8px;">WhatsApp Us</a>
           </div>
           <p style="color:#374151;">Best regards,<br/><strong>The HydraBytes Team</strong></p>
           <hr style="border:none;border-top:1px solid #e5e7eb;margin:24px 0;"/>
@@ -106,7 +106,7 @@ export async function GET(req: NextRequest) {
     });
   }
 
-  return new NextResponse(page('Project Accepted! ✅', `"${project.title}" has been accepted and the client has been notified with next steps.`, 'success'), {
+  return new NextResponse(page('Project Accepted', `"${project.title}" has been accepted and the client has been notified with next steps.`, 'success'), {
     headers: { 'Content-Type': 'text/html' },
   });
 }
@@ -126,7 +126,7 @@ function declineForm(token: string, title: string) {
 </style></head>
 <body>
 <div class="card">
-  <div style="font-size:40px;margin-bottom:16px">❌</div>
+  <div style="font-size:40px;margin-bottom:16px;color:#ef4444;">&#10005;</div>
   <h1>Decline Project</h1>
   <p>You are declining: <strong style="color:#e2e8f0">${title}</strong></p>
   <form method="GET" action="/api/verify-project">
@@ -143,7 +143,7 @@ function declineForm(token: string, title: string) {
 
 function page(title: string, message: string, type: 'success' | 'error' | 'info') {
   const colors = { success: '#4ade80', error: '#ef4444', info: '#6366f1' };
-  const icons = { success: '✅', error: '❌', info: 'ℹ️' };
+  const icons = { success: '&#10003;', error: '&#10005;', info: 'i' };
   const color = colors[type];
   return `<!DOCTYPE html>
 <html>

@@ -57,7 +57,7 @@ export default function RegisterPage() {
           } else {
             setError(null);
             setTimeout(() => router.push('/auth/signin?registered=true'), 1500);
-            setError('✓ Account created! Redirecting to sign in...');
+            setError('SUCCESS: Account created! Redirecting to sign in...');
           }
         }}>
           <div className={styles.field}>
@@ -87,7 +87,7 @@ export default function RegisterPage() {
             </div>
           </div>
 
-          {error && <p style={{ color: error.startsWith('✓') ? '#22c55e' : '#ef4444', fontSize: '14px', marginTop: '-8px' }}>{error}</p>}
+          {error && <p style={{ color: error.startsWith('SUCCESS:') ? '#22c55e' : '#ef4444', fontSize: '14px', marginTop: '-8px' }}>{error.replace('SUCCESS: ', '')}</p>}
           <MagneticButton>
             <button type="submit" className={`btn btn-primary ${styles.submitBtn}`} disabled={isLoading}>
               {isLoading ? 'Creating account...' : <>Create Account <ArrowRight size={16} /></>}

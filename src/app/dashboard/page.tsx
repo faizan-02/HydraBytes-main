@@ -3,7 +3,7 @@
 import { useSession, signOut } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { FolderOpen, FileText, LogOut, Clock, CheckCircle, AlertCircle, Loader, ShieldCheck } from 'lucide-react';
+import { FolderOpen, FileText, LogOut, Clock, CheckCircle, AlertCircle, Loader, ShieldCheck, Calendar, MessageCircle, CreditCard, XCircle, Check } from 'lucide-react';
 
 interface Project {
   id: string;
@@ -178,7 +178,7 @@ export default function DashboardPage() {
                           <div key={step} style={{ display: 'flex', alignItems: 'center', flex: i < TIMELINE.length - 1 ? 1 : 'none' }}>
                             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
                               <div style={{ width: '20px', height: '20px', borderRadius: '50%', background: isDone ? '#6366f1' : 'rgba(255,255,255,0.1)', border: isCurrent ? '2px solid #06b6d4' : 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px' }}>
-                                {isDone && '✓'}
+                                {isDone && <Check size={10} strokeWidth={3} />}
                               </div>
                               <span style={{ fontSize: '10px', color: isDone ? '#a5b4fc' : '#475569', whiteSpace: 'nowrap' }}>{timelineLabels[step]}</span>
                             </div>
@@ -193,20 +193,20 @@ export default function DashboardPage() {
 
                   {project.status === 'pending_verification' && (
                     <div style={{ marginTop: '12px', padding: '12px 16px', background: 'rgba(251,191,36,0.05)', border: '1px solid rgba(251,191,36,0.15)', borderRadius: '8px', fontSize: '13px', color: '#fbbf24' }}>
-                      ⏳ Your project is under review. We&apos;ll notify you by email once it&apos;s accepted. For urgent queries:{' '}
+                      <Clock size={13} style={{ display: 'inline', marginRight: 6, verticalAlign: 'middle' }} /> Your project is under review. We&apos;ll notify you by email once it&apos;s accepted. For urgent queries:{' '}
                       <a href={WA} target="_blank" rel="noopener noreferrer" style={{ color: '#4ade80', fontWeight: 600 }}>WhatsApp us →</a>
                     </div>
                   )}
 
                   {project.status === 'accepted' && (
                     <div style={{ marginTop: '12px', padding: '16px', background: 'rgba(74,222,128,0.05)', border: '1px solid rgba(74,222,128,0.15)', borderRadius: '8px' }}>
-                      <p style={{ margin: '0 0 12px', fontSize: '13px', color: '#4ade80' }}>🎉 Your project has been accepted! Our team will reach out within 24 hours. Want to connect sooner?</p>
+                      <p style={{ margin: '0 0 12px', fontSize: '13px', color: '#4ade80', display: 'flex', alignItems: 'center', gap: 6 }}><CheckCircle size={14} /> Your project has been accepted! Our team will reach out within 24 hours. Want to connect sooner?</p>
                       <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
                         <a href={CALENDLY} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '8px 16px', background: 'linear-gradient(135deg,#6366f1,#06b6d4)', color: '#fff', borderRadius: '8px', textDecoration: 'none', fontSize: '13px', fontWeight: 600 }}>
-                          📅 Book a Free Consultation
+                          <Calendar size={14} /> Book a Free Consultation
                         </a>
                         <a href={WA} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '8px 16px', background: '#25d366', color: '#fff', borderRadius: '8px', textDecoration: 'none', fontSize: '13px', fontWeight: 600 }}>
-                          💬 WhatsApp Us
+                          <MessageCircle size={14} /> WhatsApp Us
                         </a>
                       </div>
                     </div>
@@ -217,7 +217,7 @@ export default function DashboardPage() {
                     <div style={{ marginTop: '16px', padding: '20px', background: 'rgba(99,102,241,0.06)', border: '1px solid rgba(99,102,241,0.2)', borderRadius: '12px' }}>
                       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px', marginBottom: '16px' }}>
                         <div>
-                          <p style={{ margin: '0 0 4px', fontSize: '14px', fontWeight: 600, color: '#a5b4fc' }}>🎉 Project Complete — Payment Required</p>
+                          <p style={{ margin: '0 0 4px', fontSize: '14px', fontWeight: 600, color: '#a5b4fc', display: 'flex', alignItems: 'center', gap: 6 }}><CheckCircle size={15} /> Project Complete — Payment Required</p>
                           <p style={{ margin: 0, fontSize: '13px', color: 'var(--muted, #9ca3af)' }}>
                             Amount due: <strong style={{ color: '#f0f0f5' }}>${pendingInvoice.amount.toLocaleString()}</strong>
                             {pendingInvoice.dueDate && ` · Due ${new Date(pendingInvoice.dueDate).toLocaleDateString()}`}
@@ -225,26 +225,26 @@ export default function DashboardPage() {
                         </div>
                       </div>
                       <a href={`/payment/local/${pendingInvoice.id}`} style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '10px 24px', background: 'linear-gradient(135deg,#22c55e,#16a34a)', color: '#fff', borderRadius: '8px', textDecoration: 'none', fontSize: '14px', fontWeight: 700 }}>
-                        💳 Pay Invoice
+                        <CreditCard size={15} /> Pay Invoice
                       </a>
                     </div>
                   )}
 
                   {project.status === 'completed' && underReviewInvoice && (
                     <div style={{ marginTop: '16px', padding: '14px 16px', background: 'rgba(56,189,248,0.06)', border: '1px solid rgba(56,189,248,0.15)', borderRadius: '10px', fontSize: '13px', color: '#38bdf8' }}>
-                      ⏳ Payment submitted and under review · Ref: <span style={{ fontFamily: 'monospace', fontWeight: 600 }}>{underReviewInvoice.paymentRef}</span>
+                      <Clock size={13} style={{ display: 'inline', marginRight: 6, verticalAlign: 'middle' }} /> Payment submitted and under review · Ref: <span style={{ fontFamily: 'monospace', fontWeight: 600 }}>{underReviewInvoice.paymentRef}</span>
                     </div>
                   )}
 
                   {project.status === 'completed' && invoices.some(i => i.projectId === project.id && i.status === 'paid') && (
                     <div style={{ marginTop: '16px', padding: '14px 16px', background: 'rgba(74,222,128,0.06)', border: '1px solid rgba(74,222,128,0.15)', borderRadius: '10px', fontSize: '13px', color: '#4ade80' }}>
-                      ✓ Payment received — thank you! We hope to work with you again.
+                      <CheckCircle size={13} style={{ display: 'inline', marginRight: 6, verticalAlign: 'middle' }} /> Payment received — thank you! We hope to work with you again.
                     </div>
                   )}
 
                   {project.status === 'declined' && (
                     <div style={{ marginTop: '12px', padding: '12px 16px', background: 'rgba(239,68,68,0.05)', border: '1px solid rgba(239,68,68,0.15)', borderRadius: '8px', fontSize: '13px', color: '#ef4444' }}>
-                      ❌ This project was not accepted. You can{' '}
+                      <XCircle size={13} style={{ display: 'inline', marginRight: 6, verticalAlign: 'middle' }} /> This project was not accepted. You can{' '}
                       <a href="/contact" style={{ color: '#6366f1', fontWeight: 600 }}>submit a new request</a>{' '}
                       or{' '}
                       <a href={WA} target="_blank" rel="noopener noreferrer" style={{ color: '#4ade80', fontWeight: 600 }}>WhatsApp us</a>{' '}
@@ -289,13 +289,13 @@ export default function DashboardPage() {
                 {inv.status === 'pending' && (
                   <div style={{ marginTop: '12px' }}>
                     <a href={`/payment/local/${inv.id}`} style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '8px 18px', background: 'linear-gradient(135deg,#22c55e,#16a34a)', color: '#fff', borderRadius: '8px', textDecoration: 'none', fontSize: '13px', fontWeight: 600 }}>
-                      💳 Pay Now
+                      <CreditCard size={14} /> Pay Now
                     </a>
                   </div>
                 )}
                 {inv.status === 'under_review' && inv.paymentRef && (
                   <div style={{ marginTop: '10px', padding: '8px 12px', background: 'rgba(56,189,248,0.06)', border: '1px solid rgba(56,189,248,0.15)', borderRadius: '8px', fontSize: '13px', color: '#38bdf8' }}>
-                    ⏳ Payment under review · Ref: <span style={{ fontFamily: 'monospace', fontWeight: 600 }}>{inv.paymentRef}</span>
+                    <Clock size={13} style={{ display: 'inline', marginRight: 6, verticalAlign: 'middle' }} /> Payment under review · Ref: <span style={{ fontFamily: 'monospace', fontWeight: 600 }}>{inv.paymentRef}</span>
                   </div>
                 )}
               </div>

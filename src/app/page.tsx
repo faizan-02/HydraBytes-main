@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import {
   Globe, Smartphone, Brain, Zap, Shield, TrendingUp,
-  Palette, Bot, RefreshCw, ArrowRight,
+  Palette, Bot, RefreshCw, ArrowRight, Clock, Star, Award,
 } from 'lucide-react';
 import AnimatedSection from '@/components/AnimatedSection';
 import SpotlightCard from '@/components/SpotlightCard';
@@ -486,13 +486,13 @@ export default function HomePage() {
               {/* Trust badges */}
               <div className={styles.ctaBadges}>
                 {[
-                  { icon: '🛡', label: 'NDA Protected' },
-                  { icon: '⏱', label: '24h Response' },
-                  { icon: '⭐', label: '99% Satisfaction' },
-                  { icon: '🏆', label: '4+ Years Experience' },
+                  { icon: <Shield size={13} strokeWidth={1.8} />, label: 'NDA Protected' },
+                  { icon: <Clock size={13} strokeWidth={1.8} />, label: '24h Response' },
+                  { icon: <Star size={13} strokeWidth={1.8} />, label: '99% Satisfaction' },
+                  { icon: <Award size={13} strokeWidth={1.8} />, label: '4+ Years Experience' },
                 ].map((b) => (
                   <div key={b.label} className={styles.ctaBadge}>
-                    <span>{b.icon}</span>
+                    <span style={{ display: 'flex' }}>{b.icon}</span>
                     <span>{b.label}</span>
                   </div>
                 ))}
