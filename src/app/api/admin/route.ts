@@ -92,6 +92,61 @@ export async function PATCH(req: Request) {
     return NextResponse.json(updated);
   }
 
+  if (type === 'invite') {
+    const submission = await prisma.contactSubmission.findUnique({ where: { id } });
+    if (!submission) return NextResponse.json({ error: 'Not found' }, { status: 404 });
+
+    await prisma.contactSubmission.update({ where: { id }, data: { status: 'contacted' } });
+
+    const registerUrl = `${BASE_URL}/auth/register?email=${encodeURIComponent(submission.email)}`;
+    const userName = submission.name || 'there';
+    const serviceName = submission.service || 'your project';
+
+    await resend.emails.send({
+      from: 'HydraBytes <hello@hydrabytes.it.com>',
+      to: submission.email,
+      subject: 'Your HydraBytes inquiry has been reviewed',
+      html: `
+        <div style="font-family: Inter, sans-serif; max-width: 600px; margin: 0 auto; background: #0a0a12; color: #f0f0f5; border-radius: 12px; overflow: hidden;">
+          <div style="background: linear-gradient(135deg, #7c3aed 0%, #00e5ff 100%); padding: 40px 32px; text-align: center;">
+            <h1 style="margin: 0; font-size: 24px; font-weight: 800; color: #ffffff;">Great News!</h1>
+          </div>
+          <div style="padding: 40px 32px;">
+            <p style="font-size: 16px; color: #a0a0b8; margin: 0 0 16px;">Hi ${userName},</p>
+            <p style="font-size: 16px; line-height: 1.7; color: #a0a0b8; margin: 0 0 24px;">
+              We've reviewed your inquiry for <strong style="color: #f0f0f5;">${serviceName}</strong> and we're excited to work with you!
+            </p>
+            <div style="background: rgba(124,58,237,0.08); border: 1px solid rgba(124,58,237,0.2); border-radius: 10px; padding: 20px; margin-bottom: 24px;">
+              <p style="margin: 0; font-size: 15px; color: #f0f0f5; font-weight: 600; text-align: center;">
+                Create your free account to track your project in real-time
+              </p>
+            </div>
+            <div style="text-align: center; margin-bottom: 32px;">
+              <a href="${registerUrl}" style="display: inline-block; padding: 14px 32px; background: linear-gradient(135deg, #7c3aed 0%, #00e5ff 100%); color: #ffffff; text-decoration: none; border-radius: 999px; font-weight: 700; font-size: 16px;">
+                Create Your Account &rarr;
+              </a>
+            </div>
+            <p style="font-size: 14px; color: #a0a0b8; margin: 0 0 8px;">With your account you can:</p>
+            <ul style="margin: 0 0 24px; padding-left: 20px; font-size: 14px; color: #a0a0b8; line-height: 2;">
+              <li>Track project status in real-time</li>
+              <li>Receive and pay invoices securely</li>
+              <li>Direct access to your developer</li>
+              <li>Get real-time updates on progress</li>
+            </ul>
+            <p style="font-size: 13px; color: #6c6c85; margin: 0;">
+              Already have an account? <a href="${BASE_URL}/auth/signin" style="color: #818cf8; text-decoration: none;">Sign in here</a>
+            </p>
+          </div>
+          <div style="padding: 24px 32px; border-top: 1px solid rgba(124,58,237,0.15); text-align: center;">
+            <p style="margin: 0; font-size: 13px; color: #6c6c85;">&copy; ${new Date().getFullYear()} HydraBytes. All rights reserved.</p>
+          </div>
+        </div>
+      `,
+    }).catch(() => {});
+
+    return NextResponse.json({ success: true });
+  }
+
   if (type === 'submission') {
     const updated = await prisma.contactSubmission.update({ where: { id }, data: { status } });
     return NextResponse.json(updated);

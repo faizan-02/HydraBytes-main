@@ -84,6 +84,10 @@ export default function AdminPage() {
   const [invoiceSubmitting, setInvoiceSubmitting] = useState<string | null>(null);
   const [invoiceSuccess, setInvoiceSuccess] = useState<string | null>(null);
 
+  // Invite state: keyed by submission id
+  const [inviting, setInviting] = useState<Record<string, boolean>>({});
+  const [invited, setInvited] = useState<Record<string, boolean>>({});
+
   useEffect(() => {
     if (status === 'unauthenticated') { router.replace('/auth/signin'); return; }
     if (status === 'authenticated' && (session.user as { role?: string })?.role !== 'admin') { router.replace('/dashboard'); return; }
@@ -145,6 +149,20 @@ export default function AdminPage() {
     if (res.ok) {
       setInvoiceSuccess(project.id);
       setInvoiceForms(prev => ({ ...prev, [project.id]: null }));
+    }
+  }
+
+  async function sendInvite(submissionId: string) {
+    setInviting(prev => ({ ...prev, [submissionId]: true }));
+    const res = await fetch('/api/admin', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ type: 'invite', id: submissionId }),
+    });
+    setInviting(prev => ({ ...prev, [submissionId]: false }));
+    if (res.ok) {
+      setInvited(prev => ({ ...prev, [submissionId]: true }));
+      await fetchData();
     }
   }
 
@@ -251,6 +269,30 @@ export default function AdminPage() {
                     >
                       {SUBMISSION_STATUSES.map(st => <option key={st} value={st}>{st}</option>)}
                     </select>
+                    {s.status !== 'contacted' && s.status !== 'closed' && !invited[s.id] && (
+                      <button
+                        disabled={inviting[s.id]}
+                        onClick={() => sendInvite(s.id)}
+                        style={{
+                          background: 'rgba(74,222,128,0.1)',
+                          border: '1px solid rgba(74,222,128,0.3)',
+                          color: '#4ade80',
+                          borderRadius: '8px',
+                          fontSize: '13px',
+                          fontWeight: 600,
+                          padding: '6px 14px',
+                          cursor: inviting[s.id] ? 'not-allowed' : 'pointer',
+                          opacity: inviting[s.id] ? 0.7 : 1,
+                        }}
+                      >
+                        {inviting[s.id] ? 'Sending...' : 'Accept & Invite'}
+                      </button>
+                    )}
+                    {invited[s.id] && (
+                      <span style={{ fontSize: '13px', fontWeight: 600, color: '#4ade80' }}>
+                        Invite sent
+                      </span>
+                    )}
                   </div>
                 </div>
                 <div style={{ marginTop: '12px', padding: '12px', background: '#0f172a', borderRadius: '8px', fontSize: '14px', color: '#94a3b8', lineHeight: '1.6', whiteSpace: 'pre-wrap' }}>

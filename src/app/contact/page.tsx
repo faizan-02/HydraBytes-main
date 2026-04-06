@@ -45,6 +45,7 @@ function ContactForm() {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [submittedEmail, setSubmittedEmail] = useState('');
   const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -67,6 +68,7 @@ function ContactForm() {
       }
 
       setIsSubmitted(true);
+      setSubmittedEmail(formData.email);
       setFormData({ name: '', email: '', service: '', budget: '', message: '' });
     } catch {
       setError('Network error. Please check your connection and try again.');
@@ -224,9 +226,96 @@ function ContactForm() {
                 </div>
 
                 {isSubmitted && (
-                  <p style={{ color: '#22c55e', marginBottom: '12px', fontSize: '14px' }}>
-                    Message sent! We&apos;ll get back to you within 24 hours.
-                  </p>
+                  <div style={{ marginBottom: '16px' }}>
+                    <p style={{ color: '#22c55e', marginBottom: '16px', fontSize: '14px' }}>
+                      Message sent! We&apos;ll get back to you within 24 hours.
+                    </p>
+                    {!session ? (
+                      <div style={{
+                        background: 'rgba(15,23,42,0.8)',
+                        border: '1px solid rgba(124,58,237,0.3)',
+                        borderRadius: '12px',
+                        padding: '24px',
+                        position: 'relative',
+                        overflow: 'hidden',
+                      }}>
+                        <div style={{
+                          position: 'absolute',
+                          top: 0,
+                          left: 0,
+                          right: 0,
+                          height: '2px',
+                          background: 'linear-gradient(90deg, #7c3aed, #00e5ff)',
+                        }} />
+                        <h4 style={{ margin: '0 0 8px', fontSize: '16px', fontWeight: 700, color: '#e2e8f0' }}>
+                          Track Your Inquiry
+                        </h4>
+                        <p style={{ margin: '0 0 12px', fontSize: '14px', color: '#94a3b8' }}>
+                          Create a free account to:
+                        </p>
+                        <ul style={{ margin: '0 0 20px', paddingLeft: '20px', fontSize: '13px', color: '#a0a0b8', lineHeight: '1.8', listStyle: 'none' }}>
+                          <li style={{ paddingLeft: '0' }}>&#x2022; See when your inquiry is accepted</li>
+                          <li style={{ paddingLeft: '0' }}>&#x2022; Track project progress in real-time</li>
+                          <li style={{ paddingLeft: '0' }}>&#x2022; Receive and pay invoices</li>
+                          <li style={{ paddingLeft: '0' }}>&#x2022; Chat directly with your developer</li>
+                        </ul>
+                        <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+                          <a
+                            href={`/auth/register?email=${encodeURIComponent(submittedEmail)}`}
+                            style={{
+                              display: 'inline-flex',
+                              alignItems: 'center',
+                              gap: '6px',
+                              padding: '10px 20px',
+                              background: 'linear-gradient(135deg, #7c3aed 0%, #00e5ff 100%)',
+                              color: '#ffffff',
+                              textDecoration: 'none',
+                              borderRadius: '8px',
+                              fontSize: '14px',
+                              fontWeight: 600,
+                            }}
+                          >
+                            Create Free Account <span>&rarr;</span>
+                          </a>
+                          <a
+                            href="/auth/signin"
+                            style={{
+                              display: 'inline-flex',
+                              alignItems: 'center',
+                              padding: '10px 20px',
+                              background: 'rgba(124,58,237,0.1)',
+                              border: '1px solid rgba(124,58,237,0.3)',
+                              color: '#818cf8',
+                              textDecoration: 'none',
+                              borderRadius: '8px',
+                              fontSize: '14px',
+                              fontWeight: 600,
+                            }}
+                          >
+                            Sign In
+                          </a>
+                        </div>
+                      </div>
+                    ) : (
+                      <a
+                        href="/dashboard"
+                        style={{
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: '6px',
+                          padding: '10px 20px',
+                          background: 'linear-gradient(135deg, #7c3aed 0%, #00e5ff 100%)',
+                          color: '#ffffff',
+                          textDecoration: 'none',
+                          borderRadius: '8px',
+                          fontSize: '14px',
+                          fontWeight: 600,
+                        }}
+                      >
+                        View Dashboard <span>&rarr;</span>
+                      </a>
+                    )}
+                  </div>
                 )}
                 {error && (
                   <p style={{ color: '#ef4444', marginBottom: '12px', fontSize: '14px' }}>
