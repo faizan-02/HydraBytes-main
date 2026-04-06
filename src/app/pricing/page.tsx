@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { Globe, Smartphone, Brain, Check, ArrowRight, ChevronDown, MessageSquare, FileText, Rocket } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import AnimatedSection from '@/components/AnimatedSection';
 import SpotlightCard from '@/components/SpotlightCard';
@@ -9,66 +10,117 @@ import MagneticButton from '@/components/MagneticButton';
 import FloatingParticles from '@/components/FloatingParticles';
 import styles from './pricing.module.css';
 
-const plans = [
+const services = [
   {
-    name: 'Starter',
-    price: '$2,999',
-    period: 'per project',
-    desc: 'Perfect for small businesses and MVPs that need a professional online presence.',
+    icon: Globe,
+    color: '#7c3aed',
+    title: 'Web Development',
+    subtitle: 'Websites & Web Applications',
+    startingFrom: '$800',
+    range: '$800 – $8,000+',
+    timeline: '2 – 8 weeks',
+    note: 'Price depends on complexity, number of pages, and custom functionality required.',
     features: [
-      'Up to 5 pages',
-      'Responsive design',
-      'Basic SEO setup',
-      'Contact form',
-      '2 revision rounds',
-      '30-day support',
+      'Custom design & development',
+      'Mobile-responsive layout',
+      'SEO-ready structure',
+      'CMS or admin panel (if needed)',
+      'Performance optimized',
+      '3 rounds of revisions',
+      '30-day post-launch support',
     ],
-    highlighted: false,
-    cta: 'Get Started',
   },
   {
-    name: 'Professional',
-    price: '$7,999',
-    period: 'per project',
-    desc: 'Full-featured solution for growing companies that need a competitive edge.',
+    icon: Smartphone,
+    color: '#00e5ff',
+    title: 'App Development',
+    subtitle: 'iOS, Android & Cross-Platform',
+    startingFrom: '$3,000',
+    range: '$3,000 – $15,000+',
+    timeline: '6 – 16 weeks',
+    note: 'Scope, platforms (iOS/Android/both), and backend complexity are the main cost drivers.',
     features: [
-      'Up to 15 pages',
-      'Custom animations',
-      'Advanced SEO & analytics',
-      'CMS integration',
-      'API integrations',
-      '5 revision rounds',
-      '90-day support',
-      'Performance optimization',
+      'UI/UX design & prototyping',
+      'iOS & Android support',
+      'Backend API development',
+      'Push notifications',
+      'App store submission',
+      'Testing & QA',
+      '60-day post-launch support',
     ],
-    highlighted: true,
-    cta: 'Most Popular',
   },
   {
-    name: 'Enterprise',
-    price: 'Custom',
-    period: 'tailored to you',
-    desc: 'Bespoke solutions for large-scale projects with complex requirements.',
+    icon: Brain,
+    color: '#f472b6',
+    title: 'AI & ML Solutions',
+    subtitle: 'Custom Models & Integrations',
+    startingFrom: '$2,000',
+    range: '$2,000 – Custom',
+    timeline: '4 – 12 weeks',
+    note: 'Simple AI integrations (e.g. ChatGPT API) start lower. Custom model training is scoped per project.',
     features: [
-      'Unlimited pages',
-      'Custom architecture',
-      'AI/ML integration',
-      'Dedicated team',
-      'Priority support',
-      'SLA guarantee',
-      'Security audit',
-      'Ongoing maintenance',
+      'Requirement analysis & scoping',
+      'Model selection or custom training',
+      'API development & integration',
+      'Data pipeline setup',
+      'Testing & validation',
+      'Deployment & documentation',
+      '30-day post-launch support',
     ],
-    highlighted: false,
-    cta: 'Contact Sales',
+  },
+];
+
+const included = [
+  { icon: '📋', label: 'Free discovery call before any commitment' },
+  { icon: '💬', label: 'Dedicated communication channel (WhatsApp / Slack)' },
+  { icon: '🔒', label: 'NDA available on request' },
+  { icon: '📦', label: 'Full source code ownership — yours after delivery' },
+  { icon: '📊', label: 'Progress updates every week' },
+  { icon: '🛠', label: 'Bug fixes covered for 30–60 days post-launch' },
+];
+
+const howItWorks = [
+  {
+    icon: MessageSquare,
+    step: '01',
+    title: 'Free Discovery Call',
+    desc: 'Tell us about your project. We\'ll ask the right questions to understand your goals, timeline, and budget — no obligation.',
+  },
+  {
+    icon: FileText,
+    step: '02',
+    title: 'Custom Proposal',
+    desc: 'Within 48 hours we send a detailed proposal: scope, deliverables, timeline, and a fixed price. No surprises.',
+  },
+  {
+    icon: Rocket,
+    step: '03',
+    title: 'We Build & Deliver',
+    desc: 'Once you approve, we start. Weekly updates, regular demos, and clear milestones until your product ships.',
   },
 ];
 
 const faqs = [
-  { q: 'How long does a typical project take?', a: 'Timelines vary by scope, but most projects range from 4-12 weeks. We provide detailed timelines during the discovery phase.' },
-  { q: 'Do you offer ongoing maintenance?', a: 'Yes! All plans include post-launch support, and we offer monthly maintenance packages for ongoing updates and optimization.' },
-  { q: 'Can I upgrade my plan later?', a: 'Absolutely. Our solutions are built to scale. You can always upgrade or add features as your business grows.' },
-  { q: 'What technologies do you use?', a: 'We use modern tech stacks including React, Next.js, Node.js, Python, React Native, and cloud services like AWS and GCP.' },
+  {
+    q: 'Do you charge hourly or fixed price?',
+    a: 'We prefer fixed-price projects — you know exactly what you\'re paying before we start. For ongoing work or maintenance, we offer flexible hourly or retainer arrangements.',
+  },
+  {
+    q: 'How long does a typical project take?',
+    a: 'A basic website takes 2–4 weeks. A full web app or mobile app typically runs 6–12 weeks. AI integrations vary from 2 weeks (API-based) to 3+ months (custom model training). We give you a firm timeline in the proposal.',
+  },
+  {
+    q: 'What if my budget is below your starting price?',
+    a: 'Talk to us anyway. We can often scope a smaller MVP within a tighter budget, or suggest a phased approach — build the core first, expand later.',
+  },
+  {
+    q: 'Do you offer maintenance after launch?',
+    a: 'Yes. All projects include a free support window (30–60 days). After that, we offer monthly maintenance packages for updates, security patches, and new features.',
+  },
+  {
+    q: 'Who owns the code when the project is done?',
+    a: 'You do. Full source code is handed over on final payment. No lock-in, no licensing — it\'s your product.',
+  },
 ];
 
 export default function PricingPage() {
@@ -82,57 +134,120 @@ export default function PricingPage() {
           <AnimatedSection>
             <span className="section-label">Pricing</span>
             <h1 className={styles.heroTitle}>
-              Simple, Transparent <span className="gradient-text">Pricing</span>
+              Project-Based Pricing,<br /><span className="gradient-text">No Subscriptions</span>
             </h1>
             <p className={styles.heroSubtitle}>
-              Choose the plan that fits your needs. No hidden fees, no surprises.
+              Every project gets a custom quote. The ranges below give you a realistic starting point — book a free call and we&apos;ll scope yours exactly.
             </p>
+            <MagneticButton>
+              <Link href="/contact" className="btn btn-primary" style={{ marginTop: '1.5rem' }}>
+                Get a Free Quote <ArrowRight size={18} />
+              </Link>
+            </MagneticButton>
           </AnimatedSection>
         </div>
       </section>
 
+      {/* Service Pricing */}
       <section className="section" style={{ paddingTop: 0 }}>
         <div className="container">
           <div className={styles.pricingGrid}>
-            {plans.map((plan, i) => (
-              <AnimatedSection key={plan.name} delay={i * 0.12}>
-                <SpotlightCard spotlightColor={plan.highlighted ? 'rgba(124, 58, 237, 0.2)' : undefined}>
-                  <div
-                    className={`${styles.pricingCard} ${plan.highlighted ? styles.highlighted : ''}`}
-                  >
-                    {plan.highlighted && <span className={styles.badge}>Most Popular</span>}
-                    <h3 className={styles.planName}>{plan.name}</h3>
-                    <div className={styles.planPrice}>
-                      <span className={styles.price}>{plan.price}</span>
-                      <span className={styles.period}>{plan.period}</span>
+            {services.map((service, i) => (
+              <AnimatedSection key={service.title} delay={i * 0.1}>
+                <SpotlightCard spotlightColor={`${service.color}20`}>
+                  <div className={styles.pricingCard}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '1.25rem' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '48px', height: '48px', borderRadius: '12px', background: `${service.color}18`, color: service.color, flexShrink: 0 }}>
+                        <service.icon size={24} strokeWidth={1.6} />
+                      </div>
+                      <div>
+                        <h3 className={styles.planName}>{service.title}</h3>
+                        <p style={{ fontSize: '0.82rem', color: 'var(--text-tertiary)', margin: 0 }}>{service.subtitle}</p>
+                      </div>
                     </div>
-                    <p className={styles.planDesc}>{plan.desc}</p>
+
+                    <div style={{ marginBottom: '0.25rem' }}>
+                      <span style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)', textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 600 }}>Starting from</span>
+                    </div>
+                    <div className={styles.planPrice} style={{ marginBottom: '0.5rem' }}>
+                      <span className={styles.price}>{service.startingFrom}</span>
+                    </div>
+                    <div style={{ display: 'flex', gap: '1.5rem', marginBottom: '1.25rem' }}>
+                      <span style={{ fontSize: '0.82rem', color: 'var(--text-secondary)' }}>Range: <strong style={{ color: 'var(--text-primary)' }}>{service.range}</strong></span>
+                      <span style={{ fontSize: '0.82rem', color: 'var(--text-secondary)' }}>Timeline: <strong style={{ color: 'var(--text-primary)' }}>{service.timeline}</strong></span>
+                    </div>
+
+                    <p style={{ fontSize: '0.83rem', color: 'var(--text-tertiary)', lineHeight: '1.6', marginBottom: '1.25rem', padding: '10px 12px', background: `${service.color}0d`, borderRadius: '8px', borderLeft: `3px solid ${service.color}40` }}>
+                      {service.note}
+                    </p>
+
                     <ul className={styles.featureList}>
-                      {plan.features.map((f) => (
+                      {service.features.map((f) => (
                         <li key={f}>
-                          <span className={styles.check}>✓</span> {f}
+                          <Check size={14} strokeWidth={2.5} style={{ color: service.color, flexShrink: 0 }} />
+                          {f}
                         </li>
                       ))}
                     </ul>
-                    {plan.highlighted ? (
-                      <MagneticButton>
-                        <Link
-                          href="/contact"
-                          className="btn btn-primary"
-                          style={{ width: '100%' }}
-                        >
-                          {plan.cta}
-                        </Link>
-                      </MagneticButton>
-                    ) : (
-                      <Link
-                        href="/contact"
-                        className="btn btn-secondary"
-                        style={{ width: '100%' }}
-                      >
-                        {plan.cta}
+
+                    <MagneticButton>
+                      <Link href={`/contact?service=${service.title === 'Web Development' ? 'web' : service.title === 'App Development' ? 'app' : 'ai'}`} className="btn btn-secondary" style={{ width: '100%', marginTop: '0.5rem' }}>
+                        Get a Quote
                       </Link>
-                    )}
+                    </MagneticButton>
+                  </div>
+                </SpotlightCard>
+              </AnimatedSection>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* What's always included */}
+      <section className="section" style={{ background: 'var(--bg-secondary)' }}>
+        <div className="container">
+          <AnimatedSection>
+            <div className="section-header">
+              <span className="section-label">Every Project</span>
+              <h2 className="section-title">What&apos;s Always Included</h2>
+              <p className="section-subtitle">Regardless of budget or scope, these come standard.</p>
+            </div>
+          </AnimatedSection>
+          <div className={styles.includedGrid}>
+            {included.map((item, i) => (
+              <AnimatedSection key={item.label} delay={i * 0.07}>
+                <SpotlightCard>
+                  <div className={styles.includedItem}>
+                    <span style={{ fontSize: '1.5rem' }}>{item.icon}</span>
+                    <span style={{ fontSize: '0.92rem', color: 'var(--text-secondary)', lineHeight: '1.5' }}>{item.label}</span>
+                  </div>
+                </SpotlightCard>
+              </AnimatedSection>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* How it works */}
+      <section className="section">
+        <div className="container">
+          <AnimatedSection>
+            <div className="section-header">
+              <span className="section-label">The Process</span>
+              <h2 className="section-title">How It Works</h2>
+            </div>
+          </AnimatedSection>
+          <div className={styles.howGrid}>
+            {howItWorks.map((step, i) => (
+              <AnimatedSection key={step.step} delay={i * 0.1}>
+                <SpotlightCard>
+                  <div className={styles.howCard}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '1rem' }}>
+                      <span className={styles.processStep}>{step.step}</span>
+                      <step.icon size={20} strokeWidth={1.6} style={{ color: 'var(--accent-primary)', opacity: 0.8 }} />
+                    </div>
+                    <h3 className={styles.processTitle}>{step.title}</h3>
+                    <p className={styles.processDesc}>{step.desc}</p>
                   </div>
                 </SpotlightCard>
               </AnimatedSection>
@@ -147,12 +262,12 @@ export default function PricingPage() {
           <AnimatedSection>
             <div className="section-header">
               <span className="section-label">FAQ</span>
-              <h2 className="section-title">Frequently Asked Questions</h2>
+              <h2 className="section-title">Common Questions</h2>
             </div>
           </AnimatedSection>
           <div className={styles.faqList}>
             {faqs.map((faq, i) => (
-              <AnimatedSection key={i} delay={i * 0.08}>
+              <AnimatedSection key={i} delay={i * 0.07}>
                 <SpotlightCard>
                   <div className={styles.faqItem}>
                     <button
@@ -165,9 +280,9 @@ export default function PricingPage() {
                       <motion.span
                         animate={{ rotate: openFaq === i ? 180 : 0 }}
                         transition={{ duration: 0.2 }}
-                        style={{ display: 'inline-block', marginLeft: '12px', flexShrink: 0, opacity: 0.7 }}
+                        style={{ display: 'inline-block', marginLeft: '12px', flexShrink: 0, opacity: 0.6 }}
                       >
-                        ▼
+                        <ChevronDown size={18} />
                       </motion.span>
                     </button>
                     <AnimatePresence initial={false}>
@@ -195,13 +310,13 @@ export default function PricingPage() {
       <section className="section">
         <div className="container" style={{ textAlign: 'center' }}>
           <AnimatedSection>
-            <h2 className="section-title">Need a Custom Solution?</h2>
+            <h2 className="section-title">Not Sure What You Need?</h2>
             <p className="section-subtitle" style={{ marginBottom: '2rem' }}>
-              Let&apos;s create a tailored package that perfectly fits your requirements.
+              Book a free 30-minute call. We&apos;ll scope your project and send a no-obligation quote within 48 hours.
             </p>
             <MagneticButton>
               <Link href="/contact" className="btn btn-primary">
-                Contact Our Team <span>→</span>
+                Book a Free Call <ArrowRight size={18} />
               </Link>
             </MagneticButton>
           </AnimatedSection>
