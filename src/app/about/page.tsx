@@ -125,7 +125,7 @@ export default function AboutPage() {
           </AnimatedSection>
           <div className={styles.valuesGrid}>
             {values.map((v, i) => (
-              <AnimatedSection key={v.title} delay={i * 0.1}>
+              <AnimatedSection key={v.title} delay={i * 0.1} style={{ height: '100%' }}>
                 <SpotlightCard spotlightColor={`${v.color}20`}>
                   <div className={styles.valueCard}>
                     <div

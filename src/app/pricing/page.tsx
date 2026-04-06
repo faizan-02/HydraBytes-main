@@ -153,7 +153,7 @@ export default function PricingPage() {
         <div className="container">
           <div className={styles.pricingGrid}>
             {services.map((service, i) => (
-              <AnimatedSection key={service.title} delay={i * 0.1}>
+              <AnimatedSection key={service.title} delay={i * 0.1} style={{ height: '100%' }}>
                 <SpotlightCard spotlightColor={`${service.color}20`}>
                   <div className={styles.pricingCard}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '1.25rem' }}>
@@ -239,7 +239,7 @@ export default function PricingPage() {
           </AnimatedSection>
           <div className={styles.howGrid}>
             {howItWorks.map((step, i) => (
-              <AnimatedSection key={step.step} delay={i * 0.1}>
+              <AnimatedSection key={step.step} delay={i * 0.1} style={{ height: '100%' }}>
                 <SpotlightCard>
                   <div className={styles.howCard}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '1rem' }}>

@@ -1,11 +1,12 @@
 'use client';
 
-import { ReactNode, useRef } from 'react';
+import React, { ReactNode, useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 
 interface AnimatedSectionProps {
   children: ReactNode;
   className?: string;
+  style?: React.CSSProperties;
   delay?: number;
   direction?: 'up' | 'down' | 'left' | 'right' | 'none';
 }
@@ -13,6 +14,7 @@ interface AnimatedSectionProps {
 export default function AnimatedSection({
   children,
   className = '',
+  style,
   delay = 0,
   direction = 'up',
 }: AnimatedSectionProps) {
@@ -31,6 +33,7 @@ export default function AnimatedSection({
     <motion.div
       ref={ref}
       className={className}
+      style={style}
       initial={{
         opacity: 0,
         ...directionOffset[direction],

@@ -53,10 +53,15 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 1.5rem;
+  align-items: stretch;
 }
 .valueCard {
   padding: 2rem;
   text-align: center;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .valueIcon { font-size: 2rem; margin-bottom: 0.75rem; display: block; }
 .valueTitle { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem; }

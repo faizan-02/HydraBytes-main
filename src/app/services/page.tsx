@@ -196,7 +196,7 @@ export default function ServicesPage() {
 
           <div className={styles.processGrid}>
             {process.map((p, i) => (
-              <AnimatedSection key={p.step} delay={i * 0.1}>
+              <AnimatedSection key={p.step} delay={i * 0.1} style={{ height: '100%' }}>
                 <SpotlightCard>
                   <motion.div
                     className={styles.processCard}
