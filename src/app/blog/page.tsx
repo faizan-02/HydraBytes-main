@@ -1,5 +1,6 @@
 'use client';
 
+import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
@@ -70,6 +71,34 @@ const posts = [
 ];
 
 export default function BlogPage() {
+  const [nlEmail, setNlEmail] = React.useState('');
+  const [nlStatus, setNlStatus] = React.useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+  const [nlMessage, setNlMessage] = React.useState('');
+
+  const handleSubscribe = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setNlStatus('loading');
+    try {
+      const res = await fetch('/api/newsletter', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: nlEmail }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setNlStatus('success');
+        setNlMessage("You're subscribed! Check your inbox.");
+        setNlEmail('');
+      } else {
+        setNlStatus('error');
+        setNlMessage(data.error || 'Something went wrong.');
+      }
+    } catch {
+      setNlStatus('error');
+      setNlMessage('Network error. Please try again.');
+    }
+  };
+
   return (
     <>
       <section className={styles.hero} style={{ position: 'relative', overflow: 'hidden' }}>
@@ -160,12 +189,23 @@ export default function BlogPage() {
             <p className="section-subtitle" style={{ marginBottom: '2rem' }}>
               Get the latest insights delivered to your inbox. No spam, just value.
             </p>
-            <div className={styles.newsletter}>
-              <input type="email" placeholder="Enter your email" className={styles.newsletterInput} />
+            <form className={styles.newsletter} onSubmit={handleSubscribe}>
+              <input
+                type="email"
+                placeholder="Enter your email"
+                className={styles.newsletterInput}
+                value={nlEmail}
+                onChange={e => setNlEmail(e.target.value)}
+                required
+              />
               <MagneticButton>
-                <button className="btn btn-primary">Subscribe</button>
+                <button type="submit" className="btn btn-primary" disabled={nlStatus === 'loading'}>
+                  {nlStatus === 'loading' ? 'Subscribing...' : 'Subscribe'}
+                </button>
               </MagneticButton>
-            </div>
+            </form>
+            {nlStatus === 'success' && <p style={{ color: '#22c55e', marginTop: '12px', fontSize: '14px' }}>{nlMessage}</p>}
+            {nlStatus === 'error' && <p style={{ color: '#ef4444', marginTop: '12px', fontSize: '14px' }}>{nlMessage}</p>}
           </AnimatedSection>
         </div>
       </section>

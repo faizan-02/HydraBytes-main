@@ -1,7 +1,8 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import AnimatedSection from '@/components/AnimatedSection';
 import SpotlightCard from '@/components/SpotlightCard';
 import MagneticButton from '@/components/MagneticButton';
@@ -71,6 +72,8 @@ const faqs = [
 ];
 
 export default function PricingPage() {
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
+
   return (
     <>
       <section className={styles.hero} style={{ position: 'relative', overflow: 'hidden' }}>
@@ -152,8 +155,34 @@ export default function PricingPage() {
               <AnimatedSection key={i} delay={i * 0.08}>
                 <SpotlightCard>
                   <div className={styles.faqItem}>
-                    <h4 className={styles.faqQ}>{faq.q}</h4>
-                    <p className={styles.faqA}>{faq.a}</p>
+                    <button
+                      className={styles.faqQ}
+                      onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                      aria-expanded={openFaq === i}
+                      style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', background: 'none', border: 'none', cursor: 'pointer', color: 'inherit', textAlign: 'left' }}
+                    >
+                      {faq.q}
+                      <motion.span
+                        animate={{ rotate: openFaq === i ? 180 : 0 }}
+                        transition={{ duration: 0.2 }}
+                        style={{ display: 'inline-block', marginLeft: '12px', flexShrink: 0, opacity: 0.7 }}
+                      >
+                        ▼
+                      </motion.span>
+                    </button>
+                    <AnimatePresence initial={false}>
+                      {openFaq === i && (
+                        <motion.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: 'auto', opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.25 }}
+                          style={{ overflow: 'hidden' }}
+                        >
+                          <p className={styles.faqA} style={{ marginTop: '0.75rem' }}>{faq.a}</p>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
                   </div>
                 </SpotlightCard>
               </AnimatedSection>

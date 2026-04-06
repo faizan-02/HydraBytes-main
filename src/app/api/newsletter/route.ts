@@ -25,7 +25,7 @@ export async function POST(req: Request) {
 
   // Send welcome email
   await resend.emails.send({
-    from: 'HydraBytes <onboarding@resend.dev>',
+    from: 'HydraBytes <noreply@hydrabytes.it.com>',
     to: normalizedEmail,
     subject: 'Welcome to HydraBytes updates!',
     html: `

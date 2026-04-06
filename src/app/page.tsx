@@ -489,7 +489,7 @@ export default function HomePage() {
                   { icon: '🛡', label: 'NDA Protected' },
                   { icon: '⏱', label: '24h Response' },
                   { icon: '⭐', label: '99% Satisfaction' },
-                  { icon: '🏆', label: '8+ Years Experience' },
+                  { icon: '🏆', label: '4+ Years Experience' },
                 ].map((b) => (
                   <div key={b.label} className={styles.ctaBadge}>
                     <span>{b.icon}</span>

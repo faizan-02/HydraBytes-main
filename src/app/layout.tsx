@@ -20,6 +20,7 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://www.hydrabytes.it.com'),
   title: 'HydraBytes | Web Development, App Development & AI/ML Solutions',
   description:
     'HydraBytes is a cutting-edge IT startup delivering premium web development, mobile app development, and AI/ML solutions. Transform your business with next-gen technology.',

@@ -21,12 +21,6 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     const { name, email, service, budget, message } = body;
 
-    // Require authentication
-    const sessionCheck = await auth();
-    if (!sessionCheck?.user?.id) {
-      return NextResponse.json({ error: 'You must be signed in to submit a project inquiry.' }, { status: 401 });
-    }
-
     if (!name || !email || !message || !service) {
       return NextResponse.json({ error: 'Name, email, service, and message are required.' }, { status: 400 });
     }
@@ -40,19 +34,23 @@ export async function POST(req: NextRequest) {
     const budgetLabel = budget || 'Not specified';
 
     let projectId: string | null = null;
-    const verifyToken = crypto.randomBytes(32).toString('hex');
-    const project = await prisma.project.create({
-      data: {
-        userId: sessionCheck.user.id,
-        title: `${serviceLabel} Project`,
-        service: serviceLabel,
-        budget: budgetLabel,
-        description: message,
-        status: 'pending_verification',
-        verifyToken,
-      },
-    });
-    projectId = project.id;
+    let verifyToken: string | null = null;
+    const sessionCheck = await auth();
+    if (sessionCheck?.user?.id) {
+      verifyToken = crypto.randomBytes(32).toString('hex');
+      const project = await prisma.project.create({
+        data: {
+          userId: sessionCheck.user.id,
+          title: `${serviceLabel} Project`,
+          service: serviceLabel,
+          budget: budgetLabel,
+          description: message,
+          status: 'pending_verification',
+          verifyToken,
+        },
+      });
+      projectId = project.id;
+    }
 
     // Save contact submission
     await prisma.contactSubmission.create({
@@ -78,7 +76,7 @@ export async function POST(req: NextRequest) {
 
     // Notify team
     await resend.emails.send({
-      from: 'HydraBytes Contact <onboarding@resend.dev>',
+      from: 'HydraBytes Contact <noreply@hydrabytes.it.com>',
       to: TEAM_EMAIL,
       subject: `New Inquiry: ${name} — ${serviceLabel}`,
       html: `
@@ -101,7 +99,7 @@ export async function POST(req: NextRequest) {
 
     // Confirm to client
     await resend.emails.send({
-      from: 'HydraBytes <onboarding@resend.dev>',
+      from: 'HydraBytes <noreply@hydrabytes.it.com>',
       to: email,
       subject: "We received your message — HydraBytes",
       html: `

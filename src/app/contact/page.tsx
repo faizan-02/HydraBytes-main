@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
-import Link from 'next/link';
 import { Mail, Phone, MapPin, Clock } from 'lucide-react';
 import AnimatedSection from '@/components/AnimatedSection';
 import SpotlightCard from '@/components/SpotlightCard';
@@ -13,12 +12,12 @@ import styles from './contact.module.css';
 const contactInfo = [
   { icon: <Mail size={20} strokeWidth={1.5} />, label: 'Email', value: 'hydrabytes4@gmail.com', href: 'mailto:hydrabytes4@gmail.com' },
   { icon: <Phone size={20} strokeWidth={1.5} />, label: 'Phone', value: '+92 323 9999 000', href: 'tel:+923239999000' },
-  { icon: <MapPin size={20} strokeWidth={1.5} />, label: 'Office', value: 'Islamabad, Main Pwd Rd, Pakistan', href: '#' },
-  { icon: <Clock size={20} strokeWidth={1.5} />, label: 'Hours', value: 'Mon-Sat, 8AM-8PM PST', href: '#' },
+  { icon: <MapPin size={20} strokeWidth={1.5} />, label: 'Office', value: 'Islamabad, Main Pwd Rd, Pakistan', href: 'https://maps.google.com/?q=Main+PWD+Road+Islamabad+Pakistan' },
+  { icon: <Clock size={20} strokeWidth={1.5} />, label: 'Hours', value: 'Mon-Sat, 8AM-8PM PST', href: null },
 ];
 
 export default function ContactPage() {
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
   const [formData, setFormData] = useState({
     name: session?.user?.name ?? '',
     email: session?.user?.email ?? '',
@@ -105,13 +104,23 @@ export default function ContactPage() {
                 <div className={styles.infoCards}>
                   {contactInfo.map((item) => (
                     <SpotlightCard key={item.label}>
-                      <a href={item.href} className={styles.infoCard}>
-                        <span className={styles.infoIcon} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '40px', height: '40px', borderRadius: '10px', background: 'rgba(99,102,241,0.12)', color: '#818cf8', flexShrink: 0 }}>{item.icon}</span>
-                        <div>
-                          <span className={styles.infoLabel}>{item.label}</span>
-                          <span className={styles.infoValue}>{item.value}</span>
+                      {item.href ? (
+                        <a href={item.href} className={styles.infoCard} target={item.href.startsWith('http') ? '_blank' : undefined} rel={item.href.startsWith('http') ? 'noopener noreferrer' : undefined}>
+                          <span className={styles.infoIcon} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '40px', height: '40px', borderRadius: '10px', background: 'rgba(99,102,241,0.12)', color: '#818cf8', flexShrink: 0 }}>{item.icon}</span>
+                          <div>
+                            <span className={styles.infoLabel}>{item.label}</span>
+                            <span className={styles.infoValue}>{item.value}</span>
+                          </div>
+                        </a>
+                      ) : (
+                        <div className={styles.infoCard}>
+                          <span className={styles.infoIcon} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '40px', height: '40px', borderRadius: '10px', background: 'rgba(99,102,241,0.12)', color: '#818cf8', flexShrink: 0 }}>{item.icon}</span>
+                          <div>
+                            <span className={styles.infoLabel}>{item.label}</span>
+                            <span className={styles.infoValue}>{item.value}</span>
+                          </div>
                         </div>
-                      </a>
+                      )}
                     </SpotlightCard>
                   ))}
                 </div>
@@ -132,23 +141,6 @@ export default function ContactPage() {
 
             <AnimatedSection direction="right" delay={0.15}>
               <SpotlightCard>
-                {status !== 'loading' && !session ? (
-                  <div className={styles.contactForm} style={{ textAlign: 'center', padding: '48px 24px' }}>
-                    <div style={{ fontSize: '48px', marginBottom: '16px' }}>🔒</div>
-                    <h3 className={styles.formTitle} style={{ marginBottom: '12px' }}>Sign In to Contact Us</h3>
-                    <p style={{ color: '#94a3b8', marginBottom: '28px', lineHeight: '1.6', fontSize: '15px' }}>
-                      You need an account to submit a project inquiry. This lets us track your project and keep you updated.
-                    </p>
-                    <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
-                      <Link href={`/auth/signin?callbackUrl=/contact`} className="btn btn-primary" style={{ padding: '12px 28px', textDecoration: 'none' }}>
-                        Sign In
-                      </Link>
-                      <Link href="/auth/register" className="btn btn-secondary" style={{ padding: '12px 28px', textDecoration: 'none' }}>
-                        Create Account
-                      </Link>
-                    </div>
-                  </div>
-                ) : (
                 <form className={styles.contactForm} onSubmit={handleSubmit}>
                 <h3 className={styles.formTitle}>Send Us a Message</h3>
 
@@ -232,7 +224,6 @@ export default function ContactPage() {
                   </button>
                 </MagneticButton>
               </form>
-                )}
               </SpotlightCard>
             </AnimatedSection>
           </div>

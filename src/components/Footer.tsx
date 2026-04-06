@@ -45,9 +45,9 @@ const footerLinks = {
     { href: '/pricing', label: 'Pricing' },
   ],
   services: [
-    { href: '/services', label: 'Web Development' },
-    { href: '/services', label: 'App Development' },
-    { href: '/services', label: 'AI & ML Solutions' },
+    { href: '/services#web', label: 'Web Development' },
+    { href: '/services#app', label: 'App Development' },
+    { href: '/services#ai', label: 'AI & ML Solutions' },
     { href: '/services', label: 'UI/UX Design' },
   ],
   support: [
