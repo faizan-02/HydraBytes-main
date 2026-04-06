@@ -483,8 +483,8 @@ export default function HomePage() {
                       <item.icon size={24} strokeWidth={1.6} />
                     </div>
                     <h3 style={{ fontSize: '18px', fontWeight: 700, color: 'var(--text-primary)', margin: '0 0 0.75rem' }}>{item.title}</h3>
-                    <p style={{ fontSize: '14px', color: 'var(--text-secondary)', lineHeight: '1.7', margin: '0 0 1.25rem', hyphens: 'none' }}>{item.detail}</p>
-                    <span style={{ display: 'inline-block', padding: '4px 12px', borderRadius: '999px', background: `${item.color}12`, color: item.color, fontSize: '12px', fontWeight: 600, border: `1px solid ${item.color}25` }}>
+                    <p style={{ fontSize: '14px', color: 'var(--text-secondary)', lineHeight: '1.7', margin: 0, hyphens: 'none' }}>{item.detail}</p>
+                    <span style={{ display: 'inline-block', padding: '4px 12px', borderRadius: '999px', background: `${item.color}12`, color: item.color, fontSize: '12px', fontWeight: 600, border: `1px solid ${item.color}25`, marginTop: 'auto' }}>
                       {item.badge}
                     </span>
                   </motion.div>
