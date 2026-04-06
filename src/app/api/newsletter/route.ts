@@ -24,8 +24,8 @@ export async function POST(req: Request) {
   await prisma.newsletterSubscriber.create({ data: { email: normalizedEmail } });
 
   // Send welcome email
-  await resend.emails.send({
-    from: 'HydraBytes <noreply@hydrabytes.it.com>',
+  const { error: emailError } = await resend.emails.send({
+    from: 'HydraBytes <hello@hydrabytes.it.com>',
     to: normalizedEmail,
     subject: 'Welcome to HydraBytes updates!',
     html: `
@@ -41,7 +41,7 @@ export async function POST(req: Request) {
             Stay tuned for insights, project showcases, and exclusive updates delivered straight to your inbox.
           </p>
           <div style="text-align: center;">
-            <a href="${process.env.NEXTAUTH_URL ?? 'https://hydrabytes.com'}" style="display: inline-block; padding: 14px 32px; background: linear-gradient(135deg, #7c3aed 0%, #00e5ff 100%); color: #ffffff; text-decoration: none; border-radius: 999px; font-weight: 600; font-size: 15px;">
+            <a href="https://www.hydrabytes.it.com" style="display: inline-block; padding: 14px 32px; background: linear-gradient(135deg, #7c3aed 0%, #00e5ff 100%); color: #ffffff; text-decoration: none; border-radius: 999px; font-weight: 600; font-size: 15px;">
               Visit HydraBytes
             </a>
           </div>
@@ -52,6 +52,11 @@ export async function POST(req: Request) {
       </div>
     `,
   });
+
+  if (emailError) {
+    console.error('[newsletter] Resend error:', emailError);
+    return NextResponse.json({ error: 'Subscribed but welcome email failed to send.' }, { status: 500 });
+  }
 
   return NextResponse.json({ success: true }, { status: 200 });
 }

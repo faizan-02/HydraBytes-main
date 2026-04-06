@@ -80,10 +80,10 @@ export async function POST(req: NextRequest) {
       </div>` : '';
 
     // Notify team
-    await resend.emails.send({
-      from: 'HydraBytes Contact <noreply@hydrabytes.it.com>',
+    const { error: teamEmailError } = await resend.emails.send({
+      from: 'HydraBytes Contact <hello@hydrabytes.it.com>',
       to: TEAM_EMAIL,
-      subject: `New Inquiry: ${name} — ${serviceLabel}`,
+      subject: `New Inquiry: ${name} - ${serviceLabel}`,
       html: `
         <div style="font-family:sans-serif;max-width:600px;margin:0 auto;padding:24px;background:#0a0a0f;color:#e2e8f0;">
           <h2 style="color:#6366f1;margin-bottom:24px;">New Contact Form Submission</h2>
@@ -102,9 +102,13 @@ export async function POST(req: NextRequest) {
         </div>`,
     });
 
+    if (teamEmailError) {
+      console.error('[contact] Team email error:', teamEmailError);
+    }
+
     // Confirm to client
-    await resend.emails.send({
-      from: 'HydraBytes <noreply@hydrabytes.it.com>',
+    const { error: clientEmailError } = await resend.emails.send({
+      from: 'HydraBytes <hello@hydrabytes.it.com>',
       to: email,
       subject: "We received your message — HydraBytes",
       html: `
@@ -118,6 +122,10 @@ export async function POST(req: NextRequest) {
           <p style="font-size:12px;color:#9ca3af;">HydraBytes · hydrabytes4@gmail.com</p>
         </div>`,
     });
+
+    if (clientEmailError) {
+      console.error('[contact] Client email error:', clientEmailError);
+    }
 
     return NextResponse.json({ success: true }, { status: 200 });
   } catch (error) {
