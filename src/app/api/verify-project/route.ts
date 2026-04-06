@@ -50,7 +50,7 @@ export async function GET(req: NextRequest) {
     // Notify client of decline
     if (project.user?.email) {
       await resend.emails.send({
-        from: 'HydraBytes <onboarding@resend.dev>',
+        from: 'HydraBytes <hello@hydrabytes.it.com>',
         to: project.user.email,
         subject: 'Update on your HydraBytes project inquiry',
         html: `
@@ -83,7 +83,7 @@ export async function GET(req: NextRequest) {
   // Send acceptance email to client
   if (project.user?.email) {
     await resend.emails.send({
-      from: 'HydraBytes <onboarding@resend.dev>',
+      from: 'HydraBytes <hello@hydrabytes.it.com>',
       to: project.user.email,
       subject: '🎉 Your project has been accepted — HydraBytes',
       html: `

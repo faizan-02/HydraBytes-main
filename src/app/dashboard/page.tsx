@@ -3,7 +3,7 @@
 import { useSession, signOut } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { FolderOpen, FileText, MessageSquare, LogOut, Clock, CheckCircle, AlertCircle, Loader, ShieldCheck } from 'lucide-react';
+import { FolderOpen, FileText, LogOut, Clock, CheckCircle, AlertCircle, Loader, ShieldCheck } from 'lucide-react';
 
 interface Project {
   id: string;
@@ -109,10 +109,9 @@ export default function DashboardPage() {
       {/* Stats */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '16px', marginBottom: '40px' }}>
         {[
-          { label: 'Active Projects',    value: activeProjects,    icon: <FolderOpen size={20} />,    color: '#6366f1' },
-          { label: 'Completed Projects', value: completedProjects, icon: <CheckCircle size={20} />,   color: '#4ade80' },
-          { label: 'Pending Invoices',   value: pendingInvoices,   icon: <FileText size={20} />,      color: '#fbbf24' },
-          { label: 'Support Tickets',    value: 0,                 icon: <MessageSquare size={20} />, color: '#38bdf8' },
+          { label: 'Active Projects',    value: activeProjects,    icon: <FolderOpen size={20} />,  color: '#6366f1' },
+          { label: 'Completed Projects', value: completedProjects, icon: <CheckCircle size={20} />, color: '#4ade80' },
+          { label: 'Pending Invoices',   value: pendingInvoices,   icon: <FileText size={20} />,    color: '#fbbf24' },
         ].map(stat => (
           <div key={stat.label} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '16px', padding: '20px', display: 'flex', alignItems: 'center', gap: '16px' }}>
             <div style={{ width: '44px', height: '44px', borderRadius: '12px', background: `${stat.color}15`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: stat.color, flexShrink: 0 }}>
@@ -225,14 +224,9 @@ export default function DashboardPage() {
                           </p>
                         </div>
                       </div>
-                      <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
-                        <a href={`/payment/local/${pendingInvoice.id}`} style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '10px 20px', background: 'linear-gradient(135deg,#22c55e,#16a34a)', color: '#fff', borderRadius: '8px', textDecoration: 'none', fontSize: '13px', fontWeight: 700 }}>
-                          📱 Pay via Local Transfer
-                        </a>
-                        <a href={`/payment/local/${pendingInvoice.id}`} style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '10px 20px', background: 'rgba(38,161,123,0.15)', border: '1px solid rgba(38,161,123,0.3)', color: '#26a17b', borderRadius: '8px', textDecoration: 'none', fontSize: '13px', fontWeight: 700 }}>
-                          ₮ Pay via Crypto (USDT)
-                        </a>
-                      </div>
+                      <a href={`/payment/local/${pendingInvoice.id}`} style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '10px 24px', background: 'linear-gradient(135deg,#22c55e,#16a34a)', color: '#fff', borderRadius: '8px', textDecoration: 'none', fontSize: '14px', fontWeight: 700 }}>
+                        💳 Pay Invoice
+                      </a>
                     </div>
                   )}
 

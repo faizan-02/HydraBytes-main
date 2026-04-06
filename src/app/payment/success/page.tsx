@@ -21,9 +21,9 @@ export default function PaymentSuccessPage() {
         >
           <CheckCircle size={40} color="#4ade80" />
         </motion.div>
-        <h1 style={{ fontSize: '28px', fontWeight: 700, marginBottom: '12px' }}>Payment Successful!</h1>
+        <h1 style={{ fontSize: '28px', fontWeight: 700, marginBottom: '12px' }}>Payment Submitted!</h1>
         <p style={{ color: 'var(--text-secondary, #9ca3af)', fontSize: '16px', lineHeight: 1.6, marginBottom: '32px' }}>
-          Thank you for your payment. Your invoice has been marked as paid and our team has been notified.
+          Your transaction reference has been received. Our team will verify your payment within a few hours and confirm via email.
         </p>
         <Link href="/dashboard" className="btn btn-primary" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '12px 28px' }}>
           Go to Dashboard →

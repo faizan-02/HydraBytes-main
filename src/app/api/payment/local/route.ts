@@ -53,11 +53,13 @@ export async function POST(req: Request) {
     jazzcash: 'JazzCash',
     nayapay: 'NayaPay',
     bank: 'Bank Transfer',
+    payoneer: 'Payoneer',
+    usdt_trc20: 'USDT (TRC20)',
   };
 
   // Notify admin
   await resend.emails.send({
-    from: 'HydraBytes <onboarding@resend.dev>',
+    from: 'HydraBytes <hello@hydrabytes.it.com>',
     to: ADMIN_EMAIL,
     subject: `💰 Payment Submitted — ${formattedAmount} via ${methodLabels[method] ?? method}`,
     html: `

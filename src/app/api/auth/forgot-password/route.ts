@@ -33,7 +33,7 @@ export async function POST(req: Request) {
     const userName = user.name ?? 'there';
 
     await resend.emails.send({
-      from: 'HydraBytes <onboarding@resend.dev>',
+      from: 'HydraBytes <hello@hydrabytes.it.com>',
       to: normalizedEmail,
       subject: 'Reset your HydraBytes password',
       html: `

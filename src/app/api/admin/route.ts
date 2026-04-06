@@ -60,7 +60,7 @@ export async function PATCH(req: Request) {
       const userName = updated.user.name ?? 'there';
 
       await resend.emails.send({
-        from: 'HydraBytes <onboarding@resend.dev>',
+        from: 'HydraBytes <hello@hydrabytes.it.com>',
         to: updated.user.email,
         subject: `Update on your project: ${updated.title}`,
         html: `
@@ -98,7 +98,59 @@ export async function PATCH(req: Request) {
   }
 
   if (type === 'invoice') {
-    const updated = await prisma.invoice.update({ where: { id }, data: { status } });
+    const updated = await prisma.invoice.update({
+      where: { id },
+      data: { status },
+      include: { user: { select: { email: true, name: true } }, project: { select: { title: true } } },
+    });
+
+    if (status === 'paid' && updated.user?.email) {
+      const formattedAmount = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(updated.amount);
+      const userName = updated.user.name ?? 'there';
+      await resend.emails.send({
+        from: 'HydraBytes <hello@hydrabytes.it.com>',
+        to: updated.user.email,
+        subject: `Payment Confirmed — ${formattedAmount} received`,
+        html: `
+          <div style="font-family: Inter, sans-serif; max-width: 600px; margin: 0 auto; background: #0a0a12; color: #f0f0f5; border-radius: 12px; overflow: hidden;">
+            <div style="background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%); padding: 40px 32px; text-align: center;">
+              <h1 style="margin: 0; font-size: 24px; font-weight: 800; color: #ffffff;">Payment Confirmed</h1>
+            </div>
+            <div style="padding: 40px 32px;">
+              <p style="font-size: 16px; color: #a0a0b8; margin: 0 0 16px;">Hi ${userName},</p>
+              <p style="font-size: 16px; line-height: 1.7; color: #a0a0b8; margin: 0 0 24px;">
+                We have verified and confirmed your payment. Thank you for working with HydraBytes!
+              </p>
+              <div style="background: rgba(34,197,94,0.08); border: 1px solid rgba(34,197,94,0.2); border-radius: 10px; padding: 24px; margin-bottom: 32px;">
+                <table style="width: 100%; border-collapse: collapse;">
+                  <tr>
+                    <td style="padding: 8px 0; color: #a0a0b8; font-size: 14px;">Project</td>
+                    <td style="padding: 8px 0; color: #f0f0f5; font-size: 14px; font-weight: 600; text-align: right;">${updated.project?.title ?? 'General Services'}</td>
+                  </tr>
+                  <tr>
+                    <td style="padding: 8px 0; color: #a0a0b8; font-size: 14px; border-top: 1px solid rgba(34,197,94,0.15);">Amount Paid</td>
+                    <td style="padding: 8px 0; color: #22c55e; font-size: 20px; font-weight: 800; text-align: right; border-top: 1px solid rgba(34,197,94,0.15);">${formattedAmount}</td>
+                  </tr>
+                  <tr>
+                    <td style="padding: 8px 0; color: #a0a0b8; font-size: 14px; border-top: 1px solid rgba(34,197,94,0.15);">Status</td>
+                    <td style="padding: 8px 0; text-align: right; border-top: 1px solid rgba(34,197,94,0.15);"><span style="padding: 4px 12px; background: rgba(34,197,94,0.1); color: #22c55e; border-radius: 999px; font-size: 13px; font-weight: 600;">Paid</span></td>
+                  </tr>
+                </table>
+              </div>
+              <div style="text-align: center;">
+                <a href="${BASE_URL}/dashboard" style="display: inline-block; padding: 14px 32px; background: linear-gradient(135deg, #7c3aed 0%, #00e5ff 100%); color: #ffffff; text-decoration: none; border-radius: 999px; font-weight: 600; font-size: 15px;">
+                  View Dashboard
+                </a>
+              </div>
+            </div>
+            <div style="padding: 24px 32px; border-top: 1px solid rgba(34,197,94,0.15); text-align: center;">
+              <p style="margin: 0; font-size: 13px; color: #6c6c85;">© ${new Date().getFullYear()} HydraBytes. All rights reserved.</p>
+            </div>
+          </div>
+        `,
+      }).catch(() => {});
+    }
+
     return NextResponse.json(updated);
   }
 
@@ -145,7 +197,7 @@ export async function POST(req: Request) {
   const paymentPageUrl = `${BASE_URL}/payment/local/${invoice.id}`;
 
   await resend.emails.send({
-    from: 'HydraBytes <onboarding@resend.dev>',
+    from: 'HydraBytes <hello@hydrabytes.it.com>',
     to: user.email,
     subject: `Invoice from HydraBytes — ${formattedAmount}`,
     html: `
