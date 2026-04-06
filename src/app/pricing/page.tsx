@@ -51,7 +51,8 @@ const plans: Record<CategoryId, Plan[]> = {
       name: 'Business Website',
       price: '$999',
       popular: true,
-      desc: 'The complete package for growing businesses — custom UI/UX, CMS, and performance built in.',
+      delivery: '2–4 weeks',
+      desc: 'The complete package for growing businesses with custom UI/UX, CMS, and performance built in.',
       features: [
         '5–8 pages',
         'Custom UI/UX design',
@@ -68,6 +69,7 @@ const plans: Record<CategoryId, Plan[]> = {
       name: 'Premium Web App',
       price: '$2,500+',
       popular: false,
+      delivery: '4–10 weeks',
       desc: 'Full-stack web applications with authentication, dashboards, APIs, and scalable architecture.',
       features: [
         'Full-stack application',
@@ -87,7 +89,7 @@ const plans: Record<CategoryId, Plan[]> = {
       name: 'MVP App',
       price: '$2,000',
       popular: false,
-      desc: 'Validate your idea with a lean, working cross-platform app — built to ship in weeks, not months.',
+      desc: 'Validate your idea with a lean cross-platform app, built to ship in weeks.',
       delivery: '4–8 weeks',
       features: [
         'iOS & Android (React Native)',
@@ -104,7 +106,7 @@ const plans: Record<CategoryId, Plan[]> = {
       name: 'Growth App',
       price: '$5,000',
       popular: true,
-      desc: 'A full-featured product with backend, push notifications, and analytics — built for real users.',
+      desc: 'A full-featured product with backend, push notifications, and analytics, built for real users.',
       delivery: '8–14 weeks',
       features: [
         'iOS & Android',
@@ -122,6 +124,7 @@ const plans: Record<CategoryId, Plan[]> = {
       name: 'Scale Product',
       price: '$10,000+',
       popular: false,
+      delivery: '14+ weeks',
       desc: 'Enterprise-grade mobile product with dedicated team, custom architecture, and SLA guarantees.',
       features: [
         'Custom architecture',
@@ -141,7 +144,7 @@ const plans: Record<CategoryId, Plan[]> = {
       name: 'AI Chatbot',
       price: '$300 – $800',
       popular: false,
-      desc: 'A custom AI assistant trained on your business data — embedded on your website in under 2 weeks.',
+      desc: 'A custom AI assistant trained on your business data, embedded on your website in under 2 weeks.',
       delivery: '1–2 weeks',
       features: [
         'GPT-4 powered',
@@ -176,6 +179,7 @@ const plans: Record<CategoryId, Plan[]> = {
       name: 'Custom AI System',
       price: '$5,000+',
       popular: false,
+      delivery: '6–12 weeks',
       desc: 'Purpose-built AI with custom model training, data pipelines, deployment, and monitoring.',
       features: [
         'Custom ML model training',
@@ -194,7 +198,7 @@ const plans: Record<CategoryId, Plan[]> = {
 
 const trust = [
   'Free consultation on every project',
-  'No hidden fees — fixed price quotes',
+  'No hidden fees, fixed price quotes',
   'Custom quotes for complex projects',
   'Full source code ownership',
 ];
@@ -202,11 +206,11 @@ const trust = [
 const faqs = [
   {
     q: 'Do you charge hourly or fixed price?',
-    a: "We prefer fixed-price projects — you know exactly what you're paying before we start. For ongoing work or maintenance, we offer flexible hourly or retainer arrangements.",
+    a: "We prefer fixed-price projects. You know exactly what you're paying before we start. For ongoing work or maintenance, we offer flexible hourly or retainer arrangements.",
   },
   {
     q: 'What if my budget is below the listed price?',
-    a: "Talk to us anyway. We can often scope a smaller MVP within a tighter budget, or suggest a phased approach — build the core first, expand later.",
+    a: "Talk to us anyway. We can often scope a smaller MVP within a tighter budget, or suggest a phased approach: build the core first, expand later.",
   },
   {
     q: 'How long does a typical project take?',
@@ -214,7 +218,7 @@ const faqs = [
   },
   {
     q: 'Who owns the code after delivery?',
-    a: "You do. Full source code is handed over on final payment. No lock-in, no licensing — it's your product.",
+    a: "You do. Full source code is handed over on final payment. No lock-in, no licensing. It's your product.",
   },
   {
     q: 'Do you offer ongoing maintenance?',
@@ -240,7 +244,7 @@ export default function PricingPage() {
               Simple, Transparent <span className="gradient-text">Pricing</span>
             </h1>
             <p className={styles.heroSubtitle}>
-              Choose the perfect plan for your business. Every project includes a free consultation — no commitment required.
+              Choose the perfect plan for your business. Every project includes a free consultation with no commitment required.
             </p>
           </AnimatedSection>
         </div>
@@ -319,11 +323,6 @@ export default function PricingPage() {
                         {plan.cta} <ArrowRight size={15} />
                       </Link>
                     </MagneticButton>
-                    {plan.popular && (
-                      <Link href="/contact" className={styles.ghostBtn}>
-                        Book Free Call
-                      </Link>
-                    )}
                   </div>
                 </div>
               ))}

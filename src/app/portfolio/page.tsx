@@ -95,7 +95,7 @@ const projects = [
   {
     title: 'SmartRetail AI',
     category: 'AI/ML',
-    desc: 'Computer vision system for retail analytics — customer tracking, shelf monitoring, and demand forecasting.',
+    desc: 'Computer vision system for retail analytics: customer tracking, shelf monitoring, and demand forecasting.',
     tech: ['PyTorch', 'OpenCV', 'FastAPI', 'Redis', 'PostgreSQL', 'Docker', 'AWS'],
     color: '#ef4444',
     metric: '25% revenue increase',

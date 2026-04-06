@@ -75,7 +75,7 @@ const testimonials = [
 const trustedBy = ['TechNova', 'FinScale', 'GreenLeaf', 'DataPulse', 'CloudSync', 'NexGen'];
 
 const advantages = [
-  { icon: Zap, title: 'Lightning Fast', desc: 'Optimized for performance — sub-second load times that keep users engaged.', color: '#f59e0b' },
+  { icon: Zap, title: 'Lightning Fast', desc: 'Optimized for performance with sub-second load times that keep users engaged.', color: '#f59e0b' },
   { icon: Shield, title: 'Secure by Design', desc: 'Enterprise-grade security built into every layer of your application.', color: '#22c55e' },
   { icon: TrendingUp, title: 'Scalable Architecture', desc: 'Solutions that grow with your business, from startup to enterprise.', color: '#00e5ff' },
   { icon: Palette, title: 'Pixel-Perfect Design', desc: 'Every interface crafted with precision, ensuring a premium user experience.', color: '#f472b6' },
@@ -381,7 +381,7 @@ export default function HomePage() {
               <span className="section-label">Why HydraBytes</span>
               <h2 className="section-title">The HydraBytes Advantage</h2>
               <p className="section-subtitle">
-                We don&apos;t just write code — we engineer digital experiences that
+                We don&apos;t just write code. We engineer digital experiences that
                 drive measurable business results.
               </p>
             </div>
@@ -417,7 +417,7 @@ export default function HomePage() {
               <span className="section-label">Client Stories</span>
               <h2 className="section-title">What Our Clients Say</h2>
               <p className="section-subtitle">
-                Don&apos;t just take our word for it — hear from the companies
+                Don&apos;t just take our word for it. Hear from the companies
                 we&apos;ve helped transform.
               </p>
             </div>

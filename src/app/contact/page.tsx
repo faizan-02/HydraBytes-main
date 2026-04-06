@@ -179,19 +179,19 @@ function ContactForm() {
                     <select id="service" name="service" value={formData.service} onChange={handleChange} required>
                       <option value="">Select a plan</option>
                       <optgroup label="── Web Development">
-                        <option value="starter-website">Starter Website — $399</option>
-                        <option value="business-website">Business Website — $999</option>
-                        <option value="premium-web-app">Premium Web App — $2,500+</option>
+                        <option value="starter-website">Starter Website ($399)</option>
+                        <option value="business-website">Business Website ($999)</option>
+                        <option value="premium-web-app">Premium Web App ($2,500+)</option>
                       </optgroup>
                       <optgroup label="── App Development">
-                        <option value="mvp-app">MVP App — $2,000</option>
-                        <option value="growth-app">Growth App — $5,000</option>
-                        <option value="scale-product">Scale Product — $10,000+</option>
+                        <option value="mvp-app">MVP App ($2,000)</option>
+                        <option value="growth-app">Growth App ($5,000)</option>
+                        <option value="scale-product">Scale Product ($10,000+)</option>
                       </optgroup>
                       <optgroup label="── AI Solutions">
-                        <option value="ai-chatbot">AI Chatbot — $300–$800</option>
-                        <option value="ai-automation">AI Automation — $1,000–$3,000</option>
-                        <option value="custom-ai-system">Custom AI System — $5,000+</option>
+                        <option value="ai-chatbot">AI Chatbot ($300-$800)</option>
+                        <option value="ai-automation">AI Automation ($1,000-$3,000)</option>
+                        <option value="custom-ai-system">Custom AI System ($5,000+)</option>
                       </optgroup>
                       <option value="other">Other / Not Sure</option>
                     </select>

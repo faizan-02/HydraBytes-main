@@ -16,7 +16,7 @@ const featured = {
   date: 'Mar 15, 2024',
   category: 'AI & Technology',
   readTime: '8 min read',
-  image: 'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&w=1600&q=90',
+  image: 'https://images.unsplash.com/photo-1488229297570-58520851e868?auto=format&fit=crop&w=1600&q=90',
 };
 
 const posts = [

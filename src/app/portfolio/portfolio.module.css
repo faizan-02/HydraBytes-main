@@ -112,14 +112,8 @@
 }
 
 .techCategoryCard {
-  background: var(--bg-card);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-lg, 1rem);
   padding: 1.75rem;
-  transition: border-color var(--transition-fast);
-}
-.techCategoryCard:hover {
-  border-color: var(--accent-primary);
+  height: 100%;
 }
 
 .techCategoryHeader {
