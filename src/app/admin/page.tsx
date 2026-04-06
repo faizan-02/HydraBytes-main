@@ -410,7 +410,7 @@ export default function AdminPage() {
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
             {(!data.invoices || data.invoices.length === 0) && <p style={{ color: '#64748b' }}>No invoices yet.</p>}
             {data.invoices?.map(inv => {
-              const methodLabels: Record<string, string> = { easypaisa: 'Easypaisa', jazzcash: 'JazzCash', nayapay: 'NayaPay', bank: 'Bank Transfer' };
+              const methodLabels: Record<string, string> = { easypaisa: 'Easypaisa', jazzcash: 'JazzCash', nayapay: 'NayaPay', bank: 'Bank Transfer', payoneer: 'Payoneer', usdt_trc20: 'USDT (TRC20)' };
               const isUnderReview = inv.status === 'under_review';
               return (
                 <div key={inv.id} style={{ background: '#1e293b', borderRadius: '12px', padding: '20px', border: `1px solid ${isUnderReview ? 'rgba(251,191,36,0.25)' : 'rgba(255,255,255,0.06)'}` }}>
@@ -455,7 +455,7 @@ export default function AdminPage() {
                           onClick={() => updateStatus('invoice', inv.id, 'pending')}
                           style={{ padding: '8px 20px', background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.2)', color: '#ef4444', borderRadius: '8px', fontSize: '13px', fontWeight: 600, cursor: 'pointer' }}
                         >
-                          ✗ Reject
+                          Reject
                         </button>
                       </div>
                     </div>

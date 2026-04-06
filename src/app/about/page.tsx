@@ -28,9 +28,9 @@ const values = [
 
 const timeline = [
   { year: '2021', title: 'Founded', desc: 'HydraBytes was born from a vision to make premium tech accessible to growing businesses.' },
-  { year: '2022', title: 'Team Growth', desc: 'Expanded to 15+ specialists across engineering, design, and AI research.' },
-  { year: '2023', title: '100+ Projects', desc: 'Reached milestone of 100+ successful project deliveries across three continents.' },
-  { year: '2024', title: 'AI Division', desc: 'Launched our dedicated AI & ML division, serving enterprise clients worldwide.' },
+  { year: '2022', title: 'Core Team', desc: 'Assembled our founding team across engineering, design, and AI — and delivered our first client projects.' },
+  { year: '2023', title: 'Growing Portfolio', desc: 'Expanded our client base across web development, mobile apps, and AI solutions in Pakistan and beyond.' },
+  { year: '2024', title: 'AI Division', desc: 'Launched our dedicated AI & ML division, helping clients automate processes and build intelligent products.' },
 ];
 
 export default function AboutPage() {
@@ -86,25 +86,25 @@ export default function AboutPage() {
               <div className={styles.missionStats}>
                 <SpotlightCard>
                   <div className={styles.missionStat}>
-                    <span className={styles.missionStatValue}>4+</span>
+                    <span className={styles.missionStatValue}>5+</span>
                     <span className={styles.missionStatLabel}>Years of Innovation</span>
                   </div>
                 </SpotlightCard>
                 <SpotlightCard>
                   <div className={styles.missionStat}>
-                    <span className={styles.missionStatValue}>25+</span>
-                    <span className={styles.missionStatLabel}>Team Members</span>
+                    <span className={styles.missionStatValue}>6</span>
+                    <span className={styles.missionStatLabel}>Core Team Members</span>
                   </div>
                 </SpotlightCard>
                 <SpotlightCard>
                   <div className={styles.missionStat}>
-                    <span className={styles.missionStatValue}>12</span>
+                    <span className={styles.missionStatValue}>5+</span>
                     <span className={styles.missionStatLabel}>Countries Served</span>
                   </div>
                 </SpotlightCard>
                 <SpotlightCard>
                   <div className={styles.missionStat}>
-                    <span className={styles.missionStatValue}>150+</span>
+                    <span className={styles.missionStatValue}>20+</span>
                     <span className={styles.missionStatLabel}>Projects Completed</span>
                   </div>
                 </SpotlightCard>

@@ -51,28 +51,29 @@ const stats = [
   { value: '24/7', label: 'Support Available' },
 ];
 
-const testimonials = [
+const clientCommitments = [
   {
-    name: 'Sarah Chen',
-    role: 'CEO, TechNova',
-    quote: 'HydraBytes transformed our vision into a stunning platform. Their technical expertise and design sense are unmatched.',
-    avatar: 'SC',
+    icon: Shield,
+    color: '#7c3aed',
+    title: 'NDA on Day One',
+    detail: 'Every engagement starts with a signed Non-Disclosure Agreement. Your ideas, business data, and IP are fully protected before any discussion begins.',
+    badge: 'Privacy Protected',
   },
   {
-    name: 'Marcus Rodriguez',
-    role: 'CTO, FinScale',
-    quote: 'The AI solution they built increased our efficiency by 40%. Professional, innovative, and incredibly responsive team.',
-    avatar: 'MR',
+    icon: TrendingUp,
+    color: '#00e5ff',
+    title: 'Milestone-Based Delivery',
+    detail: 'Work is broken into clear milestones with agreed deliverables. You review and approve each phase before we proceed — no surprises, ever.',
+    badge: 'Transparent Process',
   },
   {
-    name: 'Aisha Patel',
-    role: 'Founder, GreenLeaf',
-    quote: 'From concept to launch, HydraBytes delivered beyond expectations. Our app has received phenomenal user feedback.',
-    avatar: 'AP',
+    icon: RefreshCw,
+    color: '#f472b6',
+    title: 'Direct Developer Access',
+    detail: 'You work directly with the lead developer on your project. No account managers, no middlemen — just fast, clear communication throughout.',
+    badge: 'No Middlemen',
   },
 ];
-
-const trustedBy = ['TechNova', 'FinScale', 'GreenLeaf', 'DataPulse', 'CloudSync', 'NexGen'];
 
 const advantages = [
   { icon: Zap, title: 'Lightning Fast', desc: 'Optimized for performance with sub-second load times that keep users engaged.', color: '#f59e0b' },
@@ -302,9 +303,9 @@ export default function HomePage() {
 
           <AnimatedSection delay={0.4}>
             <div className={styles.trustedBy}>
-              <span className={styles.trustedLabel}>Trusted by innovative companies</span>
+              <span className={styles.trustedLabel}>Built with industry-standard technology</span>
               <div className={styles.trustedLogos}>
-                {trustedBy.map((name) => (
+                {['Next.js', 'React', 'TypeScript', 'Node.js', 'OpenAI', 'Vercel'].map((name) => (
                   <span key={name} className={styles.trustedLogo}>
                     {name}
                   </span>
@@ -409,37 +410,37 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ===== TESTIMONIALS ===== */}
+      {/* ===== CLIENT COMMITMENTS ===== */}
       <section className="section" style={{ background: 'var(--bg-secondary)' }}>
         <div className="container">
           <AnimatedSection>
             <div className="section-header">
-              <span className="section-label">Client Stories</span>
-              <h2 className="section-title">What Our Clients Say</h2>
+              <span className="section-label">Our Commitment</span>
+              <h2 className="section-title">What We Guarantee</h2>
               <p className="section-subtitle">
-                Don&apos;t just take our word for it. Hear from the companies
-                we&apos;ve helped transform.
+                Every project comes with these non-negotiable commitments —
+                built into our process from day one.
               </p>
             </div>
           </AnimatedSection>
 
           <div className={styles.testimonialsGrid}>
-            {testimonials.map((t, i) => (
-              <AnimatedSection key={t.name} delay={i * 0.1}>
-                <SpotlightCard>
+            {clientCommitments.map((item, i) => (
+              <AnimatedSection key={item.title} delay={i * 0.1}>
+                <SpotlightCard spotlightColor={`${item.color}20`}>
                   <motion.div
                     className={styles.testimonialCard}
                     whileHover={{ y: -6 }}
                     transition={{ duration: 0.3 }}
                   >
-                    <p className={styles.testimonialQuote}>&ldquo;{t.quote}&rdquo;</p>
-                    <div className={styles.testimonialAuthor}>
-                      <div className={styles.testimonialAvatar}>{t.avatar}</div>
-                      <div>
-                        <p className={styles.testimonialName}>{t.name}</p>
-                        <p className={styles.testimonialRole}>{t.role}</p>
-                      </div>
+                    <div style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: '48px', height: '48px', borderRadius: '12px', background: `${item.color}18`, color: item.color, marginBottom: '1rem' }}>
+                      <item.icon size={24} strokeWidth={1.6} />
                     </div>
+                    <h3 style={{ fontSize: '18px', fontWeight: 700, color: 'var(--text-primary)', margin: '0 0 0.75rem' }}>{item.title}</h3>
+                    <p style={{ fontSize: '14px', color: 'var(--text-secondary)', lineHeight: '1.7', margin: '0 0 1.25rem' }}>{item.detail}</p>
+                    <span style={{ display: 'inline-block', padding: '4px 12px', borderRadius: '999px', background: `${item.color}12`, color: item.color, fontSize: '12px', fontWeight: 600, border: `1px solid ${item.color}25` }}>
+                      {item.badge}
+                    </span>
                   </motion.div>
                 </SpotlightCard>
               </AnimatedSection>
@@ -489,7 +490,7 @@ export default function HomePage() {
                   { icon: <Shield size={13} strokeWidth={1.8} />, label: 'NDA Protected' },
                   { icon: <Clock size={13} strokeWidth={1.8} />, label: '24h Response' },
                   { icon: <Star size={13} strokeWidth={1.8} />, label: '99% Satisfaction' },
-                  { icon: <Award size={13} strokeWidth={1.8} />, label: '4+ Years Experience' },
+                  { icon: <Award size={13} strokeWidth={1.8} />, label: '5+ Years Experience' },
                 ].map((b) => (
                   <div key={b.label} className={styles.ctaBadge}>
                     <span style={{ display: 'flex' }}>{b.icon}</span>
