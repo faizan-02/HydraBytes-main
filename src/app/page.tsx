@@ -12,6 +12,7 @@ import SpotlightCard from '@/components/SpotlightCard';
 import AnimatedCounter from '@/components/AnimatedCounter';
 import GradientText from '@/components/GradientText';
 import FloatingParticles from '@/components/FloatingParticles';
+import ChipConnectorLines from '@/components/ChipConnectorLines';
 import MagneticButton from '@/components/MagneticButton';
 import styles from './page.module.css';
 
@@ -159,9 +160,11 @@ export default function HomePage() {
                 fontSize: '0.75rem',
                 fontWeight: 600,
                 border: `1px solid ${chip.color}30`,
-                background: `${chip.color}12`,
+                background: `linear-gradient(135deg, ${chip.color}18 0%, ${chip.color}08 100%)`,
+                boxShadow: `inset 0 1px 0 ${chip.color}20, 0 4px 20px rgba(0,0,0,0.35)`,
                 color: chip.color,
-                backdropFilter: 'blur(8px)',
+                backdropFilter: 'blur(14px)',
+                WebkitBackdropFilter: 'blur(14px)',
                 zIndex: 2,
                 pointerEvents: 'none',
               }}
@@ -170,11 +173,13 @@ export default function HomePage() {
                 opacity: 1,
                 scale: 1,
                 y: [0, -10, 0],
+                rotate: [0, -1.5, 1.5, 0],
               }}
               transition={{
                 opacity: { duration: 0.5, delay: chip.delay },
                 scale: { duration: 0.5, delay: chip.delay },
                 y: { duration: chip.dur, repeat: Infinity, ease: 'easeInOut', delay: chip.delay },
+                rotate: { duration: chip.dur * 1.2, repeat: Infinity, ease: 'easeInOut', delay: chip.delay },
               }}
             >
               <div style={{ width: 6, height: 6, borderRadius: '50%', background: chip.color }} />
@@ -184,6 +189,8 @@ export default function HomePage() {
           </div>
           {/* Floating particles */}
           <FloatingParticles />
+          {/* Network connection lines between chips */}
+          <ChipConnectorLines />
           {/* Aurora blobs — with scroll parallax */}
           <motion.div className={`${styles.auroraBlob} ${styles.auroraBlob1}`} style={{ y: blob1Y }} />
           <motion.div className={`${styles.auroraBlob} ${styles.auroraBlob2}`} style={{ y: blob2Y }} />
@@ -249,6 +256,36 @@ export default function HomePage() {
               }} />
               <span style={{ fontSize: '0.7rem', fontWeight: 600, color: '#22c55e' }}>Live</span>
             </div>
+            {/* Decorative sparkline */}
+            <svg
+              viewBox="0 0 120 24"
+              style={{ width: 120, height: 24, marginBottom: '0.6rem', overflow: 'visible' }}
+              aria-hidden="true"
+            >
+              <defs>
+                <linearGradient id="sparkGrad" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0%" stopColor="#7c3aed" />
+                  <stop offset="100%" stopColor="#00e5ff" />
+                </linearGradient>
+              </defs>
+              <path
+                d="M0,16.6 L17.1,10.3 L34.3,18.7 L51.4,3.4 L68.6,11.1 L85.7,0 L102.9,7.7 L120,4.3 L120,24 L0,24 Z"
+                fill="url(#sparkGrad)"
+                fillOpacity={0.12}
+              />
+              <polyline
+                points="0,16.6 17.1,10.3 34.3,18.7 51.4,3.4 68.6,11.1 85.7,0 102.9,7.7 120,4.3"
+                fill="none"
+                stroke="url(#sparkGrad)"
+                strokeWidth={1.5}
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeDasharray={200}
+                strokeDashoffset={200}
+                style={{ animation: 'sparkDraw 1.5s ease forwards 1.8s' }}
+              />
+              <style>{`@keyframes sparkDraw { to { stroke-dashoffset: 0; } }`}</style>
+            </svg>
             {[
               { label: 'Projects Live', value: '20+' },
               { label: 'Uptime', value: '99.9%' },
