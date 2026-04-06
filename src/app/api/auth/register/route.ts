@@ -21,9 +21,27 @@ export async function POST(req: NextRequest) {
 
     const hashedPassword = await bcrypt.hash(password, 12);
 
-    await prisma.user.create({
+    const user = await prisma.user.create({
       data: { name, email, password: hashedPassword },
     });
+
+    // Link any accepted guest submissions to a project so the dashboard is populated
+    const contactedSubmissions = await prisma.contactSubmission.findMany({
+      where: { email, status: 'contacted' },
+    });
+
+    if (contactedSubmissions.length > 0) {
+      await prisma.project.createMany({
+        data: contactedSubmissions.map(s => ({
+          userId: user.id,
+          title: `${s.service} Project`,
+          service: s.service,
+          budget: s.budget,
+          description: s.message,
+          status: 'accepted',
+        })),
+      });
+    }
 
     return NextResponse.json({ success: true }, { status: 201 });
   } catch (error) {
