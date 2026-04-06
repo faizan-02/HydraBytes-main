@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import Image from 'next/image';
 import {
   Code, Monitor, Smartphone, Server, Cloud, Cpu,
 } from 'lucide-react';
@@ -53,6 +54,7 @@ const projects = [
     tech: ['React', 'Node.js', 'D3.js', 'PostgreSQL', 'TypeScript', 'Redis', 'Chart.js', 'Stripe'],
     color: '#7c3aed',
     metric: '40% faster decisions',
+    image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80',
   },
   {
     title: 'GreenLeaf Mobile App',
@@ -61,6 +63,7 @@ const projects = [
     tech: ['React Native', 'Firebase', 'GraphQL', 'TypeScript', 'Redux', 'Mapbox', 'Stripe'],
     color: '#22c55e',
     metric: '100K+ downloads',
+    image: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=800&q=80',
   },
   {
     title: 'DataPulse AI Engine',
@@ -69,6 +72,7 @@ const projects = [
     tech: ['Python', 'TensorFlow', 'AWS SageMaker', 'scikit-learn', 'FastAPI', 'Docker', 'PostgreSQL'],
     color: '#f472b6',
     metric: '60% less downtime',
+    image: 'https://images.unsplash.com/photo-1488229297570-58520851e868?auto=format&fit=crop&w=800&q=80',
   },
   {
     title: 'CloudSync Platform',
@@ -77,6 +81,7 @@ const projects = [
     tech: ['Next.js', 'TypeScript', 'Docker', 'K8s', 'AWS', 'Terraform', 'Redis', 'PostgreSQL'],
     color: '#00e5ff',
     metric: '35% cost savings',
+    image: 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=800&q=80',
   },
   {
     title: 'NexGen Health App',
@@ -85,6 +90,7 @@ const projects = [
     tech: ['Flutter', 'Node.js', 'WebRTC', 'Firebase', 'Stripe', 'TypeScript', 'Redux'],
     color: '#f59e0b',
     metric: '50K+ patients served',
+    image: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=800&q=80',
   },
   {
     title: 'SmartRetail AI',
@@ -93,6 +99,7 @@ const projects = [
     tech: ['PyTorch', 'OpenCV', 'FastAPI', 'Redis', 'PostgreSQL', 'Docker', 'AWS'],
     color: '#ef4444',
     metric: '25% revenue increase',
+    image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=800&q=80',
   },
 ];
 
@@ -146,6 +153,16 @@ export default function PortfolioPage() {
                 <AnimatedSection key={project.title} delay={i * 0.08}>
                   <SpotlightCard spotlightColor={`${project.color}20`}>
                     <div className={styles.projectCard}>
+                      <div style={{ position: 'relative', width: '100%', height: '180px', overflow: 'hidden', borderRadius: '0.5rem', marginBottom: '1.25rem' }}>
+                        <Image
+                          src={project.image}
+                          alt={project.title}
+                          fill
+                          style={{ objectFit: 'cover' }}
+                          sizes="(max-width: 768px) 100vw, 400px"
+                        />
+                        <div style={{ position: 'absolute', inset: 0, background: `linear-gradient(to top, ${project.color}40, transparent)` }} />
+                      </div>
                       <div className={styles.projectHeader} style={{ borderLeftColor: project.color }}>
                         <span className={styles.projectCategory}>{project.category}</span>
                         <h3 className={styles.projectTitle}>{project.title}</h3>

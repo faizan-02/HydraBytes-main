@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import AnimatedSection from '@/components/AnimatedSection';
 import SpotlightCard from '@/components/SpotlightCard';
@@ -71,6 +72,16 @@ export default function AboutPage() {
               </div>
             </AnimatedSection>
             <AnimatedSection direction="right" delay={0.15}>
+              <div style={{ position: 'relative', width: '100%', height: '220px', borderRadius: '1rem', overflow: 'hidden', marginBottom: '1.5rem' }}>
+                <Image
+                  src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=900&q=85"
+                  alt="HydraBytes team collaborating"
+                  fill
+                  style={{ objectFit: 'cover' }}
+                  sizes="(max-width: 768px) 100vw, 500px"
+                />
+                <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(124,58,237,0.35), rgba(0,229,255,0.15))' }} />
+              </div>
               <div className={styles.missionStats}>
                 <SpotlightCard>
                   <div className={styles.missionStat}>
