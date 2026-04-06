@@ -187,11 +187,11 @@ export default function ContactPage() {
                     <label htmlFor="budget">Budget Range</label>
                     <select id="budget" name="budget" value={formData.budget} onChange={handleChange}>
                       <option value="">Select budget</option>
-                      <option value="under-1k">Under $1,000</option>
-                      <option value="1k-3k">$1,000 – $3,000</option>
-                      <option value="3k-8k">$3,000 – $8,000</option>
-                      <option value="8k-20k">$8,000 – $20,000</option>
-                      <option value="20k+">$20,000+</option>
+                      <option value="under-500">Under $500</option>
+                      <option value="500-1500">$500 – $1,500</option>
+                      <option value="1500-5000">$1,500 – $5,000</option>
+                      <option value="5000-15000">$5,000 – $15,000</option>
+                      <option value="15000+">$15,000+</option>
                     </select>
                   </div>
                 </div>
