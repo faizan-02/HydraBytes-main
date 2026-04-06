@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'About Us | HydraBytes',
   description: 'Meet the HydraBytes team — passionate engineers, designers, and AI innovators building tomorrow\'s technology today. Based in Islamabad, serving clients globally.',
+  alternates: { canonical: 'https://www.hydrabytes.it.com/about' },
   openGraph: {
     title: 'About HydraBytes',
     description: 'Passionate engineers and designers building tomorrow\'s technology today.',
