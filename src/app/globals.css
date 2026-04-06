@@ -1,9 +1,12 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Nunito:wght@700;800;900&family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
+/* Tailwind CSS v4 — sits alongside existing CSS Modules; all existing
+   custom properties, resets, and utility classes below are untouched. */
+@import "tailwindcss";
+@config "../../tailwind.config.ts";
 
 :root {
   /* Typography */
-  --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-heading: 'Poppins', 'Inter', sans-serif;
+  --font-primary: var(--font-inter), -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-heading: var(--font-poppins), var(--font-inter), sans-serif;
 
   /* Spacing */
   --space-xs: 0.25rem;
@@ -387,4 +390,27 @@ h1, h2, h3, h4, h5, h6 {
   background: var(--accent-glow-cyan);
   bottom: -150px;
   left: -100px;
+}
+
+/* ====== FOCUS VISIBLE ====== */
+/* Consistent keyboard-focus outline using the brand purple, invisible on click. */
+:focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 2px;
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* ====== REDUCED MOTION ====== */
+/* Blanket guard — kills all CSS animations/transitions for users who opted
+   out of motion at the OS level. JS components handle their own guards. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

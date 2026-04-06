@@ -182,6 +182,7 @@ export default function Footer() {
               <input
                 type="email"
                 placeholder="Enter your email"
+                aria-label="Email address for newsletter"
                 value={newsletterEmail}
                 onChange={e => setNewsletterEmail(e.target.value)}
                 required
@@ -227,8 +228,8 @@ export default function Footer() {
         <div className={styles.footerBottom}>
           <p>© {new Date().getFullYear()} HydraBytes. All rights reserved.</p>
           <div className={styles.footerBottomLinks}>
-            <a href="#">Privacy Policy</a>
-            <a href="#">Terms of Service</a>
+            <Link href="/legal/privacy">Privacy Policy</Link>
+            <Link href="/legal/terms">Terms of Service</Link>
           </div>
         </div>
       </div>

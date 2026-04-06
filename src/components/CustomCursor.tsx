@@ -16,6 +16,8 @@ export default function CustomCursor() {
   const ringY = useSpring(mouseY, { stiffness: 250, damping: 30 });
 
   useEffect(() => {
+    // Respect reduced-motion preference — keep the native OS cursor
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     // Only hide cursor on pointer devices (not touch)
     if (window.matchMedia('(pointer: fine)').matches) {
       document.body.style.cursor = 'none';
@@ -24,6 +26,7 @@ export default function CustomCursor() {
   }, []);
 
   useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const onMove = (e: MouseEvent) => {
       mouseX.set(e.clientX);
       mouseY.set(e.clientY);

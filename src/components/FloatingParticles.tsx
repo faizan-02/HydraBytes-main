@@ -23,6 +23,7 @@ export default function FloatingParticles() {
   const [particles, setParticles] = useState<Particle[]>([]);
 
   useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     setParticles(
       Array.from({ length: 20 }, (_, i) => ({
         id: i,

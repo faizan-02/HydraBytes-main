@@ -24,6 +24,10 @@ export default function Orb({
     const canvas = canvasRef.current;
     if (!canvas) return;
 
+    // Skip the WebGL animation loop for users who prefer reduced motion.
+    // The canvas remains blank (decorative element — no content is lost).
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
     gl = canvas.getContext('webgl', {
       antialias: true,
       alpha: true,
@@ -269,16 +273,19 @@ export default function Orb({
   }, [hue, hoverIntensity, rotateOnHover, forceHoverState]);
 
   return (
-    <div style={{
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      width: '100%',
-      height: '100%',
-      overflow: 'hidden',
-      pointerEvents: 'none',
-      zIndex: 0,
-    }}>
+    <div
+      aria-hidden="true"
+      style={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        overflow: 'hidden',
+        pointerEvents: 'none',
+        zIndex: 0,
+      }}
+    >
       <canvas
         ref={canvasRef}
         style={{

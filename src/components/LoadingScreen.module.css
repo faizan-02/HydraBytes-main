@@ -78,7 +78,7 @@
 }
 
 .loadingText {
-  font-family: 'Inter', sans-serif;
+  font-family: var(--font-primary);
   font-size: 0.85rem;
   font-weight: 500;
   color: rgba(160, 160, 184, 0.6);

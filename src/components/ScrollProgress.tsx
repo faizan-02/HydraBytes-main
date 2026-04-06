@@ -12,7 +12,7 @@ export default function ScrollProgress() {
   const opacity = useTransform(scrollYProgress, [0, 0.03], [0, 1]);
 
   return (
-    <>
+    <div aria-hidden="true">
       <motion.div
         style={{
           position: 'fixed',
@@ -42,6 +42,6 @@ export default function ScrollProgress() {
           pointerEvents: 'none',
         }}
       />
-    </>
+    </div>
   );
 }

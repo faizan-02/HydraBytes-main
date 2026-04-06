@@ -1,7 +1,23 @@
 import type { Metadata } from 'next';
 import { Suspense } from 'react';
+import { Inter, Poppins } from 'next/font/google';
+import JsonLd from '@/components/JsonLd';
 import './globals.css';
 import ClientLayout from './ClientLayout';
+
+const inter = Inter({
+  subsets: ['latin'],
+  weight: ['300', '400', '500', '600', '700', '800', '900'],
+  variable: '--font-inter',
+  display: 'swap',
+});
+
+const poppins = Poppins({
+  subsets: ['latin'],
+  weight: ['300', '400', '500', '600', '700', '800', '900'],
+  variable: '--font-poppins',
+  display: 'swap',
+});
 
 export const metadata: Metadata = {
   title: 'HydraBytes | Web Development, App Development & AI/ML Solutions',
@@ -26,8 +42,26 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" data-theme="dark" suppressHydrationWarning>
+    <html lang="en" data-theme="dark" suppressHydrationWarning className={`${inter.variable} ${poppins.variable}`}>
       <body>
+        <JsonLd data={{
+          '@context': 'https://schema.org',
+          '@type': 'Organization',
+          name: 'HydraBytes',
+          url: 'https://www.hydrabytes.it.com',
+          logo: 'https://www.hydrabytes.it.com/transparent.png',
+          description:
+            'HydraBytes is a cutting-edge IT startup delivering premium web development, mobile app development, and AI/ML solutions.',
+          sameAs: [
+            'https://github.com/HydraBytes-tech',
+            'https://www.linkedin.com/company/hydrabytes4/',
+          ],
+          contactPoint: {
+            '@type': 'ContactPoint',
+            contactType: 'customer service',
+            url: 'https://www.hydrabytes.it.com/contact',
+          },
+        }} />
         <Suspense fallback={
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', background: '#0a0a0a' }}>
             <div style={{ width: 40, height: 40, border: '3px solid rgba(124,58,237,0.3)', borderTopColor: '#7c3aed', borderRadius: '50%', animation: 'spin 0.8s linear infinite' }} />

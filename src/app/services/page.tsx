@@ -72,6 +72,25 @@ const process = [
 export default function ServicesPage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'ItemList',
+            itemListElement: services.map((s, i) => ({
+              '@type': 'ListItem',
+              position: i + 1,
+              item: {
+                '@type': 'Service',
+                name: s.title,
+                description: s.desc,
+                provider: { '@type': 'Organization', name: 'HydraBytes' },
+              },
+            })),
+          }),
+        }}
+      />
       {/* Hero */}
       <section className={styles.hero}>
         <div className="container">
