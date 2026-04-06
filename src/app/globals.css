@@ -403,6 +403,26 @@ h1, h2, h3, h4, h5, h6 {
   outline: none;
 }
 
+/* ====== LIGHT MODE REFINEMENTS ====== */
+/* Stronger card borders so cards don't bleed into the white page */
+[data-theme='light'] .glass-card {
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06), 0 4px 16px rgba(109,40,217,0.06);
+}
+[data-theme='light'] .glass-card:hover {
+  box-shadow: 0 4px 24px rgba(109,40,217,0.12);
+}
+/* Make secondary button border visible */
+[data-theme='light'] .btn-secondary {
+  border-color: rgba(109, 40, 217, 0.35);
+}
+[data-theme='light'] .btn-secondary:hover {
+  border-color: rgba(109, 40, 217, 0.6);
+}
+/* Slightly more visible grid in light mode */
+[data-theme='light'] .bg-grid {
+  opacity: 0.5;
+}
+
 /* ====== REDUCED MOTION ====== */
 /* Blanket guard — kills all CSS animations/transitions for users who opted
    out of motion at the OS level. JS components handle their own guards. */

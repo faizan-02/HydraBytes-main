@@ -3,6 +3,7 @@
 import { useRef, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { motion, useScroll, useTransform } from 'framer-motion';
+import { useTheme } from '@/lib/ThemeContext';
 import {
   Globe, Smartphone, Brain, Zap, Shield, TrendingUp,
   Palette, Bot, RefreshCw, ArrowRight, Clock, Star, Award,
@@ -17,11 +18,11 @@ import MagneticButton from '@/components/MagneticButton';
 import styles from './page.module.css';
 
 const techChips = [
-  { label: 'Next.js',    color: '#e2e8f0', style: { top: '15%', left: '8%' },   dur: 5.2, delay: 0 },
-  { label: 'React',      color: '#61dafb', style: { top: '22%', right: '10%' }, dur: 4.8, delay: 0.5 },
-  { label: 'TypeScript', color: '#3178c6', style: { top: '65%', left: '6%' },   dur: 6.1, delay: 1.2 },
-  { label: 'Node.js',    color: '#68a063', style: { bottom: '20%', right: '8%' }, dur: 5.5, delay: 0.8 },
-  { label: 'AI / ML',    color: '#f472b6', style: { top: '40%', right: '5%' },  dur: 4.4, delay: 1.8 },
+  { label: 'Next.js',    color: '#e2e8f0', lightColor: '#334155', style: { top: '15%', left: '8%' },   dur: 5.2, delay: 0 },
+  { label: 'React',      color: '#61dafb', lightColor: '#0369a1', style: { top: '22%', right: '10%' }, dur: 4.8, delay: 0.5 },
+  { label: 'TypeScript', color: '#3178c6', lightColor: '#1e40af', style: { top: '65%', left: '6%' },   dur: 6.1, delay: 1.2 },
+  { label: 'Node.js',    color: '#68a063', lightColor: '#15803d', style: { bottom: '20%', right: '8%' }, dur: 5.5, delay: 0.8 },
+  { label: 'AI / ML',    color: '#f472b6', lightColor: '#be185d', style: { top: '40%', right: '5%' },  dur: 4.4, delay: 1.8 },
 ];
 
 const services = [
@@ -114,6 +115,7 @@ function RotatingWord() {
 }
 
 export default function HomePage() {
+  const { theme } = useTheme();
   const heroRef = useRef<HTMLElement>(null);
   const spotlightRef = useRef<HTMLDivElement>(null);
 
@@ -146,7 +148,9 @@ export default function HomePage() {
         <div className={styles.heroBackdrop}>
           {/* Floating tech chips */}
           <div className={styles.floatingChips}>
-          {techChips.map((chip) => (
+          {techChips.map((chip) => {
+            const chipColor = theme === 'light' ? chip.lightColor : chip.color;
+            return (
             <motion.div
               key={chip.label}
               style={{
@@ -159,10 +163,14 @@ export default function HomePage() {
                 borderRadius: '9999px',
                 fontSize: '0.75rem',
                 fontWeight: 600,
-                border: `1px solid ${chip.color}30`,
-                background: `linear-gradient(135deg, ${chip.color}18 0%, ${chip.color}08 100%)`,
-                boxShadow: `inset 0 1px 0 ${chip.color}20, 0 4px 20px rgba(0,0,0,0.35)`,
-                color: chip.color,
+                border: `1px solid ${chipColor}50`,
+                background: theme === 'light'
+                  ? `linear-gradient(135deg, ${chipColor}14 0%, ${chipColor}08 100%)`
+                  : `linear-gradient(135deg, ${chipColor}18 0%, ${chipColor}08 100%)`,
+                boxShadow: theme === 'light'
+                  ? `inset 0 1px 0 ${chipColor}25, 0 2px 12px rgba(0,0,0,0.08)`
+                  : `inset 0 1px 0 ${chipColor}20, 0 4px 20px rgba(0,0,0,0.35)`,
+                color: chipColor,
                 backdropFilter: 'blur(14px)',
                 WebkitBackdropFilter: 'blur(14px)',
                 zIndex: 2,
@@ -182,10 +190,11 @@ export default function HomePage() {
                 rotate: { duration: chip.dur * 1.2, repeat: Infinity, ease: 'easeInOut', delay: chip.delay },
               }}
             >
-              <div style={{ width: 6, height: 6, borderRadius: '50%', background: chip.color }} />
+              <div style={{ width: 6, height: 6, borderRadius: '50%', background: chipColor }} />
               {chip.label}
             </motion.div>
-          ))}
+            );
+          })}
           </div>
           {/* Floating particles */}
           <FloatingParticles />

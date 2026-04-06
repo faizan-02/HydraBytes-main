@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useTheme } from '@/lib/ThemeContext';
 
 const chipPositions: Record<string, { x: number; y: number }> = {
   nextjs:     { x: 8,  y: 15 },
@@ -19,6 +20,7 @@ const connections: [string, string][] = [
 ];
 
 export default function ChipConnectorLines() {
+  const { theme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
 
@@ -57,8 +59,17 @@ export default function ChipConnectorLines() {
       `}</style>
       <defs>
         <linearGradient id="connLineGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="rgba(124,58,237,0.25)" />
-          <stop offset="100%" stopColor="rgba(0,229,255,0.18)" />
+          {theme === 'light' ? (
+            <>
+              <stop offset="0%" stopColor="rgba(109,40,217,0.5)" />
+              <stop offset="100%" stopColor="rgba(8,145,178,0.4)" />
+            </>
+          ) : (
+            <>
+              <stop offset="0%" stopColor="rgba(124,58,237,0.25)" />
+              <stop offset="100%" stopColor="rgba(0,229,255,0.18)" />
+            </>
+          )}
         </linearGradient>
       </defs>
       {connections.map(([from, to], i) => {

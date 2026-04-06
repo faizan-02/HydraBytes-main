@@ -56,6 +56,17 @@
   animation-delay: -8s;
 }
 
+/* Stronger blobs in light mode for depth */
+[data-theme='light'] .auroraBlob1 {
+  background: radial-gradient(circle, rgba(109, 40, 217, 0.22) 0%, transparent 70%);
+}
+[data-theme='light'] .auroraBlob2 {
+  background: radial-gradient(circle, rgba(8, 145, 178, 0.18) 0%, transparent 70%);
+}
+[data-theme='light'] .auroraBlob3 {
+  background: radial-gradient(circle, rgba(219, 39, 119, 0.14) 0%, transparent 70%);
+}
+
 @keyframes driftBlob {
   0%   { transform: translate(0, 0) scale(1); }
   25%  { transform: translate(40px, -25px) scale(1.06); }
