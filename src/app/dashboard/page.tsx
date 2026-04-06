@@ -41,6 +41,15 @@ const statusConfig: Record<string, { label: string; color: string; bg: string; i
 };
 
 const TIMELINE = ['pending_verification', 'accepted', 'in_progress', 'completed'];
+// Map intermediate statuses to their timeline position for dot rendering
+const timelinePositionMap: Record<string, number> = {
+  pending_verification: 0,
+  accepted: 1,
+  planning: 1,
+  in_progress: 2,
+  review: 2,
+  completed: 3,
+};
 const timelineLabels: Record<string, string> = {
   pending_verification: 'Submitted',
   accepted: 'Accepted',
@@ -82,7 +91,7 @@ export default function DashboardPage() {
   if (!session) return null;
 
   const initials = session.user?.name?.split(' ').map((n: string) => n[0]).join('').toUpperCase() ?? 'U';
-  const activeProjects = projects.filter(p => !['completed'].includes(p.status)).length;
+  const activeProjects = projects.filter(p => !['completed', 'declined'].includes(p.status)).length;
   const completedProjects = projects.filter(p => p.status === 'completed').length;
   const pendingInvoices = invoices.filter(i => i.status === 'pending').length;
 
@@ -171,7 +180,7 @@ export default function DashboardPage() {
                   {project.status !== 'declined' && (
                     <div style={{ marginTop: '16px', display: 'flex', alignItems: 'center', gap: '0' }}>
                       {TIMELINE.map((step, i) => {
-                        const currentIdx = TIMELINE.indexOf(project.status);
+                        const currentIdx = timelinePositionMap[project.status] ?? 0;
                         const isDone = i <= currentIdx;
                         const isCurrent = i === currentIdx;
                         return (
