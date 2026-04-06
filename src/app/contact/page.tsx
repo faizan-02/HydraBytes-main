@@ -1,7 +1,8 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useSession } from 'next-auth/react';
+import { useSearchParams } from 'next/navigation';
 import { Mail, Phone, MapPin, Clock } from 'lucide-react';
 import AnimatedSection from '@/components/AnimatedSection';
 import SpotlightCard from '@/components/SpotlightCard';
@@ -16,12 +17,13 @@ const contactInfo = [
   { icon: <Clock size={20} strokeWidth={1.5} />, label: 'Hours', value: 'Mon-Sat, 8AM-8PM PST', href: null },
 ];
 
-export default function ContactPage() {
+function ContactForm() {
   const { data: session } = useSession();
+  const searchParams = useSearchParams();
   const [formData, setFormData] = useState({
     name: session?.user?.name ?? '',
     email: session?.user?.email ?? '',
-    service: '',
+    service: searchParams.get('service') ?? '',
     budget: '',
     message: '',
   });
@@ -175,12 +177,23 @@ export default function ContactPage() {
                   <div className={styles.formGroup}>
                     <label htmlFor="service">Service Interested In</label>
                     <select id="service" name="service" value={formData.service} onChange={handleChange} required>
-                      <option value="">Select a service</option>
-                      <option value="web">Web Development</option>
-                      <option value="app">App Development</option>
-                      <option value="ai">AI & ML Solutions</option>
-                      <option value="design">UI/UX Design</option>
-                      <option value="other">Other</option>
+                      <option value="">Select a plan</option>
+                      <optgroup label="── Web Development">
+                        <option value="starter-website">Starter Website — $399</option>
+                        <option value="business-website">Business Website — $999</option>
+                        <option value="premium-web-app">Premium Web App — $2,500+</option>
+                      </optgroup>
+                      <optgroup label="── App Development">
+                        <option value="mvp-app">MVP App — $2,000</option>
+                        <option value="growth-app">Growth App — $5,000</option>
+                        <option value="scale-product">Scale Product — $10,000+</option>
+                      </optgroup>
+                      <optgroup label="── AI Solutions">
+                        <option value="ai-chatbot">AI Chatbot — $300–$800</option>
+                        <option value="ai-automation">AI Automation — $1,000–$3,000</option>
+                        <option value="custom-ai-system">Custom AI System — $5,000+</option>
+                      </optgroup>
+                      <option value="other">Other / Not Sure</option>
                     </select>
                   </div>
                   <div className={styles.formGroup}>
@@ -188,9 +201,10 @@ export default function ContactPage() {
                     <select id="budget" name="budget" value={formData.budget} onChange={handleChange}>
                       <option value="">Select budget</option>
                       <option value="under-500">Under $500</option>
-                      <option value="500-1500">$500 – $1,500</option>
-                      <option value="1500-5000">$1,500 – $5,000</option>
-                      <option value="5000-15000">$5,000 – $15,000</option>
+                      <option value="500-1000">$500 – $1,000</option>
+                      <option value="1000-3000">$1,000 – $3,000</option>
+                      <option value="3000-8000">$3,000 – $8,000</option>
+                      <option value="8000-15000">$8,000 – $15,000</option>
                       <option value="15000+">$15,000+</option>
                     </select>
                   </div>
@@ -231,5 +245,13 @@ export default function ContactPage() {
         </div>
       </section>
     </>
+  );
+}
+
+export default function ContactPage() {
+  return (
+    <Suspense>
+      <ContactForm />
+    </Suspense>
   );
 }

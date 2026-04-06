@@ -9,11 +9,16 @@ const TEAM_EMAIL = process.env.TEAM_EMAIL!;
 const BASE_URL = process.env.NEXTAUTH_URL || 'http://localhost:3000';
 
 const SERVICE_LABELS: Record<string, string> = {
-  web: 'Web Development',
-  app: 'App Development',
-  ai: 'AI & ML Solutions',
-  design: 'UI/UX Design',
-  other: 'Other',
+  'starter-website': 'Starter Website ($399)',
+  'business-website': 'Business Website ($999)',
+  'premium-web-app': 'Premium Web App ($2,500+)',
+  'mvp-app': 'MVP App ($2,000)',
+  'growth-app': 'Growth App ($5,000)',
+  'scale-product': 'Scale Product ($10,000+)',
+  'ai-chatbot': 'AI Chatbot ($300–$800)',
+  'ai-automation': 'AI Automation ($1,000–$3,000)',
+  'custom-ai-system': 'Custom AI System ($5,000+)',
+  other: 'Other / Not Sure',
 };
 
 export async function POST(req: NextRequest) {
