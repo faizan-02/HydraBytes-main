@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import AnimatedSection from '@/components/AnimatedSection';
@@ -121,7 +120,7 @@ export default function BlogPage() {
         <div className="container">
           <AnimatedSection>
             <SpotlightCard>
-              <Link href="#" className={styles.featuredPost}>
+              <div className={styles.featuredPost}>
                 <div style={{ position: 'relative', width: '100%', height: '280px', overflow: 'hidden', borderRadius: '0.75rem', marginBottom: '1.75rem' }}>
                   <Image
                     src={featured.image}
@@ -139,8 +138,8 @@ export default function BlogPage() {
                 </div>
                 <h2 className={styles.featuredTitle}>{featured.title}</h2>
                 <p className={styles.featuredExcerpt}>{featured.excerpt}</p>
-                <span className={styles.readMore}>Read Article →</span>
-              </Link>
+                <span className={styles.readMore} style={{ opacity: 0.45, cursor: 'default' }}>Full article coming soon</span>
+              </div>
             </SpotlightCard>
           </AnimatedSection>
         </div>
@@ -156,7 +155,7 @@ export default function BlogPage() {
             {posts.map((post, i) => (
               <AnimatedSection key={post.title} delay={i * 0.08}>
                 <SpotlightCard>
-                  <Link href="#" className={styles.postCard}>
+                  <div className={styles.postCard} style={{ cursor: 'default' }}>
                     <div style={{ position: 'relative', width: '100%', height: '160px', overflow: 'hidden', borderRadius: '0.5rem', marginBottom: '1rem' }}>
                       <Image
                         src={post.image}
@@ -165,6 +164,7 @@ export default function BlogPage() {
                         style={{ objectFit: 'cover' }}
                         sizes="(max-width: 768px) 100vw, 350px"
                       />
+                      <div style={{ position: 'absolute', top: '0.5rem', right: '0.5rem', padding: '0.2rem 0.6rem', borderRadius: '9999px', background: 'rgba(10,10,18,0.75)', border: '1px solid rgba(255,255,255,0.1)', fontSize: '0.65rem', fontWeight: 600, color: 'var(--text-tertiary)', backdropFilter: 'blur(8px)' }}>Coming Soon</div>
                     </div>
                     <div className={styles.postMeta}>
                       <span className={styles.postCategory}>{post.category}</span>
@@ -173,7 +173,7 @@ export default function BlogPage() {
                     <h3 className={styles.postTitle}>{post.title}</h3>
                     <p className={styles.postExcerpt}>{post.excerpt}</p>
                     <span className={styles.postDate}>{post.date}</span>
-                  </Link>
+                  </div>
                 </SpotlightCard>
               </AnimatedSection>
             ))}

@@ -116,7 +116,7 @@ export async function POST(req: NextRequest) {
           <h2 style="color:#6366f1;">Thanks for reaching out, ${name}!</h2>
           <p style="color:#374151;line-height:1.6;">We've received your inquiry about <strong>${serviceLabel}</strong> and will get back to you within <strong>24 hours</strong>.</p>
           ${projectId ? `<div style="margin:20px 0;padding:16px;background:#f0f9ff;border-radius:8px;border-left:4px solid #6366f1;"><p style="margin:0;color:#1e40af;font-size:14px;">📊 Your project has been added to your <a href="${BASE_URL}/dashboard" style="color:#6366f1;font-weight:600;">dashboard</a> and is pending verification from our team.</p></div>` : ''}
-          <p style="color:#374151;line-height:1.6;">For quick enquiries, WhatsApp us at <a href="https://wa.me/923239999000" style="color:#6366f1;">+92 323 9999 000</a>.</p>
+          <p style="color:#374151;line-height:1.6;">For quick enquiries, WhatsApp us at <a href="https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP ?? '923239999000'}" style="color:#6366f1;">+92 323 9999 000</a>.</p>
           <p style="color:#374151;">Best regards,<br/><strong>The HydraBytes Team</strong></p>
           <hr style="border:none;border-top:1px solid #e5e7eb;margin:24px 0;"/>
           <p style="font-size:12px;color:#9ca3af;">HydraBytes · hydrabytes4@gmail.com</p>

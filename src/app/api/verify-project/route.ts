@@ -3,7 +3,8 @@ import { prisma } from '@/lib/prisma';
 import { Resend } from 'resend';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
-const CALENDLY_LINK = 'https://calendly.com/faizanjawad02/30min';
+const CALENDLY_LINK = process.env.NEXT_PUBLIC_CALENDLY_URL ?? 'https://calendly.com/faizanjawad02/30min';
+const WA_LINK = `https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP ?? '923239999000'}`;
 
 export async function GET(req: NextRequest) {
   const token = req.nextUrl.searchParams.get('token');
@@ -61,7 +62,7 @@ export async function GET(req: NextRequest) {
             <p style="color:#374151;line-height:1.6;">We encourage you to resubmit with updated requirements or reach out to us directly:</p>
             <div style="margin:20px 0;display:flex;gap:12px;">
               <a href="https://hydrabytes.it.com/contact" style="display:inline-block;padding:10px 20px;background:#6366f1;color:#fff;text-decoration:none;border-radius:8px;font-weight:600;margin-right:12px;">Resubmit Request</a>
-              <a href="https://wa.me/923239999000" style="display:inline-block;padding:10px 20px;background:#25d366;color:#fff;text-decoration:none;border-radius:8px;font-weight:600;">WhatsApp Us</a>
+              <a href="${WA_LINK}" style="display:inline-block;padding:10px 20px;background:#25d366;color:#fff;text-decoration:none;border-radius:8px;font-weight:600;">WhatsApp Us</a>
             </div>
             <p style="color:#374151;">Best regards,<br/><strong>The HydraBytes Team</strong></p>
           </div>`,
@@ -96,7 +97,7 @@ export async function GET(req: NextRequest) {
           <p style="color:#374151;line-height:1.6;">Want to discuss sooner? You can:</p>
           <div style="margin:20px 0;">
             <a href="${CALENDLY_LINK}" style="display:inline-block;padding:12px 24px;background:linear-gradient(135deg,#6366f1,#06b6d4);color:#fff;text-decoration:none;border-radius:8px;font-weight:600;margin-right:12px;">📅 Book a Free Consultation</a>
-            <a href="https://wa.me/923239999000" style="display:inline-block;padding:12px 24px;background:#25d366;color:#fff;text-decoration:none;border-radius:8px;font-weight:600;margin-top:8px;">💬 WhatsApp Us</a>
+            <a href="${WA_LINK}" style="display:inline-block;padding:12px 24px;background:#25d366;color:#fff;text-decoration:none;border-radius:8px;font-weight:600;margin-top:8px;">💬 WhatsApp Us</a>
           </div>
           <p style="color:#374151;">Best regards,<br/><strong>The HydraBytes Team</strong></p>
           <hr style="border:none;border-top:1px solid #e5e7eb;margin:24px 0;"/>

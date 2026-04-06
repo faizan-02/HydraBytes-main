@@ -34,6 +34,21 @@ export const metadata: Metadata = {
     title: 'HydraBytes | Next-Gen Digital Solutions',
     description: 'Transform your business with cutting-edge web, mobile, and AI solutions.',
     type: 'website',
+    url: 'https://www.hydrabytes.it.com',
+    images: [
+      {
+        url: '/transparent.png',
+        width: 512,
+        height: 512,
+        alt: 'HydraBytes Logo',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary',
+    title: 'HydraBytes | Next-Gen Digital Solutions',
+    description: 'Transform your business with cutting-edge web, mobile, and AI solutions.',
+    images: ['/transparent.png'],
   },
 };
 

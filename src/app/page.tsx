@@ -45,8 +45,8 @@ const services = [
 ];
 
 const stats = [
-  { value: '150+', label: 'Projects Delivered' },
-  { value: '50+', label: 'Happy Clients' },
+  { value: '20+', label: 'Projects Delivered' },
+  { value: '15+', label: 'Happy Clients' },
   { value: '99%', label: 'Client Satisfaction' },
   { value: '24/7', label: 'Support Available' },
 ];
@@ -249,7 +249,7 @@ export default function HomePage() {
               <span style={{ fontSize: '0.7rem', fontWeight: 600, color: '#22c55e' }}>Live</span>
             </div>
             {[
-              { label: 'Projects Live', value: '150+' },
+              { label: 'Projects Live', value: '20+' },
               { label: 'Uptime', value: '99.9%' },
               { label: 'Response', value: '0.8s' },
             ].map((item) => (
