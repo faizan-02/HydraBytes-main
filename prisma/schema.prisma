@@ -20,15 +20,24 @@ model ContactSubmission {
 }
 
 model User {
-  id        String    @id @default(cuid())
-  name      String?
-  email     String    @unique
-  password  String?
-  role      String    @default("user")
-  createdAt DateTime  @default(now())
-  sessions  Session[]
-  projects  Project[]
-  invoices  Invoice[]
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  password      String?
+  role          String    @default("user")
+  emailVerified Boolean   @default(false)
+  createdAt     DateTime  @default(now())
+  sessions      Session[]
+  projects      Project[]
+  invoices      Invoice[]
+}
+
+model EmailVerificationToken {
+  id        String   @id @default(cuid())
+  email     String
+  otp       String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
 }
 
 model Session {

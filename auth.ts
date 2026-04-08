@@ -66,6 +66,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
         if (!passwordMatch) return null;
 
+        if (!user.emailVerified) return null;
+
         return { id: user.id, name: user.name, email: user.email, role: user.role };
       },
     }),
@@ -86,7 +88,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             const dbUser = await prisma.user.upsert({
               where: { email },
               update: {},
-              create: { email, name: token.name ?? null, role: 'user' },
+              create: { email, name: token.name ?? null, role: 'user', emailVerified: true },
             });
             token.id = dbUser.id;
             token.role = dbUser.role;

@@ -56,9 +56,7 @@ function RegisterForm() {
           if (!res.ok) {
             setError(data.error);
           } else {
-            setError(null);
-            setTimeout(() => router.push('/auth/signin?registered=true'), 1500);
-            setError('SUCCESS: Account created! Redirecting to sign in...');
+            router.push(`/auth/verify?email=${encodeURIComponent(email)}`);
           }
         }}>
           <div className={styles.field}>
