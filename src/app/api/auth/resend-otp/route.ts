@@ -1,17 +1,25 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { sendEmail } from '@/lib/mailer';
+import { enforceRateLimit, FIFTEEN_MINUTES } from '@/lib/rateLimit';
+import { readJsonBody, requireJson, validateEmail, escapeHtml } from '@/lib/validate';
 
 export async function POST(req: NextRequest) {
+  const limited = enforceRateLimit(req, 'auth:resend-otp', 3, FIFTEEN_MINUTES);
+  if (limited) return limited;
+
+  const ctGuard = requireJson(req);
+  if (ctGuard) return ctGuard;
+
+  const parsed = await readJsonBody<{ email?: unknown }>(req);
+  if (!parsed.ok) return parsed.response;
+
+  const emailRes = validateEmail(parsed.data.email);
+  if ('error' in emailRes) return NextResponse.json({ error: emailRes.error }, { status: emailRes.status });
+
+  const normalizedEmail = emailRes.value;
+
   try {
-    const { email } = await req.json();
-
-    if (!email) {
-      return NextResponse.json({ error: 'Email is required.' }, { status: 400 });
-    }
-
-    const normalizedEmail = email.trim().toLowerCase();
-
     const user = await prisma.user.findUnique({ where: { email: normalizedEmail } });
 
     if (!user) {
@@ -31,6 +39,8 @@ export async function POST(req: NextRequest) {
       data: { email: normalizedEmail, otp, expiresAt },
     });
 
+    const safeName = escapeHtml(user.name ?? 'there');
+
     await sendEmail({
       to: normalizedEmail,
       subject: 'Your HydraBytes verification code',
@@ -40,7 +50,7 @@ export async function POST(req: NextRequest) {
             <h1 style="margin: 0; font-size: 24px; font-weight: 800; color: #ffffff;">Verify Your Email</h1>
           </div>
           <div style="padding: 40px 32px;">
-            <p style="font-size: 16px; color: #a0a0b8; margin: 0 0 16px;">Hi ${user.name ?? 'there'},</p>
+            <p style="font-size: 16px; color: #a0a0b8; margin: 0 0 16px;">Hi ${safeName},</p>
             <p style="font-size: 16px; line-height: 1.7; color: #a0a0b8; margin: 0 0 24px;">
               Use the code below to verify your email address.
             </p>

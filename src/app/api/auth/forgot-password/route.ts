@@ -1,18 +1,30 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { Resend } from 'resend';
 import crypto from 'crypto';
+import { enforceRateLimit, FIFTEEN_MINUTES } from '@/lib/rateLimit';
+import { readJsonBody, requireJson, validateEmail, escapeHtml } from '@/lib/validate';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-export async function POST(req: Request) {
-  const { email } = await req.json();
+export async function POST(req: NextRequest) {
+  const limited = enforceRateLimit(req, 'auth:forgot-password', 3, FIFTEEN_MINUTES);
+  if (limited) return limited;
 
-  if (!email || typeof email !== 'string') {
+  const ctGuard = requireJson(req);
+  if (ctGuard) return ctGuard;
+
+  const parsed = await readJsonBody<{ email?: unknown }>(req);
+  if (!parsed.ok) return parsed.response;
+
+  // Always return 200 to avoid revealing whether the email exists,
+  // even when validation fails on shape.
+  const emailRes = validateEmail(parsed.data.email);
+  if ('error' in emailRes) {
     return NextResponse.json({ success: true }, { status: 200 });
   }
 
-  const normalizedEmail = email.trim().toLowerCase();
+  const normalizedEmail = emailRes.value;
 
   // Find user (only users with passwords can reset — OAuth users cannot)
   const user = await prisma.user.findUnique({ where: { email: normalizedEmail } });
@@ -30,7 +42,7 @@ export async function POST(req: Request) {
     });
 
     const resetUrl = `${process.env.NEXTAUTH_URL}/auth/reset-password?token=${token}`;
-    const userName = user.name ?? 'there';
+    const userName = escapeHtml(user.name ?? 'there');
 
     await resend.emails.send({
       from: 'HydraBytes <hello@hydrabytes.it.com>',

@@ -1,18 +1,23 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { Resend } from 'resend';
+import { enforceRateLimit, FIFTEEN_MINUTES } from '@/lib/rateLimit';
+import { readJsonBody, requireJson, validateEmail } from '@/lib/validate';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-export async function POST(req: Request) {
-  const { email } = await req.json();
+export async function POST(req: NextRequest) {
+  const limited = enforceRateLimit(req, 'newsletter', 5, FIFTEEN_MINUTES);
+  if (limited) return limited;
 
-  // Validate email
-  if (!email || typeof email !== 'string' || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
-    return NextResponse.json({ error: 'Invalid email address.' }, { status: 400 });
-  }
+  const ctGuard = requireJson(req);
+  if (ctGuard) return ctGuard;
+  const parsed = await readJsonBody<{ email?: unknown }>(req);
+  if (!parsed.ok) return parsed.response;
 
-  const normalizedEmail = email.trim().toLowerCase();
+  const emailRes = validateEmail(parsed.data.email);
+  if ('error' in emailRes) return NextResponse.json({ error: emailRes.error }, { status: emailRes.status });
+  const normalizedEmail = emailRes.value;
 
   // Check for duplicate
   const existing = await prisma.newsletterSubscriber.findUnique({ where: { email: normalizedEmail } });

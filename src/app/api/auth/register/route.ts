@@ -2,21 +2,39 @@ import { NextRequest, NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
 import { prisma } from '@/lib/prisma';
 import { sendEmail } from '@/lib/mailer';
+import { enforceRateLimit, FIFTEEN_MINUTES } from '@/lib/rateLimit';
+import {
+  readJsonBody,
+  requireJson,
+  validateName,
+  validateEmail,
+  validatePassword,
+  escapeHtml,
+} from '@/lib/validate';
 
 export async function POST(req: NextRequest) {
+  const limited = enforceRateLimit(req, 'auth:register', 5, FIFTEEN_MINUTES);
+  if (limited) return limited;
+
+  const ctGuard = requireJson(req);
+  if (ctGuard) return ctGuard;
+
+  const parsed = await readJsonBody<{ name?: unknown; email?: unknown; password?: unknown }>(req);
+  if (!parsed.ok) return parsed.response;
+  const { name: rawName, email: rawEmail, password: rawPassword } = parsed.data;
+
+  const nameRes = validateName(rawName);
+  if ('error' in nameRes) return NextResponse.json({ error: nameRes.error }, { status: nameRes.status });
+  const emailRes = validateEmail(rawEmail);
+  if ('error' in emailRes) return NextResponse.json({ error: emailRes.error }, { status: emailRes.status });
+  const passwordRes = validatePassword(rawPassword);
+  if ('error' in passwordRes) return NextResponse.json({ error: passwordRes.error }, { status: passwordRes.status });
+
+  const name = nameRes.value;
+  const normalizedEmail = emailRes.value;
+  const password = passwordRes.value;
+
   try {
-    const { name, email, password } = await req.json();
-
-    if (!name || !email || !password) {
-      return NextResponse.json({ error: 'All fields are required.' }, { status: 400 });
-    }
-
-    if (password.length < 8) {
-      return NextResponse.json({ error: 'Password must be at least 8 characters.' }, { status: 400 });
-    }
-
-    const normalizedEmail = email.trim().toLowerCase();
-
     const existing = await prisma.user.findUnique({ where: { email: normalizedEmail } });
     if (existing) {
       if (!existing.emailVerified) {
@@ -73,6 +91,7 @@ export async function POST(req: NextRequest) {
 }
 
 async function sendOtpEmail(email: string, name: string, otp: string) {
+  const safeName = escapeHtml(name);
   await sendEmail({
     to: email,
     subject: 'Your HydraBytes verification code',
@@ -82,7 +101,7 @@ async function sendOtpEmail(email: string, name: string, otp: string) {
           <h1 style="margin: 0; font-size: 24px; font-weight: 800; color: #ffffff;">Verify Your Email</h1>
         </div>
         <div style="padding: 40px 32px;">
-          <p style="font-size: 16px; color: #a0a0b8; margin: 0 0 16px;">Hi ${name},</p>
+          <p style="font-size: 16px; color: #a0a0b8; margin: 0 0 16px;">Hi ${safeName},</p>
           <p style="font-size: 16px; line-height: 1.7; color: #a0a0b8; margin: 0 0 24px;">
             Use the code below to verify your email address and activate your HydraBytes account.
           </p>

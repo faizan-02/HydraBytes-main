@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { Resend } from 'resend';
 import crypto from 'crypto';
+import { escapeHtml } from '@/lib/validate';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 const BASE_URL = process.env.AUTH_URL ?? process.env.NEXTAUTH_URL ?? 'https://www.hydrabytes.it.com';
@@ -18,10 +19,31 @@ export async function GET(req: NextRequest) {
     return html(page('Invalid Link', 'Missing parameters.', 'error'), 400);
   }
 
-  // Verify HMAC token
-  const hmacSecret = process.env.AUTH_SECRET ?? 'hydrabytes_fallback_secret';
+  // Hard caps to defend against pathological inputs in HMAC / DB lookup
+  if (id.length > 128 || token.length > 256 || !/^[A-Za-z0-9_-]+$/.test(id) || !/^[A-Fa-f0-9]+$/.test(token)) {
+    return html(page('Invalid Link', 'This link is malformed.', 'error'), 400);
+  }
+
+  // Verify HMAC token. Refuse to operate without a configured secret —
+  // a hardcoded fallback would let an attacker forge any link.
+  const hmacSecret = process.env.AUTH_SECRET ?? process.env.NEXTAUTH_SECRET;
+  if (!hmacSecret) {
+    console.error('[verify-submission] AUTH_SECRET / NEXTAUTH_SECRET is not configured');
+    return html(page('Server Error', 'Server is misconfigured.', 'error'), 500);
+  }
   const expected = crypto.createHmac('sha256', hmacSecret).update(id).digest('hex');
-  if (token !== expected) {
+  // Constant-time comparison to mitigate timing attacks
+  const expectedBuf = Buffer.from(expected, 'hex');
+  let tokenBuf: Buffer;
+  try {
+    tokenBuf = Buffer.from(token, 'hex');
+  } catch {
+    return html(page('Invalid Link', 'This link is invalid.', 'error'), 400);
+  }
+  if (
+    expectedBuf.length !== tokenBuf.length ||
+    !crypto.timingSafeEqual(expectedBuf, tokenBuf)
+  ) {
     return html(page('Invalid Link', 'This link is invalid or has been tampered with.', 'error'), 400);
   }
 
@@ -35,6 +57,10 @@ export async function GET(req: NextRequest) {
     return html(page('Already Processed', `This inquiry was already ${submission.status === 'contacted' ? 'accepted' : 'declined'}.`, 'info'));
   }
 
+  const safeSubmissionName = escapeHtml(submission.name);
+  const safeSubmissionService = escapeHtml(submission.service);
+  const safeSubmissionEmail = escapeHtml(submission.email);
+
   // Show decline form
   if (action === 'decline' && !reason) {
     return html(declineForm(id, token, submission.name, submission.service));
@@ -42,6 +68,9 @@ export async function GET(req: NextRequest) {
 
   if (action === 'decline') {
     await prisma.contactSubmission.update({ where: { id }, data: { status: 'closed' } });
+
+    // Cap reason length defensively then escape for HTML
+    const safeReason = reason ? escapeHtml(reason.slice(0, 1000)) : '';
 
     await resend.emails.send({
       from: 'HydraBytes <hello@hydrabytes.it.com>',
@@ -53,11 +82,11 @@ export async function GET(req: NextRequest) {
             <h1 style="margin:0;font-size:22px;font-weight:800;color:#fff;">Inquiry Update</h1>
           </div>
           <div style="padding:40px 32px;">
-            <p style="font-size:16px;color:#a0a0b8;margin:0 0 16px;">Hi ${submission.name},</p>
+            <p style="font-size:16px;color:#a0a0b8;margin:0 0 16px;">Hi ${safeSubmissionName},</p>
             <p style="font-size:15px;line-height:1.7;color:#a0a0b8;margin:0 0 24px;">
-              Thank you for your interest in <strong style="color:#f0f0f5">${submission.service}</strong>. After reviewing your inquiry, we're unable to take on this project at this time.
+              Thank you for your interest in <strong style="color:#f0f0f5">${safeSubmissionService}</strong>. After reviewing your inquiry, we're unable to take on this project at this time.
             </p>
-            ${reason ? `<div style="background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:10px;padding:16px;margin-bottom:24px;"><p style="margin:0;font-size:14px;color:#fca5a5;"><strong>Reason:</strong> ${reason}</p></div>` : ''}
+            ${safeReason ? `<div style="background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:10px;padding:16px;margin-bottom:24px;"><p style="margin:0;font-size:14px;color:#fca5a5;"><strong>Reason:</strong> ${safeReason}</p></div>` : ''}
             <p style="font-size:15px;line-height:1.7;color:#a0a0b8;margin:0 0 24px;">We encourage you to resubmit with updated requirements, or reach out to us directly to explore what we can help with.</p>
             <div style="display:flex;gap:12px;flex-wrap:wrap;">
               <a href="${BASE_URL}/contact" style="display:inline-block;padding:12px 24px;background:linear-gradient(135deg,#7c3aed,#00e5ff);color:#fff;text-decoration:none;border-radius:8px;font-weight:600;font-size:14px;">Submit New Request</a>
@@ -70,7 +99,7 @@ export async function GET(req: NextRequest) {
         </div>`,
     }).catch(() => {});
 
-    return html(page('Inquiry Declined', `${submission.name}'s inquiry has been declined and they have been notified.`, 'error'));
+    return html(page('Inquiry Declined', `${safeSubmissionName}'s inquiry has been declined and they have been notified.`, 'error'));
   }
 
   // Accept — update status
@@ -100,7 +129,7 @@ export async function GET(req: NextRequest) {
   const ctaText = existingUser ? 'View Your Dashboard →' : 'Create Your Free Account →';
   const ctaDesc = existingUser
     ? `Your project has been added to your dashboard.`
-    : `Create your free HydraBytes account using the email address you submitted your inquiry with (<strong style="color:#c4b5fd">${submission.email}</strong>) to:`;
+    : `Create your free HydraBytes account using the email address you submitted your inquiry with (<strong style="color:#c4b5fd">${safeSubmissionEmail}</strong>) to:`;
 
   await resend.emails.send({
     from: 'HydraBytes <hello@hydrabytes.it.com>',
@@ -113,9 +142,9 @@ export async function GET(req: NextRequest) {
           <p style="margin:8px 0 0;font-size:16px;color:rgba(255,255,255,0.85);">Your inquiry has been accepted</p>
         </div>
         <div style="padding:40px 32px;">
-          <p style="font-size:16px;color:#a0a0b8;margin:0 0 16px;">Hi ${submission.name},</p>
+          <p style="font-size:16px;color:#a0a0b8;margin:0 0 16px;">Hi ${safeSubmissionName},</p>
           <p style="font-size:15px;line-height:1.7;color:#a0a0b8;margin:0 0 24px;">
-            We've reviewed your inquiry for <strong style="color:#f0f0f5">${submission.service}</strong> and we're excited to work with you! Our team will reach out within <strong style="color:#f0f0f5">24 hours</strong> to discuss scope, timeline, and next steps.
+            We've reviewed your inquiry for <strong style="color:#f0f0f5">${safeSubmissionService}</strong> and we're excited to work with you! Our team will reach out within <strong style="color:#f0f0f5">24 hours</strong> to discuss scope, timeline, and next steps.
           </p>
 
           <div style="background:rgba(124,58,237,0.08);border:1px solid rgba(124,58,237,0.25);border-radius:12px;padding:24px;margin-bottom:32px;">
@@ -144,7 +173,7 @@ export async function GET(req: NextRequest) {
       </div>`,
   }).catch(() => {});
 
-  return html(page('Inquiry Accepted', `${submission.name} has been notified${existingUser ? ' and their project is live on their dashboard' : ' with an invitation to create their account and track progress'}.`, 'success'));
+  return html(page('Inquiry Accepted', `${safeSubmissionName} has been notified${existingUser ? ' and their project is live on their dashboard' : ' with an invitation to create their account and track progress'}.`, 'success'));
 }
 
 function html(content: string, status = 200) {
@@ -152,6 +181,10 @@ function html(content: string, status = 200) {
 }
 
 function declineForm(id: string, token: string, name: string, service: string) {
+  const safeId = escapeHtml(id);
+  const safeToken = escapeHtml(token);
+  const safeName = escapeHtml(name);
+  const safeService = escapeHtml(service);
   return `<!DOCTYPE html>
 <html>
 <head><title>Decline Inquiry — HydraBytes</title>
@@ -168,10 +201,10 @@ function declineForm(id: string, token: string, name: string, service: string) {
 <div class="card">
   <div style="font-size:40px;margin-bottom:16px;color:#ef4444;">&#10005;</div>
   <h1>Decline Inquiry</h1>
-  <p>Declining: <strong style="color:#e2e8f0">${name}</strong> — ${service}</p>
+  <p>Declining: <strong style="color:#e2e8f0">${safeName}</strong> — ${safeService}</p>
   <form method="GET" action="/api/verify-submission">
-    <input type="hidden" name="id" value="${id}"/>
-    <input type="hidden" name="token" value="${token}"/>
+    <input type="hidden" name="id" value="${safeId}"/>
+    <input type="hidden" name="token" value="${safeToken}"/>
     <input type="hidden" name="action" value="decline"/>
     <label style="font-size:13px;color:#94a3b8;display:block;margin-bottom:8px;">Reason for declining (optional — will be sent to client):</label>
     <textarea name="reason" rows="4" placeholder="e.g. Outside our current service scope, budget mismatch..."></textarea>

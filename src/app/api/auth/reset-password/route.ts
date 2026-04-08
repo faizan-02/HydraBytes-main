@@ -1,17 +1,31 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import bcrypt from 'bcryptjs';
+import { enforceRateLimit, FIFTEEN_MINUTES } from '@/lib/rateLimit';
+import {
+  readJsonBody,
+  requireJson,
+  validatePassword,
+  validateToken,
+} from '@/lib/validate';
 
-export async function POST(req: Request) {
-  const { token, password } = await req.json();
+export async function POST(req: NextRequest) {
+  const limited = enforceRateLimit(req, 'auth:reset-password', 5, FIFTEEN_MINUTES);
+  if (limited) return limited;
 
-  if (!token || !password || typeof token !== 'string' || typeof password !== 'string') {
-    return NextResponse.json({ error: 'Invalid request.' }, { status: 400 });
-  }
+  const ctGuard = requireJson(req);
+  if (ctGuard) return ctGuard;
 
-  if (password.length < 8) {
-    return NextResponse.json({ error: 'Password must be at least 8 characters.' }, { status: 400 });
-  }
+  const parsed = await readJsonBody<{ token?: unknown; password?: unknown }>(req);
+  if (!parsed.ok) return parsed.response;
+
+  const tokenRes = validateToken(parsed.data.token);
+  if ('error' in tokenRes) return NextResponse.json({ error: tokenRes.error }, { status: tokenRes.status });
+  const passwordRes = validatePassword(parsed.data.password);
+  if ('error' in passwordRes) return NextResponse.json({ error: passwordRes.error }, { status: passwordRes.status });
+
+  const token = tokenRes.value;
+  const password = passwordRes.value;
 
   // Find token
   const resetToken = await prisma.passwordResetToken.findUnique({ where: { token } });
