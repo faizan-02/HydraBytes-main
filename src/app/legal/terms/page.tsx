@@ -1,4 +1,7 @@
-export const metadata = { title: 'Terms of Service — HydraBytes' };
+export const metadata = {
+  title: 'Terms of Service — HydraBytes',
+  alternates: { canonical: 'https://www.hydrabytes.it.com/legal/terms' },
+};
 
 const EFFECTIVE_DATE = 'April 2, 2026';
 const EMAIL = 'hydrabytes4@gmail.com';
