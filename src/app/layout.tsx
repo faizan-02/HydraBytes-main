@@ -29,9 +29,9 @@ export const metadata: Metadata = {
     canonical: 'https://www.hydrabytes.it.com',
   },
   icons: {
-    icon: '/favicon.svg',
-    shortcut: '/favicon.svg',
-    apple: '/favicon.svg',
+    icon: '/Hydrabytes_logo.png',
+    shortcut: '/Hydrabytes_logo.png',
+    apple: '/Hydrabytes_logo.png',
   },
   openGraph: {
     title: 'HydraBytes | Next-Gen Digital Solutions',
@@ -41,9 +41,9 @@ export const metadata: Metadata = {
     url: 'https://www.hydrabytes.it.com',
     images: [
       {
-        url: '/transparent.png',
-        width: 512,
-        height: 512,
+        url: '/Hydrabytes_logo.png',
+        width: 2048,
+        height: 2048,
         alt: 'HydraBytes Logo',
       },
     ],
@@ -52,7 +52,7 @@ export const metadata: Metadata = {
     card: 'summary',
     title: 'HydraBytes | Next-Gen Digital Solutions',
     description: 'Transform your business with cutting-edge web, mobile, and AI solutions.',
-    images: ['/transparent.png'],
+    images: ['/Hydrabytes_logo.png'],
   },
 };
 
@@ -75,7 +75,7 @@ export default function RootLayout({
           '@type': 'Organization',
           name: 'HydraBytes',
           url: 'https://www.hydrabytes.it.com',
-          logo: 'https://www.hydrabytes.it.com/transparent.png',
+          logo: 'https://www.hydrabytes.it.com/Hydrabytes_logo.png',
           description:
             'HydraBytes is a cutting-edge IT startup delivering premium web development, mobile app development, and AI/ML solutions.',
           sameAs: [
