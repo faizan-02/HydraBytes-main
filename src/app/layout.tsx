@@ -36,6 +36,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'HydraBytes | Next-Gen Digital Solutions',
     description: 'Transform your business with cutting-edge web, mobile, and AI solutions.',
+    siteName: 'HydraBytes',
     type: 'website',
     url: 'https://www.hydrabytes.it.com',
     images: [
@@ -63,6 +64,12 @@ export default function RootLayout({
   return (
     <html lang="en" data-theme="dark" suppressHydrationWarning className={`${inter.variable} ${poppins.variable}`}>
       <body>
+        <JsonLd data={{
+          '@context': 'https://schema.org',
+          '@type': 'WebSite',
+          name: 'HydraBytes',
+          url: 'https://www.hydrabytes.it.com',
+        }} />
         <JsonLd data={{
           '@context': 'https://schema.org',
           '@type': 'Organization',
