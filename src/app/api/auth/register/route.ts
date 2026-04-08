@@ -1,9 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
 import { prisma } from '@/lib/prisma';
-import { Resend } from 'resend';
-
-const resend = new Resend(process.env.RESEND_API_KEY);
+import { sendEmail } from '@/lib/mailer';
 
 export async function POST(req: NextRequest) {
   try {
@@ -75,8 +73,7 @@ export async function POST(req: NextRequest) {
 }
 
 async function sendOtpEmail(email: string, name: string, otp: string) {
-  await resend.emails.send({
-    from: 'HydraBytes <hello@hydrabytes.it.com>',
+  await sendEmail({
     to: email,
     subject: 'Your HydraBytes verification code',
     html: `
