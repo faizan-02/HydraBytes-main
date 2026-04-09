@@ -93,3 +93,12 @@ model PasswordResetToken {
   expiresAt DateTime
   createdAt DateTime @default(now())
 }
+
+model EmailChangeToken {
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  newEmail  String
+  otp       String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+}

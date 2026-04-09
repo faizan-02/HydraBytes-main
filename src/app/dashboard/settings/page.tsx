@@ -41,6 +41,8 @@ export default function SettingsPage() {
   const [showEmailPassword, setShowEmailPassword] = useState(false);
   const [emailLoading, setEmailLoading] = useState(false);
   const [emailMsg, setEmailMsg] = useState<{ text: string; ok: boolean } | null>(null);
+  const [emailOtpPending, setEmailOtpPending] = useState(false);
+  const [emailOtp, setEmailOtp] = useState('');
 
   // Password
   const [currentPassword, setCurrentPassword] = useState('');
@@ -135,8 +137,25 @@ export default function SettingsPage() {
     });
     const data = await res.json();
     setEmailLoading(false);
+    if (res.ok && data.pending) {
+      setEmailOtpPending(true);
+      setEmailMsg({ text: `A 6-digit verification code was sent to ${newEmail}`, ok: true });
+    } else {
+      setEmailMsg({ text: data.error, ok: false });
+    }
+  }
+
+  async function handleEmailOtpVerify(e: React.FormEvent) {
+    e.preventDefault();
+    setEmailLoading(true); setEmailMsg(null);
+    const res = await fetch('/api/user/settings', {
+      method: 'PATCH', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: 'verify_email_change', otp: emailOtp }),
+    });
+    const data = await res.json();
+    setEmailLoading(false);
     if (res.ok) {
-      setEmailMsg({ text: 'Email updated. Signing you out to re-authenticate…', ok: true });
+      setEmailMsg({ text: 'Email changed successfully. Signing you out…', ok: true });
       setTimeout(() => signOut({ callbackUrl: '/auth/signin' }), 2000);
     } else {
       setEmailMsg({ text: data.error, ok: false });
@@ -294,32 +313,56 @@ export default function SettingsPage() {
               <h2 style={{ fontSize: '15px', fontWeight: 600, margin: '0 0 4px', display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--text-primary)' }}>
                 <Mail size={16} color="#6366f1" /> Change Email Address
               </h2>
-              <p style={{ fontSize: '13px', color: 'var(--text-secondary)', margin: '0 0 20px' }}>You will be signed out after changing your email</p>
-              <form onSubmit={handleEmailSave} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
-                <div>
-                  {fieldLabel('New email address')}
-                  <input style={inputStyle} type="email" value={newEmail} onChange={e => setNewEmail(e.target.value)}
-                    placeholder="new@example.com"
-                    onFocus={e => (e.target.style.borderColor = '#6366f1')}
-                    onBlur={e => (e.target.style.borderColor = inputBorderDefault)} />
-                </div>
-                <div>
-                  {fieldLabel('Current password (to confirm)')}
-                  <div style={{ position: 'relative' }}>
-                    <input type={showEmailPassword ? 'text' : 'password'} style={{ ...inputStyle, paddingRight: '42px' }}
-                      value={emailPassword} onChange={e => setEmailPassword(e.target.value)}
-                      placeholder="Enter your current password"
+              <p style={{ fontSize: '13px', color: 'var(--text-secondary)', margin: '0 0 20px' }}>
+                {emailOtpPending ? `Enter the 6-digit code sent to ${newEmail}` : 'A verification code will be sent to your new email address'}
+              </p>
+
+              {!emailOtpPending ? (
+                <form onSubmit={handleEmailSave} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+                  <div>
+                    {fieldLabel('New email address')}
+                    <input style={inputStyle} type="email" value={newEmail} onChange={e => setNewEmail(e.target.value)}
+                      placeholder="new@example.com"
                       onFocus={e => (e.target.style.borderColor = '#6366f1')}
                       onBlur={e => (e.target.style.borderColor = inputBorderDefault)} />
-                    <button type="button" onClick={() => setShowEmailPassword(!showEmailPassword)}
-                      style={{ position: 'absolute', right: '12px', top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-secondary)', display: 'flex', padding: 0 }}>
-                      {showEmailPassword ? <EyeOff size={15} /> : <Eye size={15} />}
+                  </div>
+                  <div>
+                    {fieldLabel('Current password (to confirm)')}
+                    <div style={{ position: 'relative' }}>
+                      <input type={showEmailPassword ? 'text' : 'password'} style={{ ...inputStyle, paddingRight: '42px' }}
+                        value={emailPassword} onChange={e => setEmailPassword(e.target.value)}
+                        placeholder="Enter your current password"
+                        onFocus={e => (e.target.style.borderColor = '#6366f1')}
+                        onBlur={e => (e.target.style.borderColor = inputBorderDefault)} />
+                      <button type="button" onClick={() => setShowEmailPassword(!showEmailPassword)}
+                        style={{ position: 'absolute', right: '12px', top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-secondary)', display: 'flex', padding: 0 }}>
+                        {showEmailPassword ? <EyeOff size={15} /> : <Eye size={15} />}
+                      </button>
+                    </div>
+                  </div>
+                  {emailMsg && <p style={{ fontSize: '13px', color: emailMsg.ok ? '#16a34a' : '#ef4444', margin: 0 }}>{emailMsg.text}</p>}
+                  {saveBtn(emailLoading || !newEmail.trim() || !emailPassword, 'Send Verification Code', 'Sending…', emailLoading, <Mail size={14} />)}
+                </form>
+              ) : (
+                <form onSubmit={handleEmailOtpVerify} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+                  <div>
+                    {fieldLabel('Verification code')}
+                    <input style={{ ...inputStyle, letterSpacing: '6px', fontSize: '20px', fontWeight: 700, textAlign: 'center' }}
+                      value={emailOtp} onChange={e => setEmailOtp(e.target.value.replace(/\D/g, '').slice(0, 6))}
+                      placeholder="000000" maxLength={6} inputMode="numeric"
+                      onFocus={e => (e.target.style.borderColor = '#6366f1')}
+                      onBlur={e => (e.target.style.borderColor = inputBorderDefault)} />
+                  </div>
+                  {emailMsg && <p style={{ fontSize: '13px', color: emailMsg.ok ? '#16a34a' : '#ef4444', margin: 0 }}>{emailMsg.text}</p>}
+                  <div style={{ display: 'flex', gap: '10px' }}>
+                    {saveBtn(emailLoading || emailOtp.length !== 6, 'Confirm Email Change', 'Verifying…', emailLoading, <Mail size={14} />)}
+                    <button type="button" onClick={() => { setEmailOtpPending(false); setEmailOtp(''); setEmailMsg(null); }}
+                      style={{ padding: '10px 16px', background: 'transparent', border: `1.5px solid ${inputBorderDefault}`, borderRadius: '10px', fontSize: '14px', color: 'var(--text-secondary)', cursor: 'pointer' }}>
+                      Cancel
                     </button>
                   </div>
-                </div>
-                {emailMsg && <p style={{ fontSize: '13px', color: emailMsg.ok ? '#16a34a' : '#ef4444', margin: 0 }}>{emailMsg.text}</p>}
-                {saveBtn(emailLoading || !newEmail.trim() || !emailPassword, 'Change Email', 'Updating…', emailLoading, <Mail size={14} />)}
-              </form>
+                </form>
+              )}
             </div>
           )}
         </>)}
