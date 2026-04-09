@@ -11,6 +11,7 @@ const INTERNATIONAL_METHODS = [
     id: 'payoneer',
     name: 'Payoneer',
     icon: 'P',
+    logo: '/logos/payoneer.png',
     color: '#ff4800',
     bg: 'rgba(255,72,0,0.08)',
     border: 'rgba(255,72,0,0.25)',
@@ -23,6 +24,7 @@ const INTERNATIONAL_METHODS = [
     id: 'usdt_trc20',
     name: 'USDT (TRC20)',
     icon: 'T',
+    logo: '/logos/trc20.png',
     color: '#26a17b',
     bg: 'rgba(38,161,123,0.08)',
     border: 'rgba(38,161,123,0.25)',
@@ -182,7 +184,12 @@ export default function LocalPaymentPage({ params }: { params: Promise<{ invoice
                   gap: '10px',
                 }}
               >
-                <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 36, height: 36, borderRadius: 8, background: 'rgba(38,161,123,0.12)', color: '#26a17b', fontSize: '11px', fontWeight: 800, letterSpacing: '-0.5px', flexShrink: 0 }}>{method.icon}</span>
+                {(method as { logo?: string }).logo
+                  ? <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', background: '#fff', borderRadius: '8px', padding: '4px 8px', height: '36px', boxSizing: 'border-box', flexShrink: 0 }}>
+                      <img src={(method as { logo?: string }).logo} alt={method.name} style={{ height: '26px', width: 'auto', objectFit: 'contain', display: 'block' }} />
+                    </span>
+                  : <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 36, height: 36, borderRadius: 8, background: 'rgba(38,161,123,0.12)', color: '#26a17b', fontSize: '11px', fontWeight: 800, letterSpacing: '-0.5px', flexShrink: 0 }}>{method.icon}</span>
+                }
                 <span style={{ fontWeight: 600, fontSize: '14px', color: selected === method.id ? method.color : 'var(--text-primary, #f0f0f5)' }}>
                   {method.name}
                 </span>
