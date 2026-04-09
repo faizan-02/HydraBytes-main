@@ -1,9 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { signIn } from 'next-auth/react';
+import { signIn, useSession } from 'next-auth/react';
 import { motion } from 'framer-motion';
 import { Mail, Lock, Eye, EyeOff, ArrowRight } from 'lucide-react';
 import MagneticButton from '@/components/MagneticButton';
@@ -11,7 +11,12 @@ import styles from './signin.module.css';
 
 export default function SignInPage() {
   const router = useRouter();
+  const { status } = useSession();
   const searchParams = useSearchParams();
+
+  useEffect(() => {
+    if (status === 'authenticated') router.replace('/dashboard');
+  }, [status, router]);
   const registered = searchParams.get('registered');
   const reset = searchParams.get('reset');
   const [showPassword, setShowPassword] = useState(false);

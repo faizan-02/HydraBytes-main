@@ -47,6 +47,11 @@ const nextConfig = {
         source: '/:path*',
         headers: securityHeaders,
       },
+      {
+        // Prevent Cloudflare/CDN from caching auth endpoints (CSRF tokens must always be fresh)
+        source: '/api/auth/:path*',
+        headers: [{ key: 'Cache-Control', value: 'no-store, max-age=0' }],
+      },
     ];
   },
   async redirects() {
