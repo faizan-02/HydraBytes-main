@@ -1,10 +1,8 @@
 import { NextResponse } from 'next/server';
 import { auth } from '@/../auth';
 import { prisma } from '@/lib/prisma';
-import { Resend } from 'resend';
+import { sendEmail } from '@/lib/mailer';
 import { readJsonBody, requireJson, escapeHtml, LIMITS } from '@/lib/validate';
-
-const resend = new Resend(process.env.RESEND_API_KEY);
 const ADMIN_EMAIL = process.env.TEAM_EMAIL ?? 'hydrabytes4@gmail.com';
 
 const ALLOWED_METHODS = new Set(['easypaisa', 'jazzcash', 'nayapay', 'bank', 'payoneer', 'usdt_trc20']);
@@ -75,8 +73,7 @@ export async function POST(req: Request) {
   };
 
   // Notify admin
-  await resend.emails.send({
-    from: 'HydraBytes <hello@hydrabytes.it.com>',
+  await sendEmail({
     to: ADMIN_EMAIL,
     subject: `Payment Submitted — ${formattedAmount} via ${methodLabels[method] ?? method}`,
     html: `
@@ -100,7 +97,7 @@ export async function POST(req: Request) {
         </div>
       </div>
     `,
-  }).catch(() => {});
+  }).catch((err) => { console.error('[payment/local] admin notification email error:', err); });
 
   return NextResponse.json({ success: true });
 }

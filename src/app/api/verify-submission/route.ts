@@ -1,10 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { Resend } from 'resend';
+import { sendEmail } from '@/lib/mailer';
 import crypto from 'crypto';
 import { escapeHtml } from '@/lib/validate';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
 const BASE_URL = process.env.AUTH_URL ?? process.env.NEXTAUTH_URL ?? 'https://www.hydrabytes.it.com';
 const CALENDLY_LINK = process.env.NEXT_PUBLIC_CALENDLY_URL ?? 'https://calendly.com/faizanjawad02/30min';
 const WA_LINK = `https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP ?? '923239999000'}`;
@@ -72,8 +71,7 @@ export async function GET(req: NextRequest) {
     // Cap reason length defensively then escape for HTML
     const safeReason = reason ? escapeHtml(reason.slice(0, 1000)) : '';
 
-    await resend.emails.send({
-      from: 'HydraBytes <hello@hydrabytes.it.com>',
+    await sendEmail({
       to: submission.email,
       subject: 'Update on your HydraBytes inquiry',
       html: `
@@ -97,7 +95,7 @@ export async function GET(req: NextRequest) {
             <p style="margin:0;font-size:13px;color:#6c6c85;">© ${new Date().getFullYear()} HydraBytes. All rights reserved.</p>
           </div>
         </div>`,
-    }).catch(() => {});
+    }).catch((err) => { console.error('[verify-submission] decline email error:', err); });
 
     return html(page('Inquiry Declined', `${safeSubmissionName}'s inquiry has been declined and they have been notified.`, 'error'));
   }
@@ -131,8 +129,7 @@ export async function GET(req: NextRequest) {
     ? `Your project has been added to your dashboard.`
     : `Create your free HydraBytes account using the email address you submitted your inquiry with (<strong style="color:#c4b5fd">${safeSubmissionEmail}</strong>) to:`;
 
-  await resend.emails.send({
-    from: 'HydraBytes <hello@hydrabytes.it.com>',
+  await sendEmail({
     to: submission.email,
     subject: 'Your HydraBytes inquiry has been accepted!',
     html: `
@@ -171,7 +168,7 @@ export async function GET(req: NextRequest) {
           <p style="margin:0;font-size:13px;color:#6c6c85;">© ${new Date().getFullYear()} HydraBytes · hydrabytes4@gmail.com · +92 323 9999 000</p>
         </div>
       </div>`,
-  }).catch(() => {});
+  }).catch((err) => { console.error('[verify-submission] accept email error:', err); });
 
   return html(page('Inquiry Accepted', `${safeSubmissionName} has been notified${existingUser ? ' and their project is live on their dashboard' : ' with an invitation to create their account and track progress'}.`, 'success'));
 }

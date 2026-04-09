@@ -1,11 +1,9 @@
 import { NextResponse } from 'next/server';
 import { auth } from '@/../auth';
 import { prisma } from '@/lib/prisma';
-import { Resend } from 'resend';
 import { sendEmail } from '@/lib/mailer';
 import { readJsonBody, requireJson, escapeHtml } from '@/lib/validate';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
 const BASE_URL = process.env.AUTH_URL ?? process.env.NEXTAUTH_URL ?? 'https://hydrabytes.it.com';
 
 const ALLOWED_PROJECT_STATUSES = new Set([
@@ -94,8 +92,7 @@ export async function PATCH(req: Request) {
       const safeTitle = escapeHtml(updated.title);
       const safeService = escapeHtml(updated.service);
 
-      await resend.emails.send({
-        from: 'HydraBytes <hello@hydrabytes.it.com>',
+      await sendEmail({
         to: updated.user.email,
         subject: `Update on your project: ${updated.title}`,
         html: `
@@ -121,7 +118,7 @@ export async function PATCH(req: Request) {
             </div>
           </div>
         `,
-      }).catch(() => {});
+      }).catch((err) => { console.error('[admin] project status email error:', err); });
     }
 
     return NextResponse.json(updated);
@@ -264,8 +261,7 @@ export async function PATCH(req: Request) {
       const formattedAmount = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(updated.amount);
       const userName = escapeHtml(updated.user.name ?? 'there');
       const safeProjectTitle = escapeHtml(updated.project?.title ?? 'General Services');
-      await resend.emails.send({
-        from: 'HydraBytes <hello@hydrabytes.it.com>',
+      await sendEmail({
         to: updated.user.email,
         subject: `Payment Confirmed — ${formattedAmount} received`,
         html: `
@@ -305,7 +301,7 @@ export async function PATCH(req: Request) {
             </div>
           </div>
         `,
-      }).catch(() => {});
+      }).catch((err) => { console.error('[admin] payment confirmed email error:', err); });
     }
 
     return NextResponse.json(updated);
@@ -376,9 +372,8 @@ export async function POST(req: Request) {
   const safeDescription = description ? escapeHtml(description) : '';
   const paymentPageUrl = `${BASE_URL}/payment/local/${invoice.id}`;
 
-  await resend.emails.send({
-    from: 'HydraBytes <hello@hydrabytes.it.com>',
-    to: user.email,
+  await sendEmail({
+    to: user.email!,
     subject: `Invoice from HydraBytes — ${formattedAmount}`,
     html: `
       <div style="font-family: Inter, sans-serif; max-width: 600px; margin: 0 auto; background: #0a0a12; color: #f0f0f5; border-radius: 12px; overflow: hidden;">
@@ -425,7 +420,7 @@ export async function POST(req: Request) {
         </div>
       </div>
     `,
-  }).catch(() => {});
+  }).catch((err) => { console.error('[admin] invoice email error:', err); });
 
   return NextResponse.json(invoice, { status: 201 });
 }
