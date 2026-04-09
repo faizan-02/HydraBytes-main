@@ -29,9 +29,9 @@ export const metadata: Metadata = {
     canonical: 'https://www.hydrabytes.it.com',
   },
   icons: {
-    icon: '/Hydrabytes_logo.png',
-    shortcut: '/Hydrabytes_logo.png',
-    apple: '/Hydrabytes_logo.png',
+    icon: '/transparent.png',
+    shortcut: '/transparent.png',
+    apple: '/transparent.png',
   },
   openGraph: {
     title: 'HydraBytes | Next-Gen Digital Solutions',
