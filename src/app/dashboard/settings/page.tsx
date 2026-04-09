@@ -16,6 +16,7 @@ export default function SettingsPage() {
 
   // Name
   const [name, setName] = useState('');
+  const [displayedName, setDisplayedName] = useState<string | null>(null);
   const [nameLoading, setNameLoading] = useState(false);
   const [nameMsg, setNameMsg] = useState<{ text: string; ok: boolean } | null>(null);
 
@@ -43,7 +44,8 @@ export default function SettingsPage() {
   if (!session) { router.push('/auth/signin'); return null; }
 
   const isOAuth = !(session.user as { role?: string; id?: string } & typeof session.user & { hasPassword?: boolean })?.hasPassword;
-  const initials = session.user?.name?.split(' ').map((n: string) => n[0]).join('').toUpperCase() ?? 'U';
+  const currentName = displayedName ?? session.user?.name ?? '';
+  const initials = currentName ? currentName.split(' ').map((n: string) => n[0]).join('').toUpperCase() : 'U';
 
   async function handleNameSave(e: React.FormEvent) {
     e.preventDefault();
@@ -59,8 +61,9 @@ export default function SettingsPage() {
     setNameLoading(false);
     if (res.ok) {
       setNameMsg({ text: 'Name updated successfully.', ok: true });
+      setDisplayedName(name.trim());
       setName('');
-      await update({ name });
+      await update({ name: name.trim() });
     } else {
       setNameMsg({ text: data.error, ok: false });
     }
@@ -159,7 +162,7 @@ export default function SettingsPage() {
                   Current name
                 </label>
                 <div style={{ ...inputStyle, color: 'var(--text-secondary, #9ca3af)', cursor: 'default' }}>
-                  {session.user?.name ?? '—'}
+                  {displayedName ?? session.user?.name ?? '—'}
                 </div>
               </div>
               <div>

@@ -73,11 +73,16 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     }),
   ],
   callbacks: {
-    async jwt({ token, user, account }) {
+    async jwt({ token, user, account, trigger, session: sessionUpdate }) {
+      // Handle session update (e.g. name change from settings page)
+      if (trigger === 'update' && sessionUpdate?.name) {
+        token.name = sessionUpdate.name;
+      }
       // Credentials login — user object has id and role directly
       if (user && account?.provider === 'credentials') {
         token.id = user.id;
         token.role = (user as { role?: string }).role ?? 'user';
+        token.hasPassword = true;
       }
       // OAuth first sign-in — upsert user and get DB id/role
       if (account && (account.provider === 'google' || account.provider === 'github')) {
@@ -120,8 +125,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     },
     async session({ session, token }) {
       if (token) {
-        (session.user as { id?: string; role?: string }).id = token.id as string;
-        (session.user as { id?: string; role?: string }).role = (token.role as string) ?? 'user';
+        (session.user as { id?: string; role?: string; hasPassword?: boolean }).id = token.id as string;
+        (session.user as { id?: string; role?: string; hasPassword?: boolean }).role = (token.role as string) ?? 'user';
+        (session.user as { id?: string; role?: string; hasPassword?: boolean }).hasPassword = (token.hasPassword as boolean) ?? false;
       }
       return session;
     },
