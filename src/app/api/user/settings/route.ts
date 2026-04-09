@@ -32,7 +32,7 @@ export async function PATCH(req: NextRequest) {
   const ctGuard = requireJson(req);
   if (ctGuard) return ctGuard;
 
-  const parsed = await readJsonBody<{ action?: unknown; name?: unknown; currentPassword?: unknown; newPassword?: unknown; phone?: unknown; company?: unknown; newEmail?: unknown }>(req);
+  const parsed = await readJsonBody<{ action?: unknown; name?: unknown; currentPassword?: unknown; newPassword?: unknown; phone?: unknown; company?: unknown; newEmail?: unknown; otp?: unknown }>(req);
   if (!parsed.ok) return parsed.response;
 
   const { action } = parsed.data;
