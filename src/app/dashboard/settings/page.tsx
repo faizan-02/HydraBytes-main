@@ -1,14 +1,21 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useSession, signOut } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { User, Lock, Trash2, ArrowLeft, Eye, EyeOff, Save, AlertTriangle, Phone, Building2 } from 'lucide-react';
+import { User, Lock, Trash2, ArrowLeft, Eye, EyeOff, Save, AlertTriangle, Phone, Building2, Mail, Pencil } from 'lucide-react';
 import Link from 'next/link';
 import { useTheme } from '@/lib/ThemeContext';
 
 type Tab = 'account' | 'security' | 'danger';
+
+interface ProfileData {
+  name: string | null;
+  email: string | null;
+  phone: string | null;
+  company: string | null;
+}
 
 export default function SettingsPage() {
   const { data: session, status, update } = useSession();
@@ -17,17 +24,23 @@ export default function SettingsPage() {
   const isDark = theme === 'dark';
   const [tab, setTab] = useState<Tab>('account');
 
-  // Name
-  const [name, setName] = useState('');
-  const [displayedName, setDisplayedName] = useState<string | null>(null);
-  const [nameLoading, setNameLoading] = useState(false);
-  const [nameMsg, setNameMsg] = useState<{ text: string; ok: boolean } | null>(null);
+  // Profile data (fetched from API)
+  const [profileData, setProfileData] = useState<ProfileData | null>(null);
+  const [profileLoading, setProfileLoading] = useState(true);
 
-  // Contact info
-  const [phone, setPhone] = useState('');
-  const [company, setCompany] = useState('');
-  const [contactLoading, setContactLoading] = useState(false);
-  const [contactMsg, setContactMsg] = useState<{ text: string; ok: boolean } | null>(null);
+  // Edit profile (name + phone + company)
+  const [editName, setEditName] = useState('');
+  const [editPhone, setEditPhone] = useState('');
+  const [editCompany, setEditCompany] = useState('');
+  const [infoLoading, setInfoLoading] = useState(false);
+  const [infoMsg, setInfoMsg] = useState<{ text: string; ok: boolean } | null>(null);
+
+  // Email change
+  const [newEmail, setNewEmail] = useState('');
+  const [emailPassword, setEmailPassword] = useState('');
+  const [showEmailPassword, setShowEmailPassword] = useState(false);
+  const [emailLoading, setEmailLoading] = useState(false);
+  const [emailMsg, setEmailMsg] = useState<{ text: string; ok: boolean } | null>(null);
 
   // Password
   const [currentPassword, setCurrentPassword] = useState('');
@@ -42,6 +55,19 @@ export default function SettingsPage() {
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [deleteMsg, setDeleteMsg] = useState<string | null>(null);
 
+  useEffect(() => {
+    if (status !== 'authenticated') return;
+    fetch('/api/user/settings')
+      .then(r => r.json())
+      .then((data: ProfileData) => {
+        setProfileData(data);
+        setEditName(data.name ?? '');
+        setEditPhone(data.phone ?? '');
+        setEditCompany(data.company ?? '');
+      })
+      .finally(() => setProfileLoading(false));
+  }, [status]);
+
   if (status === 'loading') {
     return (
       <div style={{ minHeight: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -53,8 +79,8 @@ export default function SettingsPage() {
   if (!session) { router.push('/auth/signin'); return null; }
 
   const isOAuth = !(session.user as { hasPassword?: boolean })?.hasPassword;
-  const currentName = displayedName ?? session.user?.name ?? '';
-  const initials = currentName ? currentName.split(' ').map((n: string) => n[0]).join('').toUpperCase() : 'U';
+  const displayName = profileData?.name ?? session.user?.name ?? '';
+  const initials = displayName ? displayName.split(' ').map((n: string) => n[0]).join('').toUpperCase() : 'U';
 
   // ── Theme tokens ──────────────────────────────────────────────────────────
   const cardBg      = isDark ? 'rgba(255,255,255,0.03)' : '#ffffff';
@@ -65,6 +91,7 @@ export default function SettingsPage() {
   const inputColor  = 'var(--text-primary)';
   const labelColor  = 'var(--text-secondary)';
   const readonlyBg  = isDark ? 'rgba(255,255,255,0.03)' : '#f1f5f9';
+  const readonlyBorder = isDark ? '1px solid rgba(255,255,255,0.06)' : '1px solid #e2e8f0';
   const dangerCardBg = isDark ? 'rgba(239,68,68,0.04)' : '#fff5f5';
   const dangerCardBorder = isDark ? '1px solid rgba(239,68,68,0.2)' : '1px solid #fecaca';
   const oauthNoteBg  = isDark ? 'rgba(99,102,241,0.06)' : '#f0f0ff';
@@ -81,31 +108,39 @@ export default function SettingsPage() {
     transition: 'border-color 0.15s',
   };
 
-  async function handleNameSave(e: React.FormEvent) {
+  async function handleInfoSave(e: React.FormEvent) {
     e.preventDefault();
-    if (!name.trim()) return;
-    setNameLoading(true); setNameMsg(null);
+    setInfoLoading(true); setInfoMsg(null);
     const res = await fetch('/api/user/settings', {
       method: 'PATCH', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ action: 'update_name', name }),
+      body: JSON.stringify({ action: 'update_info', name: editName, phone: editPhone, company: editCompany }),
     });
     const data = await res.json();
-    setNameLoading(false);
-    if (res.ok) { setNameMsg({ text: 'Name updated successfully.', ok: true }); setDisplayedName(name.trim()); setName(''); await update({ name: name.trim() }); }
-    else { setNameMsg({ text: data.error, ok: false }); }
+    setInfoLoading(false);
+    if (res.ok) {
+      setInfoMsg({ text: 'Profile updated successfully.', ok: true });
+      setProfileData(prev => prev ? { ...prev, name: editName || prev.name, phone: editPhone || prev.phone, company: editCompany || prev.company } : prev);
+      if (data.updatedName) await update({ name: data.updatedName });
+    } else {
+      setInfoMsg({ text: data.error, ok: false });
+    }
   }
 
-  async function handleContactSave(e: React.FormEvent) {
+  async function handleEmailSave(e: React.FormEvent) {
     e.preventDefault();
-    setContactLoading(true); setContactMsg(null);
+    setEmailLoading(true); setEmailMsg(null);
     const res = await fetch('/api/user/settings', {
       method: 'PATCH', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ action: 'update_profile', phone, company }),
+      body: JSON.stringify({ action: 'update_email', newEmail, currentPassword: emailPassword }),
     });
     const data = await res.json();
-    setContactLoading(false);
-    if (res.ok) { setContactMsg({ text: 'Contact info updated successfully.', ok: true }); setPhone(''); setCompany(''); }
-    else { setContactMsg({ text: data.error, ok: false }); }
+    setEmailLoading(false);
+    if (res.ok) {
+      setEmailMsg({ text: 'Email updated. Signing you out to re-authenticate…', ok: true });
+      setTimeout(() => signOut({ callbackUrl: '/auth/signin' }), 2000);
+    } else {
+      setEmailMsg({ text: data.error, ok: false });
+    }
   }
 
   async function handlePasswordSave(e: React.FormEvent) {
@@ -146,6 +181,18 @@ export default function SettingsPage() {
     <label style={{ fontSize: '13px', fontWeight: 500, color: labelColor, display: 'block', marginBottom: '6px' }}>{text}</label>
   );
 
+  const overviewRow = (icon: React.ReactNode, label: string, value: string | null | undefined, placeholder = 'Not provided') => (
+    <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', padding: '12px 0', borderBottom: isDark ? '1px solid rgba(255,255,255,0.05)' : '1px solid #f1f5f9' }}>
+      <div style={{ marginTop: '1px', color: value ? '#6366f1' : (isDark ? 'rgba(255,255,255,0.3)' : '#cbd5e1'), flexShrink: 0 }}>{icon}</div>
+      <div style={{ flex: 1, minWidth: 0 }}>
+        <div style={{ fontSize: '11px', fontWeight: 500, color: labelColor, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '2px' }}>{label}</div>
+        <div style={{ fontSize: '14px', color: value ? 'var(--text-primary)' : (isDark ? 'rgba(255,255,255,0.25)' : '#9ca3af'), fontStyle: value ? 'normal' : 'italic', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+          {value || placeholder}
+        </div>
+      </div>
+    </div>
+  );
+
   return (
     <div style={{ minHeight: '100vh', padding: '40px 20px', maxWidth: '680px', margin: '0 auto' }}>
       {/* Back link */}
@@ -184,54 +231,97 @@ export default function SettingsPage() {
 
         {/* ── Account Tab ── */}
         {tab === 'account' && (<>
-          {/* Display Name */}
+
+          {/* Profile Overview */}
           <div style={{ background: cardBg, border: cardBorder, borderRadius: '16px', padding: '24px', boxShadow: isDark ? 'none' : '0 1px 3px rgba(0,0,0,0.06)' }}>
-            <h2 style={{ fontSize: '15px', fontWeight: 600, margin: '0 0 20px', display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--text-primary)' }}>
-              <User size={16} color="#6366f1" /> Display Name
+            <h2 style={{ fontSize: '15px', fontWeight: 600, margin: '0 0 4px', display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--text-primary)' }}>
+              <User size={16} color="#6366f1" /> Profile Overview
             </h2>
-            <form onSubmit={handleNameSave} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
-              <div>
-                {fieldLabel('Current name')}
-                <div style={{ ...inputStyle, background: readonlyBg, color: 'var(--text-secondary)', cursor: 'default' }}>
-                  {displayedName ?? session.user?.name ?? '—'}
+            <p style={{ fontSize: '13px', color: 'var(--text-secondary)', margin: '0 0 16px' }}>Your current account information</p>
+
+            {profileLoading ? (
+              <div style={{ display: 'flex', justifyContent: 'center', padding: '20px 0' }}>
+                <div style={{ width: 24, height: 24, border: '2px solid rgba(99,102,241,0.2)', borderTop: '2px solid #6366f1', borderRadius: '50%', animation: 'spin 1s linear infinite' }} />
+              </div>
+            ) : (
+              <div style={{ background: readonlyBg, border: readonlyBorder, borderRadius: '12px', padding: '4px 16px', overflow: 'hidden' }}>
+                {overviewRow(<User size={15} />, 'Display Name', profileData?.name)}
+                {overviewRow(<Mail size={15} />, 'Email Address', profileData?.email ?? session.user?.email)}
+                {overviewRow(<Phone size={15} />, 'Phone Number', profileData?.phone)}
+                <div style={{ borderBottom: 'none' }}>
+                  {overviewRow(<Building2 size={15} />, 'Company / Organization', profileData?.company)}
                 </div>
               </div>
+            )}
+          </div>
+
+          {/* Edit Profile */}
+          <div style={{ background: cardBg, border: cardBorder, borderRadius: '16px', padding: '24px', boxShadow: isDark ? 'none' : '0 1px 3px rgba(0,0,0,0.06)' }}>
+            <h2 style={{ fontSize: '15px', fontWeight: 600, margin: '0 0 4px', display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--text-primary)' }}>
+              <Pencil size={16} color="#6366f1" /> Edit Profile
+            </h2>
+            <p style={{ fontSize: '13px', color: 'var(--text-secondary)', margin: '0 0 20px' }}>Update your name, phone, and company details</p>
+            <form onSubmit={handleInfoSave} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
               <div>
-                {fieldLabel('New name')}
-                <input style={inputStyle} value={name} onChange={e => setName(e.target.value)}
-                  placeholder="Enter new display name" maxLength={100}
+                {fieldLabel('Display name')}
+                <input style={inputStyle} value={editName} onChange={e => setEditName(e.target.value)}
+                  placeholder="Your full name" maxLength={100}
                   onFocus={e => (e.target.style.borderColor = '#6366f1')}
                   onBlur={e => (e.target.style.borderColor = inputBorderDefault)} />
               </div>
-              {nameMsg && <p style={{ fontSize: '13px', color: nameMsg.ok ? '#16a34a' : '#ef4444', margin: 0 }}>{nameMsg.text}</p>}
-              {saveBtn(nameLoading || !name.trim(), 'Save Name', 'Saving…', nameLoading, <Save size={14} />)}
-            </form>
-          </div>
-
-          {/* Contact Information */}
-          <div style={{ background: cardBg, border: cardBorder, borderRadius: '16px', padding: '24px', boxShadow: isDark ? 'none' : '0 1px 3px rgba(0,0,0,0.06)' }}>
-            <h2 style={{ fontSize: '15px', fontWeight: 600, margin: '0 0 20px', display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--text-primary)' }}>
-              <Phone size={16} color="#6366f1" /> Contact Information
-            </h2>
-            <form onSubmit={handleContactSave} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
               <div>
                 {fieldLabel('Phone number')}
-                <input style={inputStyle} type="tel" value={phone} onChange={e => setPhone(e.target.value)}
+                <input style={inputStyle} type="tel" value={editPhone} onChange={e => setEditPhone(e.target.value)}
                   placeholder="+1 555 000 0000" maxLength={20}
                   onFocus={e => (e.target.style.borderColor = '#6366f1')}
                   onBlur={e => (e.target.style.borderColor = inputBorderDefault)} />
               </div>
               <div>
                 {fieldLabel('Company / Organization')}
-                <input style={inputStyle} value={company} onChange={e => setCompany(e.target.value)}
+                <input style={inputStyle} value={editCompany} onChange={e => setEditCompany(e.target.value)}
                   placeholder="Acme Corp, Freelancer, etc." maxLength={100}
                   onFocus={e => (e.target.style.borderColor = '#6366f1')}
                   onBlur={e => (e.target.style.borderColor = inputBorderDefault)} />
               </div>
-              {contactMsg && <p style={{ fontSize: '13px', color: contactMsg.ok ? '#16a34a' : '#ef4444', margin: 0 }}>{contactMsg.text}</p>}
-              {saveBtn(contactLoading || (!phone.trim() && !company.trim()), 'Save Contact Info', 'Saving…', contactLoading, <Building2 size={14} />)}
+              {infoMsg && <p style={{ fontSize: '13px', color: infoMsg.ok ? '#16a34a' : '#ef4444', margin: 0 }}>{infoMsg.text}</p>}
+              {saveBtn(infoLoading, 'Save Changes', 'Saving…', infoLoading, <Save size={14} />)}
             </form>
           </div>
+
+          {/* Email Change — credentials users only */}
+          {!isOAuth && (
+            <div style={{ background: cardBg, border: cardBorder, borderRadius: '16px', padding: '24px', boxShadow: isDark ? 'none' : '0 1px 3px rgba(0,0,0,0.06)' }}>
+              <h2 style={{ fontSize: '15px', fontWeight: 600, margin: '0 0 4px', display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--text-primary)' }}>
+                <Mail size={16} color="#6366f1" /> Change Email Address
+              </h2>
+              <p style={{ fontSize: '13px', color: 'var(--text-secondary)', margin: '0 0 20px' }}>You will be signed out after changing your email</p>
+              <form onSubmit={handleEmailSave} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+                <div>
+                  {fieldLabel('New email address')}
+                  <input style={inputStyle} type="email" value={newEmail} onChange={e => setNewEmail(e.target.value)}
+                    placeholder="new@example.com"
+                    onFocus={e => (e.target.style.borderColor = '#6366f1')}
+                    onBlur={e => (e.target.style.borderColor = inputBorderDefault)} />
+                </div>
+                <div>
+                  {fieldLabel('Current password (to confirm)')}
+                  <div style={{ position: 'relative' }}>
+                    <input type={showEmailPassword ? 'text' : 'password'} style={{ ...inputStyle, paddingRight: '42px' }}
+                      value={emailPassword} onChange={e => setEmailPassword(e.target.value)}
+                      placeholder="Enter your current password"
+                      onFocus={e => (e.target.style.borderColor = '#6366f1')}
+                      onBlur={e => (e.target.style.borderColor = inputBorderDefault)} />
+                    <button type="button" onClick={() => setShowEmailPassword(!showEmailPassword)}
+                      style={{ position: 'absolute', right: '12px', top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-secondary)', display: 'flex', padding: 0 }}>
+                      {showEmailPassword ? <EyeOff size={15} /> : <Eye size={15} />}
+                    </button>
+                  </div>
+                </div>
+                {emailMsg && <p style={{ fontSize: '13px', color: emailMsg.ok ? '#16a34a' : '#ef4444', margin: 0 }}>{emailMsg.text}</p>}
+                {saveBtn(emailLoading || !newEmail.trim() || !emailPassword, 'Change Email', 'Updating…', emailLoading, <Mail size={14} />)}
+              </form>
+            </div>
+          )}
         </>)}
 
         {/* ── Security Tab ── */}
@@ -292,7 +382,6 @@ export default function SettingsPage() {
             </p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
               <div>
-                {fieldLabel('')}
                 <label style={{ fontSize: '13px', fontWeight: 500, color: 'var(--text-secondary)', display: 'block', marginBottom: '6px' }}>
                   Type <strong style={{ color: '#dc2626' }}>DELETE</strong> to confirm
                 </label>
