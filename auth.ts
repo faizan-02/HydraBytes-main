@@ -84,43 +84,50 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         token.role = (user as { role?: string }).role ?? 'user';
         token.hasPassword = true;
       }
-      // OAuth first sign-in — upsert user and get DB id/role
+      // OAuth first sign-in — upsert user and get DB id/role (with retry for cold DB starts)
       if (account && (account.provider === 'google' || account.provider === 'github')) {
         const email = token.email as string;
         if (email) {
-          try {
-            const existingUser = await prisma.user.findUnique({ where: { email } });
-            const dbUser = await prisma.user.upsert({
-              where: { email },
-              update: {},
-              create: { email, name: token.name ?? null, role: 'user', emailVerified: true },
-            });
-            token.id = dbUser.id;
-            token.role = dbUser.role;
-            // If this account also has a password, allow password management
-            token.hasPassword = !!dbUser.password;
-
-            // New OAuth user — link any accepted guest submissions to projects
-            if (!existingUser) {
-              const contactedSubmissions = await prisma.contactSubmission.findMany({
-                where: { email: { equals: email, mode: 'insensitive' }, status: 'contacted' },
+          let lastErr: unknown;
+          for (let attempt = 0; attempt < 3; attempt++) {
+            try {
+              if (attempt > 0) await new Promise(r => setTimeout(r, 500 * attempt));
+              const existingUser = await prisma.user.findUnique({ where: { email } });
+              const dbUser = await prisma.user.upsert({
+                where: { email },
+                update: {},
+                create: { email, name: token.name ?? null, role: 'user', emailVerified: true },
               });
-              if (contactedSubmissions.length > 0) {
-                await prisma.project.createMany({
-                  data: contactedSubmissions.map(s => ({
-                    userId: dbUser.id,
-                    title: `${s.service} Project`,
-                    service: s.service,
-                    budget: s.budget,
-                    description: s.message,
-                    status: 'accepted',
-                  })),
+              token.id = dbUser.id;
+              token.role = dbUser.role;
+              // If this account also has a password, allow password management
+              token.hasPassword = !!dbUser.password;
+
+              // New OAuth user — link any accepted guest submissions to projects
+              if (!existingUser) {
+                const contactedSubmissions = await prisma.contactSubmission.findMany({
+                  where: { email: { equals: email, mode: 'insensitive' }, status: 'contacted' },
                 });
+                if (contactedSubmissions.length > 0) {
+                  await prisma.project.createMany({
+                    data: contactedSubmissions.map(s => ({
+                      userId: dbUser.id,
+                      title: `${s.service} Project`,
+                      service: s.service,
+                      budget: s.budget,
+                      description: s.message,
+                      status: 'accepted',
+                    })),
+                  });
+                }
               }
+              lastErr = null;
+              break; // success — exit retry loop
+            } catch (err) {
+              lastErr = err;
             }
-          } catch (err) {
-            console.error('OAuth JWT DB error:', err);
           }
+          if (lastErr) console.error('OAuth JWT DB error after retries:', lastErr);
         }
       }
       return token;
