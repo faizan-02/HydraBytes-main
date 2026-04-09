@@ -28,7 +28,7 @@ export async function GET() {
     }),
     prisma.user.findMany({
       orderBy: { createdAt: 'desc' },
-      select: { id: true, name: true, email: true, role: true, createdAt: true },
+      select: { id: true, name: true, email: true, role: true, phone: true, company: true, createdAt: true },
     }),
     prisma.invoice.findMany({
       orderBy: { createdAt: 'desc' },

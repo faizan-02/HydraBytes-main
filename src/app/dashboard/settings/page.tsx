@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useSession, signOut } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { User, Lock, Trash2, ArrowLeft, Eye, EyeOff, Save, AlertTriangle } from 'lucide-react';
+import { User, Lock, Trash2, ArrowLeft, Eye, EyeOff, Save, AlertTriangle, Phone, Building2 } from 'lucide-react';
 import Link from 'next/link';
 
 type Tab = 'account' | 'security' | 'danger';
@@ -19,6 +19,12 @@ export default function SettingsPage() {
   const [displayedName, setDisplayedName] = useState<string | null>(null);
   const [nameLoading, setNameLoading] = useState(false);
   const [nameMsg, setNameMsg] = useState<{ text: string; ok: boolean } | null>(null);
+
+  // Contact info
+  const [phone, setPhone] = useState('');
+  const [company, setCompany] = useState('');
+  const [contactLoading, setContactLoading] = useState(false);
+  const [contactMsg, setContactMsg] = useState<{ text: string; ok: boolean } | null>(null);
 
   // Password
   const [currentPassword, setCurrentPassword] = useState('');
@@ -86,6 +92,26 @@ export default function SettingsPage() {
       setNewPassword('');
     } else {
       setPassMsg({ text: data.error, ok: false });
+    }
+  }
+
+  async function handleContactSave(e: React.FormEvent) {
+    e.preventDefault();
+    setContactLoading(true);
+    setContactMsg(null);
+    const res = await fetch('/api/user/settings', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: 'update_profile', phone, company }),
+    });
+    const data = await res.json();
+    setContactLoading(false);
+    if (res.ok) {
+      setContactMsg({ text: 'Contact info updated successfully.', ok: true });
+      setPhone('');
+      setCompany('');
+    } else {
+      setContactMsg({ text: data.error, ok: false });
     }
   }
 
@@ -180,6 +206,36 @@ export default function SettingsPage() {
               <button type="submit" disabled={nameLoading || !name.trim()}
                 style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', padding: '10px 20px', background: 'linear-gradient(135deg, #6366f1, #06b6d4)', color: '#fff', border: 'none', borderRadius: '10px', fontWeight: 600, fontSize: '14px', cursor: nameLoading || !name.trim() ? 'not-allowed' : 'pointer', opacity: nameLoading || !name.trim() ? 0.6 : 1 }}>
                 <Save size={14} /> {nameLoading ? 'Saving...' : 'Save Name'}
+              </button>
+            </form>
+          </div>
+
+          {/* Contact Info */}
+          <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '16px', padding: '24px' }}>
+            <h2 style={{ fontSize: '16px', fontWeight: 600, margin: '0 0 20px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <Phone size={16} color="#6366f1" /> Contact Information
+            </h2>
+            <form onSubmit={handleContactSave} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+              <div>
+                <label style={{ fontSize: '13px', fontWeight: 500, color: 'var(--text-secondary, #9ca3af)', display: 'block', marginBottom: '6px' }}>Phone number</label>
+                <input style={inputStyle} value={phone} onChange={e => setPhone(e.target.value)}
+                  placeholder="+1 555 000 0000" maxLength={20} type="tel"
+                  onFocus={e => (e.target.style.borderColor = '#6366f1')}
+                  onBlur={e => (e.target.style.borderColor = 'rgba(255,255,255,0.1)')} />
+              </div>
+              <div>
+                <label style={{ fontSize: '13px', fontWeight: 500, color: 'var(--text-secondary, #9ca3af)', display: 'block', marginBottom: '6px' }}>Company / Organization</label>
+                <input style={inputStyle} value={company} onChange={e => setCompany(e.target.value)}
+                  placeholder="Acme Corp, Freelancer, etc." maxLength={100}
+                  onFocus={e => (e.target.style.borderColor = '#6366f1')}
+                  onBlur={e => (e.target.style.borderColor = 'rgba(255,255,255,0.1)')} />
+              </div>
+              {contactMsg && (
+                <p style={{ fontSize: '13px', color: contactMsg.ok ? '#4ade80' : '#ef4444', margin: 0 }}>{contactMsg.text}</p>
+              )}
+              <button type="submit" disabled={contactLoading || (!phone.trim() && !company.trim())}
+                style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', padding: '10px 20px', background: 'linear-gradient(135deg, #6366f1, #06b6d4)', color: '#fff', border: 'none', borderRadius: '10px', fontWeight: 600, fontSize: '14px', cursor: contactLoading || (!phone.trim() && !company.trim()) ? 'not-allowed' : 'pointer', opacity: contactLoading || (!phone.trim() && !company.trim()) ? 0.6 : 1 }}>
+                <Building2 size={14} /> {contactLoading ? 'Saving...' : 'Save Contact Info'}
               </button>
             </form>
           </div>

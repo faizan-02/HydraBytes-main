@@ -3,7 +3,7 @@ import { auth } from '@/../auth';
 import { prisma } from '@/lib/prisma';
 import bcrypt from 'bcryptjs';
 import { enforceRateLimit, FIFTEEN_MINUTES } from '@/lib/rateLimit';
-import { readJsonBody, requireJson, validateName, validatePassword } from '@/lib/validate';
+import { readJsonBody, requireJson, validateName, validatePassword, validatePhone, validateCompany } from '@/lib/validate';
 
 // PATCH — update name or password
 export async function PATCH(req: NextRequest) {
@@ -16,7 +16,7 @@ export async function PATCH(req: NextRequest) {
   const ctGuard = requireJson(req);
   if (ctGuard) return ctGuard;
 
-  const parsed = await readJsonBody<{ action?: unknown; name?: unknown; currentPassword?: unknown; newPassword?: unknown }>(req);
+  const parsed = await readJsonBody<{ action?: unknown; name?: unknown; currentPassword?: unknown; newPassword?: unknown; phone?: unknown; company?: unknown }>(req);
   if (!parsed.ok) return parsed.response;
 
   const { action } = parsed.data;
@@ -53,6 +53,18 @@ export async function PATCH(req: NextRequest) {
 
     const hashed = await bcrypt.hash(newPasswordRes.value, 12);
     await prisma.user.update({ where: { id: userId }, data: { password: hashed } });
+    return NextResponse.json({ success: true });
+  }
+
+  // ── Update Profile (phone + company) ─────────────────────────────────────
+  if (action === 'update_profile') {
+    const phoneRes = validatePhone(parsed.data.phone);
+    if ('error' in phoneRes) return NextResponse.json({ error: phoneRes.error }, { status: phoneRes.status });
+
+    const companyRes = validateCompany(parsed.data.company);
+    if ('error' in companyRes) return NextResponse.json({ error: companyRes.error }, { status: companyRes.status });
+
+    await prisma.user.update({ where: { id: userId }, data: { phone: phoneRes.value, company: companyRes.value } });
     return NextResponse.json({ success: true });
   }
 

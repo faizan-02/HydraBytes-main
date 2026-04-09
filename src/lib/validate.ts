@@ -23,6 +23,8 @@ export const LIMITS = {
   REASON_MAX: 1000,
   OTP_LENGTH: 6,
   TOKEN_MAX: 256,
+  PHONE_MAX: 20,
+  COMPANY_MAX: 100,
   // Hard cap on raw JSON body bytes accepted by API routes
   MAX_BODY_BYTES: 16 * 1024, // 16 KB is plenty for any of our forms
 } as const;
@@ -239,6 +241,30 @@ export function validateToken(value: unknown): { ok: true; value: string } | Fie
     return { error: 'Invalid token.', status: 400 };
   }
   return { ok: true, value: trimmed };
+}
+
+export function validatePhone(value: unknown): { ok: true; value: string } | FieldError {
+  if (typeof value !== 'string') return { error: 'Phone number is required.', status: 400 };
+  const trimmed = value.trim();
+  if (!trimmed) return { error: 'Phone number is required.', status: 400 };
+  if (trimmed.length > LIMITS.PHONE_MAX) return { error: 'Phone number too long.', status: 400 };
+  // Strip formatting chars for length/digit check
+  const digits = trimmed.replace(/[\s\-().]/g, '');
+  if (!/^\+?[0-9]{7,15}$/.test(digits)) {
+    return { error: 'Enter a valid phone number (7–15 digits, optional + country code).', status: 400 };
+  }
+  return { ok: true, value: trimmed };
+}
+
+export function validateCompany(value: unknown): { ok: true; value: string } | FieldError {
+  if (typeof value !== 'string') return { error: 'Company / organization name is required.', status: 400 };
+  const cleaned = stripTags(value.trim());
+  if (!cleaned) return { error: 'Company / organization name is required.', status: 400 };
+  if (cleaned.length < 2) return { error: 'Must be at least 2 characters.', status: 400 };
+  if (cleaned.length > LIMITS.COMPANY_MAX) {
+    return { error: `Must be under ${LIMITS.COMPANY_MAX} characters.`, status: 400 };
+  }
+  return { ok: true, value: cleaned };
 }
 
 /**

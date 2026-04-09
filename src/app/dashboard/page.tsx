@@ -65,11 +65,14 @@ export default function DashboardPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (status === 'unauthenticated') router.push('/auth/signin');
-  }, [status, router]);
-
-  useEffect(() => {
+    if (status === 'unauthenticated') { router.push('/auth/signin'); return; }
     if (status === 'authenticated') {
+      const u = session.user as { role?: string; profileComplete?: boolean };
+      // Non-admin users must complete their profile before accessing the dashboard
+      if (u.role !== 'admin' && !u.profileComplete) {
+        router.replace('/auth/complete-profile');
+        return;
+      }
       fetch('/api/dashboard')
         .then(r => r.json())
         .then(data => {
@@ -78,7 +81,7 @@ export default function DashboardPage() {
           setLoading(false);
         });
     }
-  }, [status]);
+  }, [status, session, router]);
 
   if (status === 'loading' || loading) {
     return (

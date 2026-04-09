@@ -26,6 +26,8 @@ model User {
   password      String?
   role          String    @default("user")
   emailVerified Boolean   @default(false)
+  phone         String?
+  company       String?
   createdAt     DateTime  @default(now())
   sessions      Session[]
   projects      Project[]

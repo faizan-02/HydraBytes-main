@@ -52,15 +52,20 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   ],
   callbacks: {
     async jwt({ token, user, account, trigger, session: sessionUpdate }) {
-      // Handle session update (e.g. name change from settings page)
-      if (trigger === 'update' && sessionUpdate?.name) {
-        token.name = sessionUpdate.name;
+      // Handle session updates (name change, profile completion)
+      if (trigger === 'update') {
+        if (sessionUpdate?.name) token.name = sessionUpdate.name;
+        if (sessionUpdate?.profileComplete !== undefined) token.profileComplete = sessionUpdate.profileComplete;
       }
       // Credentials login — user object has id and role directly
       if (user && account?.provider === 'credentials') {
         token.id = user.id;
         token.role = (user as { role?: string }).role ?? 'user';
         token.hasPassword = true;
+        try {
+          const dbUser = await prisma.user.findUnique({ where: { id: user.id as string }, select: { phone: true, company: true } });
+          token.profileComplete = !!(dbUser?.phone && dbUser?.company);
+        } catch { token.profileComplete = false; }
       }
       // OAuth first sign-in — upsert user and get DB id/role (with retry for cold DB starts)
       if (account && (account.provider === 'google' || account.provider === 'github')) {
@@ -78,8 +83,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
               });
               token.id = dbUser.id;
               token.role = dbUser.role;
-              // If this account also has a password, allow password management
               token.hasPassword = !!dbUser.password;
+              token.profileComplete = !!(dbUser.phone && dbUser.company);
 
               // New OAuth user — link any accepted guest submissions to projects
               if (!existingUser) {
@@ -112,9 +117,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     },
     async session({ session, token }) {
       if (token) {
-        (session.user as { id?: string; role?: string; hasPassword?: boolean }).id = token.id as string;
-        (session.user as { id?: string; role?: string; hasPassword?: boolean }).role = (token.role as string) ?? 'user';
-        (session.user as { id?: string; role?: string; hasPassword?: boolean }).hasPassword = (token.hasPassword as boolean) ?? false;
+        type U = { id?: string; role?: string; hasPassword?: boolean; profileComplete?: boolean };
+        (session.user as U).id = token.id as string;
+        (session.user as U).role = (token.role as string) ?? 'user';
+        (session.user as U).hasPassword = (token.hasPassword as boolean) ?? false;
+        (session.user as U).profileComplete = (token.profileComplete as boolean) ?? false;
       }
       return session;
     },

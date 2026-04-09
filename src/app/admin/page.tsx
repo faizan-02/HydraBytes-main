@@ -31,6 +31,8 @@ interface User {
   name?: string;
   email: string;
   role: string;
+  phone?: string;
+  company?: string;
   createdAt: string;
 }
 
@@ -519,16 +521,32 @@ export default function AdminPage() {
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
             {data.users.length === 0 && <p style={{ color: '#64748b' }}>No users yet.</p>}
             {data.users.map(u => (
-              <div key={u.id} style={{ background: '#1e293b', borderRadius: '12px', padding: '20px', border: '1px solid rgba(255,255,255,0.06)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
-                <div>
-                  <div style={{ fontWeight: 600, fontSize: '16px' }}>{u.name ?? 'No name'}</div>
+              <div key={u.id} style={{ background: '#1e293b', borderRadius: '12px', padding: '20px', border: '1px solid rgba(255,255,255,0.06)', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '12px' }}>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ fontWeight: 600, fontSize: '16px', marginBottom: '2px' }}>{u.name ?? 'No name'}</div>
                   <a href={`mailto:${u.email}`} style={{ color: '#6366f1', fontSize: '14px', textDecoration: 'none' }}>{u.email}</a>
-                  <div style={{ fontSize: '12px', color: '#64748b', marginTop: '4px' }}>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px', marginTop: '8px' }}>
+                    {u.phone ? (
+                      <a href={`tel:${u.phone}`} style={{ fontSize: '13px', color: '#94a3b8', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                        📞 {u.phone}
+                      </a>
+                    ) : (
+                      <span style={{ fontSize: '13px', color: '#ef4444', fontStyle: 'italic' }}>No phone</span>
+                    )}
+                    {u.company ? (
+                      <span style={{ fontSize: '13px', color: '#94a3b8', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                        🏢 {u.company}
+                      </span>
+                    ) : (
+                      <span style={{ fontSize: '13px', color: '#ef4444', fontStyle: 'italic' }}>No company</span>
+                    )}
+                  </div>
+                  <div style={{ fontSize: '12px', color: '#64748b', marginTop: '6px' }}>
                     Joined {new Date(u.createdAt).toLocaleDateString()}
                   </div>
                 </div>
                 <span style={{
-                  padding: '4px 14px', borderRadius: '20px', fontSize: '12px', fontWeight: 600,
+                  padding: '4px 14px', borderRadius: '20px', fontSize: '12px', fontWeight: 600, flexShrink: 0,
                   background: u.role === 'admin' ? 'rgba(99,102,241,0.15)' : 'rgba(148,163,184,0.1)',
                   color: u.role === 'admin' ? '#818cf8' : '#94a3b8',
                 }}>
