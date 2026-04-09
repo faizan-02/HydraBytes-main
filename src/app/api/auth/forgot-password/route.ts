@@ -1,11 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { Resend } from 'resend';
+import { sendEmail } from '@/lib/mailer';
 import crypto from 'crypto';
 import { enforceRateLimit, FIFTEEN_MINUTES } from '@/lib/rateLimit';
 import { readJsonBody, requireJson, validateEmail, escapeHtml } from '@/lib/validate';
-
-const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST(req: NextRequest) {
   const limited = enforceRateLimit(req, 'auth:forgot-password', 3, FIFTEEN_MINUTES);
@@ -44,8 +42,7 @@ export async function POST(req: NextRequest) {
     const resetUrl = `${process.env.NEXTAUTH_URL}/auth/reset-password?token=${token}`;
     const userName = escapeHtml(user.name ?? 'there');
 
-    await resend.emails.send({
-      from: 'HydraBytes <hello@hydrabytes.it.com>',
+    await sendEmail({
       to: normalizedEmail,
       subject: 'Reset your HydraBytes password',
       html: `
@@ -77,6 +74,7 @@ export async function POST(req: NextRequest) {
     }).catch(() => {
       // Silently fail — don't reveal whether email was sent
     });
+
   }
 
   // Always return 200 to avoid revealing whether the email exists
