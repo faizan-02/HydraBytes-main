@@ -76,15 +76,19 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             try {
               if (attempt > 0) await new Promise(r => setTimeout(r, 500 * attempt));
               const existingUser = await prisma.user.findUnique({ where: { email } });
+              const oauthFirstName = (token.name as string)?.split(' ')[0] ?? null;
               const dbUser = await prisma.user.upsert({
                 where: { email },
                 update: {},
-                create: { email, name: token.name ?? null, role: 'user', emailVerified: true },
+                create: { email, name: oauthFirstName, role: 'user', emailVerified: true },
               });
               token.id = dbUser.id;
               token.role = dbUser.role;
               token.hasPassword = !!dbUser.password;
               token.profileComplete = !!(dbUser.phone && dbUser.company);
+              // Always use the DB name so custom names set via settings are preserved;
+              // fall back to OAuth first name if the DB has no name stored
+              token.name = dbUser.name ?? oauthFirstName;
 
               // New OAuth user — link any accepted guest submissions to projects
               if (!existingUser) {
