@@ -13,36 +13,14 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     signIn: '/auth/signin',
     error: '/auth/error',
   },
-  cookies: {
-    pkceCodeVerifier: {
-      name: 'authjs.pkce.code_verifier',
-      options: {
-        httpOnly: true,
-        sameSite: 'none' as const,
-        path: '/',
-        secure: true,
-      },
-    },
-    state: {
-      name: 'authjs.state',
-      options: {
-        httpOnly: true,
-        sameSite: 'none' as const,
-        path: '/',
-        secure: true,
-      },
-    },
-  },
   providers: [
     Google({
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-      checks: ['state'],
     }),
     GitHub({
       clientId: process.env.GITHUB_CLIENT_ID!,
       clientSecret: process.env.GITHUB_CLIENT_SECRET!,
-      checks: ['state'],
     }),
     Credentials({
       name: 'credentials',
