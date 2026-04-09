@@ -6,7 +6,7 @@ import { usePathname } from 'next/navigation';
 import { useSession, signOut } from 'next-auth/react';
 import { useTheme } from '@/lib/ThemeContext';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sun, Moon, LayoutDashboard, LogOut, ChevronDown, ShieldCheck } from 'lucide-react';
+import { Sun, Moon, LayoutDashboard, LogOut, ChevronDown, ShieldCheck, Settings } from 'lucide-react';
 import styles from './Navbar.module.css';
 import LogoNetworkAnimation from './LogoNetworkAnimation';
 
@@ -138,6 +138,11 @@ export default function Navbar() {
                       onMouseEnter={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.06)')}
                       onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}>
                       <LayoutDashboard size={15} /> Dashboard
+                    </Link>
+                    <Link href="/dashboard/settings" onClick={() => setUserMenuOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 12px', borderRadius: '8px', fontSize: '14px', textDecoration: 'none', color: 'inherit' }}
+                      onMouseEnter={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.06)')}
+                      onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}>
+                      <Settings size={15} /> Settings
                     </Link>
                     {(session.user as { role?: string })?.role === 'admin' && (
                       <Link href="/admin" onClick={() => setUserMenuOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 12px', borderRadius: '8px', fontSize: '14px', textDecoration: 'none', color: '#818cf8' }}
