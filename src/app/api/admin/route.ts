@@ -64,9 +64,20 @@ export async function PATCH(req: Request) {
     if (typeof status !== 'string' || !ALLOWED_PROJECT_STATUSES.has(status)) {
       return NextResponse.json({ error: 'Invalid project status.' }, { status: 400 });
     }
+
+    // Auto-set startDate when work begins, endDate when delivered
+    const timestampData: { startDate?: Date; endDate?: Date } = {};
+    if (status === 'in_progress') {
+      const existing = await prisma.project.findUnique({ where: { id }, select: { startDate: true } });
+      if (!existing?.startDate) timestampData.startDate = new Date();
+    }
+    if (status === 'completed') {
+      timestampData.endDate = new Date();
+    }
+
     const updated = await prisma.project.update({
       where: { id },
-      data: { status },
+      data: { status, ...timestampData },
       include: { user: { select: { email: true, name: true } } },
     });
 
