@@ -97,6 +97,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             });
             token.id = dbUser.id;
             token.role = dbUser.role;
+            // If this account also has a password, allow password management
+            token.hasPassword = !!dbUser.password;
 
             // New OAuth user — link any accepted guest submissions to projects
             if (!existingUser) {
