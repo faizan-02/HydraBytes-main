@@ -3,6 +3,7 @@
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { Phone, Building2 } from 'lucide-react';
 
 interface Submission {
   id: string;
@@ -527,18 +528,22 @@ export default function AdminPage() {
                   <a href={`mailto:${u.email}`} style={{ color: '#6366f1', fontSize: '14px', textDecoration: 'none' }}>{u.email}</a>
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px', marginTop: '8px' }}>
                     {u.phone ? (
-                      <a href={`tel:${u.phone}`} style={{ fontSize: '13px', color: '#94a3b8', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                        📞 {u.phone}
+                      <a href={`tel:${u.phone}`} style={{ fontSize: '13px', color: '#94a3b8', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '5px' }}>
+                        <Phone size={12} color="#6366f1" /> {u.phone}
                       </a>
                     ) : (
-                      <span style={{ fontSize: '13px', color: '#ef4444', fontStyle: 'italic' }}>No phone</span>
+                      <span style={{ fontSize: '13px', color: '#ef4444', display: 'flex', alignItems: 'center', gap: '5px' }}>
+                        <Phone size={12} /> Not provided
+                      </span>
                     )}
                     {u.company ? (
-                      <span style={{ fontSize: '13px', color: '#94a3b8', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                        🏢 {u.company}
+                      <span style={{ fontSize: '13px', color: '#94a3b8', display: 'flex', alignItems: 'center', gap: '5px' }}>
+                        <Building2 size={12} color="#6366f1" /> {u.company}
                       </span>
                     ) : (
-                      <span style={{ fontSize: '13px', color: '#ef4444', fontStyle: 'italic' }}>No company</span>
+                      <span style={{ fontSize: '13px', color: '#ef4444', display: 'flex', alignItems: 'center', gap: '5px' }}>
+                        <Building2 size={12} /> Not provided
+                      </span>
                     )}
                   </div>
                   <div style={{ fontSize: '12px', color: '#64748b', marginTop: '6px' }}>
