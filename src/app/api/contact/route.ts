@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { Resend } from 'resend';
+import { sendEmail } from '@/lib/mailer';
 import { prisma } from '@/lib/prisma';
 import { auth } from '@/../auth';
 import crypto from 'crypto';
@@ -15,8 +15,6 @@ import {
   escapeHtml,
   LIMITS,
 } from '@/lib/validate';
-
-const resend = new Resend(process.env.RESEND_API_KEY);
 const TEAM_EMAIL = process.env.TEAM_EMAIL!;
 const BASE_URL = process.env.NEXTAUTH_URL || 'http://localhost:3000';
 
@@ -146,53 +144,51 @@ export async function POST(req: NextRequest) {
       </div>` : '';
 
     // Notify team
-    const { error: teamEmailError } = await resend.emails.send({
-      from: 'HydraBytes Contact <hello@hydrabytes.it.com>',
-      to: TEAM_EMAIL,
-      subject: `New Inquiry: ${name} - ${serviceLabel}`,
-      html: `
-        <div style="font-family:sans-serif;max-width:600px;margin:0 auto;padding:24px;background:#0a0a0f;color:#e2e8f0;">
-          <h2 style="color:#6366f1;margin-bottom:24px;">New Contact Form Submission</h2>
-          <table style="width:100%;border-collapse:collapse;">
-            <tr><td style="padding:8px 0;color:#94a3b8;width:120px;">Name</td><td style="padding:8px 0;font-weight:600;">${safeName}</td></tr>
-            <tr><td style="padding:8px 0;color:#94a3b8;">Email</td><td style="padding:8px 0;"><a href="mailto:${safeEmail}" style="color:#6366f1;">${safeEmail}</a></td></tr>
-            <tr><td style="padding:8px 0;color:#94a3b8;">Service</td><td style="padding:8px 0;">${safeServiceLabel}</td></tr>
-            <tr><td style="padding:8px 0;color:#94a3b8;">Budget</td><td style="padding:8px 0;">${safeBudgetLabel}</td></tr>
-          </table>
-          <div style="margin-top:20px;padding:16px;background:#1e293b;border-radius:8px;border-left:4px solid #6366f1;">
-            <p style="color:#94a3b8;font-size:12px;margin:0 0 8px;">Message</p>
-            <p style="margin:0;white-space:pre-wrap;">${safeMessage}</p>
-          </div>
-          ${verifySection}${guestVerifySection}
-          <p style="margin-top:24px;font-size:12px;color:#475569;">Submitted via hydrabytes.it.com</p>
-        </div>`,
-    });
-
-    if (teamEmailError) {
+    try {
+      await sendEmail({
+        to: TEAM_EMAIL,
+        subject: `New Inquiry: ${name} - ${serviceLabel}`,
+        html: `
+          <div style="font-family:sans-serif;max-width:600px;margin:0 auto;padding:24px;background:#0a0a0f;color:#e2e8f0;">
+            <h2 style="color:#6366f1;margin-bottom:24px;">New Contact Form Submission</h2>
+            <table style="width:100%;border-collapse:collapse;">
+              <tr><td style="padding:8px 0;color:#94a3b8;width:120px;">Name</td><td style="padding:8px 0;font-weight:600;">${safeName}</td></tr>
+              <tr><td style="padding:8px 0;color:#94a3b8;">Email</td><td style="padding:8px 0;"><a href="mailto:${safeEmail}" style="color:#6366f1;">${safeEmail}</a></td></tr>
+              <tr><td style="padding:8px 0;color:#94a3b8;">Service</td><td style="padding:8px 0;">${safeServiceLabel}</td></tr>
+              <tr><td style="padding:8px 0;color:#94a3b8;">Budget</td><td style="padding:8px 0;">${safeBudgetLabel}</td></tr>
+            </table>
+            <div style="margin-top:20px;padding:16px;background:#1e293b;border-radius:8px;border-left:4px solid #6366f1;">
+              <p style="color:#94a3b8;font-size:12px;margin:0 0 8px;">Message</p>
+              <p style="margin:0;white-space:pre-wrap;">${safeMessage}</p>
+            </div>
+            ${verifySection}${guestVerifySection}
+            <p style="margin-top:24px;font-size:12px;color:#475569;">Submitted via hydrabytes.it.com</p>
+          </div>`,
+      });
+    } catch (teamEmailError) {
       console.error('[contact] Team email error:', teamEmailError);
     }
 
     // Confirm to client
-    const { error: clientEmailError } = await resend.emails.send({
-      from: 'HydraBytes <hello@hydrabytes.it.com>',
-      to: email,
-      subject: "We received your message — HydraBytes",
-      html: `
-        <div style="font-family:sans-serif;max-width:600px;margin:0 auto;padding:24px;">
-          <h2 style="color:#6366f1;">Thanks for reaching out, ${safeName}!</h2>
-          <p style="color:#374151;line-height:1.6;">We've received your inquiry about <strong>${safeServiceLabel}</strong> and will get back to you within <strong>24 hours</strong>.</p>
-          ${projectId
-            ? `<div style="margin:20px 0;padding:16px;background:#f0f9ff;border-radius:8px;border-left:4px solid #6366f1;"><p style="margin:0;color:#1e40af;font-size:14px;">Your project has been added to your <a href="${BASE_URL}/dashboard" style="color:#6366f1;font-weight:600;">dashboard</a> and is pending verification from our team.</p></div>`
-            : `<div style="margin:20px 0;padding:16px;background:#faf5ff;border-radius:8px;border-left:4px solid #7c3aed;"><p style="margin:0 0 10px;color:#5b21b6;font-size:14px;font-weight:600;">Want to track your inquiry status?</p><p style="margin:0 0 14px;color:#6b7280;font-size:14px;">Create a free account to see real-time updates, receive project notifications, and manage invoices.</p><a href="${BASE_URL}/auth/register?email=${encodeURIComponent(email)}" style="display:inline-block;padding:10px 20px;background:linear-gradient(135deg,#7c3aed,#0891b2);color:#fff;text-decoration:none;border-radius:8px;font-weight:600;font-size:14px;">Create Free Account</a></div>`
-          }
-          <p style="color:#374151;line-height:1.6;">For quick enquiries, WhatsApp us at <a href="https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP ?? '923239999000'}" style="color:#6366f1;">+92 323 9999 000</a>.</p>
-          <p style="color:#374151;">Best regards,<br/><strong>The HydraBytes Team</strong></p>
-          <hr style="border:none;border-top:1px solid #e5e7eb;margin:24px 0;"/>
-          <p style="font-size:12px;color:#9ca3af;">HydraBytes · hydrabytes4@gmail.com</p>
-        </div>`,
-    });
-
-    if (clientEmailError) {
+    try {
+      await sendEmail({
+        to: email,
+        subject: 'We received your message — HydraBytes',
+        html: `
+          <div style="font-family:sans-serif;max-width:600px;margin:0 auto;padding:24px;">
+            <h2 style="color:#6366f1;">Thanks for reaching out, ${safeName}!</h2>
+            <p style="color:#374151;line-height:1.6;">We've received your inquiry about <strong>${safeServiceLabel}</strong> and will get back to you within <strong>24 hours</strong>.</p>
+            ${projectId
+              ? `<div style="margin:20px 0;padding:16px;background:#f0f9ff;border-radius:8px;border-left:4px solid #6366f1;"><p style="margin:0;color:#1e40af;font-size:14px;">Your project has been added to your <a href="${BASE_URL}/dashboard" style="color:#6366f1;font-weight:600;">dashboard</a> and is pending verification from our team.</p></div>`
+              : `<div style="margin:20px 0;padding:16px;background:#faf5ff;border-radius:8px;border-left:4px solid #7c3aed;"><p style="margin:0 0 10px;color:#5b21b6;font-size:14px;font-weight:600;">Want to track your inquiry status?</p><p style="margin:0 0 14px;color:#6b7280;font-size:14px;">Create a free account to see real-time updates, receive project notifications, and manage invoices.</p><a href="${BASE_URL}/auth/register?email=${encodeURIComponent(email)}" style="display:inline-block;padding:10px 20px;background:linear-gradient(135deg,#7c3aed,#0891b2);color:#fff;text-decoration:none;border-radius:8px;font-weight:600;font-size:14px;">Create Free Account</a></div>`
+            }
+            <p style="color:#374151;line-height:1.6;">For quick enquiries, WhatsApp us at <a href="https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP ?? '923239999000'}" style="color:#6366f1;">+92 323 9999 000</a>.</p>
+            <p style="color:#374151;">Best regards,<br/><strong>The HydraBytes Team</strong></p>
+            <hr style="border:none;border-top:1px solid #e5e7eb;margin:24px 0;"/>
+            <p style="font-size:12px;color:#9ca3af;">HydraBytes · hydrabytes4@gmail.com</p>
+          </div>`,
+      });
+    } catch (clientEmailError) {
       console.error('[contact] Client email error:', clientEmailError);
     }
 
