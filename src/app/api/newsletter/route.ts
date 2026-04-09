@@ -1,10 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { Resend } from 'resend';
+import { sendEmail } from '@/lib/mailer';
 import { enforceRateLimit, FIFTEEN_MINUTES } from '@/lib/rateLimit';
 import { readJsonBody, requireJson, validateEmail } from '@/lib/validate';
-
-const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST(req: NextRequest) {
   const limited = enforceRateLimit(req, 'newsletter', 5, FIFTEEN_MINUTES);
@@ -29,11 +27,11 @@ export async function POST(req: NextRequest) {
   await prisma.newsletterSubscriber.create({ data: { email: normalizedEmail } });
 
   // Send welcome email
-  const { error: emailError } = await resend.emails.send({
-    from: 'HydraBytes <hello@hydrabytes.it.com>',
-    to: normalizedEmail,
-    subject: 'Welcome to HydraBytes updates!',
-    html: `
+  try {
+    await sendEmail({
+      to: normalizedEmail,
+      subject: 'Welcome to HydraBytes updates!',
+      html: `
       <div style="font-family: Inter, sans-serif; max-width: 600px; margin: 0 auto; background: #0a0a12; color: #f0f0f5; border-radius: 12px; overflow: hidden;">
         <div style="background: linear-gradient(135deg, #7c3aed 0%, #00e5ff 100%); padding: 40px 32px; text-align: center;">
           <h1 style="margin: 0; font-size: 28px; font-weight: 800; color: #ffffff;">Welcome to HydraBytes!</h1>
@@ -56,10 +54,9 @@ export async function POST(req: NextRequest) {
         </div>
       </div>
     `,
-  });
-
-  if (emailError) {
-    console.error('[newsletter] Resend error:', emailError);
+    });
+  } catch (emailError) {
+    console.error('[newsletter] Email error:', emailError);
     return NextResponse.json({ error: 'Subscribed but welcome email failed to send.' }, { status: 500 });
   }
 
