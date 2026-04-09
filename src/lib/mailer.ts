@@ -9,10 +9,11 @@ const transporter = nodemailer.createTransport({
 });
 
 export async function sendEmail({ to, subject, html }: { to: string; subject: string; html: string }) {
-  await transporter.sendMail({
+  const info = await transporter.sendMail({
     from: `HydraBytes <${process.env.GMAIL_USER}>`,
     to,
     subject,
     html,
   });
+  return info;
 }
