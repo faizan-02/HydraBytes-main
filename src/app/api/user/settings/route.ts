@@ -2,8 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/../auth';
 import { prisma } from '@/lib/prisma';
 import bcrypt from 'bcryptjs';
-import { enforceRateLimit, FIFTEEN_MINUTES } from '@/lib/rateLimit';
-import { readJsonBody, requireJson, validateName, validatePassword, validatePhone, validateCompany, validateEmail, escapeHtml } from '@/lib/validate';
+import crypto from 'crypto';
+import { enforceRateLimit, rateLimit, FIFTEEN_MINUTES } from '@/lib/rateLimit';
+import { readJsonBody, requireJson, validateName, validatePassword, validatePhone, validateCompany, validateEmail, escapeHtml, timingSafeEqualStr } from '@/lib/validate';
 import { sendEmail } from '@/lib/mailer';
 
 // GET — fetch current profile data
@@ -21,7 +22,7 @@ export async function GET() {
   return NextResponse.json(user);
 }
 
-// PATCH — update name or password
+// PATCH — update name, password, profile, email
 export async function PATCH(req: NextRequest) {
   const limited = enforceRateLimit(req, 'user:settings', 10, FIFTEEN_MINUTES);
   if (limited) return limited;
@@ -32,7 +33,16 @@ export async function PATCH(req: NextRequest) {
   const ctGuard = requireJson(req);
   if (ctGuard) return ctGuard;
 
-  const parsed = await readJsonBody<{ action?: unknown; name?: unknown; currentPassword?: unknown; newPassword?: unknown; phone?: unknown; company?: unknown; newEmail?: unknown; otp?: unknown }>(req);
+  const parsed = await readJsonBody<{
+    action?: unknown;
+    name?: unknown;
+    currentPassword?: unknown;
+    newPassword?: unknown;
+    phone?: unknown;
+    company?: unknown;
+    newEmail?: unknown;
+    otp?: unknown;
+  }>(req);
   if (!parsed.ok) return parsed.response;
 
   const { action } = parsed.data;
@@ -72,7 +82,7 @@ export async function PATCH(req: NextRequest) {
     return NextResponse.json({ success: true });
   }
 
-  // ── Update Profile (phone + company) ─────────────────────────────────────
+  // ── Update Profile (phone + company — used by onboarding flow) ────────────
   if (action === 'update_profile') {
     const phoneRes = validatePhone(parsed.data.phone);
     if ('error' in phoneRes) return NextResponse.json({ error: phoneRes.error }, { status: phoneRes.status });
@@ -84,7 +94,7 @@ export async function PATCH(req: NextRequest) {
     return NextResponse.json({ success: true });
   }
 
-  // ── Update Info (name + phone + company, any subset) ─────────────────────
+  // ── Update Info (name + phone + company, any non-empty subset) ───────────
   if (action === 'update_info') {
     const updateData: { name?: string; phone?: string; company?: string } = {};
 
@@ -133,11 +143,14 @@ export async function PATCH(req: NextRequest) {
     const match = await bcrypt.compare(currentPasswordRes.value, user.password);
     if (!match) return NextResponse.json({ error: 'Current password is incorrect.' }, { status: 400 });
 
-    const existing = await prisma.user.findUnique({ where: { email: emailRes.value } });
+    // Case-insensitive uniqueness check
+    const existing = await prisma.user.findFirst({
+      where: { email: { equals: emailRes.value, mode: 'insensitive' } },
+    });
     if (existing) return NextResponse.json({ error: 'That email address is already in use.' }, { status: 409 });
 
-    // Generate OTP and store pending change
-    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    // Cryptographically secure OTP
+    const otp = crypto.randomInt(100000, 1000000).toString();
     const expiresAt = new Date(Date.now() + 15 * 60 * 1000);
     await prisma.emailChangeToken.upsert({
       where: { userId },
@@ -187,26 +200,72 @@ export async function PATCH(req: NextRequest) {
 
   // ── Verify Email Change OTP ───────────────────────────────────────────────
   if (action === 'verify_email_change') {
+    // Per-user brute-force protection (5 wrong attempts per 15 min)
+    const otpRateCheck = rateLimit('user:verify-email-change', userId, 5, FIFTEEN_MINUTES);
+    if (otpRateCheck.limited) {
+      return NextResponse.json(
+        { error: 'Too many incorrect attempts. Please request a new verification code.' },
+        { status: 429 }
+      );
+    }
+
     const otpInput = typeof parsed.data.otp === 'string' ? parsed.data.otp.trim() : '';
     if (!otpInput) return NextResponse.json({ error: 'Verification code is required.' }, { status: 400 });
 
     const token = await prisma.emailChangeToken.findUnique({ where: { userId } });
     if (!token) return NextResponse.json({ error: 'No pending email change found. Please start over.' }, { status: 400 });
+
     if (new Date() > token.expiresAt) {
       await prisma.emailChangeToken.delete({ where: { userId } });
       return NextResponse.json({ error: 'Verification code has expired. Please start over.' }, { status: 400 });
     }
-    if (token.otp !== otpInput) return NextResponse.json({ error: 'Incorrect verification code.' }, { status: 400 });
 
-    // Check the new email is still available
-    const conflict = await prisma.user.findUnique({ where: { email: token.newEmail } });
+    // Constant-time OTP comparison
+    if (!timingSafeEqualStr(token.otp, otpInput)) {
+      return NextResponse.json({ error: 'Incorrect verification code.' }, { status: 400 });
+    }
+
+    // Case-insensitive check that new email is still available
+    const conflict = await prisma.user.findFirst({
+      where: { email: { equals: token.newEmail, mode: 'insensitive' } },
+    });
     if (conflict) {
       await prisma.emailChangeToken.delete({ where: { userId } });
       return NextResponse.json({ error: 'That email address is no longer available.' }, { status: 409 });
     }
 
-    await prisma.user.update({ where: { id: userId }, data: { email: token.newEmail } });
+    // Fetch old email before update (needed for cleanup)
+    const currentUser = await prisma.user.findUnique({ where: { id: userId }, select: { email: true } });
+    const oldEmail = currentUser?.email;
+
+    // Update email — catch unique constraint race (TOCTOU)
+    try {
+      await prisma.user.update({ where: { id: userId }, data: { email: token.newEmail } });
+    } catch (err) {
+      if ((err as { code?: string }).code === 'P2002') {
+        await prisma.emailChangeToken.delete({ where: { userId } });
+        return NextResponse.json({ error: 'That email address is no longer available.' }, { status: 409 });
+      }
+      throw err;
+    }
+
+    // Clean up token
     await prisma.emailChangeToken.delete({ where: { userId } });
+
+    if (oldEmail) {
+      await Promise.all([
+        // Invalidate any password reset tokens tied to the old email
+        prisma.passwordResetToken.deleteMany({
+          where: { email: { equals: oldEmail, mode: 'insensitive' } },
+        }),
+        // Update ContactSubmission records so admin invite flow still works
+        prisma.contactSubmission.updateMany({
+          where: { email: { equals: oldEmail, mode: 'insensitive' } },
+          data: { email: token.newEmail },
+        }),
+      ]);
+    }
+
     return NextResponse.json({ success: true });
   }
 

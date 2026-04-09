@@ -156,8 +156,9 @@ export default function SettingsPage() {
     setEmailLoading(false);
     if (res.ok) {
       setEmailMsg({ text: 'Email changed successfully. Signing you out…', ok: true });
-      setTimeout(() => signOut({ callbackUrl: '/auth/signin' }), 2000);
+      setTimeout(() => signOut({ callbackUrl: '/auth/signin' }), 500);
     } else {
+      setEmailOtp('');
       setEmailMsg({ text: data.error, ok: false });
     }
   }

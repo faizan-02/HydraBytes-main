@@ -69,7 +69,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       }
       // OAuth first sign-in — upsert user and get DB id/role (with retry for cold DB starts)
       if (account && (account.provider === 'google' || account.provider === 'github')) {
-        const email = token.email as string;
+        const email = (token.email as string)?.toLowerCase();
         if (email) {
           let lastErr: unknown;
           for (let attempt = 0; attempt < 3; attempt++) {
