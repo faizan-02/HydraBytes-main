@@ -54,6 +54,9 @@ export const metadata: Metadata = {
     description: 'Transform your business with cutting-edge web, mobile, and AI solutions.',
     images: ['/Hydrabytes_logo.png'],
   },
+  verification: {
+    google: 'MMvuUpAmS35boJ1mt8CuNyvFp2AcsbBRESHDRD3qto8',
+  },
 };
 
 export default function RootLayout({
