@@ -81,9 +81,10 @@ model Invoice {
 }
 
 model NewsletterSubscriber {
-  id        String   @id @default(cuid())
-  email     String   @unique
-  createdAt DateTime @default(now())
+  id               String   @id @default(cuid())
+  email            String   @unique
+  unsubscribeToken String?  @unique
+  createdAt        DateTime @default(now())
 }
 
 model PasswordResetToken {

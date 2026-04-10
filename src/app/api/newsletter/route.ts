@@ -1,8 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { randomBytes } from 'crypto';
 import { prisma } from '@/lib/prisma';
 import { sendEmail } from '@/lib/mailer';
 import { enforceRateLimit, FIFTEEN_MINUTES } from '@/lib/rateLimit';
 import { readJsonBody, requireJson, validateEmail } from '@/lib/validate';
+
+const BASE_URL = process.env.AUTH_URL ?? 'https://www.hydrabytes.it.com';
 
 export async function POST(req: NextRequest) {
   const limited = enforceRateLimit(req, 'newsletter', 5, FIFTEEN_MINUTES);
@@ -23,8 +26,12 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'This email is already subscribed.' }, { status: 409 });
   }
 
+  const unsubscribeToken = randomBytes(32).toString('hex');
+
   // Save to DB
-  await prisma.newsletterSubscriber.create({ data: { email: normalizedEmail } });
+  await prisma.newsletterSubscriber.create({ data: { email: normalizedEmail, unsubscribeToken } });
+
+  const unsubscribeUrl = `${BASE_URL}/unsubscribe?token=${unsubscribeToken}`;
 
   // Send welcome email
   try {
@@ -44,13 +51,17 @@ export async function POST(req: NextRequest) {
             Stay tuned for insights, project showcases, and exclusive updates delivered straight to your inbox.
           </p>
           <div style="text-align: center;">
-            <a href="https://www.hydrabytes.it.com" style="display: inline-block; padding: 14px 32px; background: linear-gradient(135deg, #7c3aed 0%, #00e5ff 100%); color: #ffffff; text-decoration: none; border-radius: 999px; font-weight: 600; font-size: 15px;">
+            <a href="${BASE_URL}" style="display: inline-block; padding: 14px 32px; background: linear-gradient(135deg, #7c3aed 0%, #00e5ff 100%); color: #ffffff; text-decoration: none; border-radius: 999px; font-weight: 600; font-size: 15px;">
               Visit HydraBytes
             </a>
           </div>
         </div>
         <div style="padding: 24px 32px; border-top: 1px solid rgba(124,58,237,0.15); text-align: center;">
           <p style="margin: 0; font-size: 13px; color: #6c6c85;">© ${new Date().getFullYear()} HydraBytes. All rights reserved.</p>
+          <p style="margin: 8px 0 0; font-size: 12px; color: #6c6c85;">
+            Don't want these emails?
+            <a href="${unsubscribeUrl}" style="color: #8888a8; text-decoration: underline;">Unsubscribe</a>
+          </p>
         </div>
       </div>
     `,

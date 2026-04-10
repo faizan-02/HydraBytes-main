@@ -1,3 +1,5 @@
+import { withSentryConfig } from '@sentry/nextjs';
+
 /** @type {import('next').NextConfig} */
 
 // Baseline security headers applied to every response.
@@ -68,4 +70,11 @@ const nextConfig = {
   },
 };
 
-export default nextConfig;
+export default withSentryConfig(nextConfig, {
+  silent: true,
+  // Disable source map upload unless SENTRY_AUTH_TOKEN is set
+  disableClientWebpackPlugin: !process.env.SENTRY_AUTH_TOKEN,
+  disableServerWebpackPlugin: !process.env.SENTRY_AUTH_TOKEN,
+  hideSourceMaps: true,
+  disableLogger: true,
+});
