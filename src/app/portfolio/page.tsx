@@ -44,9 +44,19 @@ const techCategories = [
   },
 ];
 
-const categories = ['All', 'Mobile', 'AI/ML'];
+const categories = ['All', 'Web', 'Mobile', 'AI/ML'];
 
 const projects = [
+  {
+    title: 'Flight Reservation System',
+    category: 'Web',
+    desc: 'Full-stack flight reservation platform allowing users to search flights, book tickets, manage bookings, and process payments. Built on a SQL Server backend with stored procedures and triggers that enforce booking rules, prevent double-booking, and maintain an audit log — ensuring reliable, tamper-resistant reservation operations.',
+    tech: ['Python', 'Flask', 'SQL Server', 'Stored Procedures', 'Triggers', 'pyodbc', 'HTML/CSS'],
+    color: '#38bdf8',
+    metric: 'Stored procedures & triggers',
+    image: '/portfolio/flight-reservation.png',
+    year: 'Jun 2025',
+  },
   {
     title: 'OptiPro — Retinal Disease Detection',
     category: 'AI/ML',
