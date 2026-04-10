@@ -47,8 +47,8 @@ const services = [
 ];
 
 const stats = [
-  { value: '20+', label: 'Projects Delivered' },
-  { value: '15+', label: 'Happy Clients' },
+  { value: '10+', label: 'Projects Delivered' },
+  { value: '5+', label: 'Countries Reached' },
   { value: '99%', label: 'Client Satisfaction' },
   { value: '24/7', label: 'Support Available' },
 ];
