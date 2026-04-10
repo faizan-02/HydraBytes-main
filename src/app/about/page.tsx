@@ -15,7 +15,7 @@ const team = [
   { name: 'Asad Ali Khan', role: 'Co-Founder', initials: 'AA', color: '#00e5ff' },
   { name: 'Suhayb Saleem', role: 'Lead Designer', initials: 'SS', color: '#f472b6' },
   { name: 'Haris Munir', role: 'AI Lead', initials: 'HM', color: '#22c55e' },
-  { name: 'Ali Raza', role: 'Mobile App Developer', initials: 'AR', color: '#f59e0b' },
+  { name: 'Muhammad Usman', role: 'Mobile App Developer', initials: 'MU', color: '#f59e0b' },
   { name: 'Umair Khan', role: 'Web Developer', initials: 'UK', color: '#38bdf8' },
 ];
 
