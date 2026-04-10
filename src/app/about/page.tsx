@@ -86,7 +86,7 @@ export default function AboutPage() {
               <div className={styles.missionStats}>
                 <SpotlightCard>
                   <div className={styles.missionStat}>
-                    <span className={styles.missionStatValue}>1+</span>
+                    <span className={styles.missionStatValue}>3+</span>
                     <span className={styles.missionStatLabel}>Years of Innovation</span>
                   </div>
                 </SpotlightCard>
