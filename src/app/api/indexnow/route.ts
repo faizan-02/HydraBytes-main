@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 
-const KEY = 'd79d2cdb5cb498b6176799bf38bc3ab7';
+const KEY = 'd49e56fdce574516b28f25ef4c0d0092';
 const HOST = 'www.hydrabytes.tech';
 const BASE_URL = `https://${HOST}`;
 
