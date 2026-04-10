@@ -44,62 +44,38 @@ const techCategories = [
   },
 ];
 
-const categories = ['All', 'Web', 'Mobile', 'AI/ML'];
+const categories = ['All', 'Mobile', 'AI/ML'];
 
 const projects = [
   {
-    title: 'FinScale Dashboard',
-    category: 'Web',
-    desc: 'Real-time financial analytics dashboard with AI-powered insights and automated reporting for enterprise clients.',
-    tech: ['React', 'Node.js', 'D3.js', 'PostgreSQL', 'TypeScript', 'Redis', 'Chart.js', 'Stripe'],
-    color: '#7c3aed',
-    metric: '40% faster decisions',
-    image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=900&q=85',
-  },
-  {
-    title: 'GreenLeaf Mobile App',
-    category: 'Mobile',
-    desc: 'Eco-conscious lifestyle app with carbon footprint tracking, sustainable product marketplace, and community features.',
-    tech: ['React Native', 'Firebase', 'GraphQL', 'TypeScript', 'Redux', 'Mapbox', 'Stripe'],
-    color: '#22c55e',
-    metric: '100K+ downloads',
-    image: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=900&q=85',
-  },
-  {
-    title: 'DataPulse AI Engine',
+    title: 'OptiPro — Retinal Disease Detection',
     category: 'AI/ML',
-    desc: 'Custom ML pipeline for predictive maintenance in manufacturing, reducing equipment downtime by 60%.',
-    tech: ['Python', 'TensorFlow', 'AWS SageMaker', 'scikit-learn', 'FastAPI', 'Docker', 'PostgreSQL'],
-    color: '#f472b6',
-    metric: '60% less downtime',
-    image: 'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&w=900&q=85',
-  },
-  {
-    title: 'CloudSync Platform',
-    category: 'Web',
-    desc: 'Enterprise cloud management platform with multi-provider support, automated scaling, and cost optimization.',
-    tech: ['Next.js', 'TypeScript', 'Docker', 'K8s', 'AWS', 'Terraform', 'Redis', 'PostgreSQL'],
+    desc: 'End-to-end AI-powered retinal disease detection platform for clinical support. Classifies retinal scans into CNV, DME, Drusen, and Normal using ResNet-101 with Grad-CAM heatmap visualization for explainable AI output. Includes a full doctor panel, patient portal, appointment workflows, and AI-generated PDF medical reports.',
+    tech: ['PyTorch', 'ResNet-101', 'Flask', 'React', 'Supabase', 'PostgreSQL', 'Grad-CAM', 'Gemini API'],
     color: '#00e5ff',
-    metric: '35% cost savings',
-    image: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=900&q=85',
+    metric: '4 disease classes detected',
+    image: '/portfolio/optipro.png',
+    year: 'Aug 2025',
   },
   {
-    title: 'NexGen Health App',
-    category: 'Mobile',
-    desc: 'Telemedicine platform with video consultations, prescription management, and health monitoring integration.',
-    tech: ['Flutter', 'Node.js', 'WebRTC', 'Firebase', 'Stripe', 'TypeScript', 'Redux'],
-    color: '#f59e0b',
-    metric: '50K+ patients served',
-    image: 'https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=900&q=85',
-  },
-  {
-    title: 'SmartRetail AI',
+    title: 'AI Student Stress Management',
     category: 'AI/ML',
-    desc: 'Computer vision system for retail analytics: customer tracking, shelf monitoring, and demand forecasting.',
-    tech: ['PyTorch', 'OpenCV', 'FastAPI', 'Redis', 'PostgreSQL', 'Docker', 'AWS'],
-    color: '#ef4444',
-    metric: '25% revenue increase',
-    image: 'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?auto=format&fit=crop&w=900&q=85',
+    desc: 'AI-based platform that detects and helps reduce student stress, anxiety, and depression using machine learning. Analyzes questionnaire data for early mental health detection, delivers personalized recommendations like breathing exercises and relaxation techniques, and includes an AI chatbot for real-time emotional support.',
+    tech: ['Python', 'Machine Learning', 'React', 'PostgreSQL', 'AI Chatbot', 'REST API'],
+    color: '#f472b6',
+    metric: 'Early stress detection',
+    image: '/portfolio/stress-mgmt.png',
+    year: 'Feb 2025',
+  },
+  {
+    title: 'Safe-Sawar — Women-First Carpooling',
+    category: 'Mobile',
+    desc: 'Pakistan\'s first NADRA-verified women-first carpooling platform built to tackle rising fuel costs. Features biometric identity verification, institution-based trust circles, live ride tracking, and an offline-capable Emergency SOS system via Bluetooth mesh networking. Male section added to enhance the wider userbase. Currently in beta.',
+    tech: ['React Native', 'TypeScript', 'Firebase', 'Expo', 'Mesh Network', 'NADRA API', 'OpenStreetMap'],
+    color: '#22c55e',
+    metric: 'Beta — launching soon',
+    image: '/portfolio/safe-sawar.png',
+    year: 'Mar 2026',
   },
 ];
 
@@ -164,7 +140,10 @@ export default function PortfolioPage() {
                         <div style={{ position: 'absolute', inset: 0, background: `linear-gradient(to top, ${project.color}40, transparent)` }} />
                       </div>
                       <div className={styles.projectHeader} style={{ borderLeftColor: project.color }}>
-                        <span className={styles.projectCategory}>{project.category}</span>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                          <span className={styles.projectCategory}>{project.category}</span>
+                          {'year' in project && <span style={{ fontSize: '11px', color: '#6c6c85', marginLeft: 'auto' }}>{(project as { year: string }).year}</span>}
+                        </div>
                         <h3 className={styles.projectTitle}>{project.title}</h3>
                       </div>
                       <p className={styles.projectDesc}>{project.desc}</p>
