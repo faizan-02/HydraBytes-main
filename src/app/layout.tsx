@@ -20,13 +20,13 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://www.hydrabytes.it.com'),
+  metadataBase: new URL('https://www.hydrabytes.tech'),
   title: 'HydraBytes | Web Development, App Development & AI/ML Solutions',
   description:
     'HydraBytes is a cutting-edge IT startup delivering premium web development, mobile app development, and AI/ML solutions. Transform your business with next-gen technology.',
   keywords: 'web development, app development, AI, machine learning, IT startup, software development, Next.js, Pakistan',
   alternates: {
-    canonical: 'https://www.hydrabytes.it.com',
+    canonical: 'https://www.hydrabytes.tech',
   },
   icons: {
     icon: '/favicon.svg',
@@ -38,7 +38,7 @@ export const metadata: Metadata = {
     description: 'Transform your business with cutting-edge web, mobile, and AI solutions.',
     siteName: 'HydraBytes',
     type: 'website',
-    url: 'https://www.hydrabytes.it.com',
+    url: 'https://www.hydrabytes.tech',
     images: [
       {
         url: '/Hydrabytes_logo.png',
@@ -68,14 +68,14 @@ export default function RootLayout({
           '@context': 'https://schema.org',
           '@type': 'WebSite',
           name: 'HydraBytes',
-          url: 'https://www.hydrabytes.it.com',
+          url: 'https://www.hydrabytes.tech',
         }} />
         <JsonLd data={{
           '@context': 'https://schema.org',
           '@type': 'Organization',
           name: 'HydraBytes',
-          url: 'https://www.hydrabytes.it.com',
-          logo: 'https://www.hydrabytes.it.com/Hydrabytes_logo.png',
+          url: 'https://www.hydrabytes.tech',
+          logo: 'https://www.hydrabytes.tech/Hydrabytes_logo.png',
           description:
             'HydraBytes is a cutting-edge IT startup delivering premium web development, mobile app development, and AI/ML solutions.',
           sameAs: [
@@ -85,7 +85,7 @@ export default function RootLayout({
           contactPoint: {
             '@type': 'ContactPoint',
             contactType: 'customer service',
-            url: 'https://www.hydrabytes.it.com/contact',
+            url: 'https://www.hydrabytes.tech/contact',
           },
         }} />
         <Suspense fallback={

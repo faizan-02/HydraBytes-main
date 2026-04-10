@@ -5,7 +5,7 @@ import { sendEmail } from '@/lib/mailer';
 import { enforceRateLimit, FIFTEEN_MINUTES } from '@/lib/rateLimit';
 import { readJsonBody, requireJson, validateEmail } from '@/lib/validate';
 
-const BASE_URL = process.env.AUTH_URL ?? 'https://www.hydrabytes.it.com';
+const BASE_URL = process.env.AUTH_URL ?? 'https://www.hydrabytes.tech';
 
 export async function POST(req: NextRequest) {
   const limited = enforceRateLimit(req, 'newsletter', 5, FIFTEEN_MINUTES);

@@ -3,7 +3,7 @@ import { prisma } from '@/lib/prisma';
 import { sendEmail } from '@/lib/mailer';
 import { escapeHtml } from '@/lib/validate';
 
-const BASE_URL = process.env.AUTH_URL ?? process.env.NEXTAUTH_URL ?? 'https://hydrabytes.it.com';
+const BASE_URL = process.env.AUTH_URL ?? process.env.NEXTAUTH_URL ?? 'https://hydrabytes.tech';
 const CALENDLY_LINK = process.env.NEXT_PUBLIC_CALENDLY_URL ?? 'https://calendly.com/faizanjawad02/30min';
 const WA_LINK = `https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP ?? '923239999000'}`;
 
@@ -169,7 +169,7 @@ function declineForm(token: string, title: string, name: string) {
     <textarea name="reason" rows="4" placeholder="e.g. Outside our current service scope, budget mismatch..."></textarea>
     <button type="submit" class="btn-decline">Confirm Decline</button>
   </form>
-  <a href="https://hydrabytes.it.com" class="btn-cancel">Cancel</a>
+  <a href="https://hydrabytes.tech" class="btn-cancel">Cancel</a>
 </div>
 </body></html>`;
 }
@@ -189,6 +189,6 @@ a{display:inline-block;padding:12px 24px;background:linear-gradient(135deg,#6366
 <body><div class="card">
   <div style="font-size:48px;margin-bottom:16px">${icons[type]}</div>
   <h1>${title}</h1><p>${message}</p>
-  <a href="https://hydrabytes.it.com">Go to HydraBytes</a>
+  <a href="https://hydrabytes.tech">Go to HydraBytes</a>
 </div></body></html>`;
 }

@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 
 const KEY = 'd79d2cdb5cb498b6176799bf38bc3ab7';
-const HOST = 'www.hydrabytes.it.com';
+const HOST = 'www.hydrabytes.tech';
 const BASE_URL = `https://${HOST}`;
 
 const URLS = [

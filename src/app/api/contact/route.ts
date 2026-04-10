@@ -162,7 +162,7 @@ export async function POST(req: NextRequest) {
               <p style="margin:0;white-space:pre-wrap;">${safeMessage}</p>
             </div>
             ${verifySection}${guestVerifySection}
-            <p style="margin-top:24px;font-size:12px;color:#475569;">Submitted via hydrabytes.it.com</p>
+            <p style="margin-top:24px;font-size:12px;color:#475569;">Submitted via hydrabytes.tech</p>
           </div>`,
       });
     } catch (teamEmailError) {

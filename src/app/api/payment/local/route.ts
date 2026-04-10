@@ -6,7 +6,7 @@ import { enforceRateLimit, FIFTEEN_MINUTES } from '@/lib/rateLimit';
 import { readJsonBody, requireJson, escapeHtml, LIMITS } from '@/lib/validate';
 
 const ADMIN_EMAIL = process.env.TEAM_EMAIL ?? 'hydrabytes4@gmail.com';
-const BASE_URL = process.env.AUTH_URL ?? 'https://www.hydrabytes.it.com';
+const BASE_URL = process.env.AUTH_URL ?? 'https://www.hydrabytes.tech';
 const ALLOWED_METHODS = new Set(['easypaisa', 'jazzcash', 'nayapay', 'bank', 'payoneer', 'usdt_trc20']);
 
 // ─── USDT TRC20 auto-verification via TronScan public API ────────────────────
@@ -176,7 +176,7 @@ export async function POST(req: NextRequest) {
             <tr><td style="padding: 8px 0; color: #a0a0b8; font-size: 14px; border-top: 1px solid rgba(124,58,237,0.15);">Transaction Ref</td><td style="padding: 8px 0; color: #00e5ff; font-weight: 700; text-align: right; border-top: 1px solid rgba(124,58,237,0.15); font-family: monospace; font-size: 16px;">${escapeHtml(trimmedRef)}</td></tr>
           </table>
           <div style="margin-top: 28px; text-align: center;">
-            <a href="${process.env.AUTH_URL ?? 'https://hydrabytes.it.com'}/admin" style="display: inline-block; padding: 12px 28px; background: linear-gradient(135deg, #7c3aed, #00e5ff); color: #fff; text-decoration: none; border-radius: 999px; font-weight: 600;">
+            <a href="${process.env.AUTH_URL ?? 'https://hydrabytes.tech'}/admin" style="display: inline-block; padding: 12px 28px; background: linear-gradient(135deg, #7c3aed, #00e5ff); color: #fff; text-decoration: none; border-radius: 999px; font-weight: 600;">
               Verify &amp; Mark as Paid →
             </a>
           </div>

@@ -1,6 +1,6 @@
 export const metadata = {
   title: 'Terms of Service — HydraBytes',
-  alternates: { canonical: 'https://www.hydrabytes.it.com/legal/terms' },
+  alternates: { canonical: 'https://www.hydrabytes.tech/legal/terms' },
 };
 
 const EFFECTIVE_DATE = 'April 2, 2026';
@@ -13,7 +13,7 @@ export default function TermsPage() {
       <p style={{ color: 'var(--text-secondary)', marginBottom: '48px' }}>Effective date: {EFFECTIVE_DATE}</p>
 
       <Section title="1. Agreement to Terms">
-        <p>By accessing or using HydraBytes ("we", "our", "us") services at hydrabytes.it.com, you agree to be bound by these Terms of Service. If you disagree with any part of these terms, you may not use our services.</p>
+        <p>By accessing or using HydraBytes ("we", "our", "us") services at hydrabytes.tech, you agree to be bound by these Terms of Service. If you disagree with any part of these terms, you may not use our services.</p>
       </Section>
 
       <Section title="2. Services">

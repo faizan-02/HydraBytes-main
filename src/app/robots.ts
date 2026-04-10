@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: '/',
       disallow: ['/api/', '/admin/', '/dashboard/', '/payment/'],
     },
-    sitemap: 'https://www.hydrabytes.it.com/sitemap.xml',
+    sitemap: 'https://www.hydrabytes.tech/sitemap.xml',
   };
 }

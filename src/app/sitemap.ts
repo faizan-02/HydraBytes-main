@@ -1,6 +1,6 @@
 import type { MetadataRoute } from 'next';
 
-const BASE_URL = 'https://www.hydrabytes.it.com';
+const BASE_URL = 'https://www.hydrabytes.tech';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const routes: { path: string; priority: number; freq: MetadataRoute.Sitemap[number]['changeFrequency'] }[] = [

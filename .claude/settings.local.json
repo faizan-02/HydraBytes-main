@@ -2,7 +2,33 @@
   "permissions": {
     "allow": [
       "Bash(npx next:*)",
-      "Bash(npx prisma:*)"
+      "Bash(npx prisma:*)",
+      "Bash(cp \"C:/Users/Faizan/Pictures/eplogo.png\" \"C:/Users/Faizan/Downloads/HydraBytes-main/HydraBytes-main/public/logos/easypaisa.png\")",
+      "Bash(cp \"C:/Users/Faizan/Pictures/jclogo.png\" \"C:/Users/Faizan/Downloads/HydraBytes-main/HydraBytes-main/public/logos/jazzcash.png\")",
+      "Bash(cp \"C:/Users/Faizan/Pictures/nayapay-logo.png\" \"C:/Users/Faizan/Downloads/HydraBytes-main/HydraBytes-main/public/logos/nayapay.png\")",
+      "Bash(npm install:*)",
+      "Bash(node -e \"const p=require\\('./node_modules/tailwindcss/package.json'\\); console.log\\(p.version\\)\")",
+      "Bash(npx tsc:*)",
+      "Bash(xargs grep:*)",
+      "Bash(cp \"C:/Users/Faizan/Pictures/Screenshots/Screenshot 2026-03-16 125246.png\" \"C:\\\\Users\\\\Faizan\\\\Downloads\\\\AI-Voice-Chat-Agent-main\\\\AI-Voice-Chat-Agent-main\\\\assets\\\\screenshot.png\")",
+      "Bash(cp \"C:/Users/Faizan/Videos/handbreak/Ai Voice Agent.mp4\" \"C:\\\\Users\\\\Faizan\\\\Downloads\\\\AI-Voice-Chat-Agent-main\\\\AI-Voice-Chat-Agent-main\\\\assets\\\\demo.mp4\")",
+      "Bash(cp \"C:/Users/Faizan/Pictures/Safesawar/Screenshot 2026-04-09 170747.png\" \"C:/Users/Faizan/Downloads/Safe-Sawar-main/Safe-Sawar-main/assets/screen1.png\")",
+      "Bash(cp \"C:/Users/Faizan/Pictures/Safesawar/Screenshot 2026-04-09 170811.png\" \"C:/Users/Faizan/Downloads/Safe-Sawar-main/Safe-Sawar-main/assets/screen2.png\")",
+      "Bash(cp \"C:/Users/Faizan/Pictures/Safesawar/WhatsApp Image 2026-04-09 at 5.06.25 PM.jpeg\" \"C:/Users/Faizan/Downloads/Safe-Sawar-main/Safe-Sawar-main/assets/screen3.jpeg\")",
+      "Bash(cp \"C:/Users/Faizan/Pictures/Safesawar/WhatsApp Image 2026-04-09 at 5.06.25 PM \\(1\\).jpeg\" \"C:/Users/Faizan/Downloads/Safe-Sawar-main/Safe-Sawar-main/assets/screen4.jpeg\")",
+      "Bash(cp \"C:/Users/Faizan/Pictures/Safesawar/WhatsApp Image 2026-04-09 at 5.06.25 PM \\(2\\).jpeg\" \"C:/Users/Faizan/Downloads/Safe-Sawar-main/Safe-Sawar-main/assets/screen5.jpeg\")",
+      "Bash(cp \"C:/Users/Faizan/Downloads/Advanced_Eye_Disease_Detection.png\" \"C:/Users/Faizan/Downloads/HydraBytes-main/HydraBytes-main/public/portfolio/optipro.png\")",
+      "Bash(cp \"C:/Users/Faizan/Downloads/AI-Based Student Stress Management System.png\" \"C:/Users/Faizan/Downloads/HydraBytes-main/HydraBytes-main/public/portfolio/stress-mgmt.png\")",
+      "Bash(cp \"C:/Users/Faizan/Downloads/Safe-Sawar_app.png\" \"C:/Users/Faizan/Downloads/HydraBytes-main/HydraBytes-main/public/portfolio/safe-sawar.png\")",
+      "Bash(gh repo:*)",
+      "Bash(ffmpeg -version)",
+      "Bash(ffmpeg -i \"C:/Users/Faizan/Downloads/AI-Voice-Chat-Agent-main/AI-Voice-Chat-Agent-main/assets/demo.mp4\" -vcodec libx264 -crf 28 -preset slow -vf \"scale=1280:-2\" -acodec aac -b:a 96k \"C:/Users/Faizan/Downloads/AI-Voice-Chat-Agent-main/AI-Voice-Chat-Agent-main/assets/demo_compressed.mp4\")",
+      "Bash(mv demo.mp4 demo_original.mp4)",
+      "Bash(mv demo_compressed.mp4 demo.mp4)",
+      "Bash(gh api:*)",
+      "Bash(python -c \"import sys,base64; print\\(base64.b64decode\\(sys.stdin.read\\(\\)\\).decode\\('utf-8', errors='replace'\\)\\)\")",
+      "Bash(xargs sed:*)",
+      "Bash(sed -i 's/www\\\\.hydrabytes\\\\.it\\\\.com/www.hydrabytes.tech/g; s/hydrabytes\\\\.it\\\\.com/hydrabytes.tech/g' next.config.mjs)"
     ]
   }
 }

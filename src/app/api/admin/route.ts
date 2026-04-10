@@ -4,7 +4,7 @@ import { prisma } from '@/lib/prisma';
 import { sendEmail } from '@/lib/mailer';
 import { readJsonBody, requireJson, escapeHtml } from '@/lib/validate';
 
-const BASE_URL = process.env.AUTH_URL ?? process.env.NEXTAUTH_URL ?? 'https://hydrabytes.it.com';
+const BASE_URL = process.env.AUTH_URL ?? process.env.NEXTAUTH_URL ?? 'https://hydrabytes.tech';
 
 const ALLOWED_PROJECT_STATUSES = new Set([
   'pending_verification', 'accepted', 'declined', 'planning', 'in_progress', 'review', 'completed',

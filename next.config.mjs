@@ -62,8 +62,8 @@ const nextConfig = {
         // Redirect non-www to www — but NOT for auth API routes (OAuth callbacks must
         // not be redirected mid-flow or the state/redirect_uri will mismatch).
         source: '/((?!api/auth).*)',
-        has: [{ type: 'host', value: 'hydrabytes.it.com' }],
-        destination: 'https://www.hydrabytes.it.com/:path*',
+        has: [{ type: 'host', value: 'hydrabytes.tech' }],
+        destination: 'https://www.hydrabytes.tech/:path*',
         permanent: true,
       },
     ];

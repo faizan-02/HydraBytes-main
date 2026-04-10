@@ -1,6 +1,6 @@
 export const metadata = {
   title: 'Refund Policy — HydraBytes',
-  alternates: { canonical: 'https://www.hydrabytes.it.com/legal/refund' },
+  alternates: { canonical: 'https://www.hydrabytes.tech/legal/refund' },
 };
 
 const EFFECTIVE_DATE = 'April 2, 2026';

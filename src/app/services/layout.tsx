@@ -3,12 +3,12 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'Services | HydraBytes — Web, App & AI Development',
   description: 'HydraBytes delivers end-to-end web development, mobile app development, and AI/ML solutions. From Next.js apps to custom ML models — we engineer for impact.',
-  alternates: { canonical: 'https://www.hydrabytes.it.com/services' },
+  alternates: { canonical: 'https://www.hydrabytes.tech/services' },
   openGraph: {
     title: 'HydraBytes Services',
     description: 'Web development, app development, and AI/ML solutions engineered for impact.',
     type: 'website',
-    url: 'https://www.hydrabytes.it.com/services',
+    url: 'https://www.hydrabytes.tech/services',
   },
 };
 

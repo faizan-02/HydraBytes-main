@@ -1,6 +1,6 @@
 export const metadata = {
   title: 'Privacy Policy — HydraBytes',
-  alternates: { canonical: 'https://www.hydrabytes.it.com/legal/privacy' },
+  alternates: { canonical: 'https://www.hydrabytes.tech/legal/privacy' },
 };
 
 const EFFECTIVE_DATE = 'April 2, 2026';
