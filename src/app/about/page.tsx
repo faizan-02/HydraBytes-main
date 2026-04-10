@@ -28,7 +28,7 @@ const values = [
 
 const timeline = [
   { year: '2024', title: 'Founded', desc: 'HydraBytes was born from a vision to make premium tech accessible to growing businesses.' },
-  { year: '2024', title: 'Core Team', desc: 'Assembled our founding team across engineering, design, and AI — and delivered our first client projects.' },
+  { year: '2024', title: 'Core Team', desc: 'Assembled our founding team across engineering, design, and AI. Delivered our first client projects.' },
   { year: '2025', title: 'Growing Portfolio', desc: 'Expanded our client base across web development, mobile apps, and AI solutions in Pakistan and beyond.' },
   { year: '2025', title: 'AI Division', desc: 'Launched our dedicated AI & ML division, helping clients automate processes and build intelligent products.' },
 ];

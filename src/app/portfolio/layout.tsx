@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Portfolio | HydraBytes — Projects That Deliver Results',
-  description: 'Explore HydraBytes\' portfolio of web, mobile, and AI/ML projects — from analytics dashboards to computer vision systems for enterprise clients.',
+  title: 'Portfolio | HydraBytes: Projects That Deliver Results',
+  description: 'Explore HydraBytes\' portfolio of web, mobile, and AI/ML projects. From analytics dashboards to computer vision systems for enterprise clients.',
   alternates: { canonical: 'https://www.hydrabytes.tech/portfolio' },
   openGraph: {
     title: 'HydraBytes Portfolio',

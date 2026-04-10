@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Pricing | HydraBytes — Transparent Project Pricing',
+  title: 'Pricing | HydraBytes: Transparent Project Pricing',
   description: 'Explore HydraBytes\' transparent pricing for web development, mobile apps, and AI/ML solutions. Flexible plans for startups, SMBs, and enterprises.',
   alternates: { canonical: 'https://www.hydrabytes.tech/pricing' },
   openGraph: {
