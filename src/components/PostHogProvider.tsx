@@ -17,6 +17,16 @@ export function initPostHog() {
   });
 }
 
+/**
+ * Safe event capture — no-op if PostHog hasn't been initialised yet
+ * (e.g. user hasn't accepted cookies). Call from any client component.
+ */
+export function capturePostHogEvent(event: string, properties?: Record<string, unknown>) {
+  if (typeof window === 'undefined') return;
+  if (!posthog.__loaded) return;
+  posthog.capture(event, properties);
+}
+
 export default function PostHogProvider({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
 

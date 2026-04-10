@@ -8,6 +8,7 @@ import AnimatedSection from '@/components/AnimatedSection';
 import SpotlightCard from '@/components/SpotlightCard';
 import MagneticButton from '@/components/MagneticButton';
 import FloatingParticles from '@/components/FloatingParticles';
+import { capturePostHogEvent } from '@/components/PostHogProvider';
 import styles from './contact.module.css';
 
 const contactInfo = [
@@ -69,6 +70,7 @@ function ContactForm() {
 
       setIsSubmitted(true);
       setSubmittedEmail(formData.email);
+      capturePostHogEvent('contact_form_submitted', { service: formData.service, budget: formData.budget });
       setFormData({ name: '', email: '', service: '', budget: '', message: '' });
     } catch {
       setError('Network error. Please check your connection and try again.');

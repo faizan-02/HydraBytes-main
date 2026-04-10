@@ -7,6 +7,7 @@ import { signIn } from 'next-auth/react';
 import { motion } from 'framer-motion';
 import { Mail, Lock, User, Eye, EyeOff, ArrowRight } from 'lucide-react';
 import MagneticButton from '@/components/MagneticButton';
+import { capturePostHogEvent } from '@/components/PostHogProvider';
 import styles from '../signin/signin.module.css';
 
 function RegisterForm() {
@@ -56,6 +57,7 @@ function RegisterForm() {
           if (!res.ok) {
             setError(data.error);
           } else {
+            capturePostHogEvent('account_registered', { method: 'email' });
             router.push(`/auth/verify?email=${encodeURIComponent(email)}`);
           }
         }}>

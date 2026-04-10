@@ -4,6 +4,7 @@ import { useState, use } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { CheckCircle, Copy, AlertCircle, Building2, Send } from 'lucide-react';
+import { capturePostHogEvent } from '@/components/PostHogProvider';
 
 // ─── INTERNATIONAL PAYMENT METHODS ───────────────────────────────────────────
 const INTERNATIONAL_METHODS = [
@@ -129,6 +130,7 @@ export default function LocalPaymentPage({ params }: { params: Promise<{ invoice
 
     setSubmitting(false);
     if (res.ok) {
+      capturePostHogEvent('payment_submitted', { method: selected });
       setDone(true);
     } else {
       const data = await res.json();
