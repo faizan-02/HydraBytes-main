@@ -9,6 +9,20 @@
   transition: opacity 0.6s ease, visibility 0.6s ease;
 }
 
+@media (prefers-color-scheme: light) {
+  .loadingScreen {
+    background: #f8f9ff;
+  }
+
+  .loadingText {
+    color: rgba(60, 60, 90, 0.6);
+  }
+
+  .loadingBar {
+    background: rgba(124, 58, 237, 0.12);
+  }
+}
+
 .loadingScreen.fadeOut {
   opacity: 0;
   visibility: hidden;
