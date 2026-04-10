@@ -50,7 +50,7 @@ const projects = [
   {
     title: 'Flight Reservation System',
     category: 'Web',
-    desc: 'Full-stack flight reservation platform allowing users to search flights, book tickets, manage bookings, and process payments. Built on a SQL Server backend with stored procedures and triggers that enforce booking rules, prevent double-booking, and maintain an audit log — ensuring reliable, tamper-resistant reservation operations.',
+    desc: 'Full-stack flight reservation platform allowing users to search flights, book tickets, manage bookings, and process payments. Built on a SQL Server backend with stored procedures and triggers that enforce booking rules, prevent double-booking, and maintain a tamper-resistant audit log.',
     tech: ['Python', 'Flask', 'SQL Server', 'Stored Procedures', 'Triggers', 'pyodbc', 'HTML/CSS'],
     color: '#38bdf8',
     metric: 'Stored procedures & triggers',
@@ -58,7 +58,7 @@ const projects = [
     year: 'Jun 2025',
   },
   {
-    title: 'OptiPro — Retinal Disease Detection',
+    title: 'OptiPro: Retinal Disease Detection',
     category: 'AI/ML',
     desc: 'End-to-end AI-powered retinal disease detection platform for clinical support. Classifies retinal scans into CNV, DME, Drusen, and Normal using ResNet-101 with Grad-CAM heatmap visualization for explainable AI output. Includes a full doctor panel, patient portal, appointment workflows, and AI-generated PDF medical reports.',
     tech: ['PyTorch', 'ResNet-101', 'Flask', 'React', 'Supabase', 'PostgreSQL', 'Grad-CAM', 'Gemini API'],
@@ -88,12 +88,12 @@ const projects = [
     year: 'Nov 2025',
   },
   {
-    title: 'Safe-Sawar — Women-First Carpooling',
+    title: 'Safe-Sawar: Women-First Carpooling',
     category: 'Mobile',
     desc: 'Pakistan\'s first NADRA-verified women-first carpooling platform built to tackle rising fuel costs. Features biometric identity verification, institution-based trust circles, live ride tracking, and an offline-capable Emergency SOS system via Bluetooth mesh networking. Male section added to enhance the wider userbase. Currently in beta.',
     tech: ['React Native', 'TypeScript', 'Firebase', 'Expo', 'Mesh Network', 'NADRA API', 'OpenStreetMap'],
     color: '#22c55e',
-    metric: 'Beta — launching soon',
+    metric: 'Beta, launching soon',
     image: '/portfolio/safe-sawar.png',
     year: 'Mar 2026',
   },
