@@ -107,7 +107,7 @@ export default function Footer() {
               web development, mobile apps, and AI-driven solutions.
             </p>
             <div className={styles.socials}>
-              <a href="https://github.com/HydraBytes-tech" aria-label="GitHub" className={styles.socialLink} target="_blank" rel="noopener noreferrer">
+              <a href="https://github.com/TheHydraBytes" aria-label="GitHub" className={styles.socialLink} target="_blank" rel="noopener noreferrer">
                 <GithubIcon />
               </a>
               <a href="https://www.linkedin.com/company/hydrabytes4/" aria-label="LinkedIn" className={styles.socialLink} target="_blank" rel="noopener noreferrer">
