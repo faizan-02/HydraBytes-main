@@ -23,7 +23,7 @@ export const metadata: Metadata = {
   metadataBase: new URL('https://www.hydrabytes.tech'),
   title: 'HydraBytes | Web Development, App Development & AI/ML Solutions',
   description:
-    'HydraBytes is a cutting-edge IT startup delivering premium web development, mobile app development, and AI/ML solutions. Transform your business with next-gen technology.',
+    'HydraBytes is a Pakistan-based IT startup delivering web development, mobile apps, and AI/ML solutions. Build your next product with us.',
   keywords: 'web development, app development, AI, machine learning, IT startup, software development, Next.js, Pakistan',
   alternates: {
     canonical: 'https://www.hydrabytes.tech',
