@@ -68,6 +68,16 @@ const projects = [
     year: 'Feb 2025',
   },
   {
+    title: 'AI Voice Chat Agent',
+    category: 'AI/ML',
+    desc: 'Real-time voice conversation platform with 104+ AI characters using OpenAI GPT, TTS, and browser-based mic/speaker support. Features mood detection, session replay, WebRTC-based real-time API, interactive games, story adventures, and support for multiple providers including Claude, xAI, and local Ollama models. Deployable via Docker or Railway.',
+    tech: ['FastAPI', 'WebSockets', 'OpenAI', 'WebRTC', 'Python', 'Docker', 'Railway', 'ElevenLabs'],
+    color: '#7c3aed',
+    metric: '104+ AI characters',
+    image: '/portfolio/ai-voice-agent.png',
+    year: 'Nov 2025',
+  },
+  {
     title: 'Safe-Sawar — Women-First Carpooling',
     category: 'Mobile',
     desc: 'Pakistan\'s first NADRA-verified women-first carpooling platform built to tackle rising fuel costs. Features biometric identity verification, institution-based trust circles, live ride tracking, and an offline-capable Emergency SOS system via Bluetooth mesh networking. Male section added to enhance the wider userbase. Currently in beta.',
