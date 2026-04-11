@@ -96,7 +96,7 @@ export default function Footer() {
       <div className={`container ${styles.footerContainer}`}>
         <div className={styles.footerTop}>
           <div className={styles.footerBrand}>
-            <Link href="/" className={styles.logo}>
+            <Link href="/" className={styles.logo} onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
               <div style={{ width: '158px', height: '75px', overflow: 'hidden', position: 'relative', flexShrink: 0 }}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src="/transparent.png" alt="HydraBytes" style={{ position: 'absolute', width: '198px', top: '-48px', left: '-19px' }} />
