@@ -315,15 +315,51 @@ export default function HomePage() {
             </div>
           </AnimatedSection>
 
-          <AnimatedSection delay={0.1}>
-            <h1 className={styles.heroTitle}>
-              We Build Digital
-              <br />
-              <GradientText>Experiences</GradientText> That
-              <br />
-              Drive Growth
-            </h1>
-          </AnimatedSection>
+          <motion.h1
+            className={styles.heroTitle}
+            initial="hidden"
+            animate="visible"
+            variants={{ visible: { transition: { staggerChildren: 0.08, delayChildren: 0.15 } } }}
+          >
+            {['We', 'Build', 'Digital'].map((word) => (
+              <motion.span
+                key={word}
+                variants={{
+                  hidden: { opacity: 0, y: 24 },
+                  visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: [0.25, 0.4, 0.25, 1] } },
+                }}
+                style={{ display: 'inline-block', marginRight: '0.25em' }}
+              >
+                {word}
+              </motion.span>
+            ))}
+            <br />
+            {['Experiences', 'That'].map((word, i) => (
+              <motion.span
+                key={word}
+                variants={{
+                  hidden: { opacity: 0, y: 24 },
+                  visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: [0.25, 0.4, 0.25, 1] } },
+                }}
+                style={{ display: 'inline-block', marginRight: '0.25em' }}
+              >
+                {i === 0 ? <GradientText>{word}</GradientText> : word}
+              </motion.span>
+            ))}
+            <br />
+            {['Drive', 'Growth'].map((word) => (
+              <motion.span
+                key={word}
+                variants={{
+                  hidden: { opacity: 0, y: 24 },
+                  visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: [0.25, 0.4, 0.25, 1] } },
+                }}
+                style={{ display: 'inline-block', marginRight: '0.25em' }}
+              >
+                {word}
+              </motion.span>
+            ))}
+          </motion.h1>
 
           <AnimatedSection delay={0.2}>
             <p className={styles.heroSubtitle}>
