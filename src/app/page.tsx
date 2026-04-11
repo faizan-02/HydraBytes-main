@@ -296,7 +296,7 @@ export default function HomePage() {
               <style>{`@keyframes sparkDraw { to { stroke-dashoffset: 0; } }`}</style>
             </svg>
             {[
-              { label: 'Projects Live', value: '20+' },
+              { label: 'Projects Live', value: '10+' },
               { label: 'Uptime', value: '99.9%' },
               { label: 'Response', value: '0.8s' },
             ].map((item) => (
@@ -351,7 +351,7 @@ export default function HomePage() {
             <div className={styles.trustedBy}>
               <span className={styles.trustedLabel}>Built with industry-standard technology</span>
               <div className={styles.trustedLogos}>
-                {['Next.js', 'React', 'TypeScript', 'Node.js', 'OpenAI', 'Vercel'].map((name) => (
+                {['Next.js', 'React', 'TypeScript', 'Node.js', 'Python', 'React Native'].map((name) => (
                   <span key={name} className={styles.trustedLogo}>
                     {name}
                   </span>
