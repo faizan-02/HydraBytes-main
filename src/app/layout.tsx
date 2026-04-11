@@ -30,11 +30,11 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
+      { url: '/favicon.png', type: 'image/png', sizes: '2048x2048' },
       { url: '/favicon.svg', type: 'image/svg+xml' },
-      { url: '/Hydrabytes_logo.png', type: 'image/png', sizes: '2048x2048' },
     ],
-    shortcut: '/Hydrabytes_logo.png',
-    apple: '/Hydrabytes_logo.png',
+    shortcut: '/favicon.png',
+    apple: '/favicon.png',
   },
   openGraph: {
     title: 'HydraBytes | Next-Gen Digital Solutions',
