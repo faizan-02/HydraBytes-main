@@ -10,12 +10,13 @@ import FloatingParticles from '@/components/FloatingParticles';
 import styles from './blog.module.css';
 
 const featured = {
-  title: 'The Future of AI in Web Development: 2024 and Beyond',
-  excerpt: 'Explore how artificial intelligence is reshaping the web development landscape, from automated coding to intelligent user experiences.',
-  date: 'Mar 15, 2024',
-  category: 'AI & Technology',
-  readTime: '8 min read',
-  image: 'https://images.unsplash.com/photo-1488229297570-58520851e868?auto=format&fit=crop&w=1600&q=90',
+  title: 'How We Built an AI-Powered Retinal Disease Detector',
+  excerpt: 'From CNN architecture to handling imbalanced medical datasets — a technical breakdown of OptiPro, our AI system that helps clinicians detect retinal diseases from fundus images.',
+  date: 'Apr 11, 2025',
+  category: 'AI & ML',
+  readTime: '5 min read',
+  image: '/blog-optipro.png',
+  url: 'https://dev.to/thehydrabytes/how-we-built-an-ai-powered-retinal-disease-detector-7fp',
 };
 
 const posts = [
@@ -138,7 +139,7 @@ export default function BlogPage() {
                 </div>
                 <h2 className={styles.featuredTitle}>{featured.title}</h2>
                 <p className={styles.featuredExcerpt}>{featured.excerpt}</p>
-                <span className={styles.readMore} style={{ opacity: 0.45, cursor: 'default' }}>Full article coming soon</span>
+                <a href={featured.url} target="_blank" rel="noopener noreferrer" className={styles.readMore}>Read Full Article →</a>
               </div>
             </SpotlightCard>
           </AnimatedSection>
