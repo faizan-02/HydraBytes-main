@@ -178,14 +178,14 @@ export default function HomePage() {
               }}
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{
-                opacity: [0, 1, 1, 0.15, 1, 1, 0],
-                scale: [0.8, 1, 1, 0.95, 1, 1, 0.8],
-                y: [0, -12, 0, -8, 0],
-                rotate: [0, -1.5, 1.5, 0],
+                opacity: [0, 0.85, 0.85, 0.4, 0.85],
+                scale: 1,
+                y: [0, -8, 0],
+                rotate: [0, -1, 1, 0],
               }}
               transition={{
-                opacity: { duration: chip.dur * 2.5, repeat: Infinity, ease: 'easeInOut', delay: chip.delay },
-                scale: { duration: chip.dur * 2.5, repeat: Infinity, ease: 'easeInOut', delay: chip.delay },
+                opacity: { duration: chip.dur * 3, repeat: Infinity, ease: 'easeInOut', delay: chip.delay },
+                scale: { duration: 0.5, delay: chip.delay },
                 y: { duration: chip.dur, repeat: Infinity, ease: 'easeInOut', delay: chip.delay },
                 rotate: { duration: chip.dur * 1.2, repeat: Infinity, ease: 'easeInOut', delay: chip.delay },
               }}
