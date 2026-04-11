@@ -29,9 +29,12 @@ export const metadata: Metadata = {
     canonical: 'https://www.hydrabytes.tech',
   },
   icons: {
-    icon: '/favicon.svg',
-    shortcut: '/favicon.svg',
-    apple: '/favicon.svg',
+    icon: [
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+      { url: '/Hydrabytes_logo.png', type: 'image/png', sizes: '2048x2048' },
+    ],
+    shortcut: '/Hydrabytes_logo.png',
+    apple: '/Hydrabytes_logo.png',
   },
   openGraph: {
     title: 'HydraBytes | Next-Gen Digital Solutions',
