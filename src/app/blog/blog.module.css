@@ -29,7 +29,8 @@
 .featuredDate { font-size: 0.85rem; color: var(--text-tertiary); }
 .featuredTitle { font-size: 1.8rem; font-weight: 800; margin-bottom: 0.75rem; }
 .featuredExcerpt { font-size: 1.05rem; color: var(--text-secondary); line-height: 1.7; max-width: 700px; margin-bottom: 1.5rem; }
-.readMore { font-size: 0.95rem; font-weight: 600; color: var(--accent-primary); }
+.readMore { font-size: 0.95rem; font-weight: 600; color: var(--accent-primary); transition: color 0.2s ease, text-shadow 0.2s ease; display: inline-block; }
+.readMore:hover { color: #a78bfa; text-shadow: 0 0 12px rgba(124, 58, 237, 0.6); }
 
 .postsGrid {
   display: grid;

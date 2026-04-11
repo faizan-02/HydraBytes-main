@@ -139,7 +139,7 @@ export default function BlogPage() {
                 </div>
                 <h2 className={styles.featuredTitle}>{featured.title}</h2>
                 <p className={styles.featuredExcerpt}>{featured.excerpt}</p>
-                <a href={featured.url} target="_blank" rel="noopener noreferrer" className={styles.readMore}>Read Full Article →</a>
+                <a href={featured.url} target="_blank" rel="noopener noreferrer" className={styles.readMore} onMouseMove={(e) => e.stopPropagation()}>Read Full Article →</a>
               </div>
             </SpotlightCard>
           </AnimatedSection>
