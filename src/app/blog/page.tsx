@@ -11,7 +11,7 @@ import styles from './blog.module.css';
 
 const featured = {
   title: 'How We Built an AI-Powered Retinal Disease Detector',
-  excerpt: 'From CNN architecture to handling imbalanced medical datasets — a technical breakdown of OptiPro, our AI system that helps clinicians detect retinal diseases from fundus images.',
+  excerpt: 'From CNN architecture to handling imbalanced medical datasets: a technical breakdown of OptiPro, our AI system that helps clinicians detect retinal diseases from fundus images.',
   date: 'Apr 11, 2025',
   category: 'AI & ML',
   readTime: '5 min read',
