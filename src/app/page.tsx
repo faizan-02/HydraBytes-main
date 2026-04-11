@@ -500,7 +500,7 @@ export default function HomePage() {
               <span className="section-label">Our Commitment</span>
               <h2 className="section-title">What We Guarantee</h2>
               <p className="section-subtitle">
-                Every project comes with these non-negotiable commitments —
+                Every project comes with these non-negotiable commitments,
                 built into our process from day one.
               </p>
             </div>
