@@ -12,12 +12,19 @@ import ScrollProgress from '@/components/ScrollProgress';
 import ScrollToTop from '@/components/ScrollToTop';
 import PostHogProvider from '@/components/PostHogProvider';
 import CookieBanner from '@/components/CookieBanner';
+import { useInactivityLogout } from '@/lib/useInactivityLogout';
+
+function InactivityGuard() {
+  useInactivityLogout();
+  return null;
+}
 
 export default function ClientLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
 
   return (
     <SessionProvider>
+    <InactivityGuard />
     <ThemeProvider>
       <PostHogProvider>
         <ScrollProgress />
