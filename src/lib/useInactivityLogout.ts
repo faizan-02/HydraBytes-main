@@ -16,6 +16,7 @@ export function useInactivityLogout() {
     const checkAndLogout = () => {
       const last = localStorage.getItem(STORAGE_KEY);
       if (last && Date.now() - parseInt(last) > INACTIVITY_TIMEOUT) {
+        localStorage.removeItem(STORAGE_KEY);
         signOut({ callbackUrl: '/auth/signin' });
         return true;
       }
