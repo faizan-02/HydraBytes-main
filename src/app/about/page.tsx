@@ -11,7 +11,7 @@ import FloatingParticles from '@/components/FloatingParticles';
 import styles from './about.module.css';
 
 const team = [
-  { name: 'Faizan Jawad', role: 'CEO & Founder', initials: 'FJ', color: '#7c3aed' },
+  { name: 'Faizan Jawad', role: 'CEO & Founder', initials: 'FJ', color: '#7c3aed', image: '/team-faizan.png' },
   { name: 'Asad Ali Khan', role: 'Co-Founder', initials: 'AA', color: '#00e5ff' },
   { name: 'Suhayb Saleem', role: 'Lead Designer', initials: 'SS', color: '#f472b6' },
   { name: 'Haris Munir', role: 'AI Lead', initials: 'HM', color: '#22c55e' },
@@ -161,8 +161,10 @@ export default function AboutPage() {
               <AnimatedSection key={member.name} delay={i * 0.1}>
                 <SpotlightCard spotlightColor={`${member.color}20`}>
                   <div className={styles.teamCard}>
-                    <div className={styles.teamAvatar} style={{ background: `linear-gradient(135deg, ${member.color}, ${member.color}88)` }}>
-                      {member.initials}
+                    <div className={styles.teamAvatar} style={{ background: `linear-gradient(135deg, ${member.color}, ${member.color}88)`, overflow: 'hidden', padding: 0 }}>
+                      {(member as typeof member & { image?: string }).image ? (
+                        <Image src={(member as typeof member & { image?: string }).image!} alt={member.name} width={80} height={80} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                      ) : member.initials}
                     </div>
                     <h3 className={styles.teamName}>{member.name}</h3>
                     <p className={styles.teamRole}>{member.role}</p>
