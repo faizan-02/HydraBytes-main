@@ -1,21 +1,22 @@
-import nodemailer from 'nodemailer';
-
-const transporter = nodemailer.createTransport({
-  host: 'smtpro.zoho.com',
-  port: 465,
-  secure: true,
-  auth: {
-    user: process.env.MAIL_USER,
-    pass: process.env.MAIL_PASSWORD,
-  },
-});
-
 export async function sendEmail({ to, subject, html }: { to: string; subject: string; html: string }) {
-  const info = await transporter.sendMail({
-    from: `HydraBytes <${process.env.MAIL_USER}>`,
-    to,
-    subject,
-    html,
+  const response = await fetch('https://api.zeptomail.com/v1.1/email', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Zoho-enczapikey ${process.env.ZEPTOMAIL_API_KEY}`,
+    },
+    body: JSON.stringify({
+      from: { address: process.env.MAIL_USER, name: 'HydraBytes' },
+      to: [{ email_address: { address: to } }],
+      subject,
+      htmlbody: html,
+    }),
   });
-  return info;
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(`ZeptoMail error ${response.status}: ${errorText}`);
+  }
+
+  return response.json();
 }
