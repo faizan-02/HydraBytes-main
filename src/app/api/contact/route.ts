@@ -185,7 +185,7 @@ export async function POST(req: NextRequest) {
             <p style="color:#374151;line-height:1.6;">For quick enquiries, WhatsApp us at <a href="https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP ?? '923239999000'}" style="color:#6366f1;">+92 323 9999 000</a>.</p>
             <p style="color:#374151;">Best regards,<br/><strong>The HydraBytes Team</strong></p>
             <hr style="border:none;border-top:1px solid #e5e7eb;margin:24px 0;"/>
-            <p style="font-size:12px;color:#9ca3af;">HydraBytes · hydrabytes4@gmail.com</p>
+            <p style="font-size:12px;color:#9ca3af;">HydraBytes · contact@hydrabytes.tech</p>
           </div>`,
       });
     } catch (clientEmailError) {

@@ -128,7 +128,7 @@ export async function GET(req: NextRequest) {
             </div>
           </div>
           <div style="padding: 24px 32px; border-top: 1px solid rgba(124,58,237,0.15); text-align: center;">
-            <p style="margin: 0; font-size: 13px; color: #6c6c85;">© ${new Date().getFullYear()} HydraBytes · hydrabytes4@gmail.com · +92 323 9999 000</p>
+            <p style="margin: 0; font-size: 13px; color: #6c6c85;">© ${new Date().getFullYear()} HydraBytes · contact@hydrabytes.tech · +92 323 9999 000</p>
           </div>
         </div>`,
     }).catch((err) => { console.error('[verify-project] accept email error:', err); });

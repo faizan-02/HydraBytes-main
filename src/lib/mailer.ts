@@ -1,16 +1,18 @@
 import nodemailer from 'nodemailer';
 
 const transporter = nodemailer.createTransport({
-  service: 'gmail',
+  host: 'smtpro.zoho.com',
+  port: 465,
+  secure: true,
   auth: {
-    user: process.env.GMAIL_USER,
-    pass: process.env.GMAIL_APP_PASSWORD,
+    user: process.env.MAIL_USER,
+    pass: process.env.MAIL_PASSWORD,
   },
 });
 
 export async function sendEmail({ to, subject, html }: { to: string; subject: string; html: string }) {
   const info = await transporter.sendMail({
-    from: `HydraBytes <${process.env.GMAIL_USER}>`,
+    from: `HydraBytes <${process.env.MAIL_USER}>`,
     to,
     subject,
     html,

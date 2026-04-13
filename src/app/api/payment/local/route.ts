@@ -5,7 +5,7 @@ import { sendEmail } from '@/lib/mailer';
 import { enforceRateLimit, FIFTEEN_MINUTES } from '@/lib/rateLimit';
 import { readJsonBody, requireJson, escapeHtml, LIMITS } from '@/lib/validate';
 
-const ADMIN_EMAIL = process.env.TEAM_EMAIL ?? 'hydrabytes4@gmail.com';
+const ADMIN_EMAIL = process.env.TEAM_EMAIL ?? 'contact@hydrabytes.tech';
 const BASE_URL = process.env.AUTH_URL ?? 'https://www.hydrabytes.tech';
 const ALLOWED_METHODS = new Set(['easypaisa', 'jazzcash', 'nayapay', 'bank', 'payoneer', 'usdt_trc20']);
 
