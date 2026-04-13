@@ -4,7 +4,7 @@ export const metadata = {
 };
 
 const EFFECTIVE_DATE = 'April 2, 2026';
-const EMAIL = 'hydrabytes4@gmail.com';
+const EMAIL = 'contact@hydrabytes.tech';
 
 export default function RefundPage() {
   return (

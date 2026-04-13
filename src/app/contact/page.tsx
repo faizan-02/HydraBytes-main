@@ -12,7 +12,7 @@ import { capturePostHogEvent } from '@/components/PostHogProvider';
 import styles from './contact.module.css';
 
 const contactInfo = [
-  { icon: <Mail size={20} strokeWidth={1.5} />, label: 'Email', value: 'hydrabytes4@gmail.com', href: 'mailto:hydrabytes4@gmail.com' },
+  { icon: <Mail size={20} strokeWidth={1.5} />, label: 'Email', value: 'contact@hydrabytes.tech', href: 'mailto:contact@hydrabytes.tech' },
   { icon: <Phone size={20} strokeWidth={1.5} />, label: 'Phone', value: '+92 323 9999 000', href: 'tel:+923239999000' },
   { icon: <MapPin size={20} strokeWidth={1.5} />, label: 'Office', value: 'Islamabad, Main Pwd Rd, Pakistan', href: 'https://maps.google.com/?q=Main+PWD+Road+Islamabad+Pakistan' },
   { icon: <Clock size={20} strokeWidth={1.5} />, label: 'Hours', value: 'Mon-Sat, 8AM-8PM PST', href: null },

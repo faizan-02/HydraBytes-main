@@ -17,7 +17,7 @@ const INTERNATIONAL_METHODS = [
     bg: 'rgba(255,72,0,0.08)',
     border: 'rgba(255,72,0,0.25)',
     fields: [
-      { label: 'Payoneer Email', value: 'hydrabytes4@gmail.com' },
+      { label: 'Payoneer Email', value: 'contact@hydrabytes.tech' },
     ],
     instructions: 'Send payment via Payoneer to the email above ("Pay to Email" in your Payoneer account). Enter your Payoneer transaction ID below after sending.',
   },
