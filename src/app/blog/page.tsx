@@ -14,7 +14,7 @@ const featured = {
   excerpt: 'From CNN architecture to handling imbalanced medical datasets: a technical breakdown of OptiPro, our AI system that helps clinicians detect retinal diseases from fundus images.',
   date: 'Apr 11, 2025',
   category: 'AI & ML',
-  readTime: '5 min read',
+  readTime: '1 min read',
   image: '/blog-optipro.png',
   url: 'https://dev.to/thehydrabytes/how-we-built-an-ai-powered-retinal-disease-detector-7fp',
 };
@@ -25,7 +25,7 @@ const posts = [
     excerpt: 'How we built a full-stack mental health platform that detects student stress, anxiety, and depression using machine learning, complete with a RAG-powered AI chatbot and appointment booking.',
     date: 'Apr 14, 2026',
     category: 'AI & ML',
-    readTime: '8 min read',
+    readTime: '5 min read',
     image: '/studentstressmanagement.png',
     url: 'https://dev.to/thehydrabytes/building-an-ai-based-student-stress-management-system-with-python-ml-and-rag-4nj5',
   },
