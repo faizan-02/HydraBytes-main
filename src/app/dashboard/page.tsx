@@ -125,7 +125,7 @@ export default function DashboardPage() {
           { label: 'Completed Projects', value: completedProjects, icon: <CheckCircle size={20} />, color: '#4ade80' },
           { label: 'Pending Invoices',   value: pendingInvoices,   icon: <FileText size={20} />,    color: '#fbbf24' },
         ].map(stat => (
-          <div key={stat.label} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '16px', padding: '20px', display: 'flex', alignItems: 'center', gap: '16px' }}>
+          <div key={stat.label} style={{ background: 'var(--bg-card)', border: '1px solid var(--border-color)', borderRadius: '16px', padding: '20px', display: 'flex', alignItems: 'center', gap: '16px' }}>
             <div style={{ width: '44px', height: '44px', borderRadius: '12px', background: `${stat.color}15`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: stat.color, flexShrink: 0 }}>
               {stat.icon}
             </div>
@@ -138,7 +138,7 @@ export default function DashboardPage() {
       </div>
 
       {/* Projects */}
-      <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '16px', padding: '24px', marginBottom: '24px' }}>
+      <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border-color)', borderRadius: '16px', padding: '24px', marginBottom: '24px' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px' }}>
           <h2 style={{ fontSize: '18px', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '8px', margin: 0 }}>
             <FolderOpen size={18} color="#6366f1" /> My Projects
@@ -148,7 +148,7 @@ export default function DashboardPage() {
 
         {projects.length === 0 ? (
           <div style={{ textAlign: 'center', padding: '48px 20px' }}>
-            <FolderOpen size={40} color="rgba(255,255,255,0.1)" style={{ marginBottom: '12px' }} />
+            <FolderOpen size={40} color="var(--text-tertiary)" style={{ marginBottom: '12px' }} />
             <p style={{ color: 'var(--muted, #9ca3af)', margin: '0 0 16px' }}>No projects yet. Submit a request to get started.</p>
             <a href="/contact" className="btn btn-primary" style={{ display: 'inline-block', padding: '10px 24px', borderRadius: '8px', textDecoration: 'none', fontSize: '14px' }}>
               Submit a Project Request →
@@ -161,7 +161,7 @@ export default function DashboardPage() {
               const pendingInvoice = invoices.find(i => i.projectId === project.id && i.status === 'pending');
               const underReviewInvoice = invoices.find(i => i.projectId === project.id && i.status === 'under_review');
               return (
-                <div key={project.id} style={{ padding: '16px', background: 'rgba(255,255,255,0.02)', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.05)' }}>
+                <div key={project.id} style={{ padding: '16px', background: 'var(--bg-tertiary)', borderRadius: '12px', border: '1px solid var(--border-color)' }}>
                   <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px' }}>
                     <div style={{ flex: 1, minWidth: '200px' }}>
                       <div style={{ fontWeight: 600, fontSize: '15px' }}>{project.title}</div>
@@ -189,13 +189,13 @@ export default function DashboardPage() {
                         return (
                           <div key={step} style={{ display: 'flex', alignItems: 'center', flex: i < TIMELINE.length - 1 ? 1 : 'none' }}>
                             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
-                              <div style={{ width: '20px', height: '20px', borderRadius: '50%', background: isDone ? '#6366f1' : 'rgba(255,255,255,0.1)', border: isCurrent ? '2px solid #06b6d4' : 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px' }}>
+                              <div style={{ width: '20px', height: '20px', borderRadius: '50%', background: isDone ? '#6366f1' : 'var(--border-color)', border: isCurrent ? '2px solid #06b6d4' : 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px' }}>
                                 {isDone && <Check size={10} strokeWidth={3} />}
                               </div>
-                              <span style={{ fontSize: '10px', color: isDone ? '#a5b4fc' : '#475569', whiteSpace: 'nowrap' }}>{timelineLabels[step]}</span>
+                              <span style={{ fontSize: '10px', color: isDone ? 'var(--accent-primary)' : 'var(--text-tertiary)', whiteSpace: 'nowrap' }}>{timelineLabels[step]}</span>
                             </div>
                             {i < TIMELINE.length - 1 && (
-                              <div style={{ flex: 1, height: '2px', background: i < currentIdx ? '#6366f1' : 'rgba(255,255,255,0.08)', margin: '0 4px', marginBottom: '16px' }} />
+                              <div style={{ flex: 1, height: '2px', background: i < currentIdx ? '#6366f1' : 'var(--border-color)', margin: '0 4px', marginBottom: '16px' }} />
                             )}
                           </div>
                         );
@@ -272,13 +272,13 @@ export default function DashboardPage() {
 
       {/* Invoices */}
       {invoices.length > 0 && (
-        <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '16px', padding: '24px' }}>
+        <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border-color)', borderRadius: '16px', padding: '24px' }}>
           <h2 style={{ fontSize: '18px', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '8px', margin: '0 0 20px' }}>
             <FileText size={18} color="#6366f1" /> Invoices
           </h2>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
             {invoices.map(inv => (
-              <div key={inv.id} style={{ padding: '16px', background: 'rgba(255,255,255,0.02)', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.05)' }}>
+              <div key={inv.id} style={{ padding: '16px', background: 'var(--bg-tertiary)', borderRadius: '12px', border: '1px solid var(--border-color)' }}>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px' }}>
                   <div>
                     <div style={{ fontWeight: 600 }}>{inv.project?.title ?? 'Invoice'}</div>
