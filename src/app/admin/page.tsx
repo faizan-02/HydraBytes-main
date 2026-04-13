@@ -171,7 +171,7 @@ export default function AdminPage() {
 
   if (status === 'loading' || loading) {
     return (
-      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#0a0a0f' }}>
+      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <div style={{ color: '#6366f1', fontSize: '18px' }}>Loading admin panel...</div>
       </div>
     );
@@ -189,15 +189,15 @@ export default function AdminPage() {
   ];
 
   return (
-    <div style={{ minHeight: '100vh', background: '#0a0a0f', color: '#e2e8f0', padding: '32px 24px' }}>
+    <div style={{ minHeight: '100vh', padding: '32px 24px' }}>
       <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
 
         {/* Header */}
         <div style={{ marginBottom: '32px' }}>
-          <h1 style={{ fontSize: '28px', fontWeight: 700, color: '#e2e8f0', margin: 0 }}>
+          <h1 style={{ fontSize: '28px', fontWeight: 700, margin: 0 }}>
             Admin Panel
           </h1>
-          <p style={{ color: '#64748b', margin: '6px 0 0', fontSize: '14px' }}>
+          <p style={{ color: 'var(--text-tertiary)', margin: '6px 0 0', fontSize: '14px' }}>
             Manage all submissions, projects, and users
           </p>
         </div>
@@ -210,15 +210,15 @@ export default function AdminPage() {
             { label: 'Pending Review', value: data.projects.filter(p => p.status === 'pending_verification').length, color: '#fbbf24' },
             { label: 'Registered Users', value: data.users.length, color: '#38bdf8' },
           ].map(stat => (
-            <div key={stat.label} style={{ background: '#1e293b', borderRadius: '12px', padding: '20px', border: `1px solid ${stat.color}22` }}>
+            <div key={stat.label} style={{ background: 'var(--bg-card)', borderRadius: '12px', padding: '20px', border: `1px solid ${stat.color}22` }}>
               <div style={{ fontSize: '28px', fontWeight: 700, color: stat.color }}>{stat.value}</div>
-              <div style={{ fontSize: '13px', color: '#94a3b8', marginTop: '4px' }}>{stat.label}</div>
+              <div style={{ fontSize: '13px', color: 'var(--text-secondary)', marginTop: '4px' }}>{stat.label}</div>
             </div>
           ))}
         </div>
 
         {/* Tabs */}
-        <div style={{ display: 'flex', gap: '8px', marginBottom: '24px', borderBottom: '1px solid rgba(255,255,255,0.08)', paddingBottom: '0' }}>
+        <div style={{ display: 'flex', gap: '8px', marginBottom: '24px', borderBottom: '1px solid var(--border-color)', paddingBottom: '0' }}>
           {tabs.map(t => (
             <button
               key={t.key}
@@ -228,7 +228,7 @@ export default function AdminPage() {
                 background: 'none',
                 border: 'none',
                 borderBottom: tab === t.key ? '2px solid #6366f1' : '2px solid transparent',
-                color: tab === t.key ? '#6366f1' : '#94a3b8',
+                color: tab === t.key ? '#6366f1' : 'var(--text-secondary)',
                 cursor: 'pointer',
                 fontSize: '14px',
                 fontWeight: tab === t.key ? 600 : 400,
@@ -237,7 +237,7 @@ export default function AdminPage() {
               }}
             >
               {t.label}
-              <span style={{ marginLeft: '8px', background: t.alert ? 'rgba(251,191,36,0.2)' : '#1e293b', color: t.alert ? '#fbbf24' : 'inherit', borderRadius: '10px', padding: '2px 8px', fontSize: '12px', fontWeight: t.alert ? 700 : 400 }}>
+              <span style={{ marginLeft: '8px', background: t.alert ? 'rgba(251,191,36,0.2)' : 'var(--bg-tertiary)', color: t.alert ? '#fbbf24' : 'var(--text-secondary)', borderRadius: '10px', padding: '2px 8px', fontSize: '12px', fontWeight: t.alert ? 700 : 400 }}>
                 {t.count}
               </span>
             </button>
@@ -247,28 +247,28 @@ export default function AdminPage() {
         {/* Submissions Tab */}
         {tab === 'submissions' && (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-            {data.submissions.length === 0 && <p style={{ color: '#64748b' }}>No submissions yet.</p>}
+            {data.submissions.length === 0 && <p style={{ color: 'var(--text-tertiary)' }}>No submissions yet.</p>}
             {data.submissions.map(s => (
-              <div key={s.id} style={{ background: '#1e293b', borderRadius: '12px', padding: '20px', border: '1px solid rgba(255,255,255,0.06)' }}>
+              <div key={s.id} style={{ background: 'var(--bg-card)', borderRadius: '12px', padding: '20px', border: '1px solid var(--border-color)' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '12px' }}>
                   <div>
                     <div style={{ fontWeight: 600, fontSize: '16px' }}>{s.name}</div>
                     <a href={`mailto:${s.email}`} style={{ color: '#6366f1', fontSize: '14px', textDecoration: 'none' }}>{s.email}</a>
                     <div style={{ display: 'flex', gap: '12px', marginTop: '6px', flexWrap: 'wrap' }}>
-                      <span style={{ fontSize: '13px', color: '#94a3b8' }}>{s.service}</span>
-                      <span style={{ fontSize: '13px', color: '#94a3b8' }}>{s.budget}</span>
-                      <span style={{ fontSize: '12px', color: '#64748b' }}>{new Date(s.createdAt).toLocaleDateString()}</span>
+                      <span style={{ fontSize: '13px', color: 'var(--text-secondary)' }}>{s.service}</span>
+                      <span style={{ fontSize: '13px', color: 'var(--text-secondary)' }}>{s.budget}</span>
+                      <span style={{ fontSize: '12px', color: 'var(--text-tertiary)' }}>{new Date(s.createdAt).toLocaleDateString()}</span>
                     </div>
                   </div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                    <span style={{ padding: '4px 12px', borderRadius: '20px', fontSize: '12px', fontWeight: 600, background: `${statusColors[s.status]}22`, color: statusColors[s.status] ?? '#94a3b8' }}>
+                    <span style={{ padding: '4px 12px', borderRadius: '20px', fontSize: '12px', fontWeight: 600, background: `${statusColors[s.status]}22`, color: statusColors[s.status] ?? 'var(--text-secondary)' }}>
                       {s.status}
                     </span>
                     <select
                       value={s.status}
                       disabled={updating === s.id}
                       onChange={e => updateStatus('submission', s.id, e.target.value)}
-                      style={{ background: '#0f172a', border: '1px solid rgba(255,255,255,0.1)', color: '#e2e8f0', borderRadius: '8px', padding: '6px 10px', fontSize: '13px', cursor: 'pointer' }}
+                      style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-color)', color: 'var(--text-primary)', borderRadius: '8px', padding: '6px 10px', fontSize: '13px', cursor: 'pointer' }}
                     >
                       {SUBMISSION_STATUSES.map(st => <option key={st} value={st}>{st}</option>)}
                     </select>
@@ -298,7 +298,7 @@ export default function AdminPage() {
                     )}
                   </div>
                 </div>
-                <div style={{ marginTop: '12px', padding: '12px', background: '#0f172a', borderRadius: '8px', fontSize: '14px', color: '#94a3b8', lineHeight: '1.6', whiteSpace: 'pre-wrap' }}>
+                <div style={{ marginTop: '12px', padding: '12px', background: 'var(--bg-secondary)', borderRadius: '8px', fontSize: '14px', color: 'var(--text-secondary)', lineHeight: '1.6', whiteSpace: 'pre-wrap' }}>
                   {s.message}
                 </div>
               </div>
@@ -309,32 +309,32 @@ export default function AdminPage() {
         {/* Projects Tab */}
         {tab === 'projects' && (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-            {data.projects.length === 0 && <p style={{ color: '#64748b' }}>No projects yet.</p>}
+            {data.projects.length === 0 && <p style={{ color: 'var(--text-tertiary)' }}>No projects yet.</p>}
             {data.projects.map(p => (
-              <div key={p.id} style={{ background: '#1e293b', borderRadius: '12px', padding: '20px', border: '1px solid rgba(255,255,255,0.06)' }}>
+              <div key={p.id} style={{ background: 'var(--bg-card)', borderRadius: '12px', padding: '20px', border: '1px solid var(--border-color)' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '12px' }}>
                   <div>
                     <div style={{ fontWeight: 600, fontSize: '16px' }}>{p.title}</div>
                     {p.user && (
-                      <div style={{ fontSize: '13px', color: '#94a3b8', marginTop: '2px' }}>
+                      <div style={{ fontSize: '13px', color: 'var(--text-secondary)', marginTop: '2px' }}>
                         {p.user.name ?? 'Unknown'} · <a href={`mailto:${p.user.email}`} style={{ color: '#6366f1', textDecoration: 'none' }}>{p.user.email}</a>
                       </div>
                     )}
                     <div style={{ display: 'flex', gap: '12px', marginTop: '6px', flexWrap: 'wrap' }}>
-                      <span style={{ fontSize: '13px', color: '#94a3b8' }}>{p.service}</span>
-                      {p.budget && <span style={{ fontSize: '13px', color: '#94a3b8' }}>{p.budget}</span>}
-                      <span style={{ fontSize: '12px', color: '#64748b' }}>{new Date(p.createdAt).toLocaleDateString()}</span>
+                      <span style={{ fontSize: '13px', color: 'var(--text-secondary)' }}>{p.service}</span>
+                      {p.budget && <span style={{ fontSize: '13px', color: 'var(--text-secondary)' }}>{p.budget}</span>}
+                      <span style={{ fontSize: '12px', color: 'var(--text-tertiary)' }}>{new Date(p.createdAt).toLocaleDateString()}</span>
                     </div>
                   </div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
-                    <span style={{ padding: '4px 12px', borderRadius: '20px', fontSize: '12px', fontWeight: 600, background: `${statusColors[p.status]}22`, color: statusColors[p.status] ?? '#94a3b8' }}>
+                    <span style={{ padding: '4px 12px', borderRadius: '20px', fontSize: '12px', fontWeight: 600, background: `${statusColors[p.status]}22`, color: statusColors[p.status] ?? 'var(--text-secondary)' }}>
                       {p.status.replace('_', ' ')}
                     </span>
                     <select
                       value={p.status}
                       disabled={updating === p.id}
                       onChange={e => updateStatus('project', p.id, e.target.value)}
-                      style={{ background: '#0f172a', border: '1px solid rgba(255,255,255,0.1)', color: '#e2e8f0', borderRadius: '8px', padding: '6px 10px', fontSize: '13px', cursor: 'pointer' }}
+                      style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-color)', color: 'var(--text-primary)', borderRadius: '8px', padding: '6px 10px', fontSize: '13px', cursor: 'pointer' }}
                     >
                       {PROJECT_STATUSES.map(st => <option key={st} value={st}>{st.replace('_', ' ')}</option>)}
                     </select>
@@ -359,7 +359,7 @@ export default function AdminPage() {
                 </div>
 
                 {p.description && (
-                  <div style={{ marginTop: '12px', padding: '12px', background: '#0f172a', borderRadius: '8px', fontSize: '14px', color: '#94a3b8', lineHeight: '1.6' }}>
+                  <div style={{ marginTop: '12px', padding: '12px', background: 'var(--bg-secondary)', borderRadius: '8px', fontSize: '14px', color: 'var(--text-secondary)', lineHeight: '1.6' }}>
                     {p.description}
                   </div>
                 )}
@@ -373,13 +373,13 @@ export default function AdminPage() {
 
                 {/* Invoice form */}
                 {invoiceForms[p.id] && (
-                  <div style={{ marginTop: '16px', padding: '20px', background: '#0f172a', borderRadius: '10px', border: '1px solid rgba(99,102,241,0.2)' }}>
+                  <div style={{ marginTop: '16px', padding: '20px', background: 'var(--bg-secondary)', borderRadius: '10px', border: '1px solid rgba(99,102,241,0.2)' }}>
                     <h4 style={{ margin: '0 0 16px', fontSize: '14px', fontWeight: 600, color: '#818cf8' }}>
                       New Invoice for {p.title}
                     </h4>
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '12px' }}>
                       <div>
-                        <label style={{ display: 'block', fontSize: '12px', color: '#94a3b8', marginBottom: '6px', fontWeight: 600 }}>
+                        <label style={{ display: 'block', fontSize: '12px', color: 'var(--text-secondary)', marginBottom: '6px', fontWeight: 600 }}>
                           Amount (USD) *
                         </label>
                         <input
@@ -392,11 +392,11 @@ export default function AdminPage() {
                             ...prev,
                             [p.id]: { ...prev[p.id]!, amount: e.target.value },
                           }))}
-                          style={{ width: '100%', padding: '8px 12px', background: '#1e293b', border: '1px solid rgba(255,255,255,0.1)', color: '#e2e8f0', borderRadius: '8px', fontSize: '14px', outline: 'none' }}
+                          style={{ width: '100%', padding: '8px 12px', background: 'var(--bg-card)', border: '1px solid var(--border-color)', color: 'var(--text-primary)', borderRadius: '8px', fontSize: '14px', outline: 'none' }}
                         />
                       </div>
                       <div>
-                        <label style={{ display: 'block', fontSize: '12px', color: '#94a3b8', marginBottom: '6px', fontWeight: 600 }}>
+                        <label style={{ display: 'block', fontSize: '12px', color: 'var(--text-secondary)', marginBottom: '6px', fontWeight: 600 }}>
                           Due Date (optional)
                         </label>
                         <input
@@ -406,11 +406,11 @@ export default function AdminPage() {
                             ...prev,
                             [p.id]: { ...prev[p.id]!, dueDate: e.target.value },
                           }))}
-                          style={{ width: '100%', padding: '8px 12px', background: '#1e293b', border: '1px solid rgba(255,255,255,0.1)', color: '#e2e8f0', borderRadius: '8px', fontSize: '14px', outline: 'none', colorScheme: 'dark' }}
+                          style={{ width: '100%', padding: '8px 12px', background: 'var(--bg-card)', border: '1px solid var(--border-color)', color: 'var(--text-primary)', borderRadius: '8px', fontSize: '14px', outline: 'none' }}
                         />
                       </div>
                       <div style={{ gridColumn: '1 / -1' }}>
-                        <label style={{ display: 'block', fontSize: '12px', color: '#94a3b8', marginBottom: '6px', fontWeight: 600 }}>
+                        <label style={{ display: 'block', fontSize: '12px', color: 'var(--text-secondary)', marginBottom: '6px', fontWeight: 600 }}>
                           Description (optional)
                         </label>
                         <input
@@ -421,7 +421,7 @@ export default function AdminPage() {
                             ...prev,
                             [p.id]: { ...prev[p.id]!, description: e.target.value },
                           }))}
-                          style={{ width: '100%', padding: '8px 12px', background: '#1e293b', border: '1px solid rgba(255,255,255,0.1)', color: '#e2e8f0', borderRadius: '8px', fontSize: '14px', outline: 'none' }}
+                          style={{ width: '100%', padding: '8px 12px', background: 'var(--bg-card)', border: '1px solid var(--border-color)', color: 'var(--text-primary)', borderRadius: '8px', fontSize: '14px', outline: 'none' }}
                         />
                       </div>
                     </div>
@@ -453,28 +453,28 @@ export default function AdminPage() {
         {/* Invoices Tab */}
         {tab === 'invoices' && (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-            {(!data.invoices || data.invoices.length === 0) && <p style={{ color: '#64748b' }}>No invoices yet.</p>}
+            {(!data.invoices || data.invoices.length === 0) && <p style={{ color: 'var(--text-tertiary)' }}>No invoices yet.</p>}
             {data.invoices?.map(inv => {
               const methodLabels: Record<string, string> = { easypaisa: 'Easypaisa', jazzcash: 'JazzCash', nayapay: 'NayaPay', bank: 'Bank Transfer', payoneer: 'Payoneer', usdt_trc20: 'USDT (TRC20)' };
               const isUnderReview = inv.status === 'under_review';
               return (
-                <div key={inv.id} style={{ background: '#1e293b', borderRadius: '12px', padding: '20px', border: `1px solid ${isUnderReview ? 'rgba(251,191,36,0.25)' : 'rgba(255,255,255,0.06)'}` }}>
+                <div key={inv.id} style={{ background: 'var(--bg-card)', borderRadius: '12px', padding: '20px', border: `1px solid ${isUnderReview ? 'rgba(251,191,36,0.25)' : 'var(--border-color)'}` }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '12px' }}>
                     <div>
                       <div style={{ fontWeight: 600, fontSize: '16px' }}>{inv.project?.title ?? 'General Invoice'}</div>
-                      <div style={{ fontSize: '13px', color: '#94a3b8', marginTop: '2px' }}>
+                      <div style={{ fontSize: '13px', color: 'var(--text-secondary)', marginTop: '2px' }}>
                         {inv.user.name ?? 'Unknown'} · <a href={`mailto:${inv.user.email}`} style={{ color: '#6366f1', textDecoration: 'none' }}>{inv.user.email}</a>
                       </div>
-                      <div style={{ fontSize: '12px', color: '#64748b', marginTop: '4px' }}>
+                      <div style={{ fontSize: '12px', color: 'var(--text-tertiary)', marginTop: '4px' }}>
                         {new Date(inv.createdAt).toLocaleDateString()}
                         {inv.dueDate && ` · Due ${new Date(inv.dueDate).toLocaleDateString()}`}
                       </div>
                     </div>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
-                      <span style={{ fontSize: '18px', fontWeight: 700, color: inv.status === 'paid' ? '#4ade80' : '#e2e8f0' }}>
+                      <span style={{ fontSize: '18px', fontWeight: 700, color: inv.status === 'paid' ? '#4ade80' : 'var(--text-primary)' }}>
                         ${inv.amount.toLocaleString()}
                       </span>
-                      <span style={{ padding: '4px 12px', borderRadius: '20px', fontSize: '12px', fontWeight: 600, background: inv.status === 'paid' ? 'rgba(74,222,128,0.15)' : isUnderReview ? 'rgba(251,191,36,0.15)' : 'rgba(148,163,184,0.1)', color: inv.status === 'paid' ? '#4ade80' : isUnderReview ? '#fbbf24' : '#94a3b8' }}>
+                      <span style={{ padding: '4px 12px', borderRadius: '20px', fontSize: '12px', fontWeight: 600, background: inv.status === 'paid' ? 'rgba(74,222,128,0.15)' : isUnderReview ? 'rgba(251,191,36,0.15)' : 'rgba(148,163,184,0.1)', color: inv.status === 'paid' ? '#4ade80' : isUnderReview ? '#fbbf24' : 'var(--text-secondary)' }}>
                         {inv.status === 'under_review' ? 'Under Review' : inv.status === 'paid' ? 'Paid' : inv.status}
                       </span>
                     </div>
@@ -483,7 +483,7 @@ export default function AdminPage() {
                   {/* Payment reference submitted by client */}
                   {isUnderReview && inv.paymentRef && (
                     <div style={{ marginTop: '16px', padding: '16px', background: 'rgba(251,191,36,0.06)', border: '1px solid rgba(251,191,36,0.2)', borderRadius: '10px' }}>
-                      <div style={{ fontSize: '13px', color: '#94a3b8', marginBottom: '6px' }}>Payment submitted via {methodLabels[inv.paymentMethod ?? ''] ?? inv.paymentMethod}</div>
+                      <div style={{ fontSize: '13px', color: 'var(--text-secondary)', marginBottom: '6px' }}>Payment submitted via {methodLabels[inv.paymentMethod ?? ''] ?? inv.paymentMethod}</div>
                       <div style={{ fontSize: '16px', fontFamily: 'monospace', fontWeight: 700, color: '#fbbf24', marginBottom: '14px' }}>
                         Ref: {inv.paymentRef}
                       </div>
@@ -507,7 +507,7 @@ export default function AdminPage() {
                   )}
 
                   {inv.status === 'paid' && inv.paymentRef && (
-                    <div style={{ marginTop: '10px', fontSize: '13px', color: '#64748b' }}>
+                    <div style={{ marginTop: '10px', fontSize: '13px', color: 'var(--text-tertiary)' }}>
                       Paid via {methodLabels[inv.paymentMethod ?? ''] ?? inv.paymentMethod} · Ref: <span style={{ fontFamily: 'monospace' }}>{inv.paymentRef}</span>
                     </div>
                   )}
@@ -520,15 +520,15 @@ export default function AdminPage() {
         {/* Users Tab */}
         {tab === 'users' && (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-            {data.users.length === 0 && <p style={{ color: '#64748b' }}>No users yet.</p>}
+            {data.users.length === 0 && <p style={{ color: 'var(--text-tertiary)' }}>No users yet.</p>}
             {data.users.map(u => (
-              <div key={u.id} style={{ background: '#1e293b', borderRadius: '12px', padding: '20px', border: '1px solid rgba(255,255,255,0.06)', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '12px' }}>
+              <div key={u.id} style={{ background: 'var(--bg-card)', borderRadius: '12px', padding: '20px', border: '1px solid var(--border-color)', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '12px' }}>
                 <div style={{ flex: 1, minWidth: 0 }}>
                   <div style={{ fontWeight: 600, fontSize: '16px', marginBottom: '2px' }}>{u.name ?? 'No name'}</div>
                   <a href={`mailto:${u.email}`} style={{ color: '#6366f1', fontSize: '14px', textDecoration: 'none' }}>{u.email}</a>
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px', marginTop: '8px' }}>
                     {u.phone ? (
-                      <a href={`tel:${u.phone}`} style={{ fontSize: '13px', color: '#94a3b8', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '5px' }}>
+                      <a href={`tel:${u.phone}`} style={{ fontSize: '13px', color: 'var(--text-secondary)', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '5px' }}>
                         <Phone size={12} color="#6366f1" /> {u.phone}
                       </a>
                     ) : (
@@ -537,7 +537,7 @@ export default function AdminPage() {
                       </span>
                     )}
                     {u.company ? (
-                      <span style={{ fontSize: '13px', color: '#94a3b8', display: 'flex', alignItems: 'center', gap: '5px' }}>
+                      <span style={{ fontSize: '13px', color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', gap: '5px' }}>
                         <Building2 size={12} color="#6366f1" /> {u.company}
                       </span>
                     ) : (
@@ -546,14 +546,14 @@ export default function AdminPage() {
                       </span>
                     )}
                   </div>
-                  <div style={{ fontSize: '12px', color: '#64748b', marginTop: '6px' }}>
+                  <div style={{ fontSize: '12px', color: 'var(--text-tertiary)', marginTop: '6px' }}>
                     Joined {new Date(u.createdAt).toLocaleDateString()}
                   </div>
                 </div>
                 <span style={{
                   padding: '4px 14px', borderRadius: '20px', fontSize: '12px', fontWeight: 600, flexShrink: 0,
                   background: u.role === 'admin' ? 'rgba(99,102,241,0.15)' : 'rgba(148,163,184,0.1)',
-                  color: u.role === 'admin' ? '#818cf8' : '#94a3b8',
+                  color: u.role === 'admin' ? '#818cf8' : 'var(--text-secondary)',
                 }}>
                   {u.role}
                 </span>
