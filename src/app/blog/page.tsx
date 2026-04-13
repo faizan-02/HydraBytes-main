@@ -21,12 +21,13 @@ const featured = {
 
 const posts = [
   {
-    title: 'Building Scalable React Applications with Next.js 15',
-    excerpt: 'Learn architectural patterns and best practices for building enterprise-grade React applications.',
-    date: 'Mar 10, 2024',
-    category: 'Web Development',
-    readTime: '6 min read',
-    image: 'https://images.unsplash.com/photo-1587620962725-abab7fe55159?auto=format&fit=crop&w=800&q=85',
+    title: 'Building an AI-Based Student Stress Management System with Python, ML, and RAG',
+    excerpt: 'How we built a full-stack mental health platform that detects student stress, anxiety, and depression using machine learning, complete with a RAG-powered AI chatbot and appointment booking.',
+    date: 'Apr 14, 2026',
+    category: 'AI & ML',
+    readTime: '8 min read',
+    image: '/studentstressmanagement.png',
+    url: 'https://dev.to/thehydrabytes/building-an-ai-based-student-stress-management-system-with-python-ml-and-rag-4nj5',
   },
   {
     title: 'Mobile-First Design: Why It Matters More Than Ever',
@@ -156,25 +157,46 @@ export default function BlogPage() {
             {posts.map((post, i) => (
               <AnimatedSection key={post.title} delay={i * 0.08}>
                 <SpotlightCard>
-                  <div className={styles.postCard} style={{ cursor: 'default' }}>
-                    <div style={{ position: 'relative', width: '100%', height: '160px', overflow: 'hidden', borderRadius: '0.5rem', marginBottom: '1rem' }}>
-                      <Image
-                        src={post.image}
-                        alt={post.title}
-                        fill
-                        style={{ objectFit: 'cover' }}
-                        sizes="(max-width: 768px) 100vw, 350px"
-                      />
-                      <div style={{ position: 'absolute', top: '0.5rem', right: '0.5rem', padding: '0.2rem 0.6rem', borderRadius: '9999px', background: 'rgba(10,10,18,0.75)', border: '1px solid rgba(255,255,255,0.1)', fontSize: '0.65rem', fontWeight: 600, color: 'var(--text-tertiary)', backdropFilter: 'blur(8px)' }}>Coming Soon</div>
+                  {'url' in post && post.url ? (
+                    <a href={post.url} target="_blank" rel="noopener noreferrer" className={styles.postCard} style={{ display: 'block', textDecoration: 'none', color: 'inherit', cursor: 'pointer' }} onMouseMove={(e) => e.stopPropagation()}>
+                      <div style={{ position: 'relative', width: '100%', height: '160px', overflow: 'hidden', borderRadius: '0.5rem', marginBottom: '1rem' }}>
+                        <Image
+                          src={post.image}
+                          alt={post.title}
+                          fill
+                          style={{ objectFit: 'cover' }}
+                          sizes="(max-width: 768px) 100vw, 350px"
+                        />
+                      </div>
+                      <div className={styles.postMeta}>
+                        <span className={styles.postCategory}>{post.category}</span>
+                        <span className={styles.postDate}>{post.readTime}</span>
+                      </div>
+                      <h3 className={styles.postTitle}>{post.title}</h3>
+                      <p className={styles.postExcerpt}>{post.excerpt}</p>
+                      <span className={styles.readMore}>Read Full Article →</span>
+                    </a>
+                  ) : (
+                    <div className={styles.postCard} style={{ cursor: 'default' }}>
+                      <div style={{ position: 'relative', width: '100%', height: '160px', overflow: 'hidden', borderRadius: '0.5rem', marginBottom: '1rem' }}>
+                        <Image
+                          src={post.image}
+                          alt={post.title}
+                          fill
+                          style={{ objectFit: 'cover' }}
+                          sizes="(max-width: 768px) 100vw, 350px"
+                        />
+                        <div style={{ position: 'absolute', top: '0.5rem', right: '0.5rem', padding: '0.2rem 0.6rem', borderRadius: '9999px', background: 'rgba(10,10,18,0.75)', border: '1px solid rgba(255,255,255,0.1)', fontSize: '0.65rem', fontWeight: 600, color: 'var(--text-tertiary)', backdropFilter: 'blur(8px)' }}>Coming Soon</div>
+                      </div>
+                      <div className={styles.postMeta}>
+                        <span className={styles.postCategory}>{post.category}</span>
+                        <span className={styles.postDate}>{post.readTime}</span>
+                      </div>
+                      <h3 className={styles.postTitle}>{post.title}</h3>
+                      <p className={styles.postExcerpt}>{post.excerpt}</p>
+                      <span className={styles.postDate}>{post.date}</span>
                     </div>
-                    <div className={styles.postMeta}>
-                      <span className={styles.postCategory}>{post.category}</span>
-                      <span className={styles.postDate}>{post.readTime}</span>
-                    </div>
-                    <h3 className={styles.postTitle}>{post.title}</h3>
-                    <p className={styles.postExcerpt}>{post.excerpt}</p>
-                    <span className={styles.postDate}>{post.date}</span>
-                  </div>
+                  )}
                 </SpotlightCard>
               </AnimatedSection>
             ))}
