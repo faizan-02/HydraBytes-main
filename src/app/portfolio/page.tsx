@@ -68,6 +68,16 @@ const projects = [
     year: 'Aug 2025',
   },
   {
+    title: 'Lung Cancer Image Classifier',
+    category: 'AI/ML',
+    desc: 'CNN-based histopathology classifier that sorts lung tissue images into Adenocarcinoma, Benign, and Squamous Cell Carcinoma. Trained from scratch on a Kaggle dataset with augmentation and dropout, then wrapped in a Flask API with a clean upload-and-predict web interface for real-time inference on uploaded slides.',
+    tech: ['Python', 'TensorFlow', 'Keras', 'CNN', 'Flask', 'NumPy', 'Pillow'],
+    color: '#ef4444',
+    metric: '3-class histopathology detection',
+    image: '/portfolio/lung-cancer.png',
+    year: 'Apr 2026',
+  },
+  {
     title: 'AI Student Stress Management',
     category: 'AI/ML',
     desc: 'AI-based platform that detects and helps reduce student stress, anxiety, and depression using machine learning. Analyzes questionnaire data for early mental health detection, delivers personalized recommendations like breathing exercises and relaxation techniques, and includes an AI chatbot for real-time emotional support.',
