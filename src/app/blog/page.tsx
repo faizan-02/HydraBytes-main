@@ -21,6 +21,15 @@ const featured = {
 
 const posts = [
   {
+    title: 'Building a 3-Class Lung Cancer Image Classifier with TensorFlow and Flask',
+    excerpt: 'A walkthrough of how we built a CNN-based lung cancer image classifier that distinguishes Adenocarcinoma, Benign, and Squamous Cell Carcinoma tissue, wrapped in a Flask API with a clean upload interface.',
+    date: 'Apr 14, 2026',
+    category: 'AI & ML',
+    readTime: '6 min read',
+    image: '/blog-lung-cancer.png',
+    url: 'https://dev.to/thehydrabytes/building-a-3-class-lung-cancer-image-classifier-with-tensorflow-and-flask-4615',
+  },
+  {
     title: 'Building an AI-Based Student Stress Management System with Python, ML, and RAG',
     excerpt: 'How we built a full-stack mental health platform that detects student stress, anxiety, and depression using machine learning, complete with a RAG-powered AI chatbot and appointment booking.',
     date: 'Apr 14, 2026',
