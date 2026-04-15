@@ -5,6 +5,10 @@ import { useRef, useEffect } from 'react';
 interface Node {
   x: number;
   y: number;
+  homeX: number;
+  homeY: number;
+  hvx: number;
+  hvy: number;
   vx: number;
   vy: number;
   radius: number;
@@ -16,8 +20,8 @@ const CANVAS_WIDTH = 280;
 const CANVAS_HEIGHT = 110;
 const NODE_COUNT = 10;
 const CONNECTION_THRESHOLD = 95;
-const PURPLE = [124, 58, 237]; // #7c3aed
-const CYAN = [0, 229, 255];   // #00e5ff
+const PURPLE = [124, 58, 237];
+const CYAN = [0, 229, 255];
 
 function lerpColor(t: number): string {
   const r = Math.round(PURPLE[0] + (CYAN[0] - PURPLE[0]) * t);
@@ -30,11 +34,17 @@ function createNodes(): Node[] {
   const nodes: Node[] = [];
   for (let i = 0; i < NODE_COUNT; i++) {
     const t = i / (NODE_COUNT - 1);
+    const x = 20 + Math.random() * (CANVAS_WIDTH - 40);
+    const y = 15 + Math.random() * (CANVAS_HEIGHT - 30);
     nodes.push({
-      x: 20 + Math.random() * (CANVAS_WIDTH - 40),
-      y: 15 + Math.random() * (CANVAS_HEIGHT - 30),
-      vx: (Math.random() - 0.5) * 0.3,
-      vy: (Math.random() - 0.5) * 0.3,
+      x,
+      y,
+      homeX: x,
+      homeY: y,
+      hvx: (Math.random() - 0.5) * 0.3,
+      hvy: (Math.random() - 0.5) * 0.3,
+      vx: 0,
+      vy: 0,
       radius: 1.5 + Math.random() * 1.0,
       color: lerpColor(t),
       phaseOffset: Math.random() * Math.PI * 2,
@@ -63,6 +73,29 @@ export default function LogoNetworkAnimation() {
     ctx.scale(dpr, dpr);
 
     const nodes = createNodes();
+    const mouse = { x: 0, y: 0, active: false };
+
+    const handleMouseMove = (e: MouseEvent) => {
+      const rect = canvas.getBoundingClientRect();
+      const mx = e.clientX - rect.left;
+      const my = e.clientY - rect.top;
+      const pad = 60;
+      if (mx > -pad && mx < CANVAS_WIDTH + pad && my > -pad && my < CANVAS_HEIGHT + pad) {
+        mouse.x = mx;
+        mouse.y = my;
+        mouse.active = true;
+      } else {
+        mouse.active = false;
+      }
+    };
+
+    const handleMouseLeave = () => {
+      mouse.active = false;
+    };
+
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
+    document.addEventListener('mouseleave', handleMouseLeave);
+
     let frameId: number;
     let time = 0;
 
@@ -70,24 +103,47 @@ export default function LogoNetworkAnimation() {
       time += 0.02;
       ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
-      // Update positions
       for (const node of nodes) {
+        // Drift home position (slow ambient motion)
+        node.homeX += node.hvx;
+        node.homeY += node.hvy;
+        if (node.homeX < 8 || node.homeX > CANVAS_WIDTH - 8) {
+          node.hvx *= -1;
+          node.homeX = Math.max(8, Math.min(CANVAS_WIDTH - 8, node.homeX));
+        }
+        if (node.homeY < 8 || node.homeY > CANVAS_HEIGHT - 8) {
+          node.hvy *= -1;
+          node.homeY = Math.max(8, Math.min(CANVAS_HEIGHT - 8, node.homeY));
+        }
+
+        // Compute target (home + optional cursor attraction)
+        let targetX = node.homeX;
+        let targetY = node.homeY;
+        if (mouse.active) {
+          const dx = node.homeX - mouse.x;
+          const dy = node.homeY - mouse.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          const radius = 110;
+          if (dist < radius && dist > 0.5) {
+            const push = Math.pow(1 - dist / radius, 2) * 32;
+            targetX += (dx / dist) * push;
+            targetY += (dy / dist) * push;
+          }
+        }
+
+        // Spring toward target with damping
+        const spring = 0.08;
+        const damping = 0.82;
+        node.vx += (targetX - node.x) * spring;
+        node.vy += (targetY - node.y) * spring;
+        node.vx *= damping;
+        node.vy *= damping;
         node.x += node.vx;
         node.y += node.vy;
 
-        // Soft bounce off bounds
-        if (node.x < 5 || node.x > CANVAS_WIDTH - 5) {
-          node.vx *= -1;
-          node.x = Math.max(5, Math.min(CANVAS_WIDTH - 5, node.x));
-        }
-        if (node.y < 5 || node.y > CANVAS_HEIGHT - 5) {
-          node.vy *= -1;
-          node.y = Math.max(5, Math.min(CANVAS_HEIGHT - 5, node.y));
-        }
-
-        // Clamp velocity
-        node.vx = Math.max(-0.15, Math.min(0.15, node.vx));
-        node.vy = Math.max(-0.15, Math.min(0.15, node.vy));
+        // Clamp to canvas
+        node.x = Math.max(4, Math.min(CANVAS_WIDTH - 4, node.x));
+        node.y = Math.max(4, Math.min(CANVAS_HEIGHT - 4, node.y));
       }
 
       // Draw connections
@@ -129,6 +185,8 @@ export default function LogoNetworkAnimation() {
 
     return () => {
       cancelAnimationFrame(frameId);
+      window.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseleave', handleMouseLeave);
     };
   }, []);
 
