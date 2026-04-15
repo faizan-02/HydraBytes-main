@@ -14,35 +14,62 @@ function wrapBrandedEmail(innerHtml: string): string {
     <style type="text/css">table,td,div,p,a {font-family: Arial, sans-serif !important;}</style>
     <![endif]-->
   </head>
-  <body style="margin:0;padding:0;background:#eef1f7;-webkit-font-smoothing:antialiased;">
+  <body style="margin:0;padding:0;background:#08080f;-webkit-font-smoothing:antialiased;">
     <div style="display:none;max-height:0;overflow:hidden;opacity:0;">HydraBytes — Web, Mobile &amp; AI Solutions</div>
-    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#eef1f7;">
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#08080f;">
       <tr>
-        <td align="center" style="padding:32px 12px 8px;">
+        <td align="center" style="padding:40px 16px 12px;">
           <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" style="max-width:600px;width:100%;">
+
+            <!-- Logo -->
             <tr>
-              <td align="center" style="padding:0 0 20px;">
+              <td align="center" style="padding:0 0 8px;">
                 <a href="${BRAND_SITE_URL}" style="text-decoration:none;display:inline-block;" target="_blank">
-                  <img src="${BRAND_LOGO_URL}" alt="HydraBytes" width="180" height="180" style="display:block;width:180px;height:180px;border:0;outline:none;text-decoration:none;" />
+                  <img src="${BRAND_LOGO_URL}" alt="HydraBytes" width="160" height="160" style="display:block;width:160px;height:160px;border:0;outline:none;text-decoration:none;" />
                 </a>
               </td>
             </tr>
+
+            <!-- Inner Content -->
             <tr>
               <td align="center" style="padding:0;">
                 ${innerHtml}
               </td>
             </tr>
+
+            <!-- Footer -->
             <tr>
-              <td align="center" style="padding:20px 16px 8px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;">
-                <p style="font-size:12px;color:#7a8296;margin:0 0 6px;line-height:1.6;">
+              <td align="center" style="padding:32px 16px 16px;">
+                <!-- Divider -->
+                <div style="width:80px;height:2px;background:linear-gradient(90deg,#7c3aed,#00e5ff);margin:0 auto 20px;border-radius:2px;"></div>
+
+                <!-- Social Links -->
+                <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:0 auto 16px;">
+                  <tr>
+                    <td style="padding:0 8px;">
+                      <a href="https://www.linkedin.com/company/hydrabytes4/" style="text-decoration:none;color:#6c6c85;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;font-size:12px;" target="_blank">LinkedIn</a>
+                    </td>
+                    <td style="padding:0 8px;color:#2a2a3d;font-size:12px;">·</td>
+                    <td style="padding:0 8px;">
+                      <a href="https://www.instagram.com/hydrabytes" style="text-decoration:none;color:#6c6c85;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;font-size:12px;" target="_blank">Instagram</a>
+                    </td>
+                    <td style="padding:0 8px;color:#2a2a3d;font-size:12px;">·</td>
+                    <td style="padding:0 8px;">
+                      <a href="${BRAND_SITE_URL}" style="text-decoration:none;color:#6c6c85;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;font-size:12px;" target="_blank">Website</a>
+                    </td>
+                  </tr>
+                </table>
+
+                <p style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;font-size:12px;color:#4a4a65;margin:0 0 6px;line-height:1.6;">
                   HydraBytes · Web, Mobile &amp; AI Solutions
                 </p>
-                <p style="font-size:12px;color:#9aa2b5;margin:0;line-height:1.6;">
+                <p style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;font-size:11px;color:#3a3a52;margin:0;line-height:1.6;">
                   © ${year} HydraBytes ·
                   <a href="${BRAND_SITE_URL}" style="color:#6366f1;text-decoration:none;">hydrabytes.tech</a>
                 </p>
               </td>
             </tr>
+
           </table>
         </td>
       </tr>

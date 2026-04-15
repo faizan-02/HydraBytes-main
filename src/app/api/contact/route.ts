@@ -175,17 +175,55 @@ export async function POST(req: NextRequest) {
         to: email,
         subject: 'We received your message — HydraBytes',
         html: `
-          <div style="font-family:sans-serif;max-width:600px;margin:0 auto;padding:24px;">
-            <h2 style="color:#6366f1;">Thanks for reaching out, ${safeName}!</h2>
-            <p style="color:#374151;line-height:1.6;">We've received your inquiry about <strong>${safeServiceLabel}</strong> and will get back to you within <strong>24 hours</strong>.</p>
-            ${projectId
-              ? `<div style="margin:20px 0;padding:16px;background:#f0f9ff;border-radius:8px;border-left:4px solid #6366f1;"><p style="margin:0;color:#1e40af;font-size:14px;">Your project has been added to your <a href="${BASE_URL}/dashboard" style="color:#6366f1;font-weight:600;">dashboard</a> and is pending verification from our team.</p></div>`
-              : `<div style="margin:20px 0;padding:16px;background:#faf5ff;border-radius:8px;border-left:4px solid #7c3aed;"><p style="margin:0 0 10px;color:#5b21b6;font-size:14px;font-weight:600;">Want to track your inquiry status?</p><p style="margin:0 0 14px;color:#6b7280;font-size:14px;">Create a free account to see real-time updates, receive project notifications, and manage invoices.</p><a href="${BASE_URL}/auth/register?email=${encodeURIComponent(email)}" style="display:inline-block;padding:10px 20px;background:linear-gradient(135deg,#7c3aed,#0891b2);color:#fff;text-decoration:none;border-radius:8px;font-weight:600;font-size:14px;">Create Free Account</a></div>`
-            }
-            <p style="color:#374151;line-height:1.6;">For quick enquiries, WhatsApp us at <a href="https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP ?? '923239999000'}" style="color:#6366f1;">+92 323 9999 000</a>.</p>
-            <p style="color:#374151;">Best regards,<br/><strong>The HydraBytes Team</strong></p>
-            <hr style="border:none;border-top:1px solid #e5e7eb;margin:24px 0;"/>
-            <p style="font-size:12px;color:#9ca3af;">HydraBytes · contact@hydrabytes.tech</p>
+          <div style="font-family:Inter,sans-serif;max-width:600px;margin:0 auto;background:#0a0a12;color:#f0f0f5;border-radius:12px;overflow:hidden;">
+            <div style="background:linear-gradient(135deg,#7c3aed 0%,#00e5ff 100%);padding:40px 32px;text-align:center;">
+              <h1 style="margin:0;font-size:24px;font-weight:800;color:#ffffff;">Thanks for reaching out!</h1>
+              <p style="margin:10px 0 0;font-size:15px;color:rgba(255,255,255,0.85);">We'll get back to you within 24 hours</p>
+            </div>
+            <div style="padding:40px 32px;">
+              <p style="font-size:16px;color:#a0a0b8;margin:0 0 20px;">Hi ${safeName},</p>
+              <p style="font-size:15px;line-height:1.7;color:#a0a0b8;margin:0 0 28px;">
+                We've received your inquiry about <strong style="color:#f0f0f5;">${safeServiceLabel}</strong> and our team is already reviewing it. Expect to hear from us shortly.
+              </p>
+
+              <!-- Inquiry Summary Card -->
+              <div style="background:rgba(124,58,237,0.08);border:1px solid rgba(124,58,237,0.2);border-radius:12px;padding:24px;margin-bottom:28px;">
+                <p style="margin:0 0 16px;font-size:13px;font-weight:700;color:#818cf8;text-transform:uppercase;letter-spacing:1px;">Your Inquiry</p>
+                <table style="width:100%;border-collapse:collapse;">
+                  <tr>
+                    <td style="padding:10px 0;color:#6c6c85;font-size:14px;border-bottom:1px solid rgba(124,58,237,0.12);">Service</td>
+                    <td style="padding:10px 0;color:#f0f0f5;font-size:14px;font-weight:600;text-align:right;border-bottom:1px solid rgba(124,58,237,0.12);">${safeServiceLabel}</td>
+                  </tr>
+                  <tr>
+                    <td style="padding:10px 0;color:#6c6c85;font-size:14px;">Budget</td>
+                    <td style="padding:10px 0;color:#f0f0f5;font-size:14px;font-weight:600;text-align:right;">${safeBudgetLabel}</td>
+                  </tr>
+                </table>
+              </div>
+
+              ${projectId
+                ? `<div style="background:rgba(99,102,241,0.08);border:1px solid rgba(99,102,241,0.25);border-radius:12px;padding:20px;margin-bottom:28px;text-align:center;">
+                    <p style="margin:0 0 12px;font-size:15px;font-weight:700;color:#f0f0f5;">Your project is live!</p>
+                    <p style="margin:0 0 16px;font-size:14px;color:#a0a0b8;">Track real-time progress, receive invoices, and communicate with your developer.</p>
+                    <a href="${BASE_URL}/dashboard" style="display:inline-block;padding:14px 32px;background:linear-gradient(135deg,#7c3aed,#00e5ff);color:#fff;text-decoration:none;border-radius:999px;font-weight:700;font-size:15px;">View Dashboard →</a>
+                  </div>`
+                : `<div style="background:rgba(124,58,237,0.08);border:1px solid rgba(124,58,237,0.25);border-radius:12px;padding:24px;margin-bottom:28px;">
+                    <p style="margin:0 0 8px;font-size:15px;font-weight:700;color:#f0f0f5;">Want to track your inquiry?</p>
+                    <p style="margin:0 0 16px;font-size:14px;color:#a0a0b8;line-height:1.6;">Create a free account to see real-time updates, receive project notifications, and manage invoices.</p>
+                    <a href="${BASE_URL}/auth/register?email=${encodeURIComponent(email)}" style="display:inline-block;padding:14px 32px;background:linear-gradient(135deg,#7c3aed,#00e5ff);color:#fff;text-decoration:none;border-radius:999px;font-weight:700;font-size:15px;">Create Free Account</a>
+                  </div>`
+              }
+
+              <!-- Quick Contact -->
+              <div style="text-align:center;margin-bottom:8px;">
+                <p style="font-size:14px;color:#6c6c85;margin:0 0 12px;">Need a faster response?</p>
+                <a href="https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP ?? '923239999000'}" style="display:inline-block;padding:12px 24px;background:#25d366;color:#fff;text-decoration:none;border-radius:999px;font-weight:600;font-size:14px;">WhatsApp Us</a>
+              </div>
+            </div>
+            <div style="padding:24px 32px;border-top:1px solid rgba(124,58,237,0.12);text-align:center;">
+              <p style="margin:0 0 4px;font-size:13px;color:#a0a0b8;">Best regards, <strong style="color:#f0f0f5;">The HydraBytes Team</strong></p>
+              <p style="margin:0;font-size:12px;color:#6c6c85;">© ${new Date().getFullYear()} HydraBytes · contact@hydrabytes.tech</p>
+            </div>
           </div>`,
       });
     } catch (clientEmailError) {
