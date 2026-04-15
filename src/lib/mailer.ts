@@ -1,4 +1,4 @@
-const BRAND_LOGO_URL = 'https://www.hydrabytes.tech/transparent.png';
+const BRAND_LOGO_URL = 'https://www.hydrabytes.tech/email-logo.png';
 const BRAND_SITE_URL = 'https://www.hydrabytes.tech';
 
 function wrapBrandedEmail(innerHtml: string): string {
@@ -23,7 +23,7 @@ function wrapBrandedEmail(innerHtml: string): string {
             <tr>
               <td align="center" style="padding:0 0 20px;">
                 <a href="${BRAND_SITE_URL}" style="text-decoration:none;display:inline-block;" target="_blank">
-                  <img src="${BRAND_LOGO_URL}" alt="HydraBytes" width="120" height="120" style="display:block;width:120px;height:120px;border:0;outline:none;text-decoration:none;" />
+                  <img src="${BRAND_LOGO_URL}" alt="HydraBytes" width="180" height="180" style="display:block;width:180px;height:180px;border:0;outline:none;text-decoration:none;" />
                 </a>
               </td>
             </tr>
