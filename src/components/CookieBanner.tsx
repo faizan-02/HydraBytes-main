@@ -36,11 +36,11 @@ export default function CookieBanner() {
         transform: 'translateX(-50%)',
         zIndex: 9999,
         width: 'min(560px, calc(100vw - 32px))',
-        background: 'rgba(15, 15, 25, 0.95)',
-        border: '1px solid rgba(124, 58, 237, 0.3)',
+        background: 'var(--bg-secondary)',
+        border: '1px solid var(--border-color-hover)',
         borderRadius: '16px',
         padding: '20px 24px',
-        boxShadow: '0 8px 40px rgba(0,0,0,0.6), 0 0 0 1px rgba(124,58,237,0.1)',
+        boxShadow: 'var(--shadow-lg), 0 0 0 1px var(--accent-glow)',
         backdropFilter: 'blur(16px)',
         display: 'flex',
         alignItems: 'center',
@@ -51,14 +51,14 @@ export default function CookieBanner() {
       aria-label="Cookie consent"
     >
       <div style={{ flex: 1, minWidth: '200px' }}>
-        <p style={{ margin: '0 0 4px', fontSize: '14px', fontWeight: 600, color: '#f0f0f5' }}>
+        <p style={{ margin: '0 0 4px', fontSize: '14px', fontWeight: 600, color: 'var(--text-primary)' }}>
           We use cookies
         </p>
-        <p style={{ margin: 0, fontSize: '13px', color: '#8888a8', lineHeight: 1.5 }}>
+        <p style={{ margin: 0, fontSize: '13px', color: 'var(--text-secondary)', lineHeight: 1.5 }}>
           We use analytics cookies to understand how you use our site and improve your experience.{' '}
           <a
             href="/legal/privacy"
-            style={{ color: '#7c3aed', textDecoration: 'underline' }}
+            style={{ color: 'var(--accent-primary)', textDecoration: 'underline' }}
           >
             Privacy Policy
           </a>
@@ -70,9 +70,9 @@ export default function CookieBanner() {
           style={{
             padding: '8px 18px',
             borderRadius: '999px',
-            border: '1px solid rgba(255,255,255,0.15)',
+            border: '1px solid var(--border-color-hover)',
             background: 'transparent',
-            color: '#8888a8',
+            color: 'var(--text-secondary)',
             fontSize: '13px',
             fontWeight: 500,
             cursor: 'pointer',
