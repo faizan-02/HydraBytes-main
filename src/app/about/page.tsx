@@ -11,7 +11,7 @@ import FloatingParticles from '@/components/FloatingParticles';
 import styles from './about.module.css';
 
 const team = [
-  { name: 'Faizan Jawad', role: 'CEO & Founder', initials: 'FJ', color: '#7c3aed', image: '/team-faizan.png' },
+  { name: 'Faizan Jawad', role: 'CEO & Founder', initials: 'FJ', color: '#7c3aed' },
   { name: 'Asad Ali Khan', role: 'Co-Founder', initials: 'AA', color: '#00e5ff' },
   { name: 'Suhayb Saleem', role: 'Lead Designer', initials: 'SS', color: '#f472b6' },
   { name: 'Haris Munir', role: 'AI Lead', initials: 'HM', color: '#22c55e' },
