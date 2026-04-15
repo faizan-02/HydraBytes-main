@@ -3,7 +3,6 @@
 import { useRef, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { useTheme } from '@/lib/ThemeContext';
 import {
   Globe, Smartphone, Brain, Zap, Shield, TrendingUp,
   Palette, Bot, RefreshCw, ArrowRight, Clock, Star, Award,
@@ -13,16 +12,16 @@ import SpotlightCard from '@/components/SpotlightCard';
 import AnimatedCounter from '@/components/AnimatedCounter';
 import GradientText from '@/components/GradientText';
 import FloatingParticles from '@/components/FloatingParticles';
-import ChipConnectorLines from '@/components/ChipConnectorLines';
 import MagneticButton from '@/components/MagneticButton';
+import { useTheme } from '@/lib/ThemeContext';
 import styles from './page.module.css';
 
 const techChips = [
-  { label: 'Next.js',    color: '#e2e8f0', lightColor: '#334155', style: { top: '15%', left: '8%' },   dur: 5.2, delay: 0 },
-  { label: 'React',      color: '#61dafb', lightColor: '#0369a1', style: { top: '22%', right: '10%' }, dur: 4.8, delay: 0.5 },
-  { label: 'TypeScript', color: '#3178c6', lightColor: '#1e40af', style: { top: '65%', left: '6%' },   dur: 6.1, delay: 1.2 },
-  { label: 'Node.js',    color: '#68a063', lightColor: '#15803d', style: { bottom: '20%', right: '8%' }, dur: 5.5, delay: 0.8 },
-  { label: 'AI / ML',    color: '#f472b6', lightColor: '#be185d', style: { top: '40%', right: '5%' },  dur: 4.4, delay: 1.8 },
+  { label: 'Next.js',    color: '#e2e8f0', lightColor: '#334155', style: { top: '14%',   left: '7%'  }, delay: 0   },
+  { label: 'React',      color: '#61dafb', lightColor: '#0369a1', style: { top: '20%',   right: '9%' }, delay: 0.3 },
+  { label: 'TypeScript', color: '#3178c6', lightColor: '#1e40af', style: { top: '62%',   left: '5%'  }, delay: 0.6 },
+  { label: 'Node.js',    color: '#68a063', lightColor: '#15803d', style: { bottom: '22%', right: '7%' }, delay: 0.9 },
+  { label: 'AI / ML',    color: '#f472b6', lightColor: '#be185d', style: { top: '42%',   right: '4%' }, delay: 1.2 },
 ];
 
 const services = [
@@ -146,86 +145,66 @@ export default function HomePage() {
       {/* ===== HERO SECTION ===== */}
       <section ref={heroRef} className={styles.hero}>
         <div className={styles.heroBackdrop}>
-          {/* Floating tech chips */}
-          <div className={styles.floatingChips}>
-          {techChips.map((chip) => {
-            const chipColor = theme === 'light' ? chip.lightColor : chip.color;
-            return (
-            <motion.div
-              key={chip.label}
-              style={{
-                position: 'absolute',
-                ...chip.style,
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.4rem',
-                padding: '0.35rem 0.85rem',
-                borderRadius: '9999px',
-                fontSize: '0.75rem',
-                fontWeight: 600,
-                border: `1px solid ${chipColor}50`,
-                background: theme === 'light'
-                  ? `linear-gradient(135deg, ${chipColor}14 0%, ${chipColor}08 100%)`
-                  : `linear-gradient(135deg, ${chipColor}18 0%, ${chipColor}08 100%)`,
-                boxShadow: theme === 'light'
-                  ? `inset 0 1px 0 ${chipColor}25, 0 2px 12px rgba(0,0,0,0.08)`
-                  : `inset 0 1px 0 ${chipColor}20, 0 4px 20px rgba(0,0,0,0.35)`,
-                color: chipColor,
-                backdropFilter: 'blur(14px)',
-                WebkitBackdropFilter: 'blur(14px)',
-                zIndex: 2,
-                pointerEvents: 'none',
-              }}
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{
-                opacity: [0.6, 0.95, 0.6],
-                scale: 1,
-                y: [0, -8, 0],
-                rotate: [0, -1, 1, 0],
-              }}
-              transition={{
-                opacity: { duration: chip.dur * 2, repeat: Infinity, ease: 'easeInOut', delay: chip.delay, repeatType: 'loop' },
-                scale: { duration: 0.5, delay: chip.delay },
-                y: { duration: chip.dur, repeat: Infinity, ease: 'easeInOut', delay: chip.delay },
-                rotate: { duration: chip.dur * 1.2, repeat: Infinity, ease: 'easeInOut', delay: chip.delay },
-              }}
-            >
-              <div style={{ width: 6, height: 6, borderRadius: '50%', background: chipColor }} />
-              {chip.label}
-            </motion.div>
-            );
-          })}
-          </div>
-          {/* Floating particles */}
-          <FloatingParticles />
-          {/* Network connection lines between chips */}
-          <ChipConnectorLines />
           {/* Aurora blobs — with scroll parallax */}
           <motion.div className={`${styles.auroraBlob} ${styles.auroraBlob1}`} style={{ y: blob1Y }} />
           <motion.div className={`${styles.auroraBlob} ${styles.auroraBlob2}`} style={{ y: blob2Y }} />
           <motion.div className={`${styles.auroraBlob} ${styles.auroraBlob3}`} style={{ y: blob3Y }} />
-          {/* Pulse rings */}
-          <div className={styles.heroRings}>
-            <div className={styles.ring} />
-            <div className={styles.ring} />
-            <div className={styles.ring} />
+          {/* Floating particles */}
+          <FloatingParticles />
+          {/* Floating tech chips */}
+          <div className={styles.floatingChips}>
+            {techChips.map((chip) => {
+              const chipColor = theme === 'light' ? chip.lightColor : chip.color;
+              return (
+                <motion.div
+                  key={chip.label}
+                  style={{
+                    position: 'absolute',
+                    ...chip.style,
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '0.5rem',
+                    padding: '0.45rem 0.95rem',
+                    borderRadius: '9999px',
+                    fontSize: '0.72rem',
+                    fontWeight: 600,
+                    letterSpacing: '-0.005em',
+                    whiteSpace: 'nowrap',
+                    border: `1px solid ${chipColor}35`,
+                    background: theme === 'light'
+                      ? 'rgba(255, 255, 255, 0.72)'
+                      : 'rgba(18, 18, 30, 0.55)',
+                    boxShadow: theme === 'light'
+                      ? `0 1px 0 rgba(255,255,255,0.8) inset, 0 4px 18px rgba(0,0,0,0.06), 0 0 24px ${chipColor}1a`
+                      : `0 1px 0 rgba(255,255,255,0.06) inset, 0 6px 24px rgba(0,0,0,0.35), 0 0 22px ${chipColor}22`,
+                    color: chipColor,
+                    backdropFilter: 'blur(14px)',
+                    WebkitBackdropFilter: 'blur(14px)',
+                    zIndex: 2,
+                    pointerEvents: 'none',
+                  }}
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: [0, -4, 0] }}
+                  transition={{
+                    opacity: { duration: 0.6, delay: chip.delay, ease: 'easeOut' },
+                    y: { duration: 5.5, repeat: Infinity, ease: 'easeInOut', delay: chip.delay + 0.6 },
+                  }}
+                >
+                  <span
+                    style={{
+                      width: 6,
+                      height: 6,
+                      borderRadius: '50%',
+                      background: chipColor,
+                      boxShadow: `0 0 8px ${chipColor}`,
+                      flexShrink: 0,
+                    }}
+                  />
+                  {chip.label}
+                </motion.div>
+              );
+            })}
           </div>
-          {/* Floating geometric shapes */}
-          <svg className={`${styles.geoShape} ${styles.geoShape1}`} viewBox="0 0 60 60" fill="none">
-            <polygon points="30,2 57,17 57,47 30,58 3,47 3,17" stroke="currentColor" strokeWidth="1.5" />
-          </svg>
-          <svg className={`${styles.geoShape} ${styles.geoShape2}`} viewBox="0 0 40 40" fill="none">
-            <rect x="4" y="4" width="32" height="32" stroke="currentColor" strokeWidth="1.5" transform="rotate(15 20 20)" />
-          </svg>
-          <svg className={`${styles.geoShape} ${styles.geoShape3}`} viewBox="0 0 50 50" fill="none">
-            <circle cx="25" cy="25" r="22" stroke="currentColor" strokeWidth="1.5" strokeDasharray="6 4" />
-          </svg>
-          <svg className={`${styles.geoShape} ${styles.geoShape4}`} viewBox="0 0 44 44" fill="none">
-            <polygon points="22,2 42,16 35,39 9,39 2,16" stroke="currentColor" strokeWidth="1.5" />
-          </svg>
-          <svg className={`${styles.geoShape} ${styles.geoShape5}`} viewBox="0 0 36 36" fill="none">
-            <rect x="3" y="3" width="30" height="30" stroke="currentColor" strokeWidth="1.5" transform="rotate(45 18 18)" />
-          </svg>
         </div>
         {/* Mouse-tracking spotlight */}
         <div ref={spotlightRef} className={styles.heroSpotlight} />

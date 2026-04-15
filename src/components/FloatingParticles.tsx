@@ -1,23 +1,18 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, CSSProperties } from 'react';
 
 interface Particle {
   id: number;
-  left: string;
+  left: number;
   size: number;
   duration: number;
   delay: number;
   color: string;
-  opacity: number;
+  drift: number;
 }
 
-const COLORS = [
-  '124, 58, 237',   // purple
-  '0, 229, 255',    // cyan
-  '244, 114, 182',  // pink
-  '124, 58, 237',   // purple (weighted)
-];
+const COLORS = ['124, 58, 237', '0, 229, 255'];
 
 export default function FloatingParticles() {
   const [particles, setParticles] = useState<Particle[]>([]);
@@ -25,14 +20,14 @@ export default function FloatingParticles() {
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     setParticles(
-      Array.from({ length: 20 }, (_, i) => ({
+      Array.from({ length: 10 }, (_, i) => ({
         id: i,
-        left: `${(i / 20) * 90 + 5}%`,
-        size: parseFloat((Math.random() * 4 + 2).toFixed(1)),
-        duration: parseFloat((Math.random() * 15 + 12).toFixed(1)),
-        delay: parseFloat((-(Math.random() * 25)).toFixed(1)),
+        left: parseFloat((Math.random() * 96 + 2).toFixed(1)),
+        size: parseFloat((Math.random() * 1.4 + 1.6).toFixed(1)),
+        duration: parseFloat((Math.random() * 10 + 22).toFixed(1)),
+        delay: parseFloat((-(Math.random() * 30)).toFixed(1)),
         color: COLORS[i % COLORS.length],
-        opacity: parseFloat((Math.random() * 0.4 + 0.15).toFixed(2)),
+        drift: parseFloat(((Math.random() - 0.5) * 40).toFixed(1)),
       }))
     );
   }, []);
@@ -53,15 +48,16 @@ export default function FloatingParticles() {
           key={p.id}
           style={{
             position: 'absolute',
-            left: p.left,
-            bottom: '0px',
+            left: `${p.left}%`,
+            bottom: '-8px',
             width: `${p.size}px`,
             height: `${p.size}px`,
             borderRadius: '50%',
-            background: `rgba(${p.color}, ${p.opacity})`,
-            boxShadow: `0 0 ${p.size * 2}px rgba(${p.color}, ${p.opacity * 0.6})`,
-            animation: `floatUp ${p.duration}s ${p.delay}s linear infinite`,
-          }}
+            background: `rgba(${p.color}, 0.85)`,
+            boxShadow: `0 0 ${p.size * 3}px rgba(${p.color}, 0.55)`,
+            ['--drift' as string]: `${p.drift}px`,
+            animation: `floatUp ${p.duration}s ${p.delay}s ease-in-out infinite`,
+          } as CSSProperties}
         />
       ))}
     </div>
