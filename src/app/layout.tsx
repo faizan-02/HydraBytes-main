@@ -88,7 +88,6 @@ export default function RootLayout({
           description:
             'HydraBytes is a cutting-edge IT startup delivering premium web development, mobile app development, and AI/ML solutions.',
           sameAs: [
-            'https://github.com/TheHydraBytes',
             'https://www.linkedin.com/company/hydrabytes4/',
           ],
           contactPoint: {
