@@ -15,7 +15,7 @@ function wrapBrandedEmail(innerHtml: string): string {
     <![endif]-->
   </head>
   <body style="margin:0;padding:0;background:#08080f;-webkit-font-smoothing:antialiased;">
-    <div style="display:none;max-height:0;overflow:hidden;opacity:0;">HydraBytes — Web, Mobile &amp; AI Solutions</div>
+    <div style="display:none;max-height:0;overflow:hidden;opacity:0;">HydraBytes: Web, Mobile &amp; AI Solutions</div>
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#08080f;">
       <tr>
         <td align="center" style="padding:40px 16px 12px;">

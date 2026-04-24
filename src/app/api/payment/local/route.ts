@@ -126,7 +126,7 @@ export async function POST(req: NextRequest) {
     const safeProjectTitle = escapeHtml(invoice.project?.title ?? 'General Services');
     await sendEmail({
       to: invoice.user.email,
-      subject: `Payment Confirmed — ${formattedAmount} received`,
+      subject: `Payment Confirmed: ${formattedAmount} received`,
       html: `
         <div style="font-family: Inter, sans-serif; max-width: 600px; margin: 0 auto; background: #0a0a12; color: #f0f0f5; border-radius: 12px; overflow: hidden;">
           <div style="background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%); padding: 40px 32px; text-align: center;">
@@ -161,7 +161,7 @@ export async function POST(req: NextRequest) {
   // Notify admin
   await sendEmail({
     to: ADMIN_EMAIL,
-    subject: `Payment Submitted — ${formattedAmount} via ${methodLabels[method] ?? method}`,
+    subject: `Payment Submitted: ${formattedAmount} via ${methodLabels[method] ?? method}`,
     html: `
       <div style="font-family: Inter, sans-serif; max-width: 600px; margin: 0 auto; background: #0a0a12; color: #f0f0f5; border-radius: 12px; overflow: hidden;">
         <div style="background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%); padding: 32px; text-align: center;">

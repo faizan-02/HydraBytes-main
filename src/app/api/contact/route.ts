@@ -173,7 +173,7 @@ export async function POST(req: NextRequest) {
     try {
       await sendEmail({
         to: email,
-        subject: 'We received your message — HydraBytes',
+        subject: 'We received your message - HydraBytes',
         html: `
           <div style="font-family:Inter,sans-serif;max-width:600px;margin:0 auto;background:#0a0a12;color:#f0f0f5;border-radius:12px;overflow:hidden;">
             <div style="background:linear-gradient(135deg,#7c3aed 0%,#00e5ff 100%);padding:40px 32px;text-align:center;">

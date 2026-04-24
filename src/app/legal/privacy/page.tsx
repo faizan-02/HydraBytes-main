@@ -1,5 +1,5 @@
 export const metadata = {
-  title: 'Privacy Policy — HydraBytes',
+  title: 'Privacy Policy - HydraBytes',
   alternates: { canonical: 'https://www.hydrabytes.tech/legal/privacy' },
 };
 
@@ -37,11 +37,11 @@ export default function PrivacyPage() {
       <Section title="3. Third-Party Services">
         <p>We use the following third-party services that may process your data:</p>
         <ul>
-          <li><strong>Vercel</strong> — website hosting</li>
-          <li><strong>Neon</strong> — database storage</li>
-          <li><strong>Resend</strong> — transactional email delivery</li>
-          <li><strong>Google / GitHub OAuth</strong> — optional sign-in</li>
-          <li><strong>Paddle</strong> — international payment processing (if applicable)</li>
+          <li><strong>Vercel:</strong> website hosting</li>
+          <li><strong>Neon:</strong> database storage</li>
+          <li><strong>Gmail SMTP:</strong> transactional email delivery</li>
+          <li><strong>Google / GitHub OAuth:</strong> optional sign-in</li>
+          <li><strong>Paddle:</strong> international payment processing (if applicable)</li>
         </ul>
         <p>Each of these services has its own privacy policy governing their data practices.</p>
       </Section>

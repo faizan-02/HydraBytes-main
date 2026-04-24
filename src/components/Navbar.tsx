@@ -29,6 +29,8 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const userMenuRef = useRef<HTMLDivElement>(null);
+  const navLinksRef = useRef<HTMLDivElement>(null);
+  const [cursorPos, setCursorPos] = useState({ left: 0, width: 0, opacity: 0 });
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -48,6 +50,21 @@ export default function Navbar() {
 
   useEffect(() => {
     setIsOpen(false);
+  }, [pathname]);
+
+  useEffect(() => {
+    const container = navLinksRef.current;
+    if (!container) return;
+    const activeLink = container.querySelector(`.${styles.active}`) as HTMLElement | null;
+    if (activeLink) {
+      setCursorPos({
+        left: activeLink.offsetLeft,
+        width: activeLink.getBoundingClientRect().width,
+        opacity: 1,
+      });
+    } else {
+      setCursorPos(prev => ({ ...prev, opacity: 0 }));
+    }
   }, [pathname]);
 
   const handleLogoClick = (e: React.MouseEvent) => {
@@ -73,7 +90,22 @@ export default function Navbar() {
           </div>
         </Link>
 
-        <div className={styles.navLinks}>
+        <div
+          className={styles.navLinks}
+          ref={navLinksRef}
+          onMouseLeave={() => {
+            const activeLink = navLinksRef.current?.querySelector(`.${styles.active}`) as HTMLElement | null;
+            if (activeLink) {
+              setCursorPos({
+                left: activeLink.offsetLeft,
+                width: activeLink.getBoundingClientRect().width,
+                opacity: 1,
+              });
+            } else {
+              setCursorPos(prev => ({ ...prev, opacity: 0 }));
+            }
+          }}
+        >
           {navLinks.map((link) => (
             <Link
               key={link.href}
@@ -81,17 +113,23 @@ export default function Navbar() {
               className={`${styles.navLink} ${
                 pathname === link.href ? styles.active : ''
               }`}
+              onMouseEnter={(e) => {
+                const { width } = e.currentTarget.getBoundingClientRect();
+                setCursorPos({
+                  width,
+                  opacity: 1,
+                  left: e.currentTarget.offsetLeft,
+                });
+              }}
             >
               {link.label}
-              {pathname === link.href && (
-                <motion.div
-                  className={styles.activeIndicator}
-                  layoutId="activeNav"
-                  transition={{ type: 'spring', stiffness: 380, damping: 30 }}
-                />
-              )}
             </Link>
           ))}
+          <motion.div
+            animate={cursorPos}
+            className={styles.navCursor}
+            transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+          />
         </div>
 
         <div className={styles.navActions}>

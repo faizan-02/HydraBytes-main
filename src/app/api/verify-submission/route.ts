@@ -184,7 +184,7 @@ function declineForm(id: string, token: string, name: string, service: string) {
   const safeService = escapeHtml(service);
   return `<!DOCTYPE html>
 <html>
-<head><title>Decline Inquiry — HydraBytes</title>
+<head><title>Decline Inquiry - HydraBytes</title>
 <style>
   body{font-family:sans-serif;background:#0a0a0f;color:#e2e8f0;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0;}
   .card{background:#1e293b;border:1px solid rgba(239,68,68,0.3);border-radius:16px;padding:40px;max-width:480px;width:90%;}
@@ -198,12 +198,12 @@ function declineForm(id: string, token: string, name: string, service: string) {
 <div class="card">
   <div style="font-size:40px;margin-bottom:16px;color:#ef4444;">&#10005;</div>
   <h1>Decline Inquiry</h1>
-  <p>Declining: <strong style="color:#e2e8f0">${safeName}</strong> — ${safeService}</p>
+  <p>Declining: <strong style="color:#e2e8f0">${safeName}</strong>, ${safeService}</p>
   <form method="GET" action="/api/verify-submission">
     <input type="hidden" name="id" value="${safeId}"/>
     <input type="hidden" name="token" value="${safeToken}"/>
     <input type="hidden" name="action" value="decline"/>
-    <label style="font-size:13px;color:#94a3b8;display:block;margin-bottom:8px;">Reason for declining (optional — will be sent to client):</label>
+    <label style="font-size:13px;color:#94a3b8;display:block;margin-bottom:8px;">Reason for declining (optional, will be sent to client):</label>
     <textarea name="reason" rows="4" placeholder="e.g. Outside our current service scope, budget mismatch..."></textarea>
     <button type="submit" class="btn">Confirm Decline</button>
   </form>
@@ -218,7 +218,7 @@ function page(title: string, message: string, type: 'success' | 'error' | 'info'
   const color = colors[type];
   return `<!DOCTYPE html>
 <html>
-<head><title>${title} — HydraBytes</title>
+<head><title>${title} - HydraBytes</title>
 <style>body{font-family:sans-serif;background:#0a0a0f;color:#e2e8f0;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0;}
 .card{background:#1e293b;border:1px solid ${color}44;border-radius:16px;padding:40px;max-width:480px;text-align:center;}
 h1{color:${color};margin:0 0 16px;}p{color:#94a3b8;line-height:1.6;margin:0 0 24px;}

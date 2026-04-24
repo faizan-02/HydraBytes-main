@@ -1,5 +1,5 @@
 export const metadata = {
-  title: 'Refund Policy — HydraBytes',
+  title: 'Refund Policy - HydraBytes',
   alternates: { canonical: 'https://www.hydrabytes.tech/legal/refund' },
 };
 

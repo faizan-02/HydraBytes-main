@@ -52,6 +52,7 @@
 }
 
 .navLinks {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 0.25rem;
@@ -59,12 +60,14 @@
 
 .navLink {
   position: relative;
-  padding: 0.5rem 1rem;
-  font-size: 0.9rem;
+  z-index: 1;
+  padding: 0.5rem 1.1rem;
+  font-size: 0.88rem;
   font-weight: 500;
   color: var(--text-secondary);
   transition: color var(--transition-fast);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-full);
+  letter-spacing: 0.01em;
 }
 
 .navLink:hover {
@@ -72,18 +75,19 @@
 }
 
 .navLink.active {
-  color: var(--accent-primary);
+  color: var(--text-primary);
+  font-weight: 600;
 }
 
-.activeIndicator {
+.navCursor {
   position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 20px;
-  height: 2px;
-  background: var(--accent-gradient);
+  top: 0;
+  height: 100%;
   border-radius: var(--radius-full);
+  background: var(--bg-card);
+  border: 1px solid var(--border-color-hover);
+  z-index: 0;
+  box-shadow: 0 0 12px rgba(124, 58, 237, 0.1);
 }
 
 .navActions {

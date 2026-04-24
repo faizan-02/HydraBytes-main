@@ -17,6 +17,85 @@
   line-height: 1.7;
 }
 
+.orbitSection {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem 0 0;
+  position: relative;
+}
+
+.orbitFloaters {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  position: relative;
+  height: 420px;
+  width: 200px;
+  flex-shrink: 0;
+}
+
+.floaterCard {
+  position: absolute;
+}
+
+.floaterInner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.85rem 1.15rem;
+  border-radius: 14px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color-hover);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  white-space: nowrap;
+}
+
+.floaterIcon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.floaterValue {
+  display: block;
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  line-height: 1.2;
+  font-family: var(--font-heading);
+}
+
+.floaterLabel {
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: var(--text-tertiary);
+  letter-spacing: 0.01em;
+}
+
+@media (max-width: 1024px) {
+  .orbitFloaters {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .orbitSection {
+    padding: 1rem 0 0;
+    transform: scale(0.7);
+    transform-origin: center center;
+  }
+}
+
 .altBg {
   background: var(--bg-secondary);
 }

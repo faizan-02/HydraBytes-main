@@ -1,6 +1,7 @@
 'use client';
 
 import { useRef, MouseEvent, ReactNode } from 'react';
+import { GlowingEffect } from '@/components/ui/grid-glow-effect-purple-blue';
 import styles from './SpotlightCard.module.css';
 
 interface SpotlightCardProps {
@@ -45,6 +46,17 @@ export default function SpotlightCard({
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
     >
+      <GlowingEffect
+        spread={40}
+        glow
+        disabled={false}
+        proximity={64}
+        inactiveZone={0.01}
+        borderWidth={2}
+        variant="blue-purple"
+        blur={0}
+        movementDuration={1.5}
+      />
       <div className={styles.spotlightOverlay} />
       <div className={styles.spotlightContent}>
         {children}

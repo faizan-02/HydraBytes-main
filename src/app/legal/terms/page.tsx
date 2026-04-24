@@ -1,5 +1,5 @@
 export const metadata = {
-  title: 'Terms of Service — HydraBytes',
+  title: 'Terms of Service - HydraBytes',
   alternates: { canonical: 'https://www.hydrabytes.tech/legal/terms' },
 };
 

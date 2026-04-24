@@ -31,7 +31,7 @@ export async function GET(req: NextRequest) {
 
   if (stuckAccepted.length > 0) {
     const list = stuckAccepted.map(p =>
-      `• ${escapeHtml(p.title)} — ${escapeHtml(p.user?.name ?? 'Unknown')} (${escapeHtml(p.user?.email ?? '')})`
+      `• ${escapeHtml(p.title)}: ${escapeHtml(p.user?.name ?? 'Unknown')} (${escapeHtml(p.user?.email ?? '')})`
     ).join('<br/>');
 
     await sendEmail({
@@ -74,7 +74,7 @@ export async function GET(req: NextRequest) {
   if (overdue.length > 0) {
     const list = overdue.map(p => {
       const daysOver = Math.floor((now.getTime() - (p.endDate?.getTime() ?? 0)) / (24 * 60 * 60 * 1000));
-      return `• ${escapeHtml(p.title)} — <strong style="color: #ef4444;">${daysOver}d overdue</strong> — ${escapeHtml(p.user?.name ?? 'Unknown')}`;
+      return `• ${escapeHtml(p.title)}: <strong style="color: #ef4444;">${daysOver}d overdue</strong>, ${escapeHtml(p.user?.name ?? 'Unknown')}`;
     }).join('<br/>');
 
     await sendEmail({
@@ -129,7 +129,7 @@ export async function GET(req: NextRequest) {
 
     await sendEmail({
       to: invoice.user.email,
-      subject: `Invoice due in ${daysLeft} day${daysLeft !== 1 ? 's' : ''} — ${formattedAmount}`,
+      subject: `Invoice due in ${daysLeft} day${daysLeft !== 1 ? 's' : ''}: ${formattedAmount}`,
       html: `
         <div style="font-family: Inter, sans-serif; max-width: 600px; margin: 0 auto; background: #0a0a12; color: #f0f0f5; border-radius: 12px; overflow: hidden;">
           <div style="background: linear-gradient(135deg, #7c3aed 0%, #00e5ff 100%); padding: 40px 32px; text-align: center;">
@@ -138,7 +138,7 @@ export async function GET(req: NextRequest) {
           <div style="padding: 40px 32px;">
             <p style="font-size: 16px; color: #a0a0b8; margin: 0 0 16px;">Hi ${safeClientName},</p>
             <p style="font-size: 15px; line-height: 1.7; color: #a0a0b8; margin: 0 0 24px;">
-              Just a heads-up — your invoice for <strong style="color: #f0f0f5;">${safeProjectTitle}</strong> is due in <strong style="color: #00e5ff;">${daysLeft} day${daysLeft !== 1 ? 's' : ''}</strong>.
+              Just a heads-up, your invoice for <strong style="color: #f0f0f5;">${safeProjectTitle}</strong> is due in <strong style="color: #00e5ff;">${daysLeft} day${daysLeft !== 1 ? 's' : ''}</strong>.
             </p>
             <div style="background: rgba(124,58,237,0.08); border: 1px solid rgba(124,58,237,0.2); border-radius: 10px; padding: 20px; margin-bottom: 32px; text-align: center;">
               <div style="font-size: 32px; font-weight: 800; color: #818cf8;">${formattedAmount}</div>
@@ -186,7 +186,7 @@ export async function GET(req: NextRequest) {
 
     await sendEmail({
       to: invoice.user.email,
-      subject: `Payment reminder — ${formattedAmount} overdue for ${invoice.project?.title ?? 'your project'}`,
+      subject: `Payment reminder: ${formattedAmount} overdue for ${invoice.project?.title ?? 'your project'}`,
       html: `
         <div style="font-family: Inter, sans-serif; max-width: 600px; margin: 0 auto; background: #0a0a12; color: #f0f0f5; border-radius: 12px; overflow: hidden;">
           <div style="background: linear-gradient(135deg, #f59e0b, #d97706); padding: 40px 32px; text-align: center;">

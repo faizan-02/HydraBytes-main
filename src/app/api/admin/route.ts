@@ -161,7 +161,7 @@ export async function PATCH(req: Request) {
       // Send "project accepted" email pointing to dashboard
       await sendEmail({
         to: submission.email,
-        subject: 'Great news — your HydraBytes project has been accepted!',
+        subject: 'Great news, your HydraBytes project has been accepted!',
         html: `
           <div style="font-family: Inter, sans-serif; max-width: 600px; margin: 0 auto; background: #0a0a12; color: #f0f0f5; border-radius: 12px; overflow: hidden;">
             <div style="background: linear-gradient(135deg, #7c3aed 0%, #00e5ff 100%); padding: 40px 32px; text-align: center;">
@@ -263,7 +263,7 @@ export async function PATCH(req: Request) {
       const safeProjectTitle = escapeHtml(updated.project?.title ?? 'General Services');
       await sendEmail({
         to: updated.user.email,
-        subject: `Payment Confirmed — ${formattedAmount} received`,
+        subject: `Payment Confirmed: ${formattedAmount} received`,
         html: `
           <div style="font-family: Inter, sans-serif; max-width: 600px; margin: 0 auto; background: #0a0a12; color: #f0f0f5; border-radius: 12px; overflow: hidden;">
             <div style="background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%); padding: 40px 32px; text-align: center;">
@@ -374,7 +374,7 @@ export async function POST(req: Request) {
 
   await sendEmail({
     to: user.email!,
-    subject: `Invoice from HydraBytes — ${formattedAmount}`,
+    subject: `Invoice from HydraBytes: ${formattedAmount}`,
     html: `
       <div style="font-family: Inter, sans-serif; max-width: 600px; margin: 0 auto; background: #0a0a12; color: #f0f0f5; border-radius: 12px; overflow: hidden;">
         <div style="background: linear-gradient(135deg, #7c3aed 0%, #00e5ff 100%); padding: 40px 32px; text-align: center;">

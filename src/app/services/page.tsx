@@ -3,10 +3,12 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { Globe, Smartphone, Brain, Check, ArrowRight } from 'lucide-react';
+import { Globe, Smartphone, Brain, Check, ArrowRight, Rocket, Layers, Headphones, ShieldCheck } from 'lucide-react';
 import AnimatedSection from '@/components/AnimatedSection';
 import SpotlightCard from '@/components/SpotlightCard';
 import MagneticButton from '@/components/MagneticButton';
+import OrbitingSkills from '@/components/ui/orbiting-skills';
+import { GlowingEffect } from '@/components/ui/grid-glow-effect-purple-blue';
 import styles from './services.module.css';
 
 const services = [
@@ -108,6 +110,106 @@ export default function ServicesPage() {
               that help businesses innovate, scale, and succeed.
             </p>
           </AnimatedSection>
+
+          <div className={styles.orbitSection}>
+            <div className={styles.orbitFloaters}>
+              <motion.div
+                className={styles.floaterCard}
+                initial={{ opacity: 0, x: -30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6, delay: 0.4 }}
+                style={{ top: '10%' }}
+              >
+                <motion.div
+                  animate={{ y: [0, -6, 0] }}
+                  transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
+                  className={styles.floaterInner}
+                >
+                  <GlowingEffect spread={40} glow disabled={false} proximity={300} inactiveZone={0.01} borderWidth={1.5} variant="blue-purple" blur={0} movementDuration={1.5} />
+                  <div className={styles.floaterIcon} style={{ color: '#7c3aed', background: '#7c3aed18' }}>
+                    <Rocket size={18} strokeWidth={1.8} />
+                  </div>
+                  <div>
+                    <span className={styles.floaterValue}>10+</span>
+                    <span className={styles.floaterLabel}>Projects Delivered</span>
+                  </div>
+                </motion.div>
+              </motion.div>
+
+              <motion.div
+                className={styles.floaterCard}
+                initial={{ opacity: 0, x: -30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6, delay: 0.7 }}
+                style={{ bottom: '15%' }}
+              >
+                <motion.div
+                  animate={{ y: [0, -8, 0] }}
+                  transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
+                  className={styles.floaterInner}
+                >
+                  <GlowingEffect spread={40} glow disabled={false} proximity={300} inactiveZone={0.01} borderWidth={1.5} variant="blue-purple" blur={0} movementDuration={1.5} />
+                  <div className={styles.floaterIcon} style={{ color: '#00e5ff', background: '#00e5ff18' }}>
+                    <Layers size={18} strokeWidth={1.8} />
+                  </div>
+                  <div>
+                    <span className={styles.floaterValue}>Full-Stack</span>
+                    <span className={styles.floaterLabel}>End-to-End Solutions</span>
+                  </div>
+                </motion.div>
+              </motion.div>
+            </div>
+
+            <OrbitingSkills />
+
+            <div className={styles.orbitFloaters} style={{ alignItems: 'flex-end' }}>
+              <motion.div
+                className={styles.floaterCard}
+                initial={{ opacity: 0, x: 30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6, delay: 0.5 }}
+                style={{ top: '12%' }}
+              >
+                <motion.div
+                  animate={{ y: [0, -7, 0] }}
+                  transition={{ duration: 5.5, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}
+                  className={styles.floaterInner}
+                >
+                  <GlowingEffect spread={40} glow disabled={false} proximity={300} inactiveZone={0.01} borderWidth={1.5} variant="blue-purple" blur={0} movementDuration={1.5} />
+                  <div className={styles.floaterIcon} style={{ color: '#22c55e', background: '#22c55e18' }}>
+                    <Headphones size={18} strokeWidth={1.8} />
+                  </div>
+                  <div>
+                    <span className={styles.floaterValue}>24/7</span>
+                    <span className={styles.floaterLabel}>Support Available</span>
+                  </div>
+                </motion.div>
+              </motion.div>
+
+              <motion.div
+                className={styles.floaterCard}
+                initial={{ opacity: 0, x: 30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6, delay: 0.8 }}
+                style={{ bottom: '18%' }}
+              >
+                <motion.div
+                  animate={{ y: [0, -6, 0] }}
+                  transition={{ duration: 6.5, repeat: Infinity, ease: 'easeInOut', delay: 1.5 }}
+                  className={styles.floaterInner}
+                >
+                  <GlowingEffect spread={40} glow disabled={false} proximity={300} inactiveZone={0.01} borderWidth={1.5} variant="blue-purple" blur={0} movementDuration={1.5} />
+                  <div className={styles.floaterIcon} style={{ color: '#f472b6', background: '#f472b618' }}>
+                    <ShieldCheck size={18} strokeWidth={1.8} />
+                  </div>
+                  <div>
+                    <span className={styles.floaterValue}>NDA</span>
+                    <span className={styles.floaterLabel}>Protected Process</span>
+                  </div>
+                </motion.div>
+              </motion.div>
+            </div>
+          </div>
         </div>
       </section>
 

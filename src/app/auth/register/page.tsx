@@ -4,9 +4,8 @@ import { useState, Suspense } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { signIn } from 'next-auth/react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence, useMotionValue, useTransform } from 'framer-motion';
 import { Mail, Lock, User, Eye, EyeOff, ArrowRight } from 'lucide-react';
-import MagneticButton from '@/components/MagneticButton';
 import { capturePostHogEvent } from '@/components/PostHogProvider';
 import styles from '../signin/signin.module.css';
 
@@ -19,100 +18,205 @@ function RegisterForm() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [focusedInput, setFocusedInput] = useState<string | null>(null);
+
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+  const rotateX = useTransform(mouseY, [-300, 300], [8, -8]);
+  const rotateY = useTransform(mouseX, [-300, 300], [-8, 8]);
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    mouseX.set(e.clientX - rect.left - rect.width / 2);
+    mouseY.set(e.clientY - rect.top - rect.height / 2);
+  };
+
+  const handleMouseLeave = () => {
+    mouseX.set(0);
+    mouseY.set(0);
+  };
 
   return (
     <div className={styles.page}>
       <div className={styles.backdrop}>
         <div className={styles.blob1} />
         <div className={styles.blob2} />
+        <div className={styles.blob3} />
       </div>
 
+      <div className={styles.glowSpot1} />
+      <div className={styles.glowSpot2} />
+
       <motion.div
-        className={styles.card}
-        initial={{ opacity: 0, y: 30 }}
+        initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, ease: [0.25, 0.4, 0.25, 1] }}
+        transition={{ duration: 0.8 }}
+        className={styles.cardPerspective}
+        style={{ perspective: 1500 }}
       >
-        <Link href="/" className={styles.logo}>
-          <div style={{ width: '180px', height: '86px', overflow: 'hidden', position: 'relative', margin: '0 auto' }}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/transparent.png" alt="HydraBytes" style={{ position: 'absolute', width: '226px', top: '-55px', left: '50%', transform: 'translateX(-50%)' }} />
-          </div>
-        </Link>
-
-        <h1 className={styles.title}>Create Account</h1>
-        <p className={styles.subtitle}>Join HydraBytes today</p>
-
-        <form className={styles.form} onSubmit={async (e) => {
-          e.preventDefault();
-          setIsLoading(true);
-          setError(null);
-          const res = await fetch('/api/auth/register', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ name, email, password }),
-          });
-          const data = await res.json();
-          setIsLoading(false);
-          if (!res.ok) {
-            setError(data.error);
-          } else {
-            capturePostHogEvent('account_registered', { method: 'email' });
-            router.push(`/auth/verify?email=${encodeURIComponent(email)}`);
-          }
-        }}>
-          <div className={styles.field}>
-            <label className={styles.label}>Full Name</label>
-            <div className={styles.inputWrap}>
-              <User size={16} className={styles.inputIcon} />
-              <input type="text" placeholder="John Doe" className={styles.input} value={name} onChange={(e) => setName(e.target.value)} />
+        <motion.div
+          style={{ rotateX, rotateY }}
+          onMouseMove={handleMouseMove}
+          onMouseLeave={handleMouseLeave}
+          whileHover={{ z: 10 }}
+          className={styles.cardWrapper}
+        >
+          <div className={styles.card}>
+            <div className={styles.beamContainer}>
+              <motion.div
+                className={styles.beamTop}
+                animate={{ left: ['-50%', '100%'] }}
+                transition={{ duration: 2.5, ease: 'easeInOut', repeat: Infinity, repeatDelay: 1 }}
+              />
+              <motion.div
+                className={styles.beamRight}
+                animate={{ top: ['-50%', '100%'] }}
+                transition={{ duration: 2.5, ease: 'easeInOut', repeat: Infinity, repeatDelay: 1, delay: 0.6 }}
+              />
+              <motion.div
+                className={styles.beamBottom}
+                animate={{ right: ['-50%', '100%'] }}
+                transition={{ duration: 2.5, ease: 'easeInOut', repeat: Infinity, repeatDelay: 1, delay: 1.2 }}
+              />
+              <motion.div
+                className={styles.beamLeft}
+                animate={{ bottom: ['-50%', '100%'] }}
+                transition={{ duration: 2.5, ease: 'easeInOut', repeat: Infinity, repeatDelay: 1, delay: 1.8 }}
+              />
             </div>
+
+            <Link href="/" className={styles.logo}>
+              <div style={{ width: '180px', height: '86px', overflow: 'hidden', position: 'relative', margin: '0 auto' }}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src="/transparent.png" alt="HydraBytes" style={{ position: 'absolute', width: '226px', top: '-55px', left: '50%', transform: 'translateX(-50%)' }} />
+              </div>
+            </Link>
+
+            <h1 className={styles.title}>Create Account</h1>
+            <p className={styles.subtitle}>Join HydraBytes today</p>
+
+            <form className={styles.form} onSubmit={async (e) => {
+              e.preventDefault();
+              setIsLoading(true);
+              setError(null);
+              const res = await fetch('/api/auth/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name, email, password }),
+              });
+              const data = await res.json();
+              setIsLoading(false);
+              if (!res.ok) {
+                setError(data.error);
+              } else {
+                capturePostHogEvent('account_registered', { method: 'email' });
+                router.push(`/auth/verify?email=${encodeURIComponent(email)}`);
+              }
+            }}>
+              <div className={styles.inputGroup}>
+                <div className={`${styles.inputWrap} ${focusedInput === 'name' ? styles.inputFocused : ''}`}>
+                  <User size={16} className={styles.inputIcon} />
+                  <input
+                    type="text"
+                    placeholder="Full name"
+                    className={styles.input}
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    onFocus={() => setFocusedInput('name')}
+                    onBlur={() => setFocusedInput(null)}
+                  />
+                </div>
+
+                <div className={`${styles.inputWrap} ${focusedInput === 'email' ? styles.inputFocused : ''}`}>
+                  <Mail size={16} className={styles.inputIcon} />
+                  <input
+                    type="email"
+                    placeholder="Email address"
+                    className={styles.input}
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    onFocus={() => setFocusedInput('email')}
+                    onBlur={() => setFocusedInput(null)}
+                  />
+                </div>
+
+                <div className={`${styles.inputWrap} ${focusedInput === 'password' ? styles.inputFocused : ''}`}>
+                  <Lock size={16} className={styles.inputIcon} />
+                  <input
+                    type={showPassword ? 'text' : 'password'}
+                    placeholder="Password (min. 8 characters)"
+                    className={styles.input}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    onFocus={() => setFocusedInput('password')}
+                    onBlur={() => setFocusedInput(null)}
+                  />
+                  <button
+                    type="button"
+                    className={styles.eyeBtn}
+                    onClick={() => setShowPassword(!showPassword)}
+                    aria-label="Toggle password"
+                  >
+                    {showPassword ? <Eye size={15} /> : <EyeOff size={15} />}
+                  </button>
+                </div>
+              </div>
+
+              {error && <p className={styles.errorMsg}>{error.replace('SUCCESS: ', '')}</p>}
+
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                type="submit"
+                className={styles.submitBtn}
+                disabled={isLoading}
+              >
+                <AnimatePresence mode="wait">
+                  {isLoading ? (
+                    <motion.div key="loading" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+                      <div className={styles.spinner} />
+                    </motion.div>
+                  ) : (
+                    <motion.span key="text" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className={styles.submitBtnText}>
+                      Create Account
+                      <ArrowRight size={14} />
+                    </motion.span>
+                  )}
+                </AnimatePresence>
+              </motion.button>
+
+              <div className={styles.divider}><span>or sign up with</span></div>
+
+              <div className={styles.socials}>
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  type="button"
+                  className={styles.socialBtn}
+                  onClick={() => signIn('google', { callbackUrl: '/' })}
+                >
+                  <svg width="16" height="16" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+                  Google
+                </motion.button>
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  type="button"
+                  className={styles.socialBtn}
+                  onClick={() => signIn('github', { callbackUrl: '/' })}
+                >
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+                  GitHub
+                </motion.button>
+              </div>
+
+              <p className={styles.switchText}>
+                Already have an account?{' '}
+                <Link href="/auth/signin" className={styles.switchLink}>Sign in</Link>
+              </p>
+            </form>
           </div>
-
-          <div className={styles.field}>
-            <label className={styles.label}>Email</label>
-            <div className={styles.inputWrap}>
-              <Mail size={16} className={styles.inputIcon} />
-              <input type="email" placeholder="you@example.com" className={styles.input} value={email} onChange={(e) => setEmail(e.target.value)} />
-            </div>
-          </div>
-
-          <div className={styles.field}>
-            <label className={styles.label}>Password</label>
-            <div className={styles.inputWrap}>
-              <Lock size={16} className={styles.inputIcon} />
-              <input type={showPassword ? 'text' : 'password'} placeholder="Min. 8 characters" className={styles.input} value={password} onChange={(e) => setPassword(e.target.value)} />
-              <button type="button" className={styles.eyeBtn} onClick={() => setShowPassword(!showPassword)} aria-label="Toggle password">
-                {showPassword ? <EyeOff size={15} /> : <Eye size={15} />}
-              </button>
-            </div>
-          </div>
-
-          {error && <p style={{ color: error.startsWith('SUCCESS:') ? '#22c55e' : '#ef4444', fontSize: '14px', marginTop: '-8px' }}>{error.replace('SUCCESS: ', '')}</p>}
-          <MagneticButton>
-            <button type="submit" className={`btn btn-primary ${styles.submitBtn}`} disabled={isLoading}>
-              {isLoading ? 'Creating account...' : <>Create Account <ArrowRight size={16} /></>}
-            </button>
-          </MagneticButton>
-        </form>
-
-        <div className={styles.divider}><span>or sign up with</span></div>
-
-        <div className={styles.socials}>
-          <button className={styles.socialBtn} onClick={() => signIn('google', { callbackUrl: '/' })}>
-            <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
-            Google
-          </button>
-          <button className={styles.socialBtn} onClick={() => signIn('github', { callbackUrl: '/' })}>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
-            GitHub
-          </button>
-        </div>
-
-        <p className={styles.switchText}>
-          Already have an account?{' '}
-          <Link href="/auth/signin" className={styles.switchLink}>Sign in &rarr;</Link>
-        </p>
+        </motion.div>
       </motion.div>
     </div>
   );

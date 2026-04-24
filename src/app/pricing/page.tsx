@@ -5,8 +5,11 @@ import Link from 'next/link';
 import { Check, ArrowRight, Globe, Smartphone, Brain, ChevronDown, Clock } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import AnimatedSection from '@/components/AnimatedSection';
+import SpotlightCard from '@/components/SpotlightCard';
 import MagneticButton from '@/components/MagneticButton';
 import FloatingParticles from '@/components/FloatingParticles';
+import { VerticalCutReveal } from '@/components/ui/vertical-cut-reveal';
+import { Sparkles } from '@/components/ui/sparkles';
 import styles from './pricing.module.css';
 
 type CategoryId = 'web' | 'app' | 'ai';
@@ -241,7 +244,10 @@ export default function PricingPage() {
           <AnimatedSection>
             <span className="section-label">Pricing</span>
             <h1 className={styles.heroTitle}>
-              Simple, Transparent <span className="gradient-text">Pricing</span>
+              <VerticalCutReveal>Simple, Transparent</VerticalCutReveal>
+              <Sparkles count={8} color="rgba(124, 58, 237, 0.5)" size={2.5}>
+                <span className="gradient-text">Pricing</span>
+              </Sparkles>
             </h1>
             <p className={styles.heroSubtitle}>
               Choose the perfect plan for your business. Every project includes a free consultation with no commitment required.
@@ -281,50 +287,61 @@ export default function PricingPage() {
               transition={{ duration: 0.22 }}
             >
               {activePlans.map((plan) => (
-                <div
+                <SpotlightCard
                   key={plan.name}
                   className={`${styles.planCard} ${plan.popular ? styles.popularCard : ''}`}
+                  spotlightColor={plan.popular ? 'rgba(124, 58, 237, 0.2)' : 'rgba(0, 229, 255, 0.15)'}
                 >
-                  {plan.popular && <span className={styles.popularBadge}>Most Popular</span>}
+                  <div className={styles.planCardInner}>
+                    {plan.popular && <span className={styles.popularBadge}>Most Popular</span>}
 
-                  <div className={styles.planHeader}>
-                    <h3 className={styles.planName}>{plan.name}</h3>
-                    {plan.delivery && (
-                      <span className={styles.deliveryTag}>
-                        <Clock size={11} strokeWidth={2} />
-                        {plan.delivery}
-                      </span>
-                    )}
-                  </div>
-
-                  <div className={styles.planPrice}>{plan.price}</div>
-                  <p className={styles.planDesc}>{plan.desc}</p>
-
-                  <div className={styles.divider} />
-
-                  <ul className={styles.featureList}>
-                    {plan.features.map((f) => (
-                      <li key={f} className={styles.featureItem}>
-                        <span className={`${styles.checkCircle} ${plan.popular ? styles.checkPopular : ''}`}>
-                          <Check size={11} strokeWidth={3} />
+                    <div className={styles.planHeader}>
+                      <h3 className={styles.planName}>{plan.name}</h3>
+                      {plan.delivery && (
+                        <span className={styles.deliveryTag}>
+                          <Clock size={11} strokeWidth={2} />
+                          {plan.delivery}
                         </span>
-                        {f}
-                      </li>
-                    ))}
-                  </ul>
+                      )}
+                    </div>
 
-                  <div className={styles.ctaGroup}>
-                    <MagneticButton>
-                      <Link
-                        href={`/contact?service=${plan.serviceParam}`}
-                        className={`btn ${plan.popular ? 'btn-primary' : 'btn-secondary'}`}
-                        style={{ width: '100%', justifyContent: 'center' }}
-                      >
-                        {plan.cta} <ArrowRight size={15} />
-                      </Link>
-                    </MagneticButton>
+                    <motion.div
+                      className={styles.planPrice}
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      whileInView={{ opacity: 1, scale: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.5, delay: 0.1, ease: [0.25, 0.4, 0.25, 1] }}
+                    >
+                      {plan.price}
+                    </motion.div>
+                    <p className={styles.planDesc}>{plan.desc}</p>
+
+                    <div className={styles.divider} />
+
+                    <ul className={styles.featureList}>
+                      {plan.features.map((f) => (
+                        <li key={f} className={styles.featureItem}>
+                          <span className={`${styles.checkCircle} ${plan.popular ? styles.checkPopular : ''}`}>
+                            <Check size={11} strokeWidth={3} />
+                          </span>
+                          {f}
+                        </li>
+                      ))}
+                    </ul>
+
+                    <div className={styles.ctaGroup}>
+                      <MagneticButton>
+                        <Link
+                          href={`/contact?service=${plan.serviceParam}`}
+                          className={`btn ${plan.popular ? 'btn-primary' : 'btn-secondary'}`}
+                          style={{ width: '100%', justifyContent: 'center' }}
+                        >
+                          {plan.cta} <ArrowRight size={15} />
+                        </Link>
+                      </MagneticButton>
+                    </div>
                   </div>
-                </div>
+                </SpotlightCard>
               ))}
             </motion.div>
           </AnimatePresence>

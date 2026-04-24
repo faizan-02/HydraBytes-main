@@ -2,18 +2,28 @@
 
 import { useRef, useEffect, useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import {
   Globe, Smartphone, Brain, Zap, Shield, TrendingUp,
   Palette, Bot, RefreshCw, ArrowRight, Clock, Star, Award,
 } from 'lucide-react';
 import AnimatedSection from '@/components/AnimatedSection';
-import SpotlightCard from '@/components/SpotlightCard';
 import AnimatedCounter from '@/components/AnimatedCounter';
+import SpotlightCard from '@/components/SpotlightCard';
 import GradientText from '@/components/GradientText';
 import FloatingParticles from '@/components/FloatingParticles';
 import MagneticButton from '@/components/MagneticButton';
+import { BlurFade } from '@/components/BlurFade';
+import { CircularGallery } from '@/components/ui/circular-gallery';
+import LogoLoop from '@/components/ui/LogoLoop';
 import { useTheme } from '@/lib/ThemeContext';
+import {
+  SiReact, SiNextdotjs, SiPython, SiNodedotjs,
+  SiDocker, SiFirebase, SiTensorflow,
+  SiFigma, SiVercel, SiGithub, SiMongodb,
+} from 'react-icons/si';
+import { FaAws } from 'react-icons/fa';
 import styles from './page.module.css';
 
 const techChips = [
@@ -24,24 +34,63 @@ const techChips = [
   { label: 'AI / ML',    color: '#f472b6', lightColor: '#be185d', style: { top: '42%',   right: '4%' }, delay: 1.2 },
 ];
 
+const techLogos = [
+  { node: <SiReact />, title: 'React' },
+  { node: <SiNextdotjs />, title: 'Next.js' },
+  { node: <SiPython />, title: 'Python' },
+  { node: <SiNodedotjs />, title: 'Node.js' },
+  { node: <SiDocker />, title: 'Docker' },
+  { node: <FaAws />, title: 'AWS' },
+  { node: <SiFirebase />, title: 'Firebase' },
+  { node: <SiTensorflow />, title: 'TensorFlow' },
+  { node: <SiFigma />, title: 'Figma' },
+  { node: <SiVercel />, title: 'Vercel' },
+  { node: <SiGithub />, title: 'GitHub' },
+  { node: <SiMongodb />, title: 'MongoDB' },
+];
+
 const services = [
   {
     icon: Globe,
     title: 'Web Development',
     desc: 'High-performance websites and web apps built with cutting-edge frameworks, optimized for speed, SEO, and scalability.',
     color: '#7c3aed',
+    tags: ['NEXT.JS', 'REACT', 'TYPESCRIPT', 'NODE.JS', 'TAILWIND CSS'],
   },
   {
     icon: Smartphone,
     title: 'App Development',
     desc: 'Native and cross-platform mobile applications that deliver seamless experiences across iOS and Android.',
     color: '#00e5ff',
+    tags: ['REACT NATIVE', 'TYPESCRIPT', 'FIREBASE', 'EXPO', 'REST APIS'],
   },
   {
     icon: Brain,
     title: 'AI & ML Solutions',
     desc: 'Intelligent automation, predictive analytics, and custom AI models that transform your data into actionable insights.',
     color: '#f472b6',
+    tags: ['PYTHON', 'PYTORCH', 'TENSORFLOW', 'LLM INTEGRATION', 'COMPUTER VISION'],
+  },
+  {
+    icon: Zap,
+    title: 'Cloud & DevOps Engineering',
+    desc: 'Production infrastructure built for scale, security, and uptime. We deploy and manage applications using modern cloud and DevOps practices.',
+    color: '#f59e0b',
+    tags: ['AWS', 'DOCKER', 'CI/CD', 'KUBERNETES', 'MONITORING'],
+  },
+  {
+    icon: Shield,
+    title: 'API Development & Integration',
+    desc: 'Reliable APIs and seamless integration across complex systems. We build secure, well-documented APIs and integrate third-party services.',
+    color: '#22c55e',
+    tags: ['REST & GRAPHQL', 'API DESIGN', 'SYSTEM INTEGRATION', 'MICROSERVICES'],
+  },
+  {
+    icon: Bot,
+    title: 'Product Engineering & Consulting',
+    desc: 'Engineering leadership from idea to production scale. We partner with teams to define architecture, validate technical decisions, and ship products.',
+    color: '#ef4444',
+    tags: ['ARCHITECTURE', 'CODE REVIEW', 'TECH STRATEGY', 'SCALABILITY'],
   },
 ];
 
@@ -50,6 +99,57 @@ const stats = [
   { value: '5+', label: 'Countries Reached' },
   { value: '99%', label: 'Client Satisfaction' },
   { value: '24/7', label: 'Support Available' },
+];
+
+const featuredProjects = [
+  {
+    title: 'OptiPro: Retinal Disease Detection',
+    category: 'AI/ML',
+    desc: 'End-to-end AI-powered retinal disease detection platform for clinical support with Grad-CAM visualization.',
+    tech: ['PyTorch', 'ResNet-101', 'Flask'],
+    color: '#00e5ff',
+    image: '/portfolio/optipro.png',
+  },
+  {
+    title: 'AI Voice Chat Agent',
+    category: 'AI/ML',
+    desc: 'Real-time voice conversation platform with 104+ AI characters using OpenAI GPT, TTS, and WebRTC.',
+    tech: ['FastAPI', 'WebSockets', 'OpenAI'],
+    color: '#7c3aed',
+    image: '/portfolio/ai-voice-agent.png',
+  },
+  {
+    title: 'Safe-Sawar: Women-First Carpooling',
+    category: 'Mobile',
+    desc: 'Pakistan\'s first NADRA-verified women-first carpooling platform with live ride tracking.',
+    tech: ['React Native', 'TypeScript', 'Firebase'],
+    color: '#22c55e',
+    image: '/portfolio/safe-sawar.png',
+  },
+  {
+    title: 'AI Student Stress Management',
+    category: 'AI/ML',
+    desc: 'AI-based platform that detects and helps reduce student stress using machine learning.',
+    tech: ['Python', 'Machine Learning', 'React'],
+    color: '#f472b6',
+    image: '/portfolio/stress-mgmt.png',
+  },
+  {
+    title: 'Lung Cancer Image Classifier',
+    category: 'AI/ML',
+    desc: 'CNN-based histopathology classifier for lung tissue images.',
+    tech: ['TensorFlow', 'Keras', 'CNN'],
+    color: '#ef4444',
+    image: '/portfolio/lung-cancer.png',
+  },
+  {
+    title: 'Flight Reservation System',
+    category: 'Web',
+    desc: 'Full-stack flight reservation platform with SQL Server stored procedures.',
+    tech: ['Python', 'Flask', 'SQL Server'],
+    color: '#38bdf8',
+    image: '/portfolio/flight-reservation.png',
+  },
 ];
 
 const clientCommitments = [
@@ -113,6 +213,48 @@ function RotatingWord() {
   );
 }
 
+function PortfolioGrid() {
+  return (
+    <div className={styles.portfolioGrid}>
+      {featuredProjects.map((project, i) => (
+        <motion.div
+          key={project.title}
+          className={styles.portfolioItem}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: i * 0.1 }}
+        >
+          <div className={styles.portfolioImage}>
+            <Image
+              src={project.image}
+              alt={project.title}
+              fill
+              style={{ objectFit: 'cover' }}
+              sizes="(max-width: 768px) 100vw, 33vw"
+            />
+            <div className={styles.portfolioOverlay}>
+              <span
+                className={styles.portfolioCategory}
+                style={{ borderColor: `${project.color}40`, color: project.color }}
+              >
+                {project.category}
+              </span>
+              <h3 className={styles.portfolioTitle}>{project.title}</h3>
+              <p className={styles.portfolioDesc}>{project.desc}</p>
+              <div className={styles.portfolioTech}>
+                {project.tech.map((t) => (
+                  <span key={t} className={styles.portfolioTag}>{t}</span>
+                ))}
+              </div>
+            </div>
+          </div>
+        </motion.div>
+      ))}
+    </div>
+  );
+}
+
 export default function HomePage() {
   const { theme } = useTheme();
   const heroRef = useRef<HTMLElement>(null);
@@ -145,13 +287,10 @@ export default function HomePage() {
       {/* ===== HERO SECTION ===== */}
       <section ref={heroRef} className={styles.hero}>
         <div className={styles.heroBackdrop}>
-          {/* Aurora blobs — with scroll parallax */}
           <motion.div className={`${styles.auroraBlob} ${styles.auroraBlob1}`} style={{ y: blob1Y }} />
           <motion.div className={`${styles.auroraBlob} ${styles.auroraBlob2}`} style={{ y: blob2Y }} />
           <motion.div className={`${styles.auroraBlob} ${styles.auroraBlob3}`} style={{ y: blob3Y }} />
-          {/* Floating particles */}
           <FloatingParticles />
-          {/* Floating tech chips */}
           <div className={styles.floatingChips}>
             {techChips.map((chip) => {
               const chipColor = theme === 'light' ? chip.lightColor : chip.color;
@@ -206,9 +345,9 @@ export default function HomePage() {
             })}
           </div>
         </div>
-        {/* Mouse-tracking spotlight */}
+
         <div ref={spotlightRef} className={styles.heroSpotlight} />
-        {/* Floating live stats widget */}
+
         <motion.div
           className={styles.liveStatsWidget}
           style={{
@@ -244,7 +383,6 @@ export default function HomePage() {
               }} />
               <span style={{ fontSize: '0.7rem', fontWeight: 600, color: '#22c55e' }}>Live</span>
             </div>
-            {/* Decorative sparkline */}
             <svg
               viewBox="0 0 120 24"
               style={{ width: 120, height: 24, marginBottom: '0.6rem', overflow: 'visible' }}
@@ -286,6 +424,7 @@ export default function HomePage() {
             ))}
           </motion.div>
         </motion.div>
+
         <div className={`container ${styles.heroContainer}`}>
           <AnimatedSection>
             <div className={styles.heroBadge}>
@@ -377,19 +516,50 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* ===== TECH STACK MARQUEE ===== */}
+      <section className={styles.techMarqueeSection}>
+        <BlurFade delay={0} duration={0.8} inView blur="4px">
+          <LogoLoop
+            logos={techLogos}
+            speed={80}
+            direction="left"
+            logoHeight={52}
+            gap={80}
+            hoverSpeed={20}
+            scaleOnHover
+            fadeOut={false}
+            ariaLabel="Technology stack"
+          />
+        </BlurFade>
+      </section>
+
+      {/* ===== ABOUT STATEMENT ===== */}
+      <section className={styles.aboutStatement}>
+        <div className="container">
+          <BlurFade delay={0} duration={0.8} inView blur="10px" yOffset={10}>
+            <p className={styles.aboutText}>
+              From AI systems and intelligent applications to cloud infrastructure and
+              production monitoring, we deliver comprehensive engineering solutions.
+              Our expertise spans the entire development lifecycle from architecture
+              and development to deployment, integration, and ongoing optimization.
+            </p>
+          </BlurFade>
+        </div>
+      </section>
+
       {/* ===== SERVICES SECTION ===== */}
       <section className="section" id="services">
         <div className="container">
-          <AnimatedSection>
+          <BlurFade delay={0} duration={0.6} inView blur="8px">
             <div className="section-header">
-              <span className="section-label">What We Do</span>
+              <span className="section-label-badge">What We Do</span>
               <h2 className="section-title">Services Built for the Future</h2>
               <p className="section-subtitle">
                 We combine technical mastery with creative innovation to deliver
                 solutions that set you apart from the competition.
               </p>
             </div>
-          </AnimatedSection>
+          </BlurFade>
 
           <div className={styles.servicesGrid}>
             {services.map((service, i) => (
@@ -408,9 +578,13 @@ export default function HomePage() {
                     </div>
                     <h3 className={styles.serviceTitle}>{service.title}</h3>
                     <p className={styles.serviceDesc}>{service.desc}</p>
-                    <Link href="/services" className={styles.serviceLink}>
-                      Learn More <ArrowRight size={16} />
-                    </Link>
+                    <div className={styles.serviceTags}>
+                      {service.tags.map((tag) => (
+                        <span key={tag} className={styles.serviceTag} style={{ borderColor: `${service.color}30`, color: 'var(--text-secondary)' }}>
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
                   </motion.div>
                 </SpotlightCard>
               </AnimatedSection>
@@ -435,19 +609,49 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* ===== FEATURED PROJECTS - Circular 3D Gallery ===== */}
+      <section className="section" style={{ position: 'relative', overflow: 'hidden' }}>
+        <div className="container">
+          <BlurFade delay={0} duration={0.6} inView blur="8px">
+            <div className="section-header">
+              <span className="section-label-badge">Featured Solutions</span>
+              <h2 className="section-title">
+                Production-ready solutions that{' '}
+                <GradientText>deliver results.</GradientText>
+              </h2>
+              <p className="section-subtitle">
+                Explore our portfolio of web, mobile, and AI projects. Each solution is built
+                with precision, optimized for performance, and designed to scale.
+              </p>
+            </div>
+          </BlurFade>
+
+          <CircularGallery items={featuredProjects} />
+
+          <div style={{ textAlign: 'center', marginTop: '2.5rem' }}>
+            <MagneticButton>
+              <Link href="/portfolio" className="btn btn-secondary">
+                View All Projects
+                <ArrowRight size={16} />
+              </Link>
+            </MagneticButton>
+          </div>
+        </div>
+      </section>
+
       {/* ===== WHY CHOOSE US ===== */}
       <section className="section">
         <div className="container">
-          <AnimatedSection>
+          <BlurFade delay={0} duration={0.6} inView blur="8px">
             <div className="section-header">
-              <span className="section-label">Why HydraBytes</span>
+              <span className="section-label-badge">Why HydraBytes</span>
               <h2 className="section-title">The HydraBytes Advantage</h2>
               <p className="section-subtitle">
                 We don&apos;t just write code. We engineer digital experiences that
                 drive measurable business results.
               </p>
             </div>
-          </AnimatedSection>
+          </BlurFade>
 
           <div className={styles.advantagesGrid}>
             {advantages.map((item, i) => (
@@ -474,16 +678,16 @@ export default function HomePage() {
       {/* ===== CLIENT COMMITMENTS ===== */}
       <section className="section" style={{ background: 'var(--bg-secondary)' }}>
         <div className="container">
-          <AnimatedSection>
+          <BlurFade delay={0} duration={0.6} inView blur="8px">
             <div className="section-header">
-              <span className="section-label">Our Commitment</span>
+              <span className="section-label-badge">Our Commitment</span>
               <h2 className="section-title">What We Guarantee</h2>
               <p className="section-subtitle">
                 Every project comes with these non-negotiable commitments,
                 built into our process from day one.
               </p>
             </div>
-          </AnimatedSection>
+          </BlurFade>
 
           <div className={styles.testimonialsGrid}>
             {clientCommitments.map((item, i) => (
@@ -534,18 +738,17 @@ export default function HomePage() {
                 </Link>
               </div>
 
-              {/* Trust line */}
               <p className={styles.ctaTrust}>
                 Free consultation &middot; No commitment &middot; Response within 24 hours
               </p>
               <p className={styles.ctaCallLink}>
                 Prefer to talk directly?{' '}
                 <Link href="/contact" className={styles.ctaCallLinkAnchor}>
-                  Book a 30-min call →
+                  Book a 30-min call
+                  <ArrowRight size={12} style={{ display: 'inline', verticalAlign: 'middle', marginLeft: 4 }} />
                 </Link>
               </p>
 
-              {/* Trust badges */}
               <div className={styles.ctaBadges}>
                 {[
                   { icon: <Shield size={13} strokeWidth={1.8} />, label: 'NDA Protected' },

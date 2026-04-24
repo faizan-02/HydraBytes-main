@@ -1,6 +1,5 @@
 .spotlightCard {
   position: relative;
-  overflow: hidden;
   border-radius: var(--radius-lg);
   background: var(--bg-card);
   border: 1px solid var(--border-color);
@@ -12,7 +11,7 @@
 
 .spotlightCard:hover {
   border-color: var(--border-color-hover);
-  box-shadow: var(--shadow-glow);
+  box-shadow: 0 0 30px rgba(0, 229, 255, 0.08), var(--shadow-glow);
 }
 
 .spotlightOverlay {
@@ -27,6 +26,7 @@
     transparent 40%
   );
   z-index: 1;
+  border-radius: inherit;
 }
 
 .spotlightCard:hover .spotlightOverlay {

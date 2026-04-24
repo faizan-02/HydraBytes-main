@@ -229,7 +229,7 @@ export default function DashboardPage() {
                     <div style={{ marginTop: '16px', padding: '20px', background: 'rgba(99,102,241,0.06)', border: '1px solid rgba(99,102,241,0.2)', borderRadius: '12px' }}>
                       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px', marginBottom: '16px' }}>
                         <div>
-                          <p style={{ margin: '0 0 4px', fontSize: '14px', fontWeight: 600, color: '#a5b4fc', display: 'flex', alignItems: 'center', gap: 6 }}><CheckCircle size={15} /> Project Complete — Payment Required</p>
+                          <p style={{ margin: '0 0 4px', fontSize: '14px', fontWeight: 600, color: '#a5b4fc', display: 'flex', alignItems: 'center', gap: 6 }}><CheckCircle size={15} /> Project Complete: Payment Required</p>
                           <p style={{ margin: 0, fontSize: '13px', color: 'var(--muted, #9ca3af)' }}>
                             Amount due: <strong style={{ color: '#f0f0f5' }}>${pendingInvoice.amount.toLocaleString()}</strong>
                             {pendingInvoice.dueDate && ` · Due ${new Date(pendingInvoice.dueDate).toLocaleDateString()}`}
@@ -250,7 +250,7 @@ export default function DashboardPage() {
 
                   {project.status === 'completed' && invoices.some(i => i.projectId === project.id && i.status === 'paid') && (
                     <div style={{ marginTop: '16px', padding: '14px 16px', background: 'rgba(74,222,128,0.06)', border: '1px solid rgba(74,222,128,0.15)', borderRadius: '10px', fontSize: '13px', color: '#4ade80' }}>
-                      <CheckCircle size={13} style={{ display: 'inline', marginRight: 6, verticalAlign: 'middle' }} /> Payment received — thank you! We hope to work with you again.
+                      <CheckCircle size={13} style={{ display: 'inline', marginRight: 6, verticalAlign: 'middle' }} /> Payment received, thank you! We hope to work with you again.
                     </div>
                   )}
 

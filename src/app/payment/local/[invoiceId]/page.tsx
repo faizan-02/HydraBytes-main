@@ -33,7 +33,7 @@ const INTERNATIONAL_METHODS = [
       { label: 'Network', value: 'TRON (TRC20)' },
       { label: 'Wallet Address', value: 'TMwcAY6Qi23Crsm4YEuVpS2BKTmWaMNMgr' },
     ],
-    instructions: 'Send USDT on the TRC20 (TRON) network only. Do NOT send on ERC20 or BEP20 — funds will be lost. After sending, enter the transaction hash below.',
+    instructions: 'Send USDT on the TRC20 (TRON) network only. Do NOT send on ERC20 or BEP20, funds will be lost. After sending, enter the transaction hash below.',
   },
 ];
 // ─── LOCAL PAYMENT METHODS ────────────────────────────────────────────────────
