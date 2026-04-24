@@ -96,8 +96,8 @@ const services = [
 
 const stats = [
   { value: '10+', label: 'Projects Delivered' },
-  { value: '5+', label: 'Countries Reached' },
-  { value: '99%', label: 'Client Satisfaction' },
+  { value: '3+', label: 'Technologies Per Stack' },
+  { value: '100%', label: 'On-Time Delivery' },
   { value: '24/7', label: 'Support Available' },
 ];
 

@@ -19,6 +19,30 @@ interface CircularGalleryProps {
   items: GalleryItem[];
 }
 
+function useResponsiveValues() {
+  const [values, setValues] = useState({ cardW: 360, cardH: 520, radius: 520, viewH: 580, isMobile: false });
+
+  useEffect(() => {
+    const update = () => {
+      const w = window.innerWidth;
+      if (w < 480) {
+        setValues({ cardW: 260, cardH: 420, radius: 280, viewH: 470, isMobile: true });
+      } else if (w < 768) {
+        setValues({ cardW: 300, cardH: 460, radius: 360, viewH: 510, isMobile: true });
+      } else if (w < 1024) {
+        setValues({ cardW: 340, cardH: 500, radius: 440, viewH: 550, isMobile: false });
+      } else {
+        setValues({ cardW: 360, cardH: 520, radius: 520, viewH: 580, isMobile: false });
+      }
+    };
+    update();
+    window.addEventListener('resize', update);
+    return () => window.removeEventListener('resize', update);
+  }, []);
+
+  return values;
+}
+
 const GLOW_CSS = `
 @property --gc-hue { syntax: "<number>"; inherits: true; initial-value: 0; }
 @property --gc-rotate { syntax: "<number>"; inherits: true; initial-value: 0; }
@@ -31,7 +55,7 @@ const GLOW_CSS = `
 .gc-wrap {
   position: relative;
   width: 100%;
-  height: 520px;
+  height: 100%;
 }
 
 .gc-glow-orb {
@@ -108,12 +132,17 @@ const GLOW_CSS = `
   from { --gc-hue: 0; }
   to { --gc-hue: 360; }
 }
+
+@media (max-width: 768px) {
+  .gc-glow-orb { display: none; }
+}
 `;
 
-function GalleryCard({ item }: { item: GalleryItem }) {
+function GalleryCard({ item, cardH, isMobile }: { item: GalleryItem; cardH: number; isMobile: boolean }) {
   const innerRef = useRef<HTMLDivElement>(null);
 
   const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
+    if (isMobile) return;
     const el = innerRef.current;
     if (!el) return;
     const rect = el.getBoundingClientRect();
@@ -131,6 +160,7 @@ function GalleryCard({ item }: { item: GalleryItem }) {
   };
 
   const handleMouseLeave = () => {
+    if (isMobile) return;
     const el = innerRef.current;
     if (!el) return;
     el.style.transform = 'perspective(800px) rotateX(0deg) rotateY(0deg) scale(1)';
@@ -140,7 +170,7 @@ function GalleryCard({ item }: { item: GalleryItem }) {
 
   return (
     <div className="gc-wrap">
-      <span className="gc-glow-orb" />
+      {!isMobile && <span className="gc-glow-orb" />}
 
       <div
         ref={innerRef}
@@ -148,28 +178,30 @@ function GalleryCard({ item }: { item: GalleryItem }) {
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
         style={{
-          borderRadius: '20px',
+          borderRadius: isMobile ? '16px' : '20px',
           overflow: 'hidden',
           background: 'var(--bg-secondary, #12121e)',
           border: `1px solid ${item.color}20`,
           boxShadow: `0 15px 40px rgba(0,0,0,0.25), 0 0 20px ${item.color}08`,
           display: 'flex',
           flexDirection: 'column',
-          height: '520px',
+          height: `${cardH}px`,
           transition: 'transform 0.15s ease, border-color 0.3s ease, box-shadow 0.3s ease',
         }}
       >
-        <GlowingEffect
-          spread={40}
-          glow
-          disabled={false}
-          proximity={64}
-          inactiveZone={0.01}
-          borderWidth={2}
-          variant="blue-purple"
-          blur={0}
-          movementDuration={1.5}
-        />
+        {!isMobile && (
+          <GlowingEffect
+            spread={40}
+            glow
+            disabled={false}
+            proximity={64}
+            inactiveZone={0.01}
+            borderWidth={2}
+            variant="blue-purple"
+            blur={0}
+            movementDuration={1.5}
+          />
+        )}
 
         <div
           className="gc-spotlight"
@@ -186,18 +218,18 @@ function GalleryCard({ item }: { item: GalleryItem }) {
         />
 
         <div style={{ position: 'relative', width: '100%', height: '55%', flexShrink: 0, overflow: 'hidden', zIndex: 2 }}>
-          <Image src={item.image} alt={item.title} fill style={{ objectFit: 'cover' }} sizes="420px" />
+          <Image src={item.image} alt={item.title} fill style={{ objectFit: 'cover' }} sizes={isMobile ? '300px' : '420px'} />
         </div>
 
-        <div style={{ position: 'relative', zIndex: 2, padding: '1.25rem 1.5rem', display: 'flex', flexDirection: 'column', flex: 1, gap: '0.6rem' }}>
+        <div style={{ position: 'relative', zIndex: 2, padding: isMobile ? '1rem 1.15rem' : '1.25rem 1.5rem', display: 'flex', flexDirection: 'column', flex: 1, gap: '0.5rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
             <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: item.color, boxShadow: `0 0 8px ${item.color}`, flexShrink: 0 }} />
             <span style={{ fontSize: '0.65rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.12em', color: 'var(--text-tertiary)' }}>{item.category}</span>
           </div>
 
-          <h3 style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--text-primary)', lineHeight: 1.3, fontFamily: 'var(--font-heading)' }}>{item.title}</h3>
+          <h3 style={{ fontSize: isMobile ? '0.95rem' : '1.1rem', fontWeight: 700, color: 'var(--text-primary)', lineHeight: 1.3, fontFamily: 'var(--font-heading)' }}>{item.title}</h3>
 
-          <p style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', lineHeight: 1.6, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{item.desc}</p>
+          <p style={{ fontSize: isMobile ? '0.75rem' : '0.82rem', color: 'var(--text-secondary)', lineHeight: 1.6, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{item.desc}</p>
 
           <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', marginTop: 'auto', gap: '0.75rem' }}>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.35rem' }}>
@@ -224,7 +256,7 @@ function GalleryCard({ item }: { item: GalleryItem }) {
 export function CircularGallery({ items }: CircularGalleryProps) {
   const total = items.length;
   const anglePerItem = 360 / total;
-  const radius = 520;
+  const { cardW, cardH, radius, viewH, isMobile } = useResponsiveValues();
 
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
   const isHoveringRef = useRef(false);
@@ -234,6 +266,10 @@ export function CircularGallery({ items }: CircularGalleryProps) {
   const lastTimeRef = useRef(0);
   const prevActiveRef = useRef(0);
   const [activeIndex, setActiveIndex] = useState(0);
+
+  // Touch swipe support
+  const touchStartRef = useRef<{ x: number; time: number } | null>(null);
+  const touchDeltaRef = useRef(0);
 
   const updateCards = useCallback(() => {
     const rot = rotationRef.current;
@@ -270,7 +306,7 @@ export function CircularGallery({ items }: CircularGalleryProps) {
       const delta = (time - lastTimeRef.current) / 1000;
       lastTimeRef.current = time;
 
-      if (!isHoveringRef.current) {
+      if (!isHoveringRef.current && !touchStartRef.current) {
         targetRotationRef.current += delta * 12;
       }
 
@@ -307,19 +343,53 @@ export function CircularGallery({ items }: CircularGalleryProps) {
     [anglePerItem],
   );
 
+  const handleTouchStart = useCallback((e: React.TouchEvent) => {
+    touchStartRef.current = { x: e.touches[0].clientX, time: Date.now() };
+    touchDeltaRef.current = 0;
+  }, []);
+
+  const handleTouchMove = useCallback((e: React.TouchEvent) => {
+    if (!touchStartRef.current) return;
+    const dx = e.touches[0].clientX - touchStartRef.current.x;
+    const rotDelta = dx * -0.3;
+    targetRotationRef.current += rotDelta - touchDeltaRef.current;
+    touchDeltaRef.current = rotDelta;
+  }, []);
+
+  const handleTouchEnd = useCallback(() => {
+    if (!touchStartRef.current) return;
+    const elapsed = Date.now() - touchStartRef.current.time;
+    const velocity = touchDeltaRef.current / Math.max(elapsed, 1);
+
+    if (Math.abs(velocity) > 0.15) {
+      targetRotationRef.current += velocity * 120;
+    } else {
+      const currentMod = ((targetRotationRef.current % 360) + 360) % 360;
+      const nearest = Math.round(currentMod / anglePerItem) * anglePerItem;
+      const diff = nearest - currentMod;
+      targetRotationRef.current += diff > 180 ? diff - 360 : diff < -180 ? diff + 360 : diff;
+    }
+
+    touchStartRef.current = null;
+    touchDeltaRef.current = 0;
+  }, [anglePerItem]);
+
   return (
     <div
       onMouseEnter={() => { isHoveringRef.current = true; }}
       onMouseLeave={() => { isHoveringRef.current = false; }}
-      style={{ position: 'relative', width: '100%' }}
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
+      style={{ position: 'relative', width: '100%', touchAction: 'pan-y' }}
     >
       <style dangerouslySetInnerHTML={{ __html: GLOW_CSS }} />
 
       <div
         style={{
           position: 'relative',
-          height: '580px',
-          perspective: '1800px',
+          height: `${viewH}px`,
+          perspective: isMobile ? '1200px' : '1800px',
           perspectiveOrigin: '50% 50%',
           overflow: 'hidden',
           maskImage: 'linear-gradient(to right, transparent 0%, black 4%, black 96%, transparent 100%)',
@@ -347,31 +417,31 @@ export function CircularGallery({ items }: CircularGalleryProps) {
               }}
               style={{
                 position: 'absolute',
-                width: '360px',
+                width: `${cardW}px`,
                 left: '50%',
                 top: '50%',
-                marginLeft: '-180px',
-                marginTop: '-260px',
+                marginLeft: `${-cardW / 2}px`,
+                marginTop: `${-cardH / 2}px`,
                 willChange: 'transform, opacity',
                 cursor: 'pointer',
                 backfaceVisibility: 'visible',
               }}
             >
-              <GalleryCard item={item} />
+              <GalleryCard item={item} cardH={cardH} isMobile={isMobile} />
             </div>
           ))}
         </div>
       </div>
 
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '1.5rem', marginTop: '2rem' }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: isMobile ? '1rem' : '1.5rem', marginTop: isMobile ? '1rem' : '2rem' }}>
         <button
           onClick={() => navigate(-1)}
           aria-label="Previous project"
-          style={{ width: '48px', height: '48px', borderRadius: '50%', border: '1px solid var(--border-color)', background: 'var(--bg-card)', color: 'var(--text-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', transition: 'all 0.25s ease' }}
+          style={{ width: isMobile ? '40px' : '48px', height: isMobile ? '40px' : '48px', borderRadius: '50%', border: '1px solid var(--border-color)', background: 'var(--bg-card)', color: 'var(--text-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', transition: 'all 0.25s ease' }}
           onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'var(--accent-primary)'; e.currentTarget.style.boxShadow = '0 0 25px var(--accent-glow)'; e.currentTarget.style.transform = 'scale(1.08)'; }}
           onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'var(--border-color)'; e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.transform = 'scale(1)'; }}
         >
-          <ChevronLeft size={22} strokeWidth={1.8} />
+          <ChevronLeft size={isMobile ? 18 : 22} strokeWidth={1.8} />
         </button>
 
         <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
@@ -388,11 +458,11 @@ export function CircularGallery({ items }: CircularGalleryProps) {
         <button
           onClick={() => navigate(1)}
           aria-label="Next project"
-          style={{ width: '48px', height: '48px', borderRadius: '50%', border: '1px solid var(--border-color)', background: 'var(--bg-card)', color: 'var(--text-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', transition: 'all 0.25s ease' }}
+          style={{ width: isMobile ? '40px' : '48px', height: isMobile ? '40px' : '48px', borderRadius: '50%', border: '1px solid var(--border-color)', background: 'var(--bg-card)', color: 'var(--text-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', transition: 'all 0.25s ease' }}
           onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'var(--accent-primary)'; e.currentTarget.style.boxShadow = '0 0 25px var(--accent-glow)'; e.currentTarget.style.transform = 'scale(1.08)'; }}
           onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'var(--border-color)'; e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.transform = 'scale(1)'; }}
         >
-          <ChevronRight size={22} strokeWidth={1.8} />
+          <ChevronRight size={isMobile ? 18 : 22} strokeWidth={1.8} />
         </button>
       </div>
     </div>
