@@ -150,14 +150,12 @@ function GalleryCard({ item }: { item: GalleryItem }) {
         style={{
           borderRadius: '20px',
           overflow: 'hidden',
-          background: 'var(--bg-card)',
+          background: 'var(--bg-secondary, #12121e)',
           border: `1px solid ${item.color}20`,
-          boxShadow: `0 15px 40px rgba(0,0,0,0.08), 0 0 20px ${item.color}08`,
+          boxShadow: `0 15px 40px rgba(0,0,0,0.25), 0 0 20px ${item.color}08`,
           display: 'flex',
           flexDirection: 'column',
           height: '520px',
-          backdropFilter: 'blur(20px)',
-          WebkitBackdropFilter: 'blur(20px)',
           transition: 'transform 0.15s ease, border-color 0.3s ease, box-shadow 0.3s ease',
         }}
       >
@@ -250,7 +248,7 @@ export function CircularGallery({ items }: CircularGalleryProps) {
       card.style.transform = `rotateY(${angle - rot}deg) translateZ(${radius}px)`;
 
       const cosVal = Math.cos(normalizedAngle * Math.PI / 180);
-      const opacity = Math.max(0.12, 0.5 + 0.5 * cosVal);
+      const opacity = Math.max(0.25, 0.5 + 0.5 * cosVal);
       card.style.opacity = String(opacity);
       card.style.zIndex = String(Math.round(200 + 200 * cosVal));
       card.style.pointerEvents = normalizedAngle < 45 ? 'auto' : 'none';
