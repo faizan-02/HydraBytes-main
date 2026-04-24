@@ -26,11 +26,11 @@ function useResponsiveValues() {
     const update = () => {
       const w = window.innerWidth;
       if (w < 480) {
-        setValues({ cardW: 260, cardH: 420, radius: 280, viewH: 470, isMobile: true });
+        setValues({ cardW: 280, cardH: 500, radius: 300, viewH: 550, isMobile: true });
       } else if (w < 768) {
-        setValues({ cardW: 300, cardH: 460, radius: 360, viewH: 510, isMobile: true });
+        setValues({ cardW: 320, cardH: 510, radius: 370, viewH: 560, isMobile: true });
       } else if (w < 1024) {
-        setValues({ cardW: 340, cardH: 500, radius: 440, viewH: 550, isMobile: false });
+        setValues({ cardW: 340, cardH: 520, radius: 440, viewH: 570, isMobile: false });
       } else {
         setValues({ cardW: 360, cardH: 520, radius: 520, viewH: 580, isMobile: false });
       }
@@ -217,7 +217,7 @@ function GalleryCard({ item, cardH, isMobile }: { item: GalleryItem; cardH: numb
           }}
         />
 
-        <div style={{ position: 'relative', width: '100%', height: '55%', flexShrink: 0, overflow: 'hidden', zIndex: 2 }}>
+        <div style={{ position: 'relative', width: '100%', height: isMobile ? '45%' : '55%', flexShrink: 0, overflow: 'hidden', zIndex: 2 }}>
           <Image src={item.image} alt={item.title} fill style={{ objectFit: 'cover' }} sizes={isMobile ? '300px' : '420px'} />
         </div>
 

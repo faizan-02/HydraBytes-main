@@ -158,21 +158,18 @@ const clientCommitments = [
     color: '#7c3aed',
     title: 'NDA on Day One',
     detail: 'Every engagement starts with a signed NDA. Your ideas, business data, and IP are fully protected before any discussion begins.',
-    badge: 'Privacy Protected',
   },
   {
     icon: TrendingUp,
     color: '#00e5ff',
     title: 'Milestone Based Delivery',
     detail: 'Work is broken into clear milestones with agreed deliverables. You review and approve each phase before we proceed. No surprises, ever.',
-    badge: 'Transparent Process',
   },
   {
     icon: RefreshCw,
     color: '#f472b6',
     title: 'Direct Developer Access',
     detail: 'You work directly with the lead developer on your project. No account managers, no middlemen. Just fast, clear communication throughout.',
-    badge: 'No Middlemen',
   },
 ];
 
@@ -703,9 +700,6 @@ export default function HomePage() {
                     </div>
                     <h3 style={{ fontSize: '18px', fontWeight: 700, color: 'var(--text-primary)', margin: '0 0 0.75rem' }}>{item.title}</h3>
                     <p style={{ fontSize: '14px', color: 'var(--text-secondary)', lineHeight: '1.7', margin: 0, hyphens: 'none', flex: 1 }}>{item.detail}</p>
-                    <span style={{ display: 'inline-block', padding: '4px 12px', borderRadius: '999px', background: `${item.color}12`, color: item.color, fontSize: '12px', fontWeight: 600, border: `1px solid ${item.color}25` }}>
-                      {item.badge}
-                    </span>
                   </motion.div>
                 </SpotlightCard>
               </AnimatedSection>
