@@ -159,13 +159,13 @@ const GlowingOrbitPath = memo(({ radius, glowColor = 'cyan', animationDelay = 0 
   const isDark = useContext(DarkCtx);
 
   const darkColors = {
-    cyan: { primary: 'rgba(6, 182, 212, 0.4)', secondary: 'rgba(6, 182, 212, 0.2)', border: 'rgba(6, 182, 212, 0.3)' },
-    purple: { primary: 'rgba(147, 51, 234, 0.4)', secondary: 'rgba(147, 51, 234, 0.2)', border: 'rgba(147, 51, 234, 0.3)' },
+    cyan: { primary: 'rgba(6, 182, 212, 0.12)', secondary: 'rgba(6, 182, 212, 0.06)', border: 'rgba(6, 182, 212, 0.18)' },
+    purple: { primary: 'rgba(147, 51, 234, 0.12)', secondary: 'rgba(147, 51, 234, 0.06)', border: 'rgba(147, 51, 234, 0.18)' },
   };
 
   const lightColors = {
-    cyan: { primary: 'rgba(6, 182, 212, 0.35)', secondary: 'rgba(6, 182, 212, 0.15)', border: 'rgba(6, 182, 212, 0.5)' },
-    purple: { primary: 'rgba(147, 51, 234, 0.35)', secondary: 'rgba(147, 51, 234, 0.15)', border: 'rgba(147, 51, 234, 0.5)' },
+    cyan: { primary: 'rgba(6, 182, 212, 0.1)', secondary: 'rgba(6, 182, 212, 0.04)', border: 'rgba(6, 182, 212, 0.2)' },
+    purple: { primary: 'rgba(147, 51, 234, 0.1)', secondary: 'rgba(147, 51, 234, 0.04)', border: 'rgba(147, 51, 234, 0.2)' },
   };
 
   const colors = (isDark ? darkColors : lightColors)[glowColor];
@@ -179,7 +179,7 @@ const GlowingOrbitPath = memo(({ radius, glowColor = 'cyan', animationDelay = 0 
         className="absolute inset-0 rounded-full animate-pulse"
         style={{
           background: `radial-gradient(circle, transparent 30%, ${colors.secondary} 70%, ${colors.primary} 100%)`,
-          boxShadow: `0 0 60px ${colors.primary}, inset 0 0 60px ${colors.secondary}`,
+          boxShadow: `0 0 20px ${colors.primary}, inset 0 0 20px ${colors.secondary}`,
           animation: 'pulse 4s ease-in-out infinite',
           animationDelay: `${animationDelay}s`,
         }}
@@ -189,8 +189,8 @@ const GlowingOrbitPath = memo(({ radius, glowColor = 'cyan', animationDelay = 0 
         style={{
           border: `${isDark ? 1 : 2}px solid ${colors.border}`,
           boxShadow: isDark
-            ? `inset 0 0 20px ${colors.secondary}`
-            : `inset 0 0 30px ${colors.secondary}, 0 0 20px ${colors.primary}`,
+            ? `inset 0 0 8px ${colors.secondary}`
+            : `inset 0 0 10px ${colors.secondary}, 0 0 8px ${colors.primary}`,
         }}
       />
     </div>
