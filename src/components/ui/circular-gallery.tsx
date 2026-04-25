@@ -26,9 +26,9 @@ function useResponsiveValues() {
     const update = () => {
       const w = window.innerWidth;
       if (w < 480) {
-        setValues({ cardW: 290, cardH: 500, radius: 320, viewH: 550, isMobile: true });
+        setValues({ cardW: Math.min(w - 60, 290), cardH: 500, radius: 320, viewH: 550, isMobile: true });
       } else if (w < 768) {
-        setValues({ cardW: 340, cardH: 540, radius: 400, viewH: 590, isMobile: true });
+        setValues({ cardW: Math.min(w - 60, 340), cardH: 540, radius: 400, viewH: 590, isMobile: true });
       } else if (w < 1024) {
         setValues({ cardW: 420, cardH: 580, radius: 520, viewH: 640, isMobile: false });
       } else if (w < 1440) {
@@ -300,8 +300,8 @@ export function CircularGallery({ items }: CircularGalleryProps) {
         style={{
           position: 'relative',
           height: `${viewH}px`,
-          marginLeft: isMobile ? '50px' : '80px',
-          marginRight: isMobile ? '50px' : '80px',
+          marginLeft: isMobile ? '0px' : '80px',
+          marginRight: isMobile ? '0px' : '80px',
           perspective: isMobile ? '1200px' : '2000px',
           perspectiveOrigin: '50% 50%',
           overflow: 'hidden',
