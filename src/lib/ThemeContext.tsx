@@ -23,6 +23,8 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     const stored = localStorage.getItem('hydrabytes-theme-manual') as Theme;
     if (stored) {
       setTheme(stored);
+    } else {
+      setTheme(window.innerWidth < 768 ? 'dark' : 'light');
     }
   }, []);
 
