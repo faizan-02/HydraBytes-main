@@ -4,12 +4,35 @@ import { useState, useEffect, Suspense } from 'react';
 import { useSession } from 'next-auth/react';
 import { useSearchParams } from 'next/navigation';
 import { Mail, Phone, MapPin, Clock } from 'lucide-react';
+import { FluidDropdown } from '@/components/ui/fluid-dropdown';
 import AnimatedSection from '@/components/AnimatedSection';
 import SpotlightCard from '@/components/SpotlightCard';
 import MagneticButton from '@/components/MagneticButton';
 import FloatingParticles from '@/components/FloatingParticles';
 import { capturePostHogEvent } from '@/components/PostHogProvider';
 import styles from './contact.module.css';
+
+const serviceOptions = [
+  { value: 'starter-website', label: 'Starter Website ($399)', group: 'Web Development' },
+  { value: 'business-website', label: 'Business Website ($999)', group: 'Web Development' },
+  { value: 'premium-web-app', label: 'Premium Web App ($2,500+)', group: 'Web Development' },
+  { value: 'mvp-app', label: 'MVP App ($2,000)', group: 'App Development' },
+  { value: 'growth-app', label: 'Growth App ($5,000)', group: 'App Development' },
+  { value: 'scale-product', label: 'Scale Product ($10,000+)', group: 'App Development' },
+  { value: 'ai-chatbot', label: 'AI Chatbot ($300-$800)', group: 'AI Solutions' },
+  { value: 'ai-automation', label: 'AI Automation ($1,000-$3,000)', group: 'AI Solutions' },
+  { value: 'custom-ai-system', label: 'Custom AI System ($5,000+)', group: 'AI Solutions' },
+  { value: 'other', label: 'Other / Not Sure' },
+];
+
+const budgetOptions = [
+  { value: 'under-500', label: 'Under $500' },
+  { value: '500-1000', label: '$500 - $1,000' },
+  { value: '1000-3000', label: '$1,000 - $3,000' },
+  { value: '3000-8000', label: '$3,000 - $8,000' },
+  { value: '8000-15000', label: '$8,000 - $15,000' },
+  { value: '15000+', label: '$15,000+' },
+];
 
 const contactInfo = [
   { icon: <Mail size={20} strokeWidth={1.5} />, label: 'Email', value: 'contact@hydrabytes.tech', href: 'mailto:contact@hydrabytes.tech' },
@@ -177,37 +200,24 @@ function ContactForm() {
                 <div className={styles.formRow}>
                   <div className={styles.formGroup}>
                     <label htmlFor="service">Service Interested In</label>
-                    <select id="service" name="service" value={formData.service} onChange={handleChange} required>
-                      <option value="">Select a plan</option>
-                      <optgroup label="── Web Development">
-                        <option value="starter-website">Starter Website ($399)</option>
-                        <option value="business-website">Business Website ($999)</option>
-                        <option value="premium-web-app">Premium Web App ($2,500+)</option>
-                      </optgroup>
-                      <optgroup label="── App Development">
-                        <option value="mvp-app">MVP App ($2,000)</option>
-                        <option value="growth-app">Growth App ($5,000)</option>
-                        <option value="scale-product">Scale Product ($10,000+)</option>
-                      </optgroup>
-                      <optgroup label="── AI Solutions">
-                        <option value="ai-chatbot">AI Chatbot ($300-$800)</option>
-                        <option value="ai-automation">AI Automation ($1,000-$3,000)</option>
-                        <option value="custom-ai-system">Custom AI System ($5,000+)</option>
-                      </optgroup>
-                      <option value="other">Other / Not Sure</option>
-                    </select>
+                    <FluidDropdown
+                      name="service"
+                      options={serviceOptions}
+                      value={formData.service}
+                      onChange={(val) => setFormData(prev => ({ ...prev, service: val }))}
+                      placeholder="Select a plan"
+                      required
+                    />
                   </div>
                   <div className={styles.formGroup}>
                     <label htmlFor="budget">Budget Range</label>
-                    <select id="budget" name="budget" value={formData.budget} onChange={handleChange}>
-                      <option value="">Select budget</option>
-                      <option value="under-500">Under $500</option>
-                      <option value="500-1000">$500 – $1,000</option>
-                      <option value="1000-3000">$1,000 – $3,000</option>
-                      <option value="3000-8000">$3,000 – $8,000</option>
-                      <option value="8000-15000">$8,000 – $15,000</option>
-                      <option value="15000+">$15,000+</option>
-                    </select>
+                    <FluidDropdown
+                      name="budget"
+                      options={budgetOptions}
+                      value={formData.budget}
+                      onChange={(val) => setFormData(prev => ({ ...prev, budget: val }))}
+                      placeholder="Select budget"
+                    />
                   </div>
                 </div>
 
