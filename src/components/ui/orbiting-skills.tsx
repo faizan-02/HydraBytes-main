@@ -130,16 +130,12 @@ const OrbitingSkill = memo(({ config, angle, scale }: OrbitingSkillProps) => {
       onMouseLeave={() => setIsHovered(false)}
     >
       <div
-        className="relative w-full h-full p-2 backdrop-blur-sm rounded-full flex items-center justify-center transition-all duration-300 cursor-pointer"
+        className="relative w-full h-full p-2 rounded-full flex items-center justify-center transition-all duration-300 cursor-pointer"
         style={{
-          background: isDark ? 'rgba(15, 20, 40, 0.9)' : 'rgba(255, 255, 255, 0.97)',
-          border: isDark ? 'none' : `2px solid ${iconComponents[iconType]?.color}50`,
+          background: 'transparent',
+          border: 'none',
           transform: isHovered ? 'scale(1.25)' : 'scale(1)',
-          boxShadow: isHovered
-            ? `0 0 30px ${iconComponents[iconType]?.color}40, 0 0 60px ${iconComponents[iconType]?.color}20`
-            : isDark
-              ? '0 2px 12px rgba(0,0,0,0.5)'
-              : `0 4px 16px rgba(0,0,0,0.1), 0 0 12px ${iconComponents[iconType]?.color}25`,
+          boxShadow: 'none',
         }}
       >
         <SkillIcon type={iconType} />
