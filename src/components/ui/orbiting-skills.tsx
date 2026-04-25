@@ -210,7 +210,7 @@ export default function OrbitingSkills() {
   const [scale, setScale] = useState(1);
 
   useEffect(() => {
-    const update = () => setScale(window.innerWidth < 768 ? 0.65 : 1);
+    const update = () => setScale(window.innerWidth < 768 ? 0.8 : 1);
     update();
     window.addEventListener('resize', update);
     return () => window.removeEventListener('resize', update);
@@ -252,8 +252,8 @@ export default function OrbitingSkills() {
             <div
               className="absolute rounded-full"
               style={{
-                width: '140px',
-                height: '140px',
+                width: `${Math.round(140 * scale)}px`,
+                height: `${Math.round(140 * scale)}px`,
                 background: isDark
                   ? 'radial-gradient(circle, rgba(6, 182, 212, 0.12) 0%, transparent 70%)'
                   : 'radial-gradient(circle, rgba(124, 58, 237, 0.06) 0%, transparent 70%)',
@@ -263,8 +263,8 @@ export default function OrbitingSkills() {
             <div
               className="absolute rounded-full animate-pulse"
               style={{
-                width: '120px',
-                height: '120px',
+                width: `${Math.round(120 * scale)}px`,
+                height: `${Math.round(120 * scale)}px`,
                 background: isDark
                   ? 'radial-gradient(circle, rgba(147, 51, 234, 0.08) 0%, transparent 70%)'
                   : 'radial-gradient(circle, rgba(6, 182, 212, 0.04) 0%, transparent 70%)',
@@ -277,7 +277,7 @@ export default function OrbitingSkills() {
               src="/transparent.png"
               alt="HydraBytes"
               style={{
-                width: '120px',
+                width: `${Math.round(120 * scale)}px`,
                 height: 'auto',
                 objectFit: 'contain',
                 filter: isDark
