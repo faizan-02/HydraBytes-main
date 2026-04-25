@@ -19,12 +19,14 @@ interface SkillConfig {
 interface OrbitingSkillProps {
   config: SkillConfig;
   angle: number;
+  scale: number;
 }
 
 interface GlowingOrbitPathProps {
   radius: number;
   glowColor?: GlowColor;
   animationDelay?: number;
+  scale?: number;
 }
 
 const DarkCtx = createContext(true);
@@ -105,13 +107,15 @@ const skillsConfig: SkillConfig[] = [
   { id: 'firebase', orbitRadius: 180, size: 42, speed: -0.6, iconType: 'firebase', phaseShift: (4 * Math.PI) / 3, glowColor: 'purple', label: 'Firebase' },
 ];
 
-const OrbitingSkill = memo(({ config, angle }: OrbitingSkillProps) => {
+const OrbitingSkill = memo(({ config, angle, scale }: OrbitingSkillProps) => {
   const isDark = useContext(DarkCtx);
   const [isHovered, setIsHovered] = useState(false);
-  const { orbitRadius, size, iconType, label } = config;
+  const { orbitRadius, iconType, label } = config;
+  const size = Math.round(config.size * scale);
+  const r = orbitRadius * scale;
 
-  const x = Math.cos(angle) * orbitRadius;
-  const y = Math.sin(angle) * orbitRadius;
+  const x = Math.cos(angle) * r;
+  const y = Math.sin(angle) * r;
 
   return (
     <div
@@ -155,7 +159,7 @@ const OrbitingSkill = memo(({ config, angle }: OrbitingSkillProps) => {
 });
 OrbitingSkill.displayName = 'OrbitingSkill';
 
-const GlowingOrbitPath = memo(({ radius, glowColor = 'cyan', animationDelay = 0 }: GlowingOrbitPathProps) => {
+const GlowingOrbitPath = memo(({ radius, glowColor = 'cyan', animationDelay = 0, scale = 1 }: GlowingOrbitPathProps) => {
   const isDark = useContext(DarkCtx);
 
   const darkColors = {
@@ -173,7 +177,7 @@ const GlowingOrbitPath = memo(({ radius, glowColor = 'cyan', animationDelay = 0 
   return (
     <div
       className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full pointer-events-none"
-      style={{ width: `${radius * 2}px`, height: `${radius * 2}px` }}
+      style={{ width: `${radius * scale * 2}px`, height: `${radius * scale * 2}px` }}
     >
       <div
         className="absolute inset-0 rounded-full animate-pulse"
@@ -203,6 +207,14 @@ export default function OrbitingSkills() {
   const isDark = theme !== 'light';
   const [time, setTime] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+  const [scale, setScale] = useState(1);
+
+  useEffect(() => {
+    const update = () => setScale(window.innerWidth < 768 ? 0.65 : 1);
+    update();
+    window.addEventListener('resize', update);
+    return () => window.removeEventListener('resize', update);
+  }, []);
 
   useEffect(() => {
     if (isPaused) return;
@@ -231,7 +243,7 @@ export default function OrbitingSkills() {
       <div className="w-full flex items-center justify-center overflow-visible">
         <div
           className="relative flex items-center justify-center"
-          style={{ width: 'clamp(380px, 35vw, 460px)', height: 'clamp(380px, 35vw, 460px)' }}
+          style={{ width: `${Math.round(420 * scale)}px`, height: `${Math.round(420 * scale)}px` }}
           onMouseEnter={() => setIsPaused(true)}
           onMouseLeave={() => setIsPaused(false)}
         >
@@ -284,6 +296,7 @@ export default function OrbitingSkills() {
               radius={config.radius}
               glowColor={config.glowColor}
               animationDelay={config.delay}
+              scale={scale}
             />
           ))}
 
@@ -295,6 +308,7 @@ export default function OrbitingSkills() {
                 key={config.id}
                 config={config}
                 angle={angle}
+                scale={scale}
               />
             );
           })}
