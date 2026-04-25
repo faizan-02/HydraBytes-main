@@ -63,6 +63,7 @@
   --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
   --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
   --shadow-glow: 0 0 30px rgba(124, 58, 237, 0.15);
+  --shadow-gallery-card: rgba(0, 0, 0, 0.35);
 
   --nav-bg: rgba(10, 10, 18, 0.8);
 }
@@ -95,6 +96,7 @@
   --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
   --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.12);
   --shadow-glow: 0 0 30px rgba(109, 40, 217, 0.08);
+  --shadow-gallery-card: rgba(0, 0, 0, 0.08);
 
   --nav-bg: rgba(248, 248, 252, 0.85);
 }
