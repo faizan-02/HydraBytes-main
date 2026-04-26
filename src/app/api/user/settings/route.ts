@@ -282,10 +282,20 @@ export async function DELETE(req: NextRequest) {
 
   const userId = (session.user as { id: string }).id;
 
-  // Cascade delete — sessions, invoices, projects, then user
+  const user = await prisma.user.findUnique({ where: { id: userId }, select: { email: true } });
+
+  await prisma.emailChangeToken.deleteMany({ where: { userId } });
   await prisma.session.deleteMany({ where: { userId } });
   await prisma.invoice.deleteMany({ where: { userId } });
   await prisma.project.deleteMany({ where: { userId } });
+
+  if (user?.email) {
+    await Promise.all([
+      prisma.emailVerificationToken.deleteMany({ where: { email: user.email } }),
+      prisma.passwordResetToken.deleteMany({ where: { email: user.email } }),
+    ]);
+  }
+
   await prisma.user.delete({ where: { id: userId } });
 
   return NextResponse.json({ success: true });

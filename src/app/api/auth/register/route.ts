@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
+import crypto from 'crypto';
 import { prisma } from '@/lib/prisma';
 import { sendEmail } from '@/lib/mailer';
 import { enforceRateLimit, FIFTEEN_MINUTES } from '@/lib/rateLimit';
@@ -38,15 +39,13 @@ export async function POST(req: NextRequest) {
     const existing = await prisma.user.findUnique({ where: { email: normalizedEmail } });
     if (existing) {
       if (!existing.emailVerified) {
-        // Resend OTP for unverified account
         await prisma.emailVerificationToken.deleteMany({ where: { email: normalizedEmail } });
-        const otp = Math.floor(100000 + Math.random() * 900000).toString();
+        const otp = crypto.randomInt(100000, 1000000).toString();
         const expiresAt = new Date(Date.now() + 15 * 60 * 1000);
         await prisma.emailVerificationToken.create({ data: { email: normalizedEmail, otp, expiresAt } });
         await sendOtpEmail(normalizedEmail, existing.name ?? name, otp);
-        return NextResponse.json({ success: true, requiresVerification: true }, { status: 200 });
       }
-      return NextResponse.json({ error: 'An account with this email already exists.' }, { status: 409 });
+      return NextResponse.json({ success: true, requiresVerification: true }, { status: 200 });
     }
 
     const hashedPassword = await bcrypt.hash(password, 12);
@@ -74,7 +73,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Generate and send OTP
-    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    const otp = crypto.randomInt(100000, 1000000).toString();
     const expiresAt = new Date(Date.now() + 15 * 60 * 1000);
 
     await prisma.emailVerificationToken.create({

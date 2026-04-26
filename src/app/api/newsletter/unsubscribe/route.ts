@@ -1,10 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { enforceRateLimit, FIFTEEN_MINUTES } from '@/lib/rateLimit';
 
 export async function GET(req: NextRequest) {
+  const limited = enforceRateLimit(req, 'newsletter:unsubscribe', 10, FIFTEEN_MINUTES);
+  if (limited) return limited;
+
   const token = req.nextUrl.searchParams.get('token');
 
-  if (!token || token.length !== 64) {
+  if (!token || token.length !== 64 || !/^[A-Fa-f0-9]+$/.test(token)) {
     return NextResponse.json({ error: 'Invalid unsubscribe token.' }, { status: 400 });
   }
 

@@ -2,12 +2,16 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { sendEmail } from '@/lib/mailer';
 import { escapeHtml } from '@/lib/validate';
+import { enforceRateLimit, FIFTEEN_MINUTES } from '@/lib/rateLimit';
 
 const BASE_URL = process.env.AUTH_URL ?? process.env.NEXTAUTH_URL ?? 'https://hydrabytes.tech';
 const CALENDLY_LINK = process.env.NEXT_PUBLIC_CALENDLY_URL ?? 'https://calendly.com/faizanjawad02/30min';
 const WA_LINK = `https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP ?? '923239999000'}`;
 
 export async function GET(req: NextRequest) {
+  const limited = enforceRateLimit(req, 'verify-project', 15, FIFTEEN_MINUTES);
+  if (limited) return limited;
+
   const token = req.nextUrl.searchParams.get('token');
   const action = req.nextUrl.searchParams.get('action') ?? 'accept';
   const reason = req.nextUrl.searchParams.get('reason') ?? '';

@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import crypto from 'crypto';
 import { prisma } from '@/lib/prisma';
 import { sendEmail } from '@/lib/mailer';
 import { enforceRateLimit, FIFTEEN_MINUTES } from '@/lib/rateLimit';
@@ -22,17 +23,13 @@ export async function POST(req: NextRequest) {
   try {
     const user = await prisma.user.findUnique({ where: { email: normalizedEmail } });
 
-    if (!user) {
-      return NextResponse.json({ error: 'No account found with this email.' }, { status: 404 });
-    }
-
-    if (user.emailVerified) {
-      return NextResponse.json({ error: 'Email is already verified.' }, { status: 400 });
+    if (!user || user.emailVerified) {
+      return NextResponse.json({ success: true });
     }
 
     await prisma.emailVerificationToken.deleteMany({ where: { email: normalizedEmail } });
 
-    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    const otp = crypto.randomInt(100000, 1000000).toString();
     const expiresAt = new Date(Date.now() + 15 * 60 * 1000);
 
     await prisma.emailVerificationToken.create({

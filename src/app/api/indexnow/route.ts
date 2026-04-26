@@ -1,6 +1,5 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
-const KEY = 'd49e56fdce574516b28f25ef4c0d0092';
 const HOST = 'www.hydrabytes.tech';
 const BASE_URL = `https://${HOST}`;
 
@@ -17,7 +16,18 @@ const URLS = [
   `${BASE_URL}/legal/refund`,
 ];
 
-export async function GET() {
+export async function GET(req: NextRequest) {
+  const authHeader = req.headers.get('authorization');
+  const cronSecret = process.env.CRON_SECRET;
+  if (!cronSecret || authHeader !== `Bearer ${cronSecret}`) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
+  const KEY = process.env.INDEXNOW_KEY;
+  if (!KEY) {
+    return NextResponse.json({ error: 'INDEXNOW_KEY not configured' }, { status: 500 });
+  }
+
   try {
     const res = await fetch('https://api.indexnow.org/indexnow', {
       method: 'POST',
