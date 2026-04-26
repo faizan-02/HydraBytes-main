@@ -8,8 +8,6 @@ import AnimatedSection from '@/components/AnimatedSection';
 import SpotlightCard from '@/components/SpotlightCard';
 import MagneticButton from '@/components/MagneticButton';
 import FloatingParticles from '@/components/FloatingParticles';
-import { VerticalCutReveal } from '@/components/ui/vertical-cut-reveal';
-import { Sparkles } from '@/components/ui/sparkles';
 import styles from './pricing.module.css';
 
 type CategoryId = 'web' | 'app' | 'ai';
@@ -244,10 +242,7 @@ export default function PricingPage() {
           <AnimatedSection>
             <span className="section-label">Pricing</span>
             <h1 className={styles.heroTitle}>
-              <VerticalCutReveal>Simple, Transparent</VerticalCutReveal>
-              <Sparkles count={8} color="rgba(124, 58, 237, 0.5)" size={2.5}>
-                <span className="gradient-text">Pricing</span>
-              </Sparkles>
+              Simple, Transparent <span className="gradient-text">Pricing</span>
             </h1>
             <p className={styles.heroSubtitle}>
               Choose the perfect plan for your business. Every project includes a free consultation with no commitment required.

@@ -1,6 +1,6 @@
 /* Hero */
 .hero { text-align: center; padding: 3rem 0 2rem; }
-.heroTitle { font-size: clamp(2.2rem, 5vw, 3.75rem); font-weight: 900; margin-bottom: 1rem; line-height: 1.15; text-align: center; display: flex; flex-direction: column; align-items: center; }
+.heroTitle { font-size: clamp(2.2rem, 5vw, 3.75rem); font-weight: 900; margin-bottom: 1rem; line-height: 1.15; }
 .heroSubtitle { font-size: 1.05rem; color: var(--text-secondary); max-width: 520px; margin: 0 auto; line-height: 1.7; }
 
 /* ── Category Tabs ── */
