@@ -3,6 +3,7 @@ import { auth } from '@/../auth';
 import { prisma } from '@/lib/prisma';
 import { sendEmail } from '@/lib/mailer';
 import { readJsonBody, requireJson, escapeHtml } from '@/lib/validate';
+import type { ProjectStatus, SubmissionStatus, InvoiceStatus } from '@prisma/client';
 
 const BASE_URL = process.env.AUTH_URL ?? process.env.NEXTAUTH_URL ?? 'https://hydrabytes.tech';
 
@@ -75,7 +76,7 @@ export async function PATCH(req: Request) {
 
     const updated = await prisma.project.update({
       where: { id },
-      data: { status, ...timestampData },
+      data: { status: status as ProjectStatus, ...timestampData },
       include: { user: { select: { email: true, name: true } } },
     });
 
@@ -243,7 +244,7 @@ export async function PATCH(req: Request) {
     if (typeof status !== 'string' || !ALLOWED_SUBMISSION_STATUSES.has(status)) {
       return NextResponse.json({ error: 'Invalid submission status.' }, { status: 400 });
     }
-    const updated = await prisma.contactSubmission.update({ where: { id }, data: { status } });
+    const updated = await prisma.contactSubmission.update({ where: { id }, data: { status: status as SubmissionStatus } });
     return NextResponse.json(updated);
   }
 
@@ -253,12 +254,12 @@ export async function PATCH(req: Request) {
     }
     const updated = await prisma.invoice.update({
       where: { id },
-      data: { status },
+      data: { status: status as InvoiceStatus },
       include: { user: { select: { email: true, name: true } }, project: { select: { title: true } } },
     });
 
     if (status === 'paid' && updated.user?.email) {
-      const formattedAmount = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(updated.amount);
+      const formattedAmount = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(Number(updated.amount));
       const userName = escapeHtml(updated.user.name ?? 'there');
       const safeProjectTitle = escapeHtml(updated.project?.title ?? 'General Services');
       await sendEmail({

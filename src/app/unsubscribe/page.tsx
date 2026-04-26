@@ -1,12 +1,12 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 
 type State = 'loading' | 'success' | 'error';
 
-export default function UnsubscribePage() {
+function UnsubscribeContent() {
   const searchParams = useSearchParams();
   const token = searchParams.get('token');
   const [state, setState] = useState<State>('loading');
@@ -46,8 +46,8 @@ export default function UnsubscribePage() {
       <div style={{
         maxWidth: '440px',
         width: '100%',
-        background: 'rgba(15,15,25,0.8)',
-        border: '1px solid rgba(124,58,237,0.2)',
+        background: 'var(--bg-card)',
+        border: '1px solid var(--border-color)',
         borderRadius: '20px',
         padding: '48px 40px',
         textAlign: 'center',
@@ -60,7 +60,7 @@ export default function UnsubscribePage() {
               animation: 'spin 0.8s linear infinite', margin: '0 auto 24px',
             }} />
             <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
-            <p style={{ color: '#a0a0b8', margin: 0 }}>Processing your request…</p>
+            <p style={{ color: 'var(--text-secondary)', margin: 0 }}>Processing your request…</p>
           </>
         )}
 
@@ -72,10 +72,10 @@ export default function UnsubscribePage() {
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               margin: '0 auto 24px', fontSize: 24,
             }}>✓</div>
-            <h1 style={{ margin: '0 0 12px', fontSize: '22px', fontWeight: 700, color: '#f0f0f5' }}>
+            <h1 style={{ margin: '0 0 12px', fontSize: '22px', fontWeight: 700, color: 'var(--text-primary)' }}>
               Unsubscribed
             </h1>
-            <p style={{ margin: '0 0 32px', color: '#8888a8', lineHeight: 1.6 }}>
+            <p style={{ margin: '0 0 32px', color: 'var(--text-secondary)', lineHeight: 1.6 }}>
               You've been removed from the HydraBytes mailing list. You won't receive any more emails from us.
             </p>
             <Link
@@ -100,18 +100,18 @@ export default function UnsubscribePage() {
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               margin: '0 auto 24px', fontSize: 24,
             }}>✕</div>
-            <h1 style={{ margin: '0 0 12px', fontSize: '22px', fontWeight: 700, color: '#f0f0f5' }}>
+            <h1 style={{ margin: '0 0 12px', fontSize: '22px', fontWeight: 700, color: 'var(--text-primary)' }}>
               Something went wrong
             </h1>
-            <p style={{ margin: '0 0 32px', color: '#8888a8', lineHeight: 1.6 }}>
+            <p style={{ margin: '0 0 32px', color: 'var(--text-secondary)', lineHeight: 1.6 }}>
               {message || 'This unsubscribe link may be invalid or already used.'}
             </p>
             <Link
               href="/"
               style={{
                 display: 'inline-block', padding: '12px 28px',
-                border: '1px solid rgba(255,255,255,0.15)',
-                color: '#a0a0b8', textDecoration: 'none', borderRadius: '999px',
+                border: '1px solid var(--border-color-hover)',
+                color: 'var(--text-secondary)', textDecoration: 'none', borderRadius: '999px',
                 fontWeight: 500, fontSize: '14px',
               }}
             >
@@ -121,5 +121,13 @@ export default function UnsubscribePage() {
         )}
       </div>
     </div>
+  );
+}
+
+export default function UnsubscribePage() {
+  return (
+    <Suspense>
+      <UnsubscribeContent />
+    </Suspense>
   );
 }

@@ -241,8 +241,8 @@ function ContactForm() {
                     </p>
                     {!session ? (
                       <div style={{
-                        background: 'rgba(15,23,42,0.8)',
-                        border: '1px solid rgba(124,58,237,0.3)',
+                        background: 'var(--bg-card)',
+                        border: '1px solid var(--border-color-hover)',
                         borderRadius: '12px',
                         padding: '24px',
                         position: 'relative',
@@ -254,15 +254,15 @@ function ContactForm() {
                           left: 0,
                           right: 0,
                           height: '2px',
-                          background: 'linear-gradient(90deg, #7c3aed, #00e5ff)',
+                          background: 'var(--accent-gradient)',
                         }} />
-                        <h4 style={{ margin: '0 0 8px', fontSize: '16px', fontWeight: 700, color: '#e2e8f0' }}>
+                        <h4 style={{ margin: '0 0 8px', fontSize: '16px', fontWeight: 700, color: 'var(--text-primary)' }}>
                           Track Your Inquiry
                         </h4>
-                        <p style={{ margin: '0 0 12px', fontSize: '14px', color: '#94a3b8' }}>
+                        <p style={{ margin: '0 0 12px', fontSize: '14px', color: 'var(--text-secondary)' }}>
                           Create a free account to:
                         </p>
-                        <ul style={{ margin: '0 0 20px', paddingLeft: '20px', fontSize: '13px', color: '#a0a0b8', lineHeight: '1.8', listStyle: 'none' }}>
+                        <ul style={{ margin: '0 0 20px', paddingLeft: '20px', fontSize: '13px', color: 'var(--text-secondary)', lineHeight: '1.8', listStyle: 'none' }}>
                           <li style={{ paddingLeft: '0' }}>&#x2022; See when your inquiry is accepted</li>
                           <li style={{ paddingLeft: '0' }}>&#x2022; Track project progress in real-time</li>
                           <li style={{ paddingLeft: '0' }}>&#x2022; Receive and pay invoices</li>

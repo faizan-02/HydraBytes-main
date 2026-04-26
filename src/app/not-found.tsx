@@ -6,7 +6,7 @@ export default function NotFound() {
       <div style={{ textAlign: 'center', maxWidth: '480px' }}>
         <div style={{
           fontSize: '96px', fontWeight: 800, lineHeight: 1,
-          background: 'linear-gradient(135deg, #6366f1, #06b6d4)',
+          background: 'var(--accent-gradient, linear-gradient(135deg, #7c3aed, #00e5ff))',
           WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
           marginBottom: '16px',
         }}>
@@ -23,7 +23,7 @@ export default function NotFound() {
             href="/"
             style={{
               display: 'inline-block', padding: '12px 28px',
-              background: 'linear-gradient(135deg, #6366f1, #06b6d4)',
+              background: 'var(--accent-gradient, linear-gradient(135deg, #7c3aed, #00e5ff))',
               color: '#fff', textDecoration: 'none', borderRadius: '10px',
               fontWeight: 600, fontSize: '15px',
             }}
@@ -34,8 +34,8 @@ export default function NotFound() {
             href="/contact"
             style={{
               display: 'inline-block', padding: '12px 28px',
-              border: '1.5px solid rgba(255,255,255,0.12)',
-              color: 'var(--text-primary, #f0f0f5)', textDecoration: 'none',
+              border: '1.5px solid var(--border-color-hover)',
+              color: 'var(--text-primary)', textDecoration: 'none',
               borderRadius: '10px', fontWeight: 600, fontSize: '15px',
             }}
           >

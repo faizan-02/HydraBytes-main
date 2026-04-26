@@ -149,7 +149,7 @@ export default function BlogPage() {
                 </div>
                 <h2 className={styles.featuredTitle}>{featured.title}</h2>
                 <p className={styles.featuredExcerpt}>{featured.excerpt}</p>
-                <a href={featured.url} target="_blank" rel="noopener noreferrer" className={styles.readMore} onMouseMove={(e) => e.stopPropagation()}>Read Full Article →</a>
+                <a href={featured.url} target="_blank" rel="noopener noreferrer" className={styles.readMore} aria-label={`Read full article: ${featured.title}`} onMouseMove={(e) => e.stopPropagation()}>Read Full Article →</a>
               </div>
             </SpotlightCard>
           </AnimatedSection>
@@ -167,7 +167,7 @@ export default function BlogPage() {
               <AnimatedSection key={post.title} delay={i * 0.08}>
                 <SpotlightCard>
                   {'url' in post && post.url ? (
-                    <a href={post.url} target="_blank" rel="noopener noreferrer" className={styles.postCard} style={{ display: 'block', textDecoration: 'none', color: 'inherit', cursor: 'pointer' }} onMouseMove={(e) => e.stopPropagation()}>
+                    <a href={post.url} target="_blank" rel="noopener noreferrer" className={styles.postCard} aria-label={`Read article: ${post.title}`} style={{ display: 'block', textDecoration: 'none', color: 'inherit', cursor: 'pointer' }} onMouseMove={(e) => e.stopPropagation()}>
                       <div style={{ position: 'relative', width: '100%', height: '160px', overflow: 'hidden', borderRadius: '0.5rem', marginBottom: '1rem' }}>
                         <Image
                           src={post.image}
@@ -221,10 +221,11 @@ export default function BlogPage() {
             <p className="section-subtitle" style={{ marginBottom: '2rem' }}>
               Get the latest insights delivered to your inbox. No spam, just value.
             </p>
-            <form className={styles.newsletter} onSubmit={handleSubscribe}>
+            <form className={styles.newsletter} onSubmit={handleSubscribe} aria-label="Newsletter subscription">
               <input
                 type="email"
                 placeholder="Enter your email"
+                aria-label="Email address for newsletter"
                 className={styles.newsletterInput}
                 value={nlEmail}
                 onChange={e => setNlEmail(e.target.value)}

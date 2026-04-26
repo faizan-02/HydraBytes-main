@@ -123,7 +123,7 @@ export async function GET(req: NextRequest) {
     if (!invoice.user?.email) continue;
 
     const daysLeft = Math.ceil(((invoice.dueDate?.getTime() ?? 0) - now.getTime()) / (24 * 60 * 60 * 1000));
-    const formattedAmount = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(invoice.amount);
+    const formattedAmount = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(Number(invoice.amount));
     const safeClientName = escapeHtml(invoice.user.name ?? 'there');
     const safeProjectTitle = escapeHtml(invoice.project?.title ?? 'General Services');
 
@@ -180,7 +180,7 @@ export async function GET(req: NextRequest) {
     if (!invoice.user?.email) continue;
 
     const daysOver = Math.floor((now.getTime() - (invoice.dueDate?.getTime() ?? 0)) / (24 * 60 * 60 * 1000));
-    const formattedAmount = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(invoice.amount);
+    const formattedAmount = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(Number(invoice.amount));
     const safeClientName = escapeHtml(invoice.user.name ?? 'there');
     const safeProjectTitle = escapeHtml(invoice.project?.title ?? 'General Services');
 

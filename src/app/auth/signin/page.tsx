@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { signIn, useSession } from 'next-auth/react';
@@ -8,7 +8,7 @@ import { motion, AnimatePresence, useMotionValue, useTransform } from 'framer-mo
 import { Mail, Lock, Eye, EyeOff, ArrowRight } from 'lucide-react';
 import styles from './signin.module.css';
 
-export default function SignInPage() {
+function SignInForm() {
   const router = useRouter();
   const { status } = useSession();
   const searchParams = useSearchParams();
@@ -137,6 +137,8 @@ export default function SignInPage() {
                     onChange={(e) => setEmail(e.target.value)}
                     onFocus={() => setFocusedInput('email')}
                     onBlur={() => setFocusedInput(null)}
+                    required
+                    autoComplete="email"
                   />
                 </div>
 
@@ -150,6 +152,9 @@ export default function SignInPage() {
                     onChange={(e) => setPassword(e.target.value)}
                     onFocus={() => setFocusedInput('password')}
                     onBlur={() => setFocusedInput(null)}
+                    required
+                    minLength={8}
+                    autoComplete="current-password"
                   />
                   <button
                     type="button"
@@ -234,5 +239,13 @@ export default function SignInPage() {
         </motion.div>
       </motion.div>
     </div>
+  );
+}
+
+export default function SignInPage() {
+  return (
+    <Suspense>
+      <SignInForm />
+    </Suspense>
   );
 }

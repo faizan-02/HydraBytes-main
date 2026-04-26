@@ -57,6 +57,26 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         if (sessionUpdate?.name) token.name = sessionUpdate.name;
         if (sessionUpdate?.profileComplete !== undefined) token.profileComplete = sessionUpdate.profileComplete;
       }
+
+      // Re-validate role and check passwordChangedAt on existing sessions
+      if (!user && token.id) {
+        try {
+          const dbUser = await prisma.user.findUnique({
+            where: { id: token.id as string },
+            select: { role: true, passwordChangedAt: true, email: true },
+          });
+          if (!dbUser) return { ...token, invalidated: true };
+          token.role = dbUser.role;
+          token.email = dbUser.email;
+          if (dbUser.passwordChangedAt) {
+            const iat = (token.iat as number) * 1000;
+            if (dbUser.passwordChangedAt.getTime() > iat) {
+              return { ...token, invalidated: true };
+            }
+          }
+        } catch { /* DB unavailable — keep existing token */ }
+      }
+
       // Credentials login — user object has id and role directly
       if (user && account?.provider === 'credentials') {
         token.id = user.id;
@@ -120,6 +140,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return token;
     },
     async session({ session, token }) {
+      if (token.invalidated) return { ...session, user: undefined } as unknown as typeof session;
       if (token) {
         type U = { id?: string; role?: string; hasPassword?: boolean; profileComplete?: boolean };
         (session.user as U).id = token.id as string;

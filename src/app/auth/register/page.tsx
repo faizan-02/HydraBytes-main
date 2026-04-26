@@ -124,6 +124,8 @@ function RegisterForm() {
                     onChange={(e) => setName(e.target.value)}
                     onFocus={() => setFocusedInput('name')}
                     onBlur={() => setFocusedInput(null)}
+                    required
+                    autoComplete="name"
                   />
                 </div>
 
@@ -137,6 +139,8 @@ function RegisterForm() {
                     onChange={(e) => setEmail(e.target.value)}
                     onFocus={() => setFocusedInput('email')}
                     onBlur={() => setFocusedInput(null)}
+                    required
+                    autoComplete="email"
                   />
                 </div>
 
@@ -150,6 +154,9 @@ function RegisterForm() {
                     onChange={(e) => setPassword(e.target.value)}
                     onFocus={() => setFocusedInput('password')}
                     onBlur={() => setFocusedInput(null)}
+                    required
+                    minLength={8}
+                    autoComplete="new-password"
                   />
                   <button
                     type="button"

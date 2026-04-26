@@ -78,7 +78,7 @@ export async function PATCH(req: NextRequest) {
     }
 
     const hashed = await bcrypt.hash(newPasswordRes.value, 12);
-    await prisma.user.update({ where: { id: userId }, data: { password: hashed } });
+    await prisma.user.update({ where: { id: userId }, data: { password: hashed, passwordChangedAt: new Date() } });
     return NextResponse.json({ success: true });
   }
 
@@ -238,9 +238,9 @@ export async function PATCH(req: NextRequest) {
     const currentUser = await prisma.user.findUnique({ where: { id: userId }, select: { email: true } });
     const oldEmail = currentUser?.email;
 
-    // Update email — catch unique constraint race (TOCTOU)
+    // Update email and invalidate existing sessions
     try {
-      await prisma.user.update({ where: { id: userId }, data: { email: token.newEmail } });
+      await prisma.user.update({ where: { id: userId }, data: { email: token.newEmail, passwordChangedAt: new Date() } });
     } catch (err) {
       if ((err as { code?: string }).code === 'P2002') {
         await prisma.emailChangeToken.delete({ where: { userId } });

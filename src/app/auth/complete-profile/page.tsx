@@ -59,8 +59,8 @@ export default function CompleteProfilePage() {
 
   const inputStyle: React.CSSProperties = {
     width: '100%', padding: '12px 14px 12px 44px', borderRadius: '10px',
-    border: '1.5px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.04)',
-    color: 'var(--text-primary, #f0f0f5)', fontSize: '15px', outline: 'none',
+    border: '1.5px solid var(--border-color)', background: 'var(--bg-tertiary)',
+    color: 'var(--text-primary)', fontSize: '15px', outline: 'none',
     boxSizing: 'border-box', transition: 'border-color 0.15s',
   };
 
@@ -70,7 +70,7 @@ export default function CompleteProfilePage() {
         initial={{ opacity: 0, y: 24 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, ease: [0.25, 0.4, 0.25, 1] }}
-        style={{ width: '100%', maxWidth: '440px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '20px', padding: '40px 32px' }}
+        style={{ width: '100%', maxWidth: '440px', background: 'var(--bg-card)', border: '1px solid var(--border-color)', borderRadius: '20px', padding: '40px 32px' }}
       >
         {/* Header */}
         <div style={{ textAlign: 'center', marginBottom: '32px' }}>
@@ -105,7 +105,7 @@ export default function CompleteProfilePage() {
                   required
                   style={inputStyle}
                   onFocus={e => (e.target.style.borderColor = '#6366f1')}
-                  onBlur={e => (e.target.style.borderColor = 'rgba(255,255,255,0.1)')}
+                  onBlur={e => (e.target.style.borderColor = 'var(--border-color)')}
                 />
               </div>
               <p style={{ fontSize: '12px', color: 'var(--text-secondary, #9ca3af)', margin: '5px 0 0' }}>
@@ -129,7 +129,7 @@ export default function CompleteProfilePage() {
                   maxLength={100}
                   style={inputStyle}
                   onFocus={e => (e.target.style.borderColor = '#6366f1')}
-                  onBlur={e => (e.target.style.borderColor = 'rgba(255,255,255,0.1)')}
+                  onBlur={e => (e.target.style.borderColor = 'var(--border-color)')}
                 />
               </div>
               <p style={{ fontSize: '12px', color: 'var(--text-secondary, #9ca3af)', margin: '5px 0 0' }}>

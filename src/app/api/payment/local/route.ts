@@ -98,7 +98,7 @@ export async function POST(req: NextRequest) {
   // Auto-verify USDT TRC20 via TronScan — skip manual review if confirmed on-chain
   let autoVerified = false;
   if (method === 'usdt_trc20') {
-    autoVerified = await verifyUSDTPayment(trimmedRef, invoice.amount);
+    autoVerified = await verifyUSDTPayment(trimmedRef, Number(invoice.amount));
   }
 
   await prisma.invoice.update({
@@ -106,11 +106,11 @@ export async function POST(req: NextRequest) {
     data: {
       paymentRef: trimmedRef,
       paymentMethod: method,
-      status: autoVerified ? 'paid' : 'under_review',
+      status: autoVerified ? 'paid' as const : 'under_review' as const,
     },
   });
 
-  const formattedAmount = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(invoice.amount);
+  const formattedAmount = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(Number(invoice.amount));
   const methodLabels: Record<string, string> = {
     easypaisa: 'Easypaisa',
     jazzcash: 'JazzCash',

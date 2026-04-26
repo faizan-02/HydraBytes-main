@@ -267,14 +267,19 @@ export function validateCompany(value: unknown): { ok: true; value: string } | F
   return { ok: true, value: cleaned };
 }
 
+import crypto from 'crypto';
+
 /**
  * Constant-time string comparison to mitigate timing attacks on token checks.
+ * Uses Node.js crypto.timingSafeEqual which does not leak string length.
  */
 export function timingSafeEqualStr(a: string, b: string): boolean {
-  if (a.length !== b.length) return false;
-  let mismatch = 0;
-  for (let i = 0; i < a.length; i++) {
-    mismatch |= a.charCodeAt(i) ^ b.charCodeAt(i);
+  const bufA = Buffer.from(a);
+  const bufB = Buffer.from(b);
+  if (bufA.length !== bufB.length) {
+    const dummy = Buffer.alloc(bufA.length);
+    crypto.timingSafeEqual(bufA, dummy);
+    return false;
   }
-  return mismatch === 0;
+  return crypto.timingSafeEqual(bufA, bufB);
 }

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useSession, signOut } from 'next-auth/react';
@@ -30,6 +30,8 @@ export default function Navbar() {
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const userMenuRef = useRef<HTMLDivElement>(null);
   const navLinksRef = useRef<HTMLDivElement>(null);
+  const mobileMenuRef = useRef<HTMLDivElement>(null);
+  const hamburgerRef = useRef<HTMLButtonElement>(null);
   const [cursorPos, setCursorPos] = useState({ left: 0, width: 0, opacity: 0 });
 
   useEffect(() => {
@@ -51,6 +53,45 @@ export default function Navbar() {
   useEffect(() => {
     setIsOpen(false);
   }, [pathname]);
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => { document.body.style.overflow = ''; };
+  }, [isOpen]);
+
+  const handleMenuKeyDown = useCallback((e: KeyboardEvent) => {
+    if (!isOpen) return;
+    if (e.key === 'Escape') {
+      setIsOpen(false);
+      hamburgerRef.current?.focus();
+      return;
+    }
+    if (e.key !== 'Tab') return;
+    const menu = mobileMenuRef.current;
+    if (!menu) return;
+    const focusable = menu.querySelectorAll<HTMLElement>('a, button');
+    if (focusable.length === 0) return;
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    if (e.shiftKey && document.activeElement === first) {
+      e.preventDefault();
+      last.focus();
+    } else if (!e.shiftKey && document.activeElement === last) {
+      e.preventDefault();
+      first.focus();
+    }
+  }, [isOpen]);
+
+  useEffect(() => {
+    if (isOpen) {
+      document.addEventListener('keydown', handleMenuKeyDown);
+    }
+    return () => document.removeEventListener('keydown', handleMenuKeyDown);
+  }, [isOpen, handleMenuKeyDown]);
 
   useEffect(() => {
     const container = navLinksRef.current;
@@ -86,7 +127,7 @@ export default function Navbar() {
           <LogoNetworkAnimation />
           <div style={{ width: '180px', height: '86px', overflow: 'hidden', position: 'relative', flexShrink: 0 }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/transparent.png" alt="HydraBytes" style={{ position: 'absolute', width: '226px', top: '-55px', left: '-22px' }} />
+            <img src="/transparent.png" alt="HydraBytes" width={226} height={196} style={{ position: 'absolute', width: '226px', top: '-55px', left: '-22px' }} />
           </div>
         </Link>
 
@@ -208,9 +249,11 @@ export default function Navbar() {
           )}
 
           <button
+            ref={hamburgerRef}
             className={`${styles.hamburger} ${isOpen ? styles.hamburgerOpen : ''}`}
             onClick={() => setIsOpen(!isOpen)}
             aria-label="Toggle menu"
+            aria-expanded={isOpen}
           >
             <span />
             <span />
@@ -222,7 +265,10 @@ export default function Navbar() {
       <AnimatePresence>
         {isOpen && (
           <motion.div
+            ref={mobileMenuRef}
             className={styles.mobileMenu}
+            role="dialog"
+            aria-label="Mobile navigation"
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}

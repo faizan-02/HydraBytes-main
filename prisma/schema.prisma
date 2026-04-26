@@ -7,31 +7,68 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum SubmissionStatus {
+  new
+  contacted
+  archived
+  closed
+}
+
+enum UserRole {
+  user
+  admin
+}
+
+enum ProjectStatus {
+  pending_verification
+  accepted
+  declined
+  in_progress
+  review
+  planning
+  completed
+  cancelled
+}
+
+enum InvoiceStatus {
+  pending
+  paid
+  overdue
+  cancelled
+  under_review
+}
+
 model ContactSubmission {
-  id        String   @id @default(cuid())
+  id        String           @id @default(cuid())
   name      String
   email     String
   company   String?
   budget    String
   service   String
   message   String
-  status    String   @default("new")
-  createdAt DateTime @default(now())
+  status    SubmissionStatus @default(new)
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+
+  @@index([status])
+  @@index([email])
 }
 
 model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String    @unique
-  password      String?
-  role          String    @default("user")
-  emailVerified Boolean   @default(false)
-  phone         String?
-  company       String?
-  createdAt     DateTime  @default(now())
-  sessions      Session[]
-  projects      Project[]
-  invoices      Invoice[]
+  id                String    @id @default(cuid())
+  name              String?
+  email             String    @unique
+  password          String?
+  role              UserRole  @default(user)
+  emailVerified     Boolean   @default(false)
+  phone             String?
+  company           String?
+  passwordChangedAt DateTime?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  sessions          Session[]
+  projects          Project[]
+  invoices          Invoice[]
 }
 
 model EmailVerificationToken {
@@ -40,6 +77,8 @@ model EmailVerificationToken {
   otp       String
   expiresAt DateTime
   createdAt DateTime @default(now())
+
+  @@index([email, expiresAt])
 }
 
 model Session {
@@ -47,37 +86,47 @@ model Session {
   userId    String
   token     String   @unique
   expiresAt DateTime
-  user      User     @relation(fields: [userId], references: [id])
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
 }
 
 model Project {
-  id          String    @id @default(cuid())
+  id          String        @id @default(cuid())
   userId      String?
   title       String
   service     String
-  status      String    @default("pending_verification")
+  status      ProjectStatus @default(pending_verification)
   budget      String?
   description String?
-  verifyToken String?   @unique
+  verifyToken String?       @unique
   startDate   DateTime?
   endDate     DateTime?
-  createdAt   DateTime  @default(now())
-  user        User?     @relation(fields: [userId], references: [id])
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  user        User?         @relation(fields: [userId], references: [id], onDelete: SetNull)
   invoices    Invoice[]
+
+  @@index([userId])
+  @@index([status, createdAt])
 }
 
 model Invoice {
-  id            String    @id @default(cuid())
+  id            String        @id @default(cuid())
   userId        String
   projectId     String?
-  amount        Float
-  status        String    @default("pending")
+  amount        Decimal
+  status        InvoiceStatus @default(pending)
   dueDate       DateTime?
   paymentRef    String?
   paymentMethod String?
-  createdAt     DateTime  @default(now())
-  user          User      @relation(fields: [userId], references: [id])
-  project       Project?  @relation(fields: [projectId], references: [id])
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  user          User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  project       Project?      @relation(fields: [projectId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@index([status, dueDate])
 }
 
 model NewsletterSubscriber {
@@ -93,6 +142,8 @@ model PasswordResetToken {
   token     String   @unique
   expiresAt DateTime
   createdAt DateTime @default(now())
+
+  @@index([email])
 }
 
 model EmailChangeToken {

@@ -2,6 +2,8 @@ import type { MetadataRoute } from 'next';
 
 const BASE_URL = 'https://www.hydrabytes.tech';
 
+const BUILD_DATE = new Date().toISOString();
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const routes: { path: string; priority: number; freq: MetadataRoute.Sitemap[number]['changeFrequency'] }[] = [
     { path: '',            priority: 1.0, freq: 'weekly'  },
@@ -18,7 +20,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   return routes.map(({ path, priority, freq }) => ({
     url: `${BASE_URL}${path}`,
-    lastModified: new Date(),
+    lastModified: BUILD_DATE,
     changeFrequency: freq,
     priority,
   }));

@@ -20,10 +20,9 @@ export async function POST(req: NextRequest) {
   if ('error' in emailRes) return NextResponse.json({ error: emailRes.error }, { status: emailRes.status });
   const normalizedEmail = emailRes.value;
 
-  // Check for duplicate
   const existing = await prisma.newsletterSubscriber.findUnique({ where: { email: normalizedEmail } });
   if (existing) {
-    return NextResponse.json({ error: 'This email is already subscribed.' }, { status: 409 });
+    return NextResponse.json({ success: true }, { status: 200 });
   }
 
   const unsubscribeToken = randomBytes(32).toString('hex');

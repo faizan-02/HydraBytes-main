@@ -383,11 +383,11 @@ export default function PricingPage() {
               <AnimatedSection key={i} delay={i * 0.06}>
                 <div
                   className={styles.faqItem}
-                  onClick={() => setOpenFaq(openFaq === i ? null : i)}
                 >
                   <button
                     className={styles.faqQ}
                     aria-expanded={openFaq === i}
+                    onClick={() => setOpenFaq(openFaq === i ? null : i)}
                     style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', background: 'none', border: 'none', cursor: 'pointer', color: 'inherit', textAlign: 'left' }}
                   >
                     {faq.q}

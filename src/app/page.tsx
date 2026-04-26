@@ -662,7 +662,7 @@ export default function HomePage() {
                     <div className={styles.advantageIcon} style={{ color: item.color, background: `${item.color}15` }}>
                       <item.icon size={22} strokeWidth={1.8} />
                     </div>
-                    <h4 className={styles.advantageTitle}>{item.title}</h4>
+                    <h3 className={styles.advantageTitle}>{item.title}</h3>
                     <p className={styles.advantageDesc}>{item.desc}</p>
                   </motion.div>
                 </SpotlightCard>

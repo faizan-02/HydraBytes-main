@@ -13,11 +13,19 @@ export async function GET() {
     prisma.project.findMany({
       where: { userId: session.user.id },
       orderBy: { createdAt: 'desc' },
+      select: {
+        id: true, title: true, service: true, status: true,
+        budget: true, description: true, startDate: true, endDate: true, createdAt: true,
+      },
     }),
     prisma.invoice.findMany({
       where: { userId: session.user.id },
       orderBy: { createdAt: 'desc' },
-      include: { project: { select: { title: true } } },
+      select: {
+        id: true, amount: true, status: true, dueDate: true,
+        paymentMethod: true, createdAt: true,
+        project: { select: { title: true } },
+      },
     }),
   ]);
 

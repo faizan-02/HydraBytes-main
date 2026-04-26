@@ -176,8 +176,8 @@ export default function LocalPaymentPage({ params }: { params: Promise<{ invoice
                 style={{
                   padding: '16px',
                   borderRadius: '12px',
-                  border: `1.5px solid ${selected === method.id ? method.border : 'rgba(255,255,255,0.08)'}`,
-                  background: selected === method.id ? method.bg : 'rgba(255,255,255,0.02)',
+                  border: `1.5px solid ${selected === method.id ? method.border : 'var(--border-color)'}`,
+                  background: selected === method.id ? method.bg : 'var(--bg-tertiary)',
                   cursor: 'pointer',
                   textAlign: 'left',
                   transition: 'all 0.2s',
@@ -211,8 +211,8 @@ export default function LocalPaymentPage({ params }: { params: Promise<{ invoice
               style={{
                 padding: '16px',
                 borderRadius: '12px',
-                border: `1.5px solid ${selected === method.id ? method.border : 'rgba(255,255,255,0.08)'}`,
-                background: selected === method.id ? method.bg : 'rgba(255,255,255,0.02)',
+                border: `1.5px solid ${selected === method.id ? method.border : 'var(--border-color)'}`,
+                background: selected === method.id ? method.bg : 'var(--bg-tertiary)',
                 cursor: 'pointer',
                 textAlign: 'left',
                 transition: 'all 0.2s',
@@ -250,7 +250,7 @@ export default function LocalPaymentPage({ params }: { params: Promise<{ invoice
               </h3>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '16px' }}>
                 {selectedMethod.fields.map(field => (
-                  <div key={field.label} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(0,0,0,0.2)', borderRadius: '8px', padding: '10px 14px' }}>
+                  <div key={field.label} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'var(--bg-secondary)', borderRadius: '8px', padding: '10px 14px' }}>
                     <div>
                       <div style={{ fontSize: '11px', color: 'var(--text-secondary, #9ca3af)', marginBottom: '2px' }}>{field.label}</div>
                       <div style={{ fontWeight: 600, fontSize: '14px', fontFamily: 'monospace' }}>{field.value}</div>
@@ -282,7 +282,7 @@ export default function LocalPaymentPage({ params }: { params: Promise<{ invoice
               placeholder="e.g. TXN123456789"
               value={transactionRef}
               onChange={e => setTransactionRef(e.target.value)}
-              style={{ width: '100%', padding: '12px 16px', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: '10px', color: 'inherit', fontSize: '15px', fontFamily: 'monospace', outline: 'none', boxSizing: 'border-box', marginBottom: '16px' }}
+              style={{ width: '100%', padding: '12px 16px', background: 'var(--bg-tertiary)', border: '1px solid var(--border-color-hover)', borderRadius: '10px', color: 'inherit', fontSize: '15px', fontFamily: 'monospace', outline: 'none', boxSizing: 'border-box', marginBottom: '16px' }}
             />
 
             {error && (
