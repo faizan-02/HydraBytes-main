@@ -15,38 +15,49 @@ import GradientText from '@/components/GradientText';
 import FloatingParticles from '@/components/FloatingParticles';
 import MagneticButton from '@/components/MagneticButton';
 import { BlurFade } from '@/components/BlurFade';
+import GlassChip from '@/components/GlassChip';
 import { CircularGallery } from '@/components/ui/circular-gallery';
 import LogoLoop from '@/components/ui/LogoLoop';
 import { useTheme } from '@/lib/ThemeContext';
 import {
   SiReact, SiNextdotjs, SiPython, SiNodedotjs,
   SiDocker, SiFirebase, SiTensorflow,
-  SiFigma, SiVercel, SiGithub, SiMongodb,
+  SiFigma, SiVercel, SiGithub, SiMongodb, SiTypescript,
 } from 'react-icons/si';
 import { FaAws } from 'react-icons/fa';
 import styles from './page.module.css';
 
 const techChips = [
-  { label: 'Next.js',    color: '#e2e8f0', lightColor: '#334155', style: { top: '14%',   left: '7%'  }, delay: 0   },
-  { label: 'React',      color: '#61dafb', lightColor: '#0369a1', style: { top: '20%',   right: '9%' }, delay: 0.3 },
-  { label: 'TypeScript', color: '#3178c6', lightColor: '#1e40af', style: { top: '62%',   left: '5%'  }, delay: 0.6 },
-  { label: 'Node.js',    color: '#68a063', lightColor: '#15803d', style: { bottom: '22%', right: '7%' }, delay: 0.9 },
-  { label: 'AI / ML',    color: '#f472b6', lightColor: '#be185d', style: { top: '42%',   right: '4%' }, delay: 1.2 },
+  { label: 'Next.js',    icon: <SiNextdotjs size={16} />, color: '#e2e8f0', lightColor: '#334155', style: { top: '14%',   left: '7%'  }, delay: 0   },
+  { label: 'React',      icon: <SiReact size={16} />, color: '#61dafb', lightColor: '#0369a1', style: { top: '20%',   right: '9%' }, delay: 0.3 },
+  { label: 'TypeScript', icon: <SiTypescript size={16} />, color: '#3178c6', lightColor: '#1e40af', style: { top: '62%',   left: '5%'  }, delay: 0.6 },
+  { label: 'AI / ML',    icon: <Brain size={16} />, color: '#f472b6', lightColor: '#be185d', style: { top: '42%',   right: '4%' }, delay: 1.2 },
 ];
 
+const TwoTonePython = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="1em" height="1em" {...props}>
+    <linearGradient id="python-original-a" gradientUnits="userSpaceOnUse" x1="70.252" y1="1237.476" x2="170.659" y2="1151.089" gradientTransform="matrix(.563 0 0 -.568 -29.215 707.817)"><stop offset="0" stopColor="#5A9FD4"/><stop offset="1" stopColor="#306998"/></linearGradient>
+    <linearGradient id="python-original-b" gradientUnits="userSpaceOnUse" x1="209.474" y1="1098.811" x2="173.62" y2="1149.537" gradientTransform="matrix(.563 0 0 -.568 -29.215 707.817)"><stop offset="0" stopColor="#FFD43B"/><stop offset="1" stopColor="#FFE873"/></linearGradient>
+    <path fill="url(#python-original-a)" d="M63.391 1.988c-4.222.02-8.252.379-11.8 1.007-10.45 1.846-12.346 5.71-12.346 12.837v9.411h24.693v3.137H29.977c-7.176 0-13.46 4.313-15.426 12.521-2.268 9.405-2.368 15.275 0 25.096 1.755 7.311 5.947 12.519 13.124 12.519h8.491V67.234c0-8.151 7.051-15.34 15.426-15.34h24.665c6.866 0 12.346-5.654 12.346-12.548V15.833c0-6.693-5.646-11.72-12.346-12.837-4.244-.706-8.645-1.027-12.866-1.008zM50.037 9.557c2.55 0 4.634 2.117 4.634 4.721 0 2.593-2.083 4.69-4.634 4.69-2.56 0-4.633-2.097-4.633-4.69-.001-2.604 2.073-4.721 4.633-4.721z" transform="translate(0 10.26)"/>
+    <path fill="url(#python-original-b)" d="M91.682 28.38v10.966c0 8.5-7.208 15.655-15.426 15.655H51.591c-6.756 0-12.346 5.783-12.346 12.549v23.515c0 6.691 5.818 10.628 12.346 12.547 7.816 2.297 15.312 2.713 24.665 0 6.216-1.801 12.346-5.423 12.346-12.547v-9.412H63.938v-3.138h37.012c7.176 0 9.852-5.005 12.348-12.519 2.578-7.735 2.467-15.174 0-25.096-1.774-7.145-5.161-12.521-12.348-12.521h-9.268zM77.809 87.927c2.561 0 4.634 2.097 4.634 4.692 0 2.602-2.074 4.719-4.634 4.719-2.55 0-4.633-2.117-4.633-4.719 0-2.595 2.083-4.692 4.633-4.692z" transform="translate(0 10.26)"/>
+    <radialGradient id="python-original-c" cx="1825.678" cy="444.45" r="26.743" gradientTransform="matrix(0 -.24 -1.055 0 532.979 557.576)" gradientUnits="userSpaceOnUse"><stop offset="0" stopColor="#B8B8B8" stopOpacity=".498"/><stop offset="1" stopColor="#7F7F7F" stopOpacity="0"/></radialGradient>
+    <path opacity=".444" fill="url(#python-original-c)" d="M97.309 119.597c0 3.543-14.816 6.416-33.091 6.416-18.276 0-33.092-2.873-33.092-6.416 0-3.544 14.815-6.417 33.092-6.417 18.275 0 33.091 2.872 33.091 6.417z"/>
+  </svg>
+);
+
 const techLogos = [
-  { node: <SiReact />, title: 'React' },
+  { node: <SiReact color="#61DAFB" />, title: 'React' },
   { node: <SiNextdotjs />, title: 'Next.js' },
-  { node: <SiPython />, title: 'Python' },
-  { node: <SiNodedotjs />, title: 'Node.js' },
-  { node: <SiDocker />, title: 'Docker' },
-  { node: <FaAws />, title: 'AWS' },
-  { node: <SiFirebase />, title: 'Firebase' },
-  { node: <SiTensorflow />, title: 'TensorFlow' },
-  { node: <SiFigma />, title: 'Figma' },
+  { node: <TwoTonePython />, title: 'Python' },
+  { node: <SiNodedotjs color="#339933" />, title: 'Node.js' },
+  { node: <SiDocker color="#2496ED" />, title: 'Docker' },
+  { node: <FaAws color="#FF9900" />, title: 'AWS' },
+  { node: <SiFirebase color="#FFCA28" />, title: 'Firebase' },
+  { node: <SiTensorflow color="#FF6F00" />, title: 'TensorFlow' },
+  { node: <SiFigma color="#F24E1E" />, title: 'Figma' },
   { node: <SiVercel />, title: 'Vercel' },
   { node: <SiGithub />, title: 'GitHub' },
-  { node: <SiMongodb />, title: 'MongoDB' },
+  { node: <SiMongodb color="#47A248" />, title: 'MongoDB' },
 ];
 
 const services = [
@@ -288,59 +299,6 @@ export default function HomePage() {
           <motion.div className={`${styles.auroraBlob} ${styles.auroraBlob2}`} style={{ y: blob2Y }} />
           <motion.div className={`${styles.auroraBlob} ${styles.auroraBlob3}`} style={{ y: blob3Y }} />
           <FloatingParticles />
-          <div className={styles.floatingChips}>
-            {techChips.map((chip) => {
-              const chipColor = theme === 'light' ? chip.lightColor : chip.color;
-              return (
-                <motion.div
-                  key={chip.label}
-                  style={{
-                    position: 'absolute',
-                    ...chip.style,
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '0.5rem',
-                    padding: '0.45rem 0.95rem',
-                    borderRadius: '9999px',
-                    fontSize: '0.72rem',
-                    fontWeight: 600,
-                    letterSpacing: '-0.005em',
-                    whiteSpace: 'nowrap',
-                    border: `1px solid ${chipColor}35`,
-                    background: theme === 'light'
-                      ? 'rgba(255, 255, 255, 0.72)'
-                      : 'rgba(18, 18, 30, 0.55)',
-                    boxShadow: theme === 'light'
-                      ? `0 1px 0 rgba(255,255,255,0.8) inset, 0 4px 18px rgba(0,0,0,0.06), 0 0 24px ${chipColor}1a`
-                      : `0 1px 0 rgba(255,255,255,0.06) inset, 0 6px 24px rgba(0,0,0,0.35), 0 0 22px ${chipColor}22`,
-                    color: chipColor,
-                    backdropFilter: 'blur(14px)',
-                    WebkitBackdropFilter: 'blur(14px)',
-                    zIndex: 2,
-                    pointerEvents: 'none',
-                  }}
-                  initial={{ opacity: 0, y: 8 }}
-                  animate={{ opacity: 1, y: [0, -4, 0] }}
-                  transition={{
-                    opacity: { duration: 0.6, delay: chip.delay, ease: 'easeOut' },
-                    y: { duration: 5.5, repeat: Infinity, ease: 'easeInOut', delay: chip.delay + 0.6 },
-                  }}
-                >
-                  <span
-                    style={{
-                      width: 6,
-                      height: 6,
-                      borderRadius: '50%',
-                      background: chipColor,
-                      boxShadow: `0 0 8px ${chipColor}`,
-                      flexShrink: 0,
-                    }}
-                  />
-                  {chip.label}
-                </motion.div>
-              );
-            })}
-          </div>
         </div>
 
         <div ref={spotlightRef} className={styles.heroSpotlight} />
@@ -424,10 +382,15 @@ export default function HomePage() {
 
         <div className={`container ${styles.heroContainer}`}>
           <AnimatedSection>
-            <div className={styles.heroBadge}>
-              <span className={styles.badgeDot} />
-              Next-Gen Digital Solutions
-            </div>
+            <GlassChip
+              label="Next-Gen Digital Solutions"
+              revealedLabel="That Drive Growth"
+              color={theme === 'dark' ? '#cbd5e1' : '#475569'}
+              position="relative"
+              style={{ marginBottom: '2rem' }}
+              continuousFloat={false}
+              theme={theme as 'light' | 'dark'}
+            />
           </AnimatedSection>
 
           <motion.h1
@@ -510,6 +473,25 @@ export default function HomePage() {
               </div>
             </div>
           </AnimatedSection>
+          <div 
+            className={styles.floatingChips} 
+            style={{ position: 'absolute', inset: 0, zIndex: 10, pointerEvents: 'none' }}
+          >
+            {techChips.map((chip) => {
+              const chipColor = theme === 'light' ? chip.lightColor : chip.color;
+              return (
+                <GlassChip
+                  key={chip.label}
+                  label={chip.label}
+                  icon={chip.icon}
+                  color={chipColor}
+                  delay={chip.delay}
+                  style={chip.style}
+                  theme={theme as 'light' | 'dark'}
+                />
+              );
+            })}
+          </div>
         </div>
       </section>
 
