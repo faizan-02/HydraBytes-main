@@ -13,7 +13,7 @@ export default function GradientText({
   children,
   className = '',
   animationSpeed = 8,
-  colors = ['#7c3aed', '#00e5ff', '#f472b6', '#7c3aed'],
+  colors = ['#7c3aed', '#8b5cf6', '#a78bfa', '#7c3aed'],
 }: GradientTextProps) {
   const gradientStyle: React.CSSProperties = {
     display: 'inline-block',

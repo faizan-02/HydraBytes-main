@@ -29,9 +29,6 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
       <PostHogProvider>
         <ScrollProgress />
         <LoadingScreen />
-        <div className="bg-grid" />
-        <div className="bg-glow-orb bg-glow-orb-1" />
-        <div className="bg-glow-orb bg-glow-orb-2" />
         <Navbar />
         <main style={{ position: 'relative', zIndex: 1, paddingTop: '80px' }}>
           <Suspense>

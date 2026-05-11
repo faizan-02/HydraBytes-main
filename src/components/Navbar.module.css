@@ -122,7 +122,7 @@
   font-weight: 600;
   color: var(--text-secondary);
   padding: 0.5rem 1rem;
-  border-radius: var(--radius-full);
+  border-radius: var(--radius-md);
   transition: color var(--transition-fast);
 }
 

@@ -193,7 +193,7 @@ export default function Footer() {
                 style={{
                   padding: '10px 20px',
                   borderRadius: '8px',
-                  background: 'linear-gradient(135deg, #7c3aed 0%, #00e5ff 100%)',
+                  background: '#7c3aed',
                   color: '#ffffff',
                   fontSize: '14px',
                   fontWeight: 600,
