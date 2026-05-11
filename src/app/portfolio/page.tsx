@@ -84,7 +84,7 @@ const projects = [
     tech: ['Next.js 16', 'React 19', 'TypeScript', 'Supabase', 'Tailwind CSS', 'Framer Motion', 'React-PDF'],
     color: '#7c3aed',
     metric: 'Real-time margin analytics',
-    image: '/portfolio/inventra.png',
+    image: '/portfolio/inventra.jpeg',
     year: 'May 2026',
   },
   {
