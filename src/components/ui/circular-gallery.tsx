@@ -13,6 +13,7 @@ interface GalleryItem {
   tech: string[];
   color: string;
   image: string;
+  objectPosition?: string;
 }
 
 interface CircularGalleryProps {
@@ -80,7 +81,7 @@ function GalleryCard({ item, cardH, isMobile }: { item: GalleryItem; cardH: numb
         }}
       >
         <div style={{ position: 'relative', width: '100%', height: isMobile ? '45%' : '50%', flexShrink: 0, overflow: 'hidden' }}>
-          <Image src={item.image} alt={item.title} fill style={{ objectFit: 'cover' }} sizes={isMobile ? '300px' : '520px'} />
+          <Image src={item.image} alt={item.title} fill style={{ objectFit: 'cover', objectPosition: item.objectPosition || 'center' }} sizes={isMobile ? '300px' : '520px'} />
         </div>
 
         <div style={{ padding: isMobile ? '1rem 1.15rem' : '1.5rem 2rem', display: 'flex', flexDirection: 'column', flex: 1, gap: isMobile ? '0.5rem' : '0.75rem' }}>

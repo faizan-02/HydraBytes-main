@@ -126,6 +126,7 @@ const featuredProjects = [
     tech: ['Next.js', 'TypeScript', 'Supabase'],
     color: '#3b82f6',
     image: '/portfolio/inventra.jpeg',
+    objectPosition: 'left center',
   },
 ];
 

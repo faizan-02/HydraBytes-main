@@ -85,6 +85,7 @@ const projects = [
     color: '#7c3aed',
     metric: 'Real-time margin analytics',
     image: '/portfolio/inventra.jpeg',
+    objectPosition: 'left center',
     year: 'May 2026',
   },
   {
@@ -164,7 +165,7 @@ export default function PortfolioPage() {
                           src={project.image}
                           alt={project.title}
                           fill
-                          style={{ objectFit: 'cover' }}
+                          style={{ objectFit: 'cover', objectPosition: project.objectPosition || 'center' }}
                           sizes="(max-width: 768px) 100vw, 400px"
                         />
                         <div style={{ position: 'absolute', inset: 0, background: `linear-gradient(to top, ${project.color}40, transparent)` }} />
