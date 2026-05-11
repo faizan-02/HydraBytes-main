@@ -210,6 +210,20 @@
   line-height: 1.65;
 }
 
+.serviceHighlightArrow {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  margin-left: auto;
+  flex-shrink: 0;
+  color: var(--accent-primary);
+  opacity: 0.7;
+}
+
+.servicesHeader {
+  display: none;
+}
+
 .heroStatsGrid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -459,13 +473,18 @@
   .heroCtas {
     flex-direction: column;
     align-items: stretch;
+    gap: 0.75rem;
   }
   .heroCtas > * {
     width: 100%;
+    display: flex !important;
   }
   .heroCtas > * > * {
     width: 100%;
+    display: flex !important;
     justify-content: center;
+    text-align: center;
+    box-sizing: border-box;
   }
   .heroImageWrap {
     max-width: 100%;
@@ -489,13 +508,60 @@
   .trustedLogos {
     justify-content: flex-start;
   }
+  .servicesStrip {
+    padding: 2.5rem 0;
+  }
   .serviceHighlights {
     flex-direction: column;
-    gap: 2rem;
+    gap: 0.75rem;
+  }
+  .serviceHighlight {
+    flex-direction: row;
+    align-items: center;
+    padding: 1rem 1.25rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    background: var(--bg-card);
+    gap: 1rem;
+  }
+  .serviceHighlightIcon {
+    flex-shrink: 0;
+  }
+  .serviceHighlightTitle {
+    font-size: 0.88rem;
+    margin-bottom: 0.15rem;
+  }
+  .serviceHighlightDesc {
+    font-size: 0.75rem;
+    line-height: 1.5;
+  }
+  .serviceHighlightArrow {
+    display: flex !important;
+  }
+  .servicesHeader {
+    display: block;
+    margin-bottom: 1.5rem;
+  }
+  .servicesHeaderLabel {
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--accent-primary);
+    margin-bottom: 0.75rem;
+  }
+  .servicesHeaderTitle {
+    font-size: clamp(1.5rem, 6vw, 2rem);
+    font-weight: 800;
+    color: var(--text-primary);
+    line-height: 1.2;
+    letter-spacing: -0.02em;
   }
   .heroStatsGrid {
     width: 100%;
     max-width: none;
+    gap: 1rem;
+    padding: 1.25rem;
   }
   .advantagesGrid,
   .testimonialsGrid {

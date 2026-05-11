@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import {
-  ArrowRight, Smartphone, Brain, CheckCircle2,
+  ArrowRight, Smartphone, Brain, CheckCircle2, Cloud,
   Users, Zap, Shield, TrendingUp, RefreshCw, Palette,
   Bot, Clock, Star, Award, Code2,
 } from 'lucide-react';
@@ -44,6 +44,11 @@ const serviceHighlights = [
     icon: Brain,
     title: 'AI / ML Solutions',
     desc: 'Intelligent solutions that automate processes and unlock new opportunities.',
+  },
+  {
+    icon: Cloud,
+    title: 'Cloud & DevOps',
+    desc: 'Scalable infrastructure and DevOps practices for reliable deployments.',
   },
 ];
 
@@ -331,6 +336,12 @@ export default function HomePage() {
       <section className={styles.servicesStrip}>
         <div className="container">
           <BlurFade delay={0} duration={0.6} inView blur="6px">
+            <div className={styles.servicesHeader}>
+              <p className={styles.servicesHeaderLabel}>What We Do</p>
+              <h2 className={styles.servicesHeaderTitle}>
+                End-to-end digital solutions for modern businesses.
+              </h2>
+            </div>
             <div className={styles.servicesStripInner}>
               <div className={styles.serviceHighlights}>
                 {serviceHighlights.map((service) => (
@@ -338,8 +349,13 @@ export default function HomePage() {
                     <div className={styles.serviceHighlightIcon}>
                       <service.icon size={20} strokeWidth={1.8} />
                     </div>
-                    <h3 className={styles.serviceHighlightTitle}>{service.title}</h3>
-                    <p className={styles.serviceHighlightDesc}>{service.desc}</p>
+                    <div>
+                      <h3 className={styles.serviceHighlightTitle}>{service.title}</h3>
+                      <p className={styles.serviceHighlightDesc}>{service.desc}</p>
+                    </div>
+                    <span className={styles.serviceHighlightArrow}>
+                      <ArrowRight size={18} strokeWidth={1.8} />
+                    </span>
                   </div>
                 ))}
               </div>
