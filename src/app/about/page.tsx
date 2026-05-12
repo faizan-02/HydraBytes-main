@@ -187,7 +187,7 @@ export default function AboutPage() {
           </AnimatedSection>
           <div className={styles.timeline}>
             {timeline.map((item, i) => (
-              <AnimatedSection key={item.year} delay={i * 0.12}>
+              <AnimatedSection key={`${item.year}-${item.title}`} delay={i * 0.12}>
                 <div className={styles.timelineItem}>
                   <span className={styles.timelineYear}>{item.year}</span>
                   <div className={styles.timelineDot} />
