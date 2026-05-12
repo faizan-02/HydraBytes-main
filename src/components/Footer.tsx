@@ -135,8 +135,8 @@ export default function Footer() {
 
         {/* Newsletter Section */}
         <div style={{
-          borderTop: '1px solid rgba(124, 58, 237, 0.15)',
-          borderBottom: '1px solid rgba(124, 58, 237, 0.15)',
+          borderTop: '1px solid rgba(0, 180, 216, 0.15)',
+          borderBottom: '1px solid rgba(0, 180, 216, 0.15)',
           padding: '32px 0',
           marginBottom: '24px',
           display: 'flex',
@@ -193,7 +193,7 @@ export default function Footer() {
                 style={{
                   padding: '10px 20px',
                   borderRadius: '8px',
-                  background: '#7c3aed',
+                  background: '#0891b2',
                   color: '#ffffff',
                   fontSize: '14px',
                   fontWeight: 600,

@@ -41,7 +41,7 @@ function wrapBrandedEmail(innerHtml: string): string {
             <tr>
               <td align="center" style="padding:32px 16px 16px;">
                 <!-- Divider -->
-                <div style="width:80px;height:2px;background:linear-gradient(90deg,#7c3aed,#00e5ff);margin:0 auto 20px;border-radius:2px;"></div>
+                <div style="width:80px;height:2px;background:linear-gradient(90deg,#1a6b7a,#00b4d8);margin:0 auto 20px;border-radius:2px;"></div>
 
                 <!-- Social Links -->
                 <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:0 auto 16px;">

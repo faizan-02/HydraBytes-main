@@ -7,11 +7,11 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Brand purple / cyan — match globals.css CSS custom properties exactly
+        // Brand teal / cyan — match globals.css CSS custom properties exactly
         primary: {
-          DEFAULT: '#7c3aed',
-          hover: '#8b5cf6',
-          glow: 'rgba(124,58,237,0.3)',
+          DEFAULT: '#0891b2',
+          hover: '#06b6d4',
+          glow: 'rgba(0,180,216,0.3)',
         },
         cyan: {
           DEFAULT: '#00e5ff',

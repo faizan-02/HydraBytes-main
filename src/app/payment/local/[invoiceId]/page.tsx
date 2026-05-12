@@ -57,9 +57,9 @@ const PAYMENT_METHODS = [
     name: 'JazzCash',
     icon: 'JC',
     logo: '/logos/jazzcash.png',
-    color: '#7c3aed',
-    bg: 'rgba(124,58,237,0.08)',
-    border: 'rgba(124,58,237,0.25)',
+    color: '#0891b2',
+    bg: 'rgba(0,180,216,0.08)',
+    border: 'rgba(0,180,216,0.25)',
     fields: [
       { label: 'Mobile Account', value: '0323-9999000' },
       { label: 'Account Name',   value: 'Faizan Jawad Ahmed' },

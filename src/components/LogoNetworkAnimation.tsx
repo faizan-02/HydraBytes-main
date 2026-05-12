@@ -20,13 +20,13 @@ const CANVAS_WIDTH = 280;
 const CANVAS_HEIGHT = 110;
 const NODE_COUNT = 10;
 const CONNECTION_THRESHOLD = 95;
-const PURPLE = [124, 58, 237];
-const CYAN = [0, 229, 255];
+const TEAL = [26, 107, 122];
+const CYAN = [0, 180, 216];
 
 function lerpColor(t: number): string {
-  const r = Math.round(PURPLE[0] + (CYAN[0] - PURPLE[0]) * t);
-  const g = Math.round(PURPLE[1] + (CYAN[1] - PURPLE[1]) * t);
-  const b = Math.round(PURPLE[2] + (CYAN[2] - PURPLE[2]) * t);
+  const r = Math.round(TEAL[0] + (CYAN[0] - TEAL[0]) * t);
+  const g = Math.round(TEAL[1] + (CYAN[1] - TEAL[1]) * t);
+  const b = Math.round(TEAL[2] + (CYAN[2] - TEAL[2]) * t);
   return `rgb(${r},${g},${b})`;
 }
 

@@ -39,7 +39,7 @@ export async function POST(req: NextRequest) {
       subject: 'Welcome to HydraBytes updates!',
       html: `
       <div style="font-family: Inter, sans-serif; max-width: 600px; margin: 0 auto; background: #0a0a12; color: #f0f0f5; border-radius: 12px; overflow: hidden;">
-        <div style="background: linear-gradient(135deg, #7c3aed 0%, #00e5ff 100%); padding: 40px 32px; text-align: center;">
+        <div style="background: linear-gradient(135deg, #1a6b7a 0%, #00b4d8 100%); padding: 40px 32px; text-align: center;">
           <h1 style="margin: 0; font-size: 28px; font-weight: 800; color: #ffffff;">Welcome to HydraBytes!</h1>
         </div>
         <div style="padding: 40px 32px;">
@@ -50,12 +50,12 @@ export async function POST(req: NextRequest) {
             Stay tuned for insights, project showcases, and exclusive updates delivered straight to your inbox.
           </p>
           <div style="text-align: center;">
-            <a href="${BASE_URL}" style="display: inline-block; padding: 14px 32px; background: linear-gradient(135deg, #7c3aed 0%, #00e5ff 100%); color: #ffffff; text-decoration: none; border-radius: 999px; font-weight: 600; font-size: 15px;">
+            <a href="${BASE_URL}" style="display: inline-block; padding: 14px 32px; background: linear-gradient(135deg, #1a6b7a 0%, #00b4d8 100%); color: #ffffff; text-decoration: none; border-radius: 999px; font-weight: 600; font-size: 15px;">
               Visit HydraBytes
             </a>
           </div>
         </div>
-        <div style="padding: 24px 32px; border-top: 1px solid rgba(124,58,237,0.15); text-align: center;">
+        <div style="padding: 24px 32px; border-top: 1px solid rgba(0,180,216,0.15); text-align: center;">
           <p style="margin: 0; font-size: 13px; color: #6c6c85;">© ${new Date().getFullYear()} HydraBytes. All rights reserved.</p>
           <p style="margin: 8px 0 0; font-size: 12px; color: #6c6c85;">
             Don't want these emails?

@@ -285,7 +285,7 @@ export default function PricingPage() {
                 <SpotlightCard
                   key={plan.name}
                   className={`${styles.planCard} ${plan.popular ? styles.popularCard : ''}`}
-                  spotlightColor={plan.popular ? 'rgba(124, 58, 237, 0.2)' : 'rgba(0, 229, 255, 0.15)'}
+                  spotlightColor={plan.popular ? 'rgba(0, 180, 216, 0.2)' : 'rgba(0, 229, 255, 0.15)'}
                 >
                   <div className={styles.planCardInner}>
                     {plan.popular && <span className={styles.popularBadge}>Most Popular</span>}

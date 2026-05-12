@@ -53,7 +53,7 @@ const serviceHighlights = [
 ];
 
 const heroStats = [
-  { icon: CheckCircle2, value: '10+', label: 'Projects Delivered', color: '#7c3aed', bg: 'rgba(124, 58, 237, 0.1)' },
+  { icon: CheckCircle2, value: '10+', label: 'Projects Delivered', color: '#0891b2', bg: 'rgba(0, 180, 216, 0.1)' },
   { icon: Zap, value: '3+', label: 'Technologies Per Stack', color: '#f59e0b', bg: 'rgba(245, 158, 11, 0.1)' },
   { icon: Clock, value: '100%', label: 'On-Time Delivery', color: '#3b82f6', bg: 'rgba(59, 130, 246, 0.1)' },
   { icon: Shield, value: '24/7', label: 'Support Available', color: '#22c55e', bg: 'rgba(34, 197, 94, 0.1)' },
@@ -89,7 +89,7 @@ const featuredProjects = [
     category: 'AI/ML',
     desc: 'End-to-end AI-powered retinal disease detection platform for clinical support with Grad-CAM visualization.',
     tech: ['PyTorch', 'ResNet-101', 'Flask'],
-    color: '#7c3aed',
+    color: '#0891b2',
     image: '/portfolio/optipro.png',
   },
   {
@@ -97,7 +97,7 @@ const featuredProjects = [
     category: 'AI/ML',
     desc: 'Real-time voice conversation platform with 104+ AI characters using OpenAI GPT, TTS, and WebRTC.',
     tech: ['FastAPI', 'WebSockets', 'OpenAI'],
-    color: '#8b5cf6',
+    color: '#06b6d4',
     image: '/portfolio/ai-voice-agent.png',
   },
   {
@@ -140,14 +140,14 @@ const advantages = [
   { icon: Shield, title: 'Secure by Design', desc: 'Enterprise-grade security built into every layer of your application.', color: '#22c55e' },
   { icon: TrendingUp, title: 'Scalable Architecture', desc: 'Solutions that grow with your business, from startup to enterprise.', color: '#3b82f6' },
   { icon: Palette, title: 'Pixel-Perfect Design', desc: 'Every interface crafted with precision, ensuring a premium user experience.', color: '#f472b6' },
-  { icon: Bot, title: 'AI-Powered', desc: 'Leverage machine learning and automation to stay ahead of the curve.', color: '#7c3aed' },
+  { icon: Bot, title: 'AI-Powered', desc: 'Leverage machine learning and automation to stay ahead of the curve.', color: '#0891b2' },
   { icon: RefreshCw, title: 'Agile Process', desc: 'Transparent, iterative development with continuous delivery and feedback.', color: '#ef4444' },
 ];
 
 const clientCommitments = [
   {
     icon: Shield,
-    color: '#7c3aed',
+    color: '#0891b2',
     title: 'NDA on Day One',
     detail: 'Every engagement starts with a signed NDA. Your ideas, business data, and IP are fully protected before any discussion begins.',
   },
@@ -228,7 +228,7 @@ function HeroWorkspace() {
           />
         </div>
       </motion.div>
-      <div className={styles.heroPurpleGlow} />
+      <div className={styles.heroTealGlow} />
     </div>
   );
 }

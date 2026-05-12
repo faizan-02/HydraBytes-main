@@ -79,11 +79,11 @@ export async function GET(req: NextRequest) {
                 We encourage you to resubmit with updated requirements or reach out directly to discuss what we can help with.
               </p>
               <div style="display: flex; gap: 12px; flex-wrap: wrap;">
-                <a href="${BASE_URL}/contact" style="display: inline-block; padding: 12px 24px; background: linear-gradient(135deg, #7c3aed, #00e5ff); color: #fff; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 14px;">Submit New Request</a>
+                <a href="${BASE_URL}/contact" style="display: inline-block; padding: 12px 24px; background: linear-gradient(135deg, #1a6b7a, #00b4d8); color: #fff; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 14px;">Submit New Request</a>
                 <a href="${WA_LINK}" style="display: inline-block; padding: 12px 24px; background: #25d366; color: #fff; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 14px;">WhatsApp Us</a>
               </div>
             </div>
-            <div style="padding: 24px 32px; border-top: 1px solid rgba(124,58,237,0.15); text-align: center;">
+            <div style="padding: 24px 32px; border-top: 1px solid rgba(0,180,216,0.15); text-align: center;">
               <p style="margin: 0; font-size: 13px; color: #6c6c85;">© ${new Date().getFullYear()} HydraBytes. All rights reserved.</p>
             </div>
           </div>`,
@@ -105,7 +105,7 @@ export async function GET(req: NextRequest) {
       subject: 'Your project has been accepted - HydraBytes',
       html: `
         <div style="font-family: Inter, sans-serif; max-width: 600px; margin: 0 auto; background: #0a0a12; color: #f0f0f5; border-radius: 12px; overflow: hidden;">
-          <div style="background: linear-gradient(135deg, #7c3aed 0%, #00e5ff 100%); padding: 40px 32px; text-align: center;">
+          <div style="background: linear-gradient(135deg, #1a6b7a 0%, #00b4d8 100%); padding: 40px 32px; text-align: center;">
             <h1 style="margin: 0; font-size: 24px; font-weight: 800; color: #fff;">Great News, ${safeName}!</h1>
             <p style="margin: 8px 0 0; font-size: 16px; color: rgba(255,255,255,0.85);">Your project has been accepted</p>
           </div>
@@ -114,14 +114,14 @@ export async function GET(req: NextRequest) {
             <p style="font-size: 15px; line-height: 1.7; color: #a0a0b8; margin: 0 0 24px;">
               Your inquiry for <strong style="color: #f0f0f5;">${safeTitle}</strong> has been reviewed and accepted! Our team will reach out within <strong style="color: #f0f0f5;">24 hours</strong> to discuss scope, timeline, and next steps.
             </p>
-            <div style="background: rgba(124,58,237,0.08); border: 1px solid rgba(124,58,237,0.25); border-radius: 12px; padding: 24px; margin-bottom: 32px;">
+            <div style="background: rgba(0,180,216,0.08); border: 1px solid rgba(0,180,216,0.25); border-radius: 12px; padding: 24px; margin-bottom: 32px;">
               <p style="margin: 0 0 8px; font-size: 15px; font-weight: 700; color: #f0f0f5;">What happens next?</p>
               <p style="margin: 0; color: #a0a0b8; font-size: 14px; line-height: 1.6;">
                 Head to your dashboard to track real-time progress, book a consultation, or reach out directly.
               </p>
             </div>
             <div style="text-align: center; margin-bottom: 24px;">
-              <a href="${BASE_URL}/dashboard" style="display: inline-block; padding: 14px 32px; background: linear-gradient(135deg, #7c3aed, #00e5ff); color: #fff; text-decoration: none; border-radius: 999px; font-weight: 700; font-size: 15px;">
+              <a href="${BASE_URL}/dashboard" style="display: inline-block; padding: 14px 32px; background: linear-gradient(135deg, #1a6b7a, #00b4d8); color: #fff; text-decoration: none; border-radius: 999px; font-weight: 700; font-size: 15px;">
                 View Your Dashboard →
               </a>
             </div>
@@ -131,7 +131,7 @@ export async function GET(req: NextRequest) {
               <a href="${WA_LINK}" style="display: inline-block; padding: 11px 22px; background: #25d366; color: #fff; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 14px;">WhatsApp Us</a>
             </div>
           </div>
-          <div style="padding: 24px 32px; border-top: 1px solid rgba(124,58,237,0.15); text-align: center;">
+          <div style="padding: 24px 32px; border-top: 1px solid rgba(0,180,216,0.15); text-align: center;">
             <p style="margin: 0; font-size: 13px; color: #6c6c85;">© ${new Date().getFullYear()} HydraBytes · contact@hydrabytes.tech · +92 323 9999 000</p>
           </div>
         </div>`,

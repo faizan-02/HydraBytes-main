@@ -13,7 +13,7 @@ export default function Loading() {
           >
             <defs>
               <linearGradient id="routeLoadGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#7c3aed" />
+                <stop offset="0%" stopColor="#1a6b7a" />
                 <stop offset="100%" stopColor="#00e5ff" />
               </linearGradient>
             </defs>

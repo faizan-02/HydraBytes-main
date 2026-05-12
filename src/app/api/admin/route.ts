@@ -98,23 +98,23 @@ export async function PATCH(req: Request) {
         subject: `Update on your project: ${updated.title}`,
         html: `
           <div style="font-family: Inter, sans-serif; max-width: 600px; margin: 0 auto; background: #0a0a12; color: #f0f0f5; border-radius: 12px; overflow: hidden;">
-            <div style="background: linear-gradient(135deg, #7c3aed 0%, #00e5ff 100%); padding: 40px 32px; text-align: center;">
+            <div style="background: linear-gradient(135deg, #1a6b7a 0%, #00b4d8 100%); padding: 40px 32px; text-align: center;">
               <h1 style="margin: 0; font-size: 24px; font-weight: 800; color: #ffffff;">Project Update</h1>
             </div>
             <div style="padding: 40px 32px;">
               <p style="font-size: 16px; color: #a0a0b8; margin: 0 0 16px;">Hi ${userName},</p>
               <p style="font-size: 16px; line-height: 1.7; color: #a0a0b8; margin: 0 0 24px;">${message}</p>
-              <div style="background: rgba(124,58,237,0.08); border: 1px solid rgba(124,58,237,0.2); border-radius: 10px; padding: 20px; margin-bottom: 32px;">
+              <div style="background: rgba(0,180,216,0.08); border: 1px solid rgba(0,180,216,0.2); border-radius: 10px; padding: 20px; margin-bottom: 32px;">
                 <p style="margin: 0; font-size: 15px; color: #f0f0f5; font-weight: 600;">Project: ${safeTitle}</p>
                 <p style="margin: 6px 0 0; font-size: 14px; color: #a0a0b8;">Service: ${safeService}</p>
               </div>
               <div style="text-align: center;">
-                <a href="${BASE_URL}/dashboard" style="display: inline-block; padding: 14px 32px; background: linear-gradient(135deg, #7c3aed 0%, #00e5ff 100%); color: #ffffff; text-decoration: none; border-radius: 999px; font-weight: 600; font-size: 15px;">
+                <a href="${BASE_URL}/dashboard" style="display: inline-block; padding: 14px 32px; background: linear-gradient(135deg, #1a6b7a 0%, #00b4d8 100%); color: #ffffff; text-decoration: none; border-radius: 999px; font-weight: 600; font-size: 15px;">
                   View Dashboard
                 </a>
               </div>
             </div>
-            <div style="padding: 24px 32px; border-top: 1px solid rgba(124,58,237,0.15); text-align: center;">
+            <div style="padding: 24px 32px; border-top: 1px solid rgba(0,180,216,0.15); text-align: center;">
               <p style="margin: 0; font-size: 13px; color: #6c6c85;">© ${new Date().getFullYear()} HydraBytes. All rights reserved.</p>
             </div>
           </div>
@@ -165,7 +165,7 @@ export async function PATCH(req: Request) {
         subject: 'Great news, your HydraBytes project has been accepted!',
         html: `
           <div style="font-family: Inter, sans-serif; max-width: 600px; margin: 0 auto; background: #0a0a12; color: #f0f0f5; border-radius: 12px; overflow: hidden;">
-            <div style="background: linear-gradient(135deg, #7c3aed 0%, #00e5ff 100%); padding: 40px 32px; text-align: center;">
+            <div style="background: linear-gradient(135deg, #1a6b7a 0%, #00b4d8 100%); padding: 40px 32px; text-align: center;">
               <h1 style="margin: 0; font-size: 24px; font-weight: 800; color: #ffffff;">Project Accepted!</h1>
             </div>
             <div style="padding: 40px 32px;">
@@ -173,18 +173,18 @@ export async function PATCH(req: Request) {
               <p style="font-size: 16px; line-height: 1.7; color: #a0a0b8; margin: 0 0 24px;">
                 We've reviewed your inquiry for <strong style="color: #f0f0f5;">${serviceName}</strong> and we're excited to work with you! Your project is now active in your dashboard.
               </p>
-              <div style="background: rgba(124,58,237,0.08); border: 1px solid rgba(124,58,237,0.2); border-radius: 10px; padding: 20px; margin-bottom: 32px;">
+              <div style="background: rgba(0,180,216,0.08); border: 1px solid rgba(0,180,216,0.2); border-radius: 10px; padding: 20px; margin-bottom: 32px;">
                 <p style="margin: 0; font-size: 15px; color: #f0f0f5; font-weight: 600; text-align: center;">
                   Head to your dashboard to track progress, receive invoices, and communicate directly with your developer.
                 </p>
               </div>
               <div style="text-align: center;">
-                <a href="${BASE_URL}/dashboard" style="display: inline-block; padding: 14px 32px; background: linear-gradient(135deg, #7c3aed 0%, #00e5ff 100%); color: #ffffff; text-decoration: none; border-radius: 999px; font-weight: 700; font-size: 16px;">
+                <a href="${BASE_URL}/dashboard" style="display: inline-block; padding: 14px 32px; background: linear-gradient(135deg, #1a6b7a 0%, #00b4d8 100%); color: #ffffff; text-decoration: none; border-radius: 999px; font-weight: 700; font-size: 16px;">
                   View Your Dashboard &rarr;
                 </a>
               </div>
             </div>
-            <div style="padding: 24px 32px; border-top: 1px solid rgba(124,58,237,0.15); text-align: center;">
+            <div style="padding: 24px 32px; border-top: 1px solid rgba(0,180,216,0.15); text-align: center;">
               <p style="margin: 0; font-size: 13px; color: #6c6c85;">&copy; ${new Date().getFullYear()} HydraBytes. All rights reserved.</p>
             </div>
           </div>
@@ -200,7 +200,7 @@ export async function PATCH(req: Request) {
         subject: 'Your HydraBytes inquiry has been reviewed',
         html: `
           <div style="font-family: Inter, sans-serif; max-width: 600px; margin: 0 auto; background: #0a0a12; color: #f0f0f5; border-radius: 12px; overflow: hidden;">
-            <div style="background: linear-gradient(135deg, #7c3aed 0%, #00e5ff 100%); padding: 40px 32px; text-align: center;">
+            <div style="background: linear-gradient(135deg, #1a6b7a 0%, #00b4d8 100%); padding: 40px 32px; text-align: center;">
               <h1 style="margin: 0; font-size: 24px; font-weight: 800; color: #ffffff;">Great News!</h1>
             </div>
             <div style="padding: 40px 32px;">
@@ -208,13 +208,13 @@ export async function PATCH(req: Request) {
               <p style="font-size: 16px; line-height: 1.7; color: #a0a0b8; margin: 0 0 24px;">
                 We've reviewed your inquiry for <strong style="color: #f0f0f5;">${serviceName}</strong> and we're excited to work with you!
               </p>
-              <div style="background: rgba(124,58,237,0.08); border: 1px solid rgba(124,58,237,0.2); border-radius: 10px; padding: 20px; margin-bottom: 24px;">
+              <div style="background: rgba(0,180,216,0.08); border: 1px solid rgba(0,180,216,0.2); border-radius: 10px; padding: 20px; margin-bottom: 24px;">
                 <p style="margin: 0; font-size: 15px; color: #f0f0f5; font-weight: 600; text-align: center;">
                   Create your free account to track your project in real-time
                 </p>
               </div>
               <div style="text-align: center; margin-bottom: 32px;">
-                <a href="${registerUrl}" style="display: inline-block; padding: 14px 32px; background: linear-gradient(135deg, #7c3aed 0%, #00e5ff 100%); color: #ffffff; text-decoration: none; border-radius: 999px; font-weight: 700; font-size: 16px;">
+                <a href="${registerUrl}" style="display: inline-block; padding: 14px 32px; background: linear-gradient(135deg, #1a6b7a 0%, #00b4d8 100%); color: #ffffff; text-decoration: none; border-radius: 999px; font-weight: 700; font-size: 16px;">
                   Create Your Account &rarr;
                 </a>
               </div>
@@ -229,7 +229,7 @@ export async function PATCH(req: Request) {
                 Already have an account? <a href="${BASE_URL}/auth/signin" style="color: #818cf8; text-decoration: none;">Sign in here</a>
               </p>
             </div>
-            <div style="padding: 24px 32px; border-top: 1px solid rgba(124,58,237,0.15); text-align: center;">
+            <div style="padding: 24px 32px; border-top: 1px solid rgba(0,180,216,0.15); text-align: center;">
               <p style="margin: 0; font-size: 13px; color: #6c6c85;">&copy; ${new Date().getFullYear()} HydraBytes. All rights reserved.</p>
             </div>
           </div>
@@ -292,7 +292,7 @@ export async function PATCH(req: Request) {
                 </table>
               </div>
               <div style="text-align: center;">
-                <a href="${BASE_URL}/dashboard" style="display: inline-block; padding: 14px 32px; background: linear-gradient(135deg, #7c3aed 0%, #00e5ff 100%); color: #ffffff; text-decoration: none; border-radius: 999px; font-weight: 600; font-size: 15px;">
+                <a href="${BASE_URL}/dashboard" style="display: inline-block; padding: 14px 32px; background: linear-gradient(135deg, #1a6b7a 0%, #00b4d8 100%); color: #ffffff; text-decoration: none; border-radius: 999px; font-weight: 600; font-size: 15px;">
                   View Dashboard
                 </a>
               </div>
@@ -378,7 +378,7 @@ export async function POST(req: Request) {
     subject: `Invoice from HydraBytes: ${formattedAmount}`,
     html: `
       <div style="font-family: Inter, sans-serif; max-width: 600px; margin: 0 auto; background: #0a0a12; color: #f0f0f5; border-radius: 12px; overflow: hidden;">
-        <div style="background: linear-gradient(135deg, #7c3aed 0%, #00e5ff 100%); padding: 40px 32px; text-align: center;">
+        <div style="background: linear-gradient(135deg, #1a6b7a 0%, #00b4d8 100%); padding: 40px 32px; text-align: center;">
           <h1 style="margin: 0; font-size: 24px; font-weight: 800; color: #ffffff;">New Invoice</h1>
         </div>
         <div style="padding: 40px 32px;">
@@ -386,25 +386,25 @@ export async function POST(req: Request) {
           <p style="font-size: 16px; line-height: 1.7; color: #a0a0b8; margin: 0 0 24px;">
             A new invoice has been issued for your project. Please find the details below and use the Pay Now button to complete your payment.
           </p>
-          <div style="background: rgba(124,58,237,0.08); border: 1px solid rgba(124,58,237,0.2); border-radius: 10px; padding: 24px; margin-bottom: 32px;">
+          <div style="background: rgba(0,180,216,0.08); border: 1px solid rgba(0,180,216,0.2); border-radius: 10px; padding: 24px; margin-bottom: 32px;">
             <table style="width: 100%; border-collapse: collapse;">
               <tr>
                 <td style="padding: 8px 0; color: #a0a0b8; font-size: 14px;">Project</td>
                 <td style="padding: 8px 0; color: #f0f0f5; font-size: 14px; font-weight: 600; text-align: right;">${projectName}</td>
               </tr>
               <tr>
-                <td style="padding: 8px 0; color: #a0a0b8; font-size: 14px; border-top: 1px solid rgba(124,58,237,0.15);">Amount</td>
-                <td style="padding: 8px 0; color: #7c3aed; font-size: 20px; font-weight: 800; text-align: right; border-top: 1px solid rgba(124,58,237,0.15);">${formattedAmount}</td>
+                <td style="padding: 8px 0; color: #a0a0b8; font-size: 14px; border-top: 1px solid rgba(0,180,216,0.15);">Amount</td>
+                <td style="padding: 8px 0; color: #0891b2; font-size: 20px; font-weight: 800; text-align: right; border-top: 1px solid rgba(0,180,216,0.15);">${formattedAmount}</td>
               </tr>
               <tr>
-                <td style="padding: 8px 0; color: #a0a0b8; font-size: 14px; border-top: 1px solid rgba(124,58,237,0.15);">Due Date</td>
-                <td style="padding: 8px 0; color: #f0f0f5; font-size: 14px; font-weight: 600; text-align: right; border-top: 1px solid rgba(124,58,237,0.15);">${formattedDueDate}</td>
+                <td style="padding: 8px 0; color: #a0a0b8; font-size: 14px; border-top: 1px solid rgba(0,180,216,0.15);">Due Date</td>
+                <td style="padding: 8px 0; color: #f0f0f5; font-size: 14px; font-weight: 600; text-align: right; border-top: 1px solid rgba(0,180,216,0.15);">${formattedDueDate}</td>
               </tr>
               <tr>
-                <td style="padding: 8px 0; color: #a0a0b8; font-size: 14px; border-top: 1px solid rgba(124,58,237,0.15);">Status</td>
-                <td style="padding: 8px 0; text-align: right; border-top: 1px solid rgba(124,58,237,0.15);"><span style="padding: 4px 12px; background: rgba(251,191,36,0.1); color: #fbbf24; border-radius: 999px; font-size: 13px; font-weight: 600;">Pending</span></td>
+                <td style="padding: 8px 0; color: #a0a0b8; font-size: 14px; border-top: 1px solid rgba(0,180,216,0.15);">Status</td>
+                <td style="padding: 8px 0; text-align: right; border-top: 1px solid rgba(0,180,216,0.15);"><span style="padding: 4px 12px; background: rgba(251,191,36,0.1); color: #fbbf24; border-radius: 999px; font-size: 13px; font-weight: 600;">Pending</span></td>
               </tr>
-              ${safeDescription ? `<tr><td style="padding: 8px 0; color: #a0a0b8; font-size: 14px; border-top: 1px solid rgba(124,58,237,0.15);">Note</td><td style="padding: 8px 0; color: #f0f0f5; font-size: 14px; text-align: right; border-top: 1px solid rgba(124,58,237,0.15);">${safeDescription}</td></tr>` : ''}
+              ${safeDescription ? `<tr><td style="padding: 8px 0; color: #a0a0b8; font-size: 14px; border-top: 1px solid rgba(0,180,216,0.15);">Note</td><td style="padding: 8px 0; color: #f0f0f5; font-size: 14px; text-align: right; border-top: 1px solid rgba(0,180,216,0.15);">${safeDescription}</td></tr>` : ''}
             </table>
           </div>
           <div style="text-align: center;">
@@ -416,7 +416,7 @@ export async function POST(req: Request) {
             Supports Easypaisa · JazzCash · NayaPay · Bank Transfer
           </p>
         </div>
-        <div style="padding: 24px 32px; border-top: 1px solid rgba(124,58,237,0.15); text-align: center;">
+        <div style="padding: 24px 32px; border-top: 1px solid rgba(0,180,216,0.15); text-align: center;">
           <p style="margin: 0; font-size: 13px; color: #6c6c85;">© ${new Date().getFullYear()} HydraBytes. All rights reserved.</p>
         </div>
       </div>

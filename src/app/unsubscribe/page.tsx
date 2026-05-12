@@ -56,7 +56,7 @@ function UnsubscribeContent() {
           <>
             <div style={{
               width: 40, height: 40, borderRadius: '50%',
-              border: '3px solid rgba(124,58,237,0.3)', borderTopColor: '#7c3aed',
+              border: '3px solid rgba(0,180,216,0.3)', borderTopColor: '#0891b2',
               animation: 'spin 0.8s linear infinite', margin: '0 auto 24px',
             }} />
             <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
@@ -82,7 +82,7 @@ function UnsubscribeContent() {
               href="/"
               style={{
                 display: 'inline-block', padding: '12px 28px',
-                background: 'linear-gradient(135deg, #7c3aed, #00e5ff)',
+                background: 'linear-gradient(135deg, #1a6b7a, #00b4d8)',
                 color: '#fff', textDecoration: 'none', borderRadius: '999px',
                 fontWeight: 600, fontSize: '14px',
               }}

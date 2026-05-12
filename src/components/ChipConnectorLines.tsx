@@ -61,12 +61,12 @@ export default function ChipConnectorLines() {
         <linearGradient id="connLineGrad" x1="0%" y1="0%" x2="100%" y2="100%">
           {theme === 'light' ? (
             <>
-              <stop offset="0%" stopColor="rgba(109,40,217,0.5)" />
+              <stop offset="0%" stopColor="rgba(0,151,167,0.5)" />
               <stop offset="100%" stopColor="rgba(8,145,178,0.4)" />
             </>
           ) : (
             <>
-              <stop offset="0%" stopColor="rgba(124,58,237,0.25)" />
+              <stop offset="0%" stopColor="rgba(0,180,216,0.25)" />
               <stop offset="100%" stopColor="rgba(0,229,255,0.18)" />
             </>
           )}

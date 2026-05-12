@@ -64,7 +64,7 @@ const statusColors: Record<string, string> = {
   accepted: '#4ade80',
   declined: '#ef4444',
   in_progress: '#38bdf8',
-  planning: '#a78bfa',
+  planning: '#22d3ee',
   review: '#fb923c',
   completed: '#4ade80',
   new: '#fbbf24',

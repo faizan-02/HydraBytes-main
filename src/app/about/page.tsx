@@ -11,7 +11,7 @@ import FloatingParticles from '@/components/FloatingParticles';
 import styles from './about.module.css';
 
 const team = [
-  { name: 'Faizan Jawad', role: 'CEO & Founder', initials: 'FJ', color: '#7c3aed' },
+  { name: 'Faizan Jawad', role: 'CEO & Founder', initials: 'FJ', color: '#0891b2' },
   { name: 'Asad Ali Khan', role: 'Co-Founder', initials: 'AA', color: '#00e5ff' },
   { name: 'Suhayb Saleem', role: 'Lead Designer', initials: 'SS', color: '#f472b6' },
   { name: 'Haris Munir', role: 'AI Lead', initials: 'HM', color: '#22c55e' },
@@ -20,7 +20,7 @@ const team = [
 ];
 
 const values = [
-  { icon: Lightbulb, color: '#7c3aed', title: 'Innovation First', desc: 'We push boundaries, embracing emerging technologies to deliver solutions ahead of the curve.' },
+  { icon: Lightbulb, color: '#0891b2', title: 'Innovation First', desc: 'We push boundaries, embracing emerging technologies to deliver solutions ahead of the curve.' },
   { icon: Users, color: '#00e5ff', title: 'Client Partnership', desc: 'Your success is our success. We build lasting relationships through transparency and trust.' },
   { icon: Star, color: '#f472b6', title: 'Excellence Always', desc: 'Every line of code, every pixel, every interaction is crafted to the highest standard.' },
   { icon: Globe, color: '#22c55e', title: 'Global Impact', desc: 'We build technology that scales globally and creates positive change in the world.' },
@@ -81,7 +81,7 @@ export default function AboutPage() {
                   style={{ objectFit: 'cover' }}
                   sizes="(max-width: 768px) 100vw, 500px"
                 />
-                <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(124,58,237,0.35), rgba(0,229,255,0.15))' }} />
+                <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(0,180,216,0.35), rgba(0,229,255,0.15))' }} />
               </div>
               <div className={styles.missionStats}>
                 <SpotlightCard>

@@ -87,7 +87,7 @@
   background: var(--bg-card);
   border: 1px solid var(--border-color-hover);
   z-index: 0;
-  box-shadow: 0 0 12px rgba(124, 58, 237, 0.1);
+  box-shadow: 0 0 12px rgba(0, 180, 216, 0.1);
 }
 
 .navActions {
@@ -107,7 +107,7 @@
   background: var(--bg-card);
   border: 1.5px solid var(--border-color-hover);
   color: var(--text-primary);
-  box-shadow: 0 0 0 1px rgba(124, 58, 237, 0.08);
+  box-shadow: 0 0 0 1px rgba(0, 180, 216, 0.08);
   font-size: 1.1rem;
   transition: all var(--transition-fast);
 }

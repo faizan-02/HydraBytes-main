@@ -118,7 +118,7 @@ function VerifyForm() {
           </div>
         </Link>
 
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 52, height: 52, borderRadius: '50%', background: 'rgba(124,58,237,0.15)', border: '1px solid rgba(124,58,237,0.3)', marginBottom: '0.5rem' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 52, height: 52, borderRadius: '50%', background: 'rgba(0,180,216,0.15)', border: '1px solid rgba(0,180,216,0.3)', marginBottom: '0.5rem' }}>
           <Mail size={22} style={{ color: 'var(--accent-primary)' }} />
         </div>
 

@@ -48,21 +48,21 @@
   --text-secondary: #a0a0b8;
   --text-tertiary: #6c6c85;
 
-  --accent-primary: #7c3aed;
-  --accent-primary-hover: #8b5cf6;
-  --accent-secondary: #a78bfa;
-  --accent-gradient: linear-gradient(135deg, #7c3aed 0%, #8b5cf6 100%);
-  --accent-gradient-reverse: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
-  --accent-glow: rgba(124, 58, 237, 0.3);
-  --accent-glow-cyan: rgba(124, 58, 237, 0.15);
+  --accent-primary: #0891b2;
+  --accent-primary-hover: #06b6d4;
+  --accent-secondary: #00b4d8;
+  --accent-gradient: linear-gradient(135deg, #1a6b7a 0%, #00b4d8 100%);
+  --accent-gradient-reverse: linear-gradient(135deg, #00b4d8 0%, #1a6b7a 100%);
+  --accent-glow: rgba(0, 180, 216, 0.3);
+  --accent-glow-cyan: rgba(0, 180, 216, 0.15);
 
-  --border-color: rgba(124, 58, 237, 0.15);
-  --border-color-hover: rgba(124, 58, 237, 0.35);
+  --border-color: rgba(0, 180, 216, 0.15);
+  --border-color-hover: rgba(0, 180, 216, 0.35);
 
   --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
   --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
   --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
-  --shadow-glow: 0 0 30px rgba(124, 58, 237, 0.15);
+  --shadow-glow: 0 0 30px rgba(0, 180, 216, 0.15);
   --shadow-gallery-card: rgba(0, 0, 0, 0.35);
 
   --nav-bg: rgba(10, 10, 18, 0.8);
@@ -81,21 +81,21 @@
   --text-secondary: #4a4a65;
   --text-tertiary: #8888a0;
 
-  --accent-primary: #6d28d9;
-  --accent-primary-hover: #7c3aed;
-  --accent-secondary: #8b5cf6;
-  --accent-gradient: linear-gradient(135deg, #6d28d9 0%, #7c3aed 100%);
-  --accent-gradient-reverse: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
-  --accent-glow: rgba(109, 40, 217, 0.15);
-  --accent-glow-cyan: rgba(109, 40, 217, 0.08);
+  --accent-primary: #0e7490;
+  --accent-primary-hover: #0891b2;
+  --accent-secondary: #06b6d4;
+  --accent-gradient: linear-gradient(135deg, #1e3a8a 0%, #0891b2 100%);
+  --accent-gradient-reverse: linear-gradient(135deg, #0891b2 0%, #1e3a8a 100%);
+  --accent-glow: rgba(14, 116, 144, 0.15);
+  --accent-glow-cyan: rgba(14, 116, 144, 0.08);
 
-  --border-color: rgba(109, 40, 217, 0.1);
-  --border-color-hover: rgba(109, 40, 217, 0.25);
+  --border-color: rgba(14, 116, 144, 0.1);
+  --border-color-hover: rgba(14, 116, 144, 0.25);
 
   --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
   --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
   --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.12);
-  --shadow-glow: 0 0 30px rgba(109, 40, 217, 0.08);
+  --shadow-glow: 0 0 30px rgba(14, 116, 144, 0.08);
   --shadow-gallery-card: rgba(0, 0, 0, 0.08);
 
   --nav-bg: rgba(248, 248, 252, 0.85);
@@ -268,7 +268,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .btn-primary {
-  background: var(--accent-primary);
+  background: var(--accent-gradient);
   color: #ffffff;
   box-shadow: 0 4px 15px var(--accent-glow);
 }
@@ -276,7 +276,7 @@ h1, h2, h3, h4, h5, h6 {
 .btn-primary:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 25px var(--accent-glow);
-  background: var(--accent-primary-hover);
+  filter: brightness(1.15);
 }
 
 .btn-secondary {
@@ -373,7 +373,7 @@ h1, h2, h3, h4, h5, h6 {
 
 
 /* ====== FOCUS VISIBLE ====== */
-/* Consistent keyboard-focus outline using the brand purple, invisible on click. */
+/* Consistent keyboard-focus outline using the brand teal, invisible on click. */
 :focus-visible {
   outline: 2px solid var(--accent-primary);
   outline-offset: 2px;
@@ -386,17 +386,17 @@ h1, h2, h3, h4, h5, h6 {
 /* ====== LIGHT MODE REFINEMENTS ====== */
 /* Stronger card borders so cards don't bleed into the white page */
 [data-theme='light'] .glass-card {
-  box-shadow: 0 1px 4px rgba(0,0,0,0.06), 0 4px 16px rgba(109,40,217,0.06);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06), 0 4px 16px rgba(14,116,144,0.06);
 }
 [data-theme='light'] .glass-card:hover {
-  box-shadow: 0 4px 24px rgba(109,40,217,0.12);
+  box-shadow: 0 4px 24px rgba(14,116,144,0.12);
 }
 /* Make secondary button border visible */
 [data-theme='light'] .btn-secondary {
-  border-color: rgba(109, 40, 217, 0.35);
+  border-color: rgba(14, 116, 144, 0.35);
 }
 [data-theme='light'] .btn-secondary:hover {
-  border-color: rgba(109, 40, 217, 0.6);
+  border-color: rgba(14, 116, 144, 0.6);
 }
 
 /* ====== REDUCED MOTION ====== */

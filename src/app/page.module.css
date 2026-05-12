@@ -138,21 +138,21 @@
   object-fit: cover;
 }
 
-.heroPurpleGlow {
+.heroTealGlow {
   position: absolute;
   top: 0;
   left: 5%;
   width: 90%;
   height: 80%;
-  background: radial-gradient(ellipse at 60% 40%, rgba(124, 58, 237, 0.2) 0%, transparent 65%);
+  background: radial-gradient(ellipse at 60% 40%, rgba(0, 180, 216, 0.2) 0%, transparent 65%);
   pointer-events: none;
   z-index: 0;
   filter: blur(60px);
   transition: background 0.6s ease, filter 0.6s ease;
 }
 
-[data-theme='light'] .heroPurpleGlow {
-  background: radial-gradient(ellipse at 60% 40%, rgba(124, 58, 237, 0.08) 0%, transparent 55%);
+[data-theme='light'] .heroTealGlow {
+  background: radial-gradient(ellipse at 60% 40%, rgba(0, 180, 216, 0.08) 0%, transparent 55%);
   filter: blur(80px);
 }
 
@@ -189,13 +189,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(124, 58, 237, 0.08);
+  background: rgba(0, 180, 216, 0.08);
   color: var(--accent-primary);
   border: 1px solid var(--border-color);
 }
 
 [data-theme='light'] .serviceHighlightIcon {
-  background: rgba(109, 40, 217, 0.06);
+  background: rgba(0, 151, 167, 0.06);
 }
 
 .serviceHighlightTitle {
@@ -444,23 +444,11 @@
   .heroLabel {
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
     padding: 0.4rem 1rem;
     border: 1px solid var(--border-color);
-    border-radius: 999px;
+    border-radius: var(--radius-sm);
     background: var(--bg-glass);
     font-size: 0.65rem;
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-  }
-  .heroLabel::before {
-    content: '';
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--accent-primary);
-    box-shadow: 0 0 8px var(--accent-primary);
-    flex-shrink: 0;
   }
   .heroTitle {
     font-size: clamp(1.75rem, 7vw, 2.2rem);
@@ -500,7 +488,7 @@
     mask-image: none;
     -webkit-mask-image: none;
   }
-  .heroPurpleGlow {
+  .heroTealGlow {
     display: none;
   }
   .trustedBy {

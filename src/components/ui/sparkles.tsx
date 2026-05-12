@@ -24,7 +24,7 @@ export function Sparkles({
   children,
   className = '',
   count = 12,
-  color = 'rgba(124, 58, 237, 0.6)',
+  color = 'rgba(0, 180, 216, 0.6)',
   size = 3,
   density,
   speed,

@@ -35,17 +35,17 @@ const gradients = {
             #000,
             #000 calc(25% / var(--repeating-conic-gradient-times))
           )`,
-  "blue-purple": `radial-gradient(circle at 25% 25%, rgba(59, 130, 246, 0.4) 0%, transparent 30%),
-                  radial-gradient(circle at 75% 25%, rgba(147, 51, 234, 0.3) 0%, transparent 30%),
-                  radial-gradient(circle at 25% 75%, rgba(168, 85, 247, 0.3) 0%, transparent 30%),
-                  radial-gradient(circle at 75% 75%, rgba(99, 102, 241, 0.4) 0%, transparent 30%),
+  "blue-purple": `radial-gradient(circle at 25% 25%, rgba(0, 180, 216, 0.4) 0%, transparent 30%),
+                  radial-gradient(circle at 75% 25%, rgba(0, 151, 167, 0.3) 0%, transparent 30%),
+                  radial-gradient(circle at 25% 75%, rgba(38, 198, 218, 0.3) 0%, transparent 30%),
+                  radial-gradient(circle at 75% 75%, rgba(0, 229, 255, 0.4) 0%, transparent 30%),
                   repeating-conic-gradient(
                     from calc(var(--start) * 1deg) at 50% 50%,
-                    rgba(59, 130, 246, 0.9) 0%,
-                    rgba(147, 51, 234, 1) calc(25% / var(--repeating-conic-gradient-times)),
-                    rgba(168, 85, 247, 0.95) calc(50% / var(--repeating-conic-gradient-times)),
-                    rgba(99, 102, 241, 0.9) calc(75% / var(--repeating-conic-gradient-times)),
-                    rgba(59, 130, 246, 0.9) calc(100% / var(--repeating-conic-gradient-times))
+                    rgba(0, 180, 216, 0.9) 0%,
+                    rgba(0, 151, 167, 1) calc(25% / var(--repeating-conic-gradient-times)),
+                    rgba(38, 198, 218, 0.95) calc(50% / var(--repeating-conic-gradient-times)),
+                    rgba(0, 229, 255, 0.9) calc(75% / var(--repeating-conic-gradient-times)),
+                    rgba(0, 180, 216, 0.9) calc(100% / var(--repeating-conic-gradient-times))
                   )`,
 };
 
@@ -149,7 +149,7 @@ export const GlowingEffect = memo(
             "pointer-events-none absolute -inset-px hidden rounded-[inherit] border opacity-0 transition-opacity duration-500",
             glow && "opacity-100",
             variant === "white" && "border-white",
-            variant === "blue-purple" && "border-blue-400/30",
+            variant === "blue-purple" && "border-cyan-400/30",
             disabled && "!block"
           )}
         />
@@ -186,7 +186,7 @@ export const GlowingEffect = memo(
               "after:[mask-image:linear-gradient(#0000,#0000),conic-gradient(from_calc((var(--start)-var(--spread))*1deg),#00000000_0deg,#fff_calc(var(--spread)*0.8deg),#fff_calc(var(--spread)*1.2deg),#00000000_calc(var(--spread)*2deg))]",
               variant === "blue-purple" && [
                 "before:content-[''] before:absolute before:inset-0 before:rounded-[inherit]",
-                "before:bg-gradient-to-r before:from-blue-500/10 before:via-purple-500/10 before:to-indigo-500/10",
+                "before:bg-gradient-to-r before:from-cyan-500/10 before:via-teal-500/10 before:to-cyan-400/10",
                 "before:opacity-[calc(var(--active)*0.3)] before:transition-opacity before:duration-500",
                 "before:blur-xl before:-z-10",
               ]

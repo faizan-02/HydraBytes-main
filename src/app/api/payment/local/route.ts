@@ -146,7 +146,7 @@ export async function POST(req: NextRequest) {
               </table>
             </div>
             <div style="text-align: center;">
-              <a href="${BASE_URL}/dashboard" style="display: inline-block; padding: 14px 32px; background: linear-gradient(135deg, #7c3aed 0%, #00e5ff 100%); color: #ffffff; text-decoration: none; border-radius: 999px; font-weight: 600; font-size: 15px;">View Dashboard</a>
+              <a href="${BASE_URL}/dashboard" style="display: inline-block; padding: 14px 32px; background: linear-gradient(135deg, #1a6b7a 0%, #00b4d8 100%); color: #ffffff; text-decoration: none; border-radius: 999px; font-weight: 600; font-size: 15px;">View Dashboard</a>
             </div>
           </div>
           <div style="padding: 24px 32px; border-top: 1px solid rgba(34,197,94,0.15); text-align: center;">
@@ -170,13 +170,13 @@ export async function POST(req: NextRequest) {
         <div style="padding: 32px;">
           <table style="width: 100%; border-collapse: collapse;">
             <tr><td style="padding: 8px 0; color: #a0a0b8; font-size: 14px;">Client</td><td style="padding: 8px 0; color: #f0f0f5; font-weight: 600; text-align: right;">${escapeHtml(invoice.user.name ?? 'N/A')} (${escapeHtml(invoice.user.email)})</td></tr>
-            <tr><td style="padding: 8px 0; color: #a0a0b8; font-size: 14px; border-top: 1px solid rgba(124,58,237,0.15);">Project</td><td style="padding: 8px 0; color: #f0f0f5; font-weight: 600; text-align: right; border-top: 1px solid rgba(124,58,237,0.15);">${escapeHtml(invoice.project?.title ?? 'General Services')}</td></tr>
-            <tr><td style="padding: 8px 0; color: #a0a0b8; font-size: 14px; border-top: 1px solid rgba(124,58,237,0.15);">Amount</td><td style="padding: 8px 0; color: #22c55e; font-size: 20px; font-weight: 800; text-align: right; border-top: 1px solid rgba(124,58,237,0.15);">${formattedAmount}</td></tr>
-            <tr><td style="padding: 8px 0; color: #a0a0b8; font-size: 14px; border-top: 1px solid rgba(124,58,237,0.15);">Method</td><td style="padding: 8px 0; color: #f0f0f5; font-weight: 600; text-align: right; border-top: 1px solid rgba(124,58,237,0.15);">${escapeHtml(methodLabels[method] ?? method)}</td></tr>
-            <tr><td style="padding: 8px 0; color: #a0a0b8; font-size: 14px; border-top: 1px solid rgba(124,58,237,0.15);">Transaction Ref</td><td style="padding: 8px 0; color: #00e5ff; font-weight: 700; text-align: right; border-top: 1px solid rgba(124,58,237,0.15); font-family: monospace; font-size: 16px;">${escapeHtml(trimmedRef)}</td></tr>
+            <tr><td style="padding: 8px 0; color: #a0a0b8; font-size: 14px; border-top: 1px solid rgba(0,180,216,0.15);">Project</td><td style="padding: 8px 0; color: #f0f0f5; font-weight: 600; text-align: right; border-top: 1px solid rgba(0,180,216,0.15);">${escapeHtml(invoice.project?.title ?? 'General Services')}</td></tr>
+            <tr><td style="padding: 8px 0; color: #a0a0b8; font-size: 14px; border-top: 1px solid rgba(0,180,216,0.15);">Amount</td><td style="padding: 8px 0; color: #22c55e; font-size: 20px; font-weight: 800; text-align: right; border-top: 1px solid rgba(0,180,216,0.15);">${formattedAmount}</td></tr>
+            <tr><td style="padding: 8px 0; color: #a0a0b8; font-size: 14px; border-top: 1px solid rgba(0,180,216,0.15);">Method</td><td style="padding: 8px 0; color: #f0f0f5; font-weight: 600; text-align: right; border-top: 1px solid rgba(0,180,216,0.15);">${escapeHtml(methodLabels[method] ?? method)}</td></tr>
+            <tr><td style="padding: 8px 0; color: #a0a0b8; font-size: 14px; border-top: 1px solid rgba(0,180,216,0.15);">Transaction Ref</td><td style="padding: 8px 0; color: #00e5ff; font-weight: 700; text-align: right; border-top: 1px solid rgba(0,180,216,0.15); font-family: monospace; font-size: 16px;">${escapeHtml(trimmedRef)}</td></tr>
           </table>
           <div style="margin-top: 28px; text-align: center;">
-            <a href="${process.env.AUTH_URL ?? 'https://hydrabytes.tech'}/admin" style="display: inline-block; padding: 12px 28px; background: linear-gradient(135deg, #7c3aed, #00e5ff); color: #fff; text-decoration: none; border-radius: 999px; font-weight: 600;">
+            <a href="${process.env.AUTH_URL ?? 'https://hydrabytes.tech'}/admin" style="display: inline-block; padding: 12px 28px; background: linear-gradient(135deg, #1a6b7a, #00b4d8); color: #fff; text-decoration: none; border-radius: 999px; font-weight: 600;">
               Verify &amp; Mark as Paid →
             </a>
           </div>

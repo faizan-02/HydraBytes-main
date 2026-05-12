@@ -29,7 +29,7 @@ export default function AnimatedBeam() {
         inset: 0,
         pointerEvents: 'none',
         zIndex: 1,
-        background: `radial-gradient(500px circle at ${pos.x}% ${pos.y}%, rgba(124, 58, 237, 0.08), transparent 60%)`,
+        background: `radial-gradient(500px circle at ${pos.x}% ${pos.y}%, rgba(0, 180, 216, 0.08), transparent 60%)`,
         transition: 'background 0.15s ease-out',
       }}
       aria-hidden

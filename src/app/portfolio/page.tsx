@@ -15,7 +15,7 @@ const techCategories = [
   {
     name: 'Frontend',
     icon: Monitor,
-    color: '#7c3aed',
+    color: '#0891b2',
     items: ['React', 'Next.js', 'TypeScript', 'Vue.js', 'Tailwind CSS', 'Framer Motion'],
   },
   {
@@ -82,7 +82,7 @@ const projects = [
     category: 'Web',
     desc: 'All-in-one platform for inventory tracking, order management, and real-time profitability analytics. Features advanced margin analytics with separated purchase and selling prices, streamlined order management, automated PDF billing with react-pdf, and deep inventory hierarchy for complex product catalogs.',
     tech: ['Next.js 16', 'React 19', 'TypeScript', 'Supabase', 'Tailwind CSS', 'Framer Motion', 'React-PDF'],
-    color: '#7c3aed',
+    color: '#0891b2',
     metric: 'Real-time margin analytics',
     image: '/portfolio/inventra.jpeg',
     objectPosition: 'left center',
@@ -93,7 +93,7 @@ const projects = [
     category: 'AI/ML',
     desc: 'Real-time voice conversation platform with 104+ AI characters using OpenAI GPT, TTS, and browser-based mic/speaker support. Features mood detection, session replay, WebRTC-based real-time API, interactive games, story adventures, and support for multiple providers including Claude, xAI, and local Ollama models. Deployable via Docker or Railway.',
     tech: ['FastAPI', 'WebSockets', 'OpenAI', 'WebRTC', 'Python', 'Docker', 'Railway', 'ElevenLabs'],
-    color: '#7c3aed',
+    color: '#0891b2',
     metric: '104+ AI characters',
     image: '/portfolio/ai-voice-agent.png',
     year: 'Nov 2025',

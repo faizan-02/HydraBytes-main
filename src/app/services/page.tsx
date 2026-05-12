@@ -15,7 +15,7 @@ const services = [
   {
     id: 'web',
     icon: Globe,
-    color: '#7c3aed',
+    color: '#0891b2',
     image: 'https://images.unsplash.com/photo-1587620962725-abab7fe55159?auto=format&fit=crop&w=1200&q=90',
     title: 'Web Development',
     subtitle: 'Custom websites that convert visitors into customers',
@@ -126,7 +126,7 @@ export default function ServicesPage() {
                   className={styles.floaterInner}
                 >
                   <GlowingEffect spread={40} glow disabled={false} proximity={300} inactiveZone={0.01} borderWidth={1.5} variant="blue-purple" blur={0} movementDuration={1.5} />
-                  <div className={styles.floaterIcon} style={{ color: '#7c3aed', background: '#7c3aed18' }}>
+                  <div className={styles.floaterIcon} style={{ color: '#0891b2', background: '#0891b218' }}>
                     <Rocket size={18} strokeWidth={1.8} />
                   </div>
                   <div>

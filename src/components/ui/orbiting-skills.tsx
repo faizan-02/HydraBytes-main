@@ -121,12 +121,12 @@ const GlowingOrbitPath = memo(({ radius, glowColor = 'cyan', animationDelay = 0,
 
   const darkColors = {
     cyan: { primary: 'rgba(6, 182, 212, 0.12)', secondary: 'rgba(6, 182, 212, 0.06)', border: 'rgba(6, 182, 212, 0.18)' },
-    purple: { primary: 'rgba(147, 51, 234, 0.12)', secondary: 'rgba(147, 51, 234, 0.06)', border: 'rgba(147, 51, 234, 0.18)' },
+    purple: { primary: 'rgba(0, 180, 216, 0.12)', secondary: 'rgba(0, 180, 216, 0.06)', border: 'rgba(0, 180, 216, 0.18)' },
   };
 
   const lightColors = {
     cyan: { primary: 'rgba(6, 182, 212, 0.1)', secondary: 'rgba(6, 182, 212, 0.04)', border: 'rgba(6, 182, 212, 0.2)' },
-    purple: { primary: 'rgba(147, 51, 234, 0.1)', secondary: 'rgba(147, 51, 234, 0.04)', border: 'rgba(147, 51, 234, 0.2)' },
+    purple: { primary: 'rgba(0, 151, 167, 0.1)', secondary: 'rgba(0, 151, 167, 0.04)', border: 'rgba(0, 151, 167, 0.2)' },
   };
 
   const colors = (isDark ? darkColors : lightColors)[glowColor];
@@ -229,7 +229,7 @@ export default function OrbitingSkills() {
                 height: `${Math.round(140 * scale)}px`,
                 background: isDark
                   ? 'radial-gradient(circle, rgba(6, 182, 212, 0.12) 0%, transparent 70%)'
-                  : 'radial-gradient(circle, rgba(124, 58, 237, 0.06) 0%, transparent 70%)',
+                  : 'radial-gradient(circle, rgba(0, 180, 216, 0.06) 0%, transparent 70%)',
                 filter: 'blur(12px)',
               }}
             />
@@ -239,7 +239,7 @@ export default function OrbitingSkills() {
                 width: `${Math.round(120 * scale)}px`,
                 height: `${Math.round(120 * scale)}px`,
                 background: isDark
-                  ? 'radial-gradient(circle, rgba(147, 51, 234, 0.08) 0%, transparent 70%)'
+                  ? 'radial-gradient(circle, rgba(0, 180, 216, 0.08) 0%, transparent 70%)'
                   : 'radial-gradient(circle, rgba(6, 182, 212, 0.04) 0%, transparent 70%)',
                 filter: 'blur(16px)',
                 animationDuration: '3s',
@@ -255,7 +255,7 @@ export default function OrbitingSkills() {
                 objectFit: 'contain',
                 filter: isDark
                   ? 'drop-shadow(0 0 24px rgba(6, 182, 212, 0.2))'
-                  : 'drop-shadow(0 0 12px rgba(124, 58, 237, 0.12))',
+                  : 'drop-shadow(0 0 12px rgba(0, 180, 216, 0.12))',
                 position: 'relative',
                 zIndex: 2,
               }}

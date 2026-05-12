@@ -19,7 +19,7 @@
   }
 
   .loadingBar {
-    background: rgba(124, 58, 237, 0.12);
+    background: rgba(0, 180, 216, 0.12);
   }
 }
 
@@ -61,18 +61,18 @@
 @keyframes logoPulse {
   0%, 100% {
     transform: scale(1);
-    filter: drop-shadow(0 0 10px rgba(124, 58, 237, 0.3));
+    filter: drop-shadow(0 0 10px rgba(0, 180, 216, 0.3));
   }
   50% {
     transform: scale(1.05);
-    filter: drop-shadow(0 0 25px rgba(124, 58, 237, 0.6));
+    filter: drop-shadow(0 0 25px rgba(0, 180, 216, 0.6));
   }
 }
 
 .loadingBar {
   width: 200px;
   height: 3px;
-  background: rgba(124, 58, 237, 0.15);
+  background: rgba(0, 180, 216, 0.15);
   border-radius: 10px;
   overflow: hidden;
 }
@@ -80,7 +80,7 @@
 .loadingBarFill {
   width: 0;
   height: 100%;
-  background: linear-gradient(90deg, #7c3aed, #00e5ff);
+  background: linear-gradient(90deg, #1a6b7a, #00b4d8);
   border-radius: 10px;
   animation: loadFill 1.6s ease-in-out forwards;
 }

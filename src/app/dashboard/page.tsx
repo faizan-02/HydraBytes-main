@@ -35,7 +35,7 @@ const statusConfig: Record<string, { label: string; color: string; bg: string; i
   accepted:             { label: 'Accepted',         color: '#4ade80', bg: 'rgba(74,222,128,0.1)', icon: <ShieldCheck size={13} /> },
   declined:             { label: 'Declined',         color: '#ef4444', bg: 'rgba(239,68,68,0.1)',  icon: <AlertCircle size={13} /> },
   in_progress:          { label: 'In Progress',      color: '#38bdf8', bg: 'rgba(56,189,248,0.1)', icon: <Loader size={13} /> },
-  planning:             { label: 'Planning',         color: '#a78bfa', bg: 'rgba(167,139,250,0.1)',icon: <Clock size={13} /> },
+  planning:             { label: 'Planning',         color: '#22d3ee', bg: 'rgba(77,208,225,0.1)',icon: <Clock size={13} /> },
   review:               { label: 'In Review',        color: '#fb923c', bg: 'rgba(251,146,60,0.1)', icon: <AlertCircle size={13} /> },
   completed:            { label: 'Completed',        color: '#4ade80', bg: 'rgba(74,222,128,0.1)', icon: <CheckCircle size={13} /> },
 };
