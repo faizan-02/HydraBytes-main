@@ -12,7 +12,7 @@ interface Particle {
   drift: number;
 }
 
-const COLORS = ['124, 58, 237', '0, 229, 255'];
+const COLORS = ['26, 107, 122', '0, 180, 216'];
 
 export default function FloatingParticles() {
   const [particles, setParticles] = useState<Particle[]>([]);

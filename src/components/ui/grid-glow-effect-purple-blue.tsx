@@ -2,7 +2,6 @@
 
 import { memo, useCallback, useEffect, useRef } from "react";
 import { cn } from "@/lib/utils";
-import { animate } from "framer-motion";
 
 interface GlowingEffectProps {
   blur?: number;
@@ -112,23 +111,43 @@ export const GlowingEffect = memo(
           const angleDiff = ((targetAngle - currentAngle + 180) % 360) - 180;
           const newAngle = currentAngle + angleDiff;
 
-          animate(currentAngle, newAngle, {
-            duration: movementDuration,
-            ease: [0.16, 1, 0.3, 1],
-            onUpdate: (value) => {
-              element.style.setProperty("--start", String(value));
-            },
-          });
+          element.style.setProperty("--start", String(newAngle));
         });
       },
-      [inactiveZone, proximity, movementDuration]
+      [inactiveZone, proximity]
     );
 
     useEffect(() => {
       if (disabled) return;
 
-      const handleScroll = () => handleMove();
-      const handlePointerMove = (e: PointerEvent) => handleMove(e);
+      const el = containerRef.current;
+      let isVisible = true;
+      let observer: IntersectionObserver | undefined;
+      if (el) {
+        observer = new IntersectionObserver(
+          ([entry]) => { isVisible = entry.isIntersecting; },
+          { threshold: 0, rootMargin: '100px' }
+        );
+        observer.observe(el);
+      }
+
+      let lastMoveTime = 0;
+      const handlePointerMove = (e: PointerEvent) => {
+        if (!isVisible) return;
+        const now = performance.now();
+        if (now - lastMoveTime < 33) return;
+        lastMoveTime = now;
+        handleMove(e);
+      };
+
+      let scrollTimer: ReturnType<typeof setTimeout> | null = null;
+      const handleScroll = () => {
+        if (!isVisible || scrollTimer) return;
+        scrollTimer = setTimeout(() => {
+          scrollTimer = null;
+          handleMove();
+        }, 150);
+      };
 
       window.addEventListener("scroll", handleScroll, { passive: true });
       document.body.addEventListener("pointermove", handlePointerMove, { passive: true });
@@ -137,6 +156,8 @@ export const GlowingEffect = memo(
         if (animationFrameRef.current) {
           cancelAnimationFrame(animationFrameRef.current);
         }
+        if (scrollTimer) clearTimeout(scrollTimer);
+        observer?.disconnect();
         window.removeEventListener("scroll", handleScroll);
         document.body.removeEventListener("pointermove", handlePointerMove);
       };

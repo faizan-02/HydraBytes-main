@@ -3,8 +3,6 @@
   border-radius: var(--radius-lg);
   background: var(--bg-card);
   border: 1px solid var(--border-color);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
   transition: transform 0.15s ease, border-color 0.25s ease, box-shadow 0.25s ease;
   will-change: transform;
   height: 100%;

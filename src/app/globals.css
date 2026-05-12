@@ -185,7 +185,6 @@ h1, h2, h3, h4, h5, h6 {
 .section-label-badge {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
   font-size: 0.7rem;
   font-weight: 600;
   text-transform: uppercase;
@@ -198,16 +197,6 @@ h1, h2, h3, h4, h5, h6 {
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   margin-bottom: var(--space-lg);
-}
-
-.section-label-badge::before {
-  content: '';
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--accent-secondary);
-  box-shadow: 0 0 8px var(--accent-secondary);
-  flex-shrink: 0;
 }
 
 .section-title {

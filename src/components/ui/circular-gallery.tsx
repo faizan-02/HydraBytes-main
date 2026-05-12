@@ -4,6 +4,7 @@ import React, { useRef, useState, useCallback, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react';
+import { TextScramble } from '@/components/ui/text-scramble';
 import { GlowingEffect } from '@/components/ui/grid-glow-effect-purple-blue';
 
 interface GalleryItem {
@@ -49,11 +50,24 @@ function useResponsiveValues() {
 function GalleryCard({ item, cardH, isMobile }: { item: GalleryItem; cardH: number; isMobile: boolean }) {
   const br = isMobile ? '16px' : '20px';
   const [hovered, setHovered] = useState(false);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const handleMouseEnter = () => {
+    timerRef.current = setTimeout(() => setHovered(true), 300);
+  };
+  const handleMouseLeave = () => {
+    if (timerRef.current) clearTimeout(timerRef.current);
+    timerRef.current = null;
+    setHovered(false);
+  };
+
+  useEffect(() => () => { if (timerRef.current) clearTimeout(timerRef.current); }, []);
+
   return (
     <div
       style={{ position: 'relative', borderRadius: br, height: `${cardH}px` }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
       {!isMobile && (
         <GlowingEffect
@@ -85,10 +99,7 @@ function GalleryCard({ item, cardH, isMobile }: { item: GalleryItem; cardH: numb
         </div>
 
         <div style={{ padding: isMobile ? '1rem 1.15rem' : '1.5rem 2rem', display: 'flex', flexDirection: 'column', flex: 1, gap: isMobile ? '0.5rem' : '0.75rem' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: item.color, boxShadow: `0 0 8px ${item.color}`, flexShrink: 0 }} />
-            <span style={{ fontSize: isMobile ? '0.6rem' : '0.7rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.12em', color: 'var(--text-tertiary)' }}>{item.category}</span>
-          </div>
+          <span style={{ fontSize: isMobile ? '0.6rem' : '0.7rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.12em', color: 'var(--text-tertiary)' }}>{item.category}</span>
 
           <h3 style={{ fontSize: isMobile ? '1rem' : '1.35rem', fontWeight: 700, color: 'var(--text-primary)', lineHeight: 1.3, fontFamily: 'var(--font-heading)' }}>{item.title}</h3>
 
@@ -113,11 +124,11 @@ function GalleryCard({ item, cardH, isMobile }: { item: GalleryItem; cardH: numb
                 whiteSpace: 'nowrap',
                 flexShrink: 0,
                 opacity: hovered ? 1 : 0,
-                transform: hovered ? 'translateY(0)' : 'translateY(6px)',
-                transition: 'opacity 0.3s ease, transform 0.3s ease',
+                transform: hovered ? 'translateY(0) scale(1)' : 'translateY(12px) scale(0.9)',
+                transition: 'opacity 0.35s ease, transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1)',
               }}
             >
-              VIEW DETAILS <ArrowRight size={isMobile ? 12 : 14} style={{ opacity: hovered ? 1 : 0, transform: hovered ? 'translateX(0)' : 'translateX(-4px)', transition: 'opacity 0.3s ease 0.05s, transform 0.3s ease 0.05s' }} />
+              <TextScramble text="VIEW DETAILS" trigger={hovered} speed={25} /> <ArrowRight size={isMobile ? 12 : 14} style={{ opacity: hovered ? 1 : 0, transform: hovered ? 'translateX(0)' : 'translateX(-6px)', transition: 'opacity 0.3s ease 0.1s, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s' }} />
             </Link>
           </div>
         </div>
@@ -275,9 +286,7 @@ export function CircularGallery({ items }: CircularGalleryProps) {
     alignItems: 'center',
     justifyContent: 'center',
     cursor: 'pointer',
-    transition: 'all 0.25s ease',
-    backdropFilter: 'blur(12px)',
-    WebkitBackdropFilter: 'blur(12px)',
+    transition: 'border-color 0.25s ease, box-shadow 0.25s ease',
   };
 
   return (

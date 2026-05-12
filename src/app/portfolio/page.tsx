@@ -177,9 +177,8 @@ export default function PortfolioPage() {
                           style={{ objectFit: 'cover', objectPosition: project.objectPosition || 'center' }}
                           sizes="(max-width: 768px) 100vw, 400px"
                         />
-                        <div style={{ position: 'absolute', inset: 0, background: `linear-gradient(to top, ${project.color}40, transparent)` }} />
                       </div>
-                      <div className={styles.projectHeader} style={{ borderLeftColor: project.color }}>
+                      <div className={styles.projectHeader}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                           <span className={styles.projectCategory}>{project.category}</span>
                           {'year' in project && <span style={{ fontSize: '11px', color: '#6c6c85', marginLeft: 'auto' }}>{(project as { year: string }).year}</span>}
@@ -229,7 +228,7 @@ export default function PortfolioPage() {
               fontWeight={800}
               background={isDark ? 'var(--bg-secondary)' : 'var(--bg-secondary)'}
               fadeColor={isDark ? '#12121e' : '#ffffff'}
-              color={isDark ? 'rgba(240,240,245,0.12)' : 'rgba(26,26,46,0.07)'}
+              color={isDark ? 'rgba(255,255,255,0.85)' : 'rgba(0,0,0,0.8)'}
             />
           </div>
 
