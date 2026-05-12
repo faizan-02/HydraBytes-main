@@ -111,7 +111,6 @@
 }
 
 html {
-  scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -239,13 +238,15 @@ h1, h2, h3, h4, h5, h6 {
   background: var(--bg-card);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-lg);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  transition: all 0.4s cubic-bezier(0.25, 0.4, 0.25, 1);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: transform 0.35s cubic-bezier(0.25, 0.4, 0.25, 1),
+              border-color 0.35s ease,
+              box-shadow 0.35s ease;
+  will-change: transform;
 }
 
 .glass-card:hover {
-  background: var(--bg-card-hover);
   border-color: var(--border-color-hover);
   box-shadow: var(--shadow-glow);
   transform: translateY(-2px);
@@ -261,10 +262,14 @@ h1, h2, h3, h4, h5, h6 {
   border-radius: var(--radius-md);
   font-weight: 600;
   font-size: 0.9rem;
-  transition: all 0.35s cubic-bezier(0.25, 0.4, 0.25, 1);
+  transition: transform 0.3s cubic-bezier(0.25, 0.4, 0.25, 1),
+              box-shadow 0.3s ease,
+              filter 0.3s ease,
+              border-color 0.3s ease;
   position: relative;
   overflow: hidden;
   letter-spacing: -0.01em;
+  will-change: transform;
 }
 
 .btn-primary {

@@ -74,8 +74,16 @@ export default function LogoNetworkAnimation() {
 
     const nodes = createNodes();
     const mouse = { x: 0, y: 0, active: false };
+    let isVisible = true;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => { isVisible = entry.isIntersecting; },
+      { threshold: 0 }
+    );
+    observer.observe(canvas);
 
     const handleMouseMove = (e: MouseEvent) => {
+      if (!isVisible) return;
       const rect = canvas.getBoundingClientRect();
       const mx = e.clientX - rect.left;
       const my = e.clientY - rect.top;
@@ -100,6 +108,8 @@ export default function LogoNetworkAnimation() {
     let time = 0;
 
     const animate = () => {
+      frameId = requestAnimationFrame(animate);
+      if (!isVisible) return;
       time += 0.02;
       ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
@@ -178,13 +188,13 @@ export default function LogoNetworkAnimation() {
         ctx.restore();
       }
 
-      frameId = requestAnimationFrame(animate);
     };
 
     frameId = requestAnimationFrame(animate);
 
     return () => {
       cancelAnimationFrame(frameId);
+      observer.disconnect();
       window.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mouseleave', handleMouseLeave);
     };

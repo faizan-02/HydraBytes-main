@@ -131,8 +131,10 @@ export function CircularGallery({ items }: CircularGalleryProps) {
   const anglePerItem = 360 / total;
   const { cardW, cardH, radius, viewH, isMobile } = useResponsiveValues();
 
+  const containerRef = useRef<HTMLDivElement>(null);
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
   const isHoveringRef = useRef(false);
+  const isVisibleRef = useRef(true);
   const rotationRef = useRef(0);
   const targetRotationRef = useRef(0);
   const animRef = useRef<number>(0);
@@ -142,6 +144,17 @@ export function CircularGallery({ items }: CircularGalleryProps) {
 
   const touchStartRef = useRef<{ x: number; time: number } | null>(null);
   const touchDeltaRef = useRef(0);
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => { isVisibleRef.current = entry.isIntersecting; },
+      { threshold: 0 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   const updateCards = useCallback(() => {
     const rot = rotationRef.current;
@@ -174,6 +187,8 @@ export function CircularGallery({ items }: CircularGalleryProps) {
     updateCards();
 
     const animate = (time: number) => {
+      animRef.current = requestAnimationFrame(animate);
+      if (!isVisibleRef.current) { lastTimeRef.current = 0; return; }
       if (!lastTimeRef.current) lastTimeRef.current = time;
       const delta = (time - lastTimeRef.current) / 1000;
       lastTimeRef.current = time;
@@ -186,7 +201,6 @@ export function CircularGallery({ items }: CircularGalleryProps) {
       rotationRef.current += diff * Math.min(1, delta * 4);
 
       updateCards();
-      animRef.current = requestAnimationFrame(animate);
     };
 
     animRef.current = requestAnimationFrame(animate);
@@ -268,6 +282,7 @@ export function CircularGallery({ items }: CircularGalleryProps) {
 
   return (
     <div
+      ref={containerRef}
       onMouseEnter={() => { isHoveringRef.current = true; }}
       onMouseLeave={() => { isHoveringRef.current = false; }}
       onTouchStart={handleTouchStart}
