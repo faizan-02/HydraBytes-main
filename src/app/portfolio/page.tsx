@@ -9,6 +9,8 @@ import {
 import AnimatedSection from '@/components/AnimatedSection';
 import SpotlightCard from '@/components/SpotlightCard';
 import FloatingParticles from '@/components/FloatingParticles';
+import { PerspectiveMarquee } from '@/components/ui/perspective-marquee';
+import { useTheme } from '@/lib/ThemeContext';
 import styles from './portfolio.module.css';
 
 const techCategories = [
@@ -110,7 +112,14 @@ const projects = [
   },
 ];
 
+const marqueeItems = [
+  'React', 'Next.js', 'TypeScript', 'Python', 'Node.js', 'Docker',
+  'AWS', 'TensorFlow', 'Flutter', 'FastAPI', 'PostgreSQL', 'Figma',
+];
+
 export default function PortfolioPage() {
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
   const [active, setActive] = useState('All');
   const filtered = active === 'All' ? projects : projects.filter(p => p.category === active);
 
@@ -208,6 +217,21 @@ export default function PortfolioPage() {
               </p>
             </div>
           </AnimatedSection>
+
+          <div className={styles.marqueeWrap}>
+            <PerspectiveMarquee
+              items={marqueeItems}
+              fontSize={72}
+              pixelsPerSecond={50}
+              rotateY={-25}
+              rotateX={6}
+              perspective={1200}
+              fontWeight={800}
+              background={isDark ? 'var(--bg-secondary)' : 'var(--bg-secondary)'}
+              fadeColor={isDark ? '#12121e' : '#ffffff'}
+              color={isDark ? 'rgba(240,240,245,0.12)' : 'rgba(26,26,46,0.07)'}
+            />
+          </div>
 
           <div className={styles.techCategoriesGrid}>
             {techCategories.map((category, catIndex) => (

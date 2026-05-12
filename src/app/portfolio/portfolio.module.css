@@ -105,6 +105,16 @@
   background: var(--bg-secondary);
 }
 
+.marqueeWrap {
+  position: relative;
+  width: calc(100% + 3rem);
+  margin-left: -1.5rem;
+  height: 220px;
+  margin-bottom: 2.5rem;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
 .techCategoriesGrid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
