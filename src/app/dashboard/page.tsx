@@ -3,7 +3,7 @@
 import { useSession, signOut } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { FolderOpen, FileText, LogOut, Clock, CheckCircle, AlertCircle, Loader, ShieldCheck, Calendar, MessageCircle, CreditCard, XCircle, Check } from 'lucide-react';
+import { FolderOpen, FileText, LogOut, Clock, CheckCircle, AlertCircle, Loader, ShieldCheck, Calendar, MessageCircle, CreditCard, XCircle, Check, Briefcase, Receipt } from 'lucide-react';
 
 interface Project {
   id: string;
@@ -28,7 +28,7 @@ interface Invoice {
 }
 
 const CALENDLY = process.env.NEXT_PUBLIC_CALENDLY_URL ?? 'https://calendly.com/faizanjawad02/30min';
-const WA = `https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP ?? '923239999000'}`;
+const WA = `https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP ?? '923395116983'}`;
 
 const statusConfig: Record<string, { label: string; color: string; bg: string; icon: React.ReactNode }> = {
   pending_verification: { label: 'Pending Review',  color: '#fbbf24', bg: 'rgba(251,191,36,0.1)', icon: <Clock size={13} /> },
@@ -86,7 +86,7 @@ export default function DashboardPage() {
   if (status === 'loading' || loading) {
     return (
       <div style={{ minHeight: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <div style={{ width: '40px', height: '40px', border: '3px solid rgba(99,102,241,0.2)', borderTop: '3px solid #6366f1', borderRadius: '50%', animation: 'spin 1s linear infinite' }} />
+        <div style={{ width: '40px', height: '40px', border: '3px solid rgba(8,145,178,0.2)', borderTop: '3px solid #0891b2', borderRadius: '50%', animation: 'spin 1s linear infinite' }} />
       </div>
     );
   }
@@ -104,7 +104,7 @@ export default function DashboardPage() {
       {/* Header */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '40px', flexWrap: 'wrap', gap: '16px' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-          <div style={{ width: '56px', height: '56px', borderRadius: '50%', background: 'linear-gradient(135deg, #6366f1, #06b6d4)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '20px', fontWeight: 700, color: '#fff', flexShrink: 0 }}>
+          <div style={{ width: '56px', height: '56px', borderRadius: '50%', background: 'linear-gradient(135deg, #0891b2, #00b4d8)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '20px', fontWeight: 700, color: '#fff', flexShrink: 0 }}>
             {initials}
           </div>
           <div>
@@ -113,7 +113,7 @@ export default function DashboardPage() {
           </div>
         </div>
         <button onClick={() => signOut({ callbackUrl: '/' })}
-          style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 18px', background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.2)', borderRadius: '10px', color: '#ef4444', cursor: 'pointer', fontSize: '14px' }}>
+          style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 18px', background: 'var(--bg-tertiary)', border: '1px solid var(--border-color)', borderRadius: '10px', color: 'var(--text-secondary, #9ca3af)', cursor: 'pointer', fontSize: '14px' }}>
           <LogOut size={15} /> Sign Out
         </button>
       </div>
@@ -121,9 +121,9 @@ export default function DashboardPage() {
       {/* Stats */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '16px', marginBottom: '40px' }}>
         {[
-          { label: 'Active Projects',    value: activeProjects,    icon: <FolderOpen size={20} />,  color: '#6366f1' },
-          { label: 'Completed Projects', value: completedProjects, icon: <CheckCircle size={20} />, color: '#4ade80' },
-          { label: 'Pending Invoices',   value: pendingInvoices,   icon: <FileText size={20} />,    color: '#fbbf24' },
+          { label: 'Active Projects',    value: activeProjects,    icon: <Briefcase size={20} />,   color: '#0891b2' },
+          { label: 'Completed Projects', value: completedProjects, icon: <CheckCircle size={20} />, color: '#00b4d8' },
+          { label: 'Pending Invoices',   value: pendingInvoices,   icon: <Receipt size={20} />,     color: '#06b6d4' },
         ].map(stat => (
           <div key={stat.label} style={{ background: 'var(--bg-card)', border: '1px solid var(--border-color)', borderRadius: '16px', padding: '20px', display: 'flex', alignItems: 'center', gap: '16px' }}>
             <div style={{ width: '44px', height: '44px', borderRadius: '12px', background: `${stat.color}15`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: stat.color, flexShrink: 0 }}>
@@ -141,9 +141,9 @@ export default function DashboardPage() {
       <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border-color)', borderRadius: '16px', padding: '24px', marginBottom: '24px' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px' }}>
           <h2 style={{ fontSize: '18px', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '8px', margin: 0 }}>
-            <FolderOpen size={18} color="#6366f1" /> My Projects
+            <FolderOpen size={18} color="var(--accent-primary)" /> My Projects
           </h2>
-          <a href="/contact" style={{ fontSize: '13px', color: '#6366f1', textDecoration: 'none' }}>+ Start New Project</a>
+          <a href="/contact" style={{ fontSize: '13px', color: 'var(--accent-primary)', textDecoration: 'none', fontWeight: 500 }}>+ Start New Project</a>
         </div>
 
         {projects.length === 0 ? (
@@ -189,13 +189,13 @@ export default function DashboardPage() {
                         return (
                           <div key={step} style={{ display: 'flex', alignItems: 'center', flex: i < TIMELINE.length - 1 ? 1 : 'none' }}>
                             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
-                              <div style={{ width: '20px', height: '20px', borderRadius: '50%', background: isDone ? '#6366f1' : 'var(--border-color)', border: isCurrent ? '2px solid #06b6d4' : 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px' }}>
+                              <div style={{ width: '20px', height: '20px', borderRadius: '50%', background: isDone ? '#0891b2' : 'var(--border-color)', border: isCurrent ? '2px solid #00b4d8' : 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px' }}>
                                 {isDone && <Check size={10} strokeWidth={3} />}
                               </div>
                               <span style={{ fontSize: '10px', color: isDone ? 'var(--accent-primary)' : 'var(--text-tertiary)', whiteSpace: 'nowrap' }}>{timelineLabels[step]}</span>
                             </div>
                             {i < TIMELINE.length - 1 && (
-                              <div style={{ flex: 1, height: '2px', background: i < currentIdx ? '#6366f1' : 'var(--border-color)', margin: '0 4px', marginBottom: '16px' }} />
+                              <div style={{ flex: 1, height: '2px', background: i < currentIdx ? '#0891b2' : 'var(--border-color)', margin: '0 4px', marginBottom: '16px' }} />
                             )}
                           </div>
                         );
@@ -214,7 +214,7 @@ export default function DashboardPage() {
                     <div style={{ marginTop: '12px', padding: '16px', background: 'rgba(74,222,128,0.05)', border: '1px solid rgba(74,222,128,0.15)', borderRadius: '8px' }}>
                       <p style={{ margin: '0 0 12px', fontSize: '13px', color: '#4ade80', display: 'flex', alignItems: 'center', gap: 6 }}><CheckCircle size={14} /> Your project has been accepted! Our team will reach out within 24 hours. Want to connect sooner?</p>
                       <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
-                        <a href={CALENDLY} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '8px 16px', background: 'linear-gradient(135deg,#6366f1,#06b6d4)', color: '#fff', borderRadius: '8px', textDecoration: 'none', fontSize: '13px', fontWeight: 600 }}>
+                        <a href={CALENDLY} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '8px 16px', background: 'linear-gradient(135deg,#0891b2,#00b4d8)', color: '#fff', borderRadius: '8px', textDecoration: 'none', fontSize: '13px', fontWeight: 600 }}>
                           <Calendar size={14} /> Book a Free Consultation
                         </a>
                         <a href={WA} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '8px 16px', background: '#25d366', color: '#fff', borderRadius: '8px', textDecoration: 'none', fontSize: '13px', fontWeight: 600 }}>
@@ -226,17 +226,17 @@ export default function DashboardPage() {
 
                   {/* Payment prompt for completed projects with pending invoice */}
                   {project.status === 'completed' && pendingInvoice && (
-                    <div style={{ marginTop: '16px', padding: '20px', background: 'rgba(99,102,241,0.06)', border: '1px solid rgba(99,102,241,0.2)', borderRadius: '12px' }}>
+                    <div style={{ marginTop: '16px', padding: '20px', background: 'rgba(8,145,178,0.06)', border: '1px solid rgba(8,145,178,0.2)', borderRadius: '12px' }}>
                       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px', marginBottom: '16px' }}>
                         <div>
-                          <p style={{ margin: '0 0 4px', fontSize: '14px', fontWeight: 600, color: '#a5b4fc', display: 'flex', alignItems: 'center', gap: 6 }}><CheckCircle size={15} /> Project Complete: Payment Required</p>
+                          <p style={{ margin: '0 0 4px', fontSize: '14px', fontWeight: 600, color: '#0891b2', display: 'flex', alignItems: 'center', gap: 6 }}><CheckCircle size={15} /> Project Complete: Payment Required</p>
                           <p style={{ margin: 0, fontSize: '13px', color: 'var(--muted, #9ca3af)' }}>
-                            Amount due: <strong style={{ color: '#f0f0f5' }}>${pendingInvoice.amount.toLocaleString()}</strong>
+                            Amount due: <strong style={{ color: 'var(--text-primary)' }}>${pendingInvoice.amount.toLocaleString()}</strong>
                             {pendingInvoice.dueDate && ` · Due ${new Date(pendingInvoice.dueDate).toLocaleDateString()}`}
                           </p>
                         </div>
                       </div>
-                      <a href={`/payment/local/${pendingInvoice.id}`} style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '10px 24px', background: 'linear-gradient(135deg,#22c55e,#16a34a)', color: '#fff', borderRadius: '8px', textDecoration: 'none', fontSize: '14px', fontWeight: 700 }}>
+                      <a href={`/payment/local/${pendingInvoice.id}`} style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '10px 24px', background: 'linear-gradient(135deg,#0891b2,#00b4d8)', color: '#fff', borderRadius: '8px', textDecoration: 'none', fontSize: '14px', fontWeight: 700 }}>
                         <CreditCard size={15} /> Pay Invoice
                       </a>
                     </div>
@@ -257,7 +257,7 @@ export default function DashboardPage() {
                   {project.status === 'declined' && (
                     <div style={{ marginTop: '12px', padding: '12px 16px', background: 'rgba(239,68,68,0.05)', border: '1px solid rgba(239,68,68,0.15)', borderRadius: '8px', fontSize: '13px', color: '#ef4444' }}>
                       <XCircle size={13} style={{ display: 'inline', marginRight: 6, verticalAlign: 'middle' }} /> This project was not accepted. You can{' '}
-                      <a href="/contact" style={{ color: '#6366f1', fontWeight: 600 }}>submit a new request</a>{' '}
+                      <a href="/contact" style={{ color: 'var(--accent-primary)', fontWeight: 600 }}>submit a new request</a>{' '}
                       or{' '}
                       <a href={WA} target="_blank" rel="noopener noreferrer" style={{ color: '#4ade80', fontWeight: 600 }}>WhatsApp us</a>{' '}
                       to discuss further.
@@ -274,7 +274,7 @@ export default function DashboardPage() {
       {invoices.length > 0 && (
         <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border-color)', borderRadius: '16px', padding: '24px' }}>
           <h2 style={{ fontSize: '18px', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '8px', margin: '0 0 20px' }}>
-            <FileText size={18} color="#6366f1" /> Invoices
+            <Receipt size={18} color="var(--accent-primary)" /> Invoices
           </h2>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
             {invoices.map(inv => (
@@ -300,7 +300,7 @@ export default function DashboardPage() {
                 </div>
                 {inv.status === 'pending' && (
                   <div style={{ marginTop: '12px' }}>
-                    <a href={`/payment/local/${inv.id}`} style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '8px 18px', background: 'linear-gradient(135deg,#22c55e,#16a34a)', color: '#fff', borderRadius: '8px', textDecoration: 'none', fontSize: '13px', fontWeight: 600 }}>
+                    <a href={`/payment/local/${inv.id}`} style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '8px 18px', background: 'linear-gradient(135deg,#0891b2,#00b4d8)', color: '#fff', borderRadius: '8px', textDecoration: 'none', fontSize: '13px', fontWeight: 600 }}>
                       <CreditCard size={14} /> Pay Now
                     </a>
                   </div>

@@ -5,7 +5,7 @@ import { escapeHtml } from '@/lib/validate';
 
 const BASE_URL = process.env.AUTH_URL ?? process.env.NEXTAUTH_URL ?? 'https://hydrabytes.tech';
 const TEAM_EMAIL = process.env.TEAM_EMAIL!;
-const WA_LINK = `https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP ?? '923239999000'}`;
+const WA_LINK = `https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP ?? '923395116983'}`;
 
 // Vercel invokes cron routes with a secret header to prevent public access
 function isAuthorized(req: NextRequest): boolean {

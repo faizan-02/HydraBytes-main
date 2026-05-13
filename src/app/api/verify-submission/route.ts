@@ -7,7 +7,7 @@ import { enforceRateLimit, FIFTEEN_MINUTES } from '@/lib/rateLimit';
 
 const BASE_URL = process.env.AUTH_URL ?? process.env.NEXTAUTH_URL ?? 'https://www.hydrabytes.tech';
 const CALENDLY_LINK = process.env.NEXT_PUBLIC_CALENDLY_URL ?? 'https://calendly.com/faizanjawad02/30min';
-const WA_LINK = `https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP ?? '923239999000'}`;
+const WA_LINK = `https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP ?? '923395116983'}`;
 
 export async function GET(req: NextRequest) {
   const limited = enforceRateLimit(req, 'verify-submission', 15, FIFTEEN_MINUTES);
@@ -169,7 +169,7 @@ export async function GET(req: NextRequest) {
           </div>
         </div>
         <div style="padding:24px 32px;border-top:1px solid rgba(0,180,216,0.15);text-align:center;">
-          <p style="margin:0;font-size:13px;color:#6c6c85;">© ${new Date().getFullYear()} HydraBytes · contact@hydrabytes.tech · +92 323 9999 000</p>
+          <p style="margin:0;font-size:13px;color:#6c6c85;">© ${new Date().getFullYear()} HydraBytes · contact@hydrabytes.tech · +92 339 5116 983</p>
         </div>
       </div>`,
   }).catch((err) => { console.error('[verify-submission] accept email error:', err); });

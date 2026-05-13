@@ -217,7 +217,7 @@ export async function POST(req: NextRequest) {
               <!-- Quick Contact -->
               <div style="text-align:center;margin-bottom:8px;">
                 <p style="font-size:14px;color:#6c6c85;margin:0 0 12px;">Need a faster response?</p>
-                <a href="https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP ?? '923239999000'}" style="display:inline-block;padding:12px 24px;background:#25d366;color:#fff;text-decoration:none;border-radius:999px;font-weight:600;font-size:14px;">WhatsApp Us</a>
+                <a href="https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP ?? '923395116983'}" style="display:inline-block;padding:12px 24px;background:#25d366;color:#fff;text-decoration:none;border-radius:999px;font-weight:600;font-size:14px;">WhatsApp Us</a>
               </div>
             </div>
             <div style="padding:24px 32px;border-top:1px solid rgba(0,180,216,0.12);text-align:center;">

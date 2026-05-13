@@ -47,7 +47,7 @@ const PAYMENT_METHODS = [
     bg: 'rgba(0,176,74,0.08)',
     border: 'rgba(0,176,74,0.25)',
     fields: [
-      { label: 'Account Number', value: '0323-9999000' },
+      { label: 'Account Number', value: '0339-5116983' },
       { label: 'Account Name',   value: 'Faizan Jawad Ahmed' },
     ],
     instructions: 'Send to the Easypaisa number above and enter your 11-digit transaction ID below.',
@@ -61,7 +61,7 @@ const PAYMENT_METHODS = [
     bg: 'rgba(0,180,216,0.08)',
     border: 'rgba(0,180,216,0.25)',
     fields: [
-      { label: 'Mobile Account', value: '0323-9999000' },
+      { label: 'Mobile Account', value: '0339-5116983' },
       { label: 'Account Name',   value: 'Faizan Jawad Ahmed' },
     ],
     instructions: 'Send via JazzCash mobile account and enter the transaction ID below.',
@@ -75,7 +75,7 @@ const PAYMENT_METHODS = [
     bg: 'rgba(245,158,11,0.08)',
     border: 'rgba(245,158,11,0.25)',
     fields: [
-      { label: 'NayaPay ID / Phone', value: '0323-9999000' },
+      { label: 'NayaPay ID / Phone', value: '0339-5116983' },
       { label: 'Account Name',       value: 'Faizan Jawad Ahmed' },
     ],
     instructions: 'Send via NayaPay and paste the reference number below.',
