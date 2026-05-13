@@ -360,9 +360,6 @@ export default function HomePage() {
                       <h3 className={styles.serviceHighlightTitle}>{service.title}</h3>
                       <p className={styles.serviceHighlightDesc}>{service.desc}</p>
                     </div>
-                    <span className={styles.serviceHighlightArrow}>
-                      <ArrowRight size={18} strokeWidth={1.8} />
-                    </span>
                   </div>
                 ))}
               </div>
