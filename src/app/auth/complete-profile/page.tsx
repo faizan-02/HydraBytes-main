@@ -40,20 +40,25 @@ export default function CompleteProfilePage() {
     setLoading(true);
     setError(null);
 
-    const res = await fetch('/api/user/settings', {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ action: 'update_profile', phone, company }),
-    });
-    const data = await res.json();
-    setLoading(false);
+    try {
+      const res = await fetch('/api/user/settings', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'update_profile', phone, company }),
+      });
+      const data = await res.json();
 
-    if (res.ok) {
-      setDone(true);
-      await update({ profileComplete: true });
-      setTimeout(() => router.push('/dashboard'), 1200);
-    } else {
-      setError(data.error ?? 'Something went wrong.');
+      if (res.ok) {
+        setDone(true);
+        update({ profileComplete: true }).catch(() => {});
+        setTimeout(() => router.push('/dashboard'), 1200);
+      } else {
+        setError(data.error ?? 'Something went wrong.');
+      }
+    } catch {
+      setError('Network error. Please check your connection and try again.');
+    } finally {
+      setLoading(false);
     }
   }
 
