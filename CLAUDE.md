@@ -153,4 +153,4 @@ npx prisma db push   # Push schema changes to database
 - `mailer.ts` still uses Resend API; migration to Gmail SMTP (nodemailer) is planned
 - Some `<img>` tags used instead of `next/image` (intentional in hero for theme layering, less intentional in Footer/Navbar/auth pages)
 - CSP header uses `unsafe-inline` for scripts and styles (needed for inline JSON-LD and email rendering)
-- The `resend` package is still in `package.json` dependencies even though nodemailer is also present
+- The `resend` package is still in `package.json` dependencies even though nodemailer is also presentt.
