@@ -90,8 +90,14 @@ export async function PATCH(req: NextRequest) {
     const companyRes = validateCompany(parsed.data.company);
     if ('error' in companyRes) return NextResponse.json({ error: companyRes.error }, { status: companyRes.status });
 
-    await prisma.user.update({ where: { id: userId }, data: { phone: phoneRes.value, company: companyRes.value } });
-    return NextResponse.json({ success: true });
+    try {
+      await prisma.user.update({ where: { id: userId }, data: { phone: phoneRes.value, company: companyRes.value } });
+      return NextResponse.json({ success: true });
+    } catch (err) {
+      console.error('update_profile DB error:', err);
+      const msg = err instanceof Error ? err.message : 'Unknown database error';
+      return NextResponse.json({ error: `Database error: ${msg}` }, { status: 500 });
+    }
   }
 
   // ── Update Info (name + phone + company, any non-empty subset) ───────────
