@@ -58,16 +58,19 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         if (sessionUpdate?.profileComplete !== undefined) token.profileComplete = sessionUpdate.profileComplete;
       }
 
-      // Re-validate role and check passwordChangedAt on existing sessions
-      if (!user && token.id) {
+      // Re-validate role and recover missing token.id via email lookup
+      if (!user && (token.id || token.email)) {
         try {
+          const where = token.id ? { id: token.id as string } : { email: token.email as string };
           const dbUser = await prisma.user.findUnique({
-            where: { id: token.id as string },
-            select: { role: true, passwordChangedAt: true, email: true },
+            where,
+            select: { id: true, role: true, passwordChangedAt: true, email: true, phone: true, company: true },
           });
           if (!dbUser) return { ...token, invalidated: true };
+          if (!token.id) token.id = dbUser.id;
           token.role = dbUser.role;
           token.email = dbUser.email;
+          token.profileComplete = !!(dbUser.phone && dbUser.company);
           if (dbUser.passwordChangedAt) {
             const iat = (token.iat as number) * 1000;
             if (dbUser.passwordChangedAt.getTime() > iat) {
