@@ -46,15 +46,21 @@ export default function CompleteProfilePage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ action: 'update_profile', phone, company }),
       });
-      const data = await res.json();
 
-      if (res.ok) {
-        setDone(true);
-        update({ profileComplete: true }).catch(() => {});
-        setTimeout(() => router.push('/dashboard'), 1200);
-      } else {
-        setError(data.error ?? 'Something went wrong.');
+      if (!res.ok) {
+        const text = await res.text();
+        try {
+          const data = JSON.parse(text);
+          setError(data.error ?? 'Something went wrong.');
+        } catch {
+          setError(res.status === 504 ? 'Server timed out. Please try again.' : `Server error (${res.status}). Please try again.`);
+        }
+        return;
       }
+
+      setDone(true);
+      update({ profileComplete: true }).catch(() => {});
+      setTimeout(() => router.push('/dashboard'), 1200);
     } catch {
       setError('Network error. Please check your connection and try again.');
     } finally {
