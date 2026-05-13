@@ -8,6 +8,7 @@ import AnimatedSection from '@/components/AnimatedSection';
 import SpotlightCard from '@/components/SpotlightCard';
 import MagneticButton from '@/components/MagneticButton';
 import FloatingParticles from '@/components/FloatingParticles';
+import { GlassIcon, type GlassIconColor } from '@/components/ui/GlassIcons';
 import styles from './about.module.css';
 
 const team = [
@@ -19,11 +20,17 @@ const team = [
   { name: 'Umair Khan', role: 'Web Developer', initials: 'UK', color: '#38bdf8' },
 ];
 
-const values = [
-  { icon: Lightbulb, color: '#0891b2', title: 'Innovation First', desc: 'We push boundaries, embracing emerging technologies to deliver solutions ahead of the curve.' },
-  { icon: Users, color: '#00e5ff', title: 'Client Partnership', desc: 'Your success is our success. We build lasting relationships through transparency and trust.' },
-  { icon: Star, color: '#f472b6', title: 'Excellence Always', desc: 'Every line of code, every pixel, every interaction is crafted to the highest standard.' },
-  { icon: Globe, color: '#22c55e', title: 'Global Impact', desc: 'We build technology that scales globally and creates positive change in the world.' },
+const values: Array<{
+  icon: typeof Lightbulb;
+  color: string;
+  glassColor: GlassIconColor;
+  title: string;
+  desc: string;
+}> = [
+  { icon: Lightbulb, color: '#7c3aed', glassColor: 'purple', title: 'Innovation First', desc: 'We push boundaries, embracing emerging technologies to deliver solutions ahead of the curve.' },
+  { icon: Users, color: '#3b82f6', glassColor: 'blue', title: 'Client Partnership', desc: 'Your success is our success. We build lasting relationships through transparency and trust.' },
+  { icon: Star, color: '#f472b6', glassColor: 'pink', title: 'Excellence Always', desc: 'Every line of code, every pixel, every interaction is crafted to the highest standard.' },
+  { icon: Globe, color: '#22c55e', glassColor: 'green', title: 'Global Impact', desc: 'We build technology that scales globally and creates positive change in the world.' },
 ];
 
 const timeline = [
@@ -128,11 +135,8 @@ export default function AboutPage() {
               <AnimatedSection key={v.title} delay={i * 0.1} style={{ height: '100%' }}>
                 <SpotlightCard spotlightColor={`${v.color}20`}>
                   <div className={styles.valueCard}>
-                    <div
-                      className={styles.valueIcon}
-                      style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: '52px', height: '52px', borderRadius: '14px', background: `${v.color}18`, color: v.color, marginBottom: '1rem' }}
-                    >
-                      <v.icon size={26} strokeWidth={1.6} />
+                    <div className={styles.valueIcon} style={{ display: 'inline-flex', marginBottom: '1rem' }}>
+                      <GlassIcon icon={<v.icon size={26} strokeWidth={1.6} />} color={v.glassColor} size={52} />
                     </div>
                     <h3 className={styles.valueTitle}>{v.title}</h3>
                     <p className={styles.valueDesc}>{v.desc}</p>

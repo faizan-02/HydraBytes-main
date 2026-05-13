@@ -1,0 +1,187 @@
+/* =========================================================
+   React Bits — GlassIcons
+   Multi-item grid (icon-btns / icon-btn) AND single-icon
+   inline variant (glass-icon) sharing the same visual.
+   ========================================================= */
+
+/* ---------- Multi-item grid variant ---------- */
+.icon-btns {
+  display: grid;
+  grid-gap: 5em;
+  grid-template-columns: repeat(2, 1fr);
+  margin: auto;
+  padding: 3em 0;
+  overflow: visible;
+}
+
+.icon-btn {
+  background-color: transparent;
+  outline: none;
+  position: relative;
+  width: 4.5em;
+  height: 4.5em;
+  perspective: 24em;
+  transform-style: preserve-3d;
+  -webkit-tap-highlight-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.icon-btn__back,
+.icon-btn__front,
+.icon-btn__label {
+  transition:
+    opacity 0.3s cubic-bezier(0.83, 0, 0.17, 1),
+    transform 0.3s cubic-bezier(0.83, 0, 0.17, 1);
+}
+
+.icon-btn__back,
+.icon-btn__front {
+  border-radius: 1.25em;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.icon-btn__back {
+  box-shadow: 0.5em -0.5em 0.75em hsla(223, 10%, 10%, 0.15);
+  display: block;
+  transform: rotate(15deg);
+  transform-origin: 100% 100%;
+  will-change: transform;
+}
+
+.icon-btn__front {
+  background-color: hsla(0, 0%, 100%, 0.15);
+  box-shadow: 0 0 0 0.1em hsla(0, 0%, 100%, 0.3) inset;
+  backdrop-filter: blur(0.75em);
+  -webkit-backdrop-filter: blur(0.75em);
+  display: flex;
+  transform-origin: 80% 50%;
+  will-change: transform;
+  color: #fff;
+}
+
+.icon-btn__icon {
+  margin: auto;
+  width: 1.5em;
+  height: 1.5em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-btn__icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.icon-btn__label {
+  font-size: 1em;
+  white-space: nowrap;
+  text-align: center;
+  line-height: 2;
+  opacity: 0;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  left: 0;
+  transform: translateY(0);
+  color: var(--text-primary, #fff);
+}
+
+.icon-btn:focus-visible .icon-btn__back,
+.icon-btn:hover .icon-btn__back {
+  transform: rotate(25deg) translate3d(-0.5em, -0.5em, 0.5em);
+}
+
+.icon-btn:focus-visible .icon-btn__front,
+.icon-btn:hover .icon-btn__front {
+  transform: translate3d(0, 0, 2em);
+}
+
+.icon-btn:focus-visible .icon-btn__label,
+.icon-btn:hover .icon-btn__label {
+  opacity: 1;
+  transform: translateY(20%);
+}
+
+@media (min-width: 768px) {
+  .icon-btns {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* ---------- Single-icon inline variant (no label, no grid) ---------- */
+.glass-icon {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 44px;
+  perspective: 200px;
+  transform-style: preserve-3d;
+  flex-shrink: 0;
+}
+
+.glass-icon__back,
+.glass-icon__front {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--glass-radius, 10px);
+  transition: transform 0.35s cubic-bezier(0.83, 0, 0.17, 1);
+}
+
+.glass-icon__back {
+  box-shadow: 4px -4px 10px rgba(0, 0, 0, 0.22);
+  transform: rotate(15deg);
+  transform-origin: 100% 100%;
+  will-change: transform;
+}
+
+.glass-icon__front {
+  background-color: hsla(0, 0%, 100%, 0.15);
+  box-shadow: 0 0 0 1px hsla(0, 0%, 100%, 0.32) inset;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform-origin: 80% 50%;
+  color: #fff;
+  will-change: transform;
+}
+
+.glass-icon__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50%;
+  height: 50%;
+}
+
+.glass-icon__icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* Subtle hover lift when the parent card is hovered */
+.glass-icon:hover .glass-icon__back,
+*:hover > .glass-icon .glass-icon__back {
+  transform: rotate(22deg) translate3d(-3px, -3px, 4px);
+}
+
+.glass-icon:hover .glass-icon__front,
+*:hover > .glass-icon .glass-icon__front {
+  transform: translate3d(0, 0, 8px);
+}
+
+[data-theme='light'] .glass-icon__back {
+  box-shadow: 4px -4px 10px rgba(0, 0, 0, 0.14);
+}
+
+[data-theme='light'] .glass-icon__front {
+  background-color: hsla(0, 0%, 100%, 0.35);
+  box-shadow: 0 0 0 1px hsla(0, 0%, 100%, 0.55) inset;
+}

@@ -9,13 +9,26 @@ import SpotlightCard from '@/components/SpotlightCard';
 import MagneticButton from '@/components/MagneticButton';
 import OrbitingSkills from '@/components/ui/orbiting-skills';
 import { GlowingEffect } from '@/components/ui/grid-glow-effect-purple-blue';
+import { GlassIcon, type GlassIconColor } from '@/components/ui/GlassIcons';
 import styles from './services.module.css';
 
-const services = [
+const services: Array<{
+  id: string;
+  icon: typeof Globe;
+  color: string;
+  glassColor: GlassIconColor;
+  image: string;
+  title: string;
+  subtitle: string;
+  desc: string;
+  features: string[];
+  tech: string[];
+}> = [
   {
     id: 'web',
     icon: Globe,
     color: '#0891b2',
+    glassColor: 'purple',
     image: 'https://images.unsplash.com/photo-1587620962725-abab7fe55159?auto=format&fit=crop&w=1200&q=90',
     title: 'Web Development',
     subtitle: 'Custom websites that convert visitors into customers',
@@ -34,6 +47,7 @@ const services = [
     id: 'app',
     icon: Smartphone,
     color: '#00e5ff',
+    glassColor: 'blue',
     image: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=1200&q=90',
     title: 'App Development',
     subtitle: 'Mobile experiences that users love',
@@ -52,6 +66,7 @@ const services = [
     id: 'ai',
     icon: Brain,
     color: '#f472b6',
+    glassColor: 'pink',
     image: 'https://images.unsplash.com/photo-1488229297570-58520851e868?auto=format&fit=crop&w=1200&q=90',
     title: 'AI & ML Solutions',
     subtitle: 'Intelligent systems that learn and adapt',
@@ -126,8 +141,8 @@ export default function ServicesPage() {
                   className={styles.floaterInner}
                 >
                   <GlowingEffect spread={40} glow disabled={false} proximity={300} inactiveZone={0.01} borderWidth={1.5} variant="blue-purple" blur={0} movementDuration={1.5} />
-                  <div className={styles.floaterIcon} style={{ color: '#0891b2', background: '#0891b218' }}>
-                    <Rocket size={18} strokeWidth={1.8} />
+                  <div className={styles.floaterIcon}>
+                    <GlassIcon icon={<Rocket size={16} strokeWidth={1.8} />} color="purple" size={36} />
                   </div>
                   <div>
                     <span className={styles.floaterValue}>10+</span>
@@ -149,8 +164,8 @@ export default function ServicesPage() {
                   className={styles.floaterInner}
                 >
                   <GlowingEffect spread={40} glow disabled={false} proximity={300} inactiveZone={0.01} borderWidth={1.5} variant="blue-purple" blur={0} movementDuration={1.5} />
-                  <div className={styles.floaterIcon} style={{ color: '#00e5ff', background: '#00e5ff18' }}>
-                    <Layers size={18} strokeWidth={1.8} />
+                  <div className={styles.floaterIcon}>
+                    <GlassIcon icon={<Layers size={16} strokeWidth={1.8} />} color="blue" size={36} />
                   </div>
                   <div>
                     <span className={styles.floaterValue}>Full-Stack</span>
@@ -176,8 +191,8 @@ export default function ServicesPage() {
                   className={styles.floaterInner}
                 >
                   <GlowingEffect spread={40} glow disabled={false} proximity={300} inactiveZone={0.01} borderWidth={1.5} variant="blue-purple" blur={0} movementDuration={1.5} />
-                  <div className={styles.floaterIcon} style={{ color: '#22c55e', background: '#22c55e18' }}>
-                    <Headphones size={18} strokeWidth={1.8} />
+                  <div className={styles.floaterIcon}>
+                    <GlassIcon icon={<Headphones size={16} strokeWidth={1.8} />} color="green" size={36} />
                   </div>
                   <div>
                     <span className={styles.floaterValue}>24/7</span>
@@ -199,8 +214,8 @@ export default function ServicesPage() {
                   className={styles.floaterInner}
                 >
                   <GlowingEffect spread={40} glow disabled={false} proximity={300} inactiveZone={0.01} borderWidth={1.5} variant="blue-purple" blur={0} movementDuration={1.5} />
-                  <div className={styles.floaterIcon} style={{ color: '#f472b6', background: '#f472b618' }}>
-                    <ShieldCheck size={18} strokeWidth={1.8} />
+                  <div className={styles.floaterIcon}>
+                    <GlassIcon icon={<ShieldCheck size={16} strokeWidth={1.8} />} color="pink" size={36} />
                   </div>
                   <div>
                     <span className={styles.floaterValue}>NDA</span>
@@ -224,11 +239,8 @@ export default function ServicesPage() {
             <div className={styles.serviceBlock}>
               <AnimatedSection direction={i % 2 === 0 ? 'left' : 'right'}>
                 <div className={styles.serviceInfo}>
-                  <div
-                    className={styles.serviceIconLarge}
-                    style={{ color: service.color, background: `${service.color}15` }}
-                  >
-                    <service.icon size={36} strokeWidth={1.5} />
+                  <div className={styles.serviceIconLarge}>
+                    <GlassIcon icon={<service.icon size={32} strokeWidth={1.5} />} color={service.glassColor} size={64} />
                   </div>
                   <h2 className={styles.serviceTitle}>{service.title}</h2>
                   <p className={styles.serviceSubtitle}>{service.subtitle}</p>

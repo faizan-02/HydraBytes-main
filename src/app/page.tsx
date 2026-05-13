@@ -4,9 +4,8 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import {
-  ArrowRight, Smartphone, Brain, CheckCircle2, Cloud,
-  Users, Zap, Shield, TrendingUp, RefreshCw, Palette,
-  Bot, Clock, Star, Award, Code2,
+  ArrowRight, Users, Zap, Shield, TrendingUp, RefreshCw, Palette,
+  Bot, Clock, Star, Award,
 } from 'lucide-react';
 import AnimatedSection from '@/components/AnimatedSection';
 import SpotlightCard from '@/components/SpotlightCard';
@@ -19,6 +18,11 @@ import {
 } from 'react-icons/si';
 import { FaAws, FaMicrosoft } from 'react-icons/fa';
 import LogoLoop from '@/components/ui/LogoLoop';
+import {
+  WebDevIcon, MobileAppIcon, AIMLIcon, CloudDevOpsIcon,
+  ProjectsIcon, TechStackIcon, OnTimeIcon, SupportIcon,
+} from '@/components/ServiceIcons';
+import { GlassIcon } from '@/components/ui/GlassIcons';
 import styles from './page.module.css';
 
 const trustedCompanies = [
@@ -31,32 +35,32 @@ const trustedCompanies = [
 
 const serviceHighlights = [
   {
-    icon: Code2,
+    icon: WebDevIcon,
     title: 'Web Development',
     desc: 'Fast, secure, and scalable web applications built with modern technologies.',
   },
   {
-    icon: Smartphone,
+    icon: MobileAppIcon,
     title: 'Mobile Apps',
     desc: 'Native and cross-platform mobile apps that deliver exceptional user experiences.',
   },
   {
-    icon: Brain,
+    icon: AIMLIcon,
     title: 'AI / ML Solutions',
     desc: 'Intelligent solutions that automate processes and unlock new opportunities.',
   },
   {
-    icon: Cloud,
+    icon: CloudDevOpsIcon,
     title: 'Cloud & DevOps',
     desc: 'Scalable infrastructure and DevOps practices for reliable deployments.',
   },
 ];
 
 const heroStats = [
-  { icon: CheckCircle2, value: '10+', label: 'Projects Delivered', color: '#0891b2', bg: 'rgba(0, 180, 216, 0.1)' },
-  { icon: Zap, value: '3+', label: 'Technologies Per Stack', color: '#f59e0b', bg: 'rgba(245, 158, 11, 0.1)' },
-  { icon: Clock, value: '100%', label: 'On-Time Delivery', color: '#3b82f6', bg: 'rgba(59, 130, 246, 0.1)' },
-  { icon: Shield, value: '24/7', label: 'Support Available', color: '#22c55e', bg: 'rgba(34, 197, 94, 0.1)' },
+  { icon: ProjectsIcon, value: '10+', label: 'Projects Delivered' },
+  { icon: TechStackIcon, value: '3+', label: 'Technologies Per Stack' },
+  { icon: OnTimeIcon, value: '100%', label: 'On-Time Delivery' },
+  { icon: SupportIcon, value: '24/7', label: 'Support Available' },
 ];
 
 const TwoTonePython = (props: React.SVGProps<SVGSVGElement>) => (
@@ -136,29 +140,32 @@ const featuredProjects = [
 ];
 
 const advantages = [
-  { icon: Zap, title: 'Lightning Fast', desc: 'Optimized for performance with sub-second load times that keep users engaged.', color: '#f59e0b' },
-  { icon: Shield, title: 'Secure by Design', desc: 'Enterprise-grade security built into every layer of your application.', color: '#22c55e' },
-  { icon: TrendingUp, title: 'Scalable Architecture', desc: 'Solutions that grow with your business, from startup to enterprise.', color: '#3b82f6' },
-  { icon: Palette, title: 'Pixel-Perfect Design', desc: 'Every interface crafted with precision, ensuring a premium user experience.', color: '#f472b6' },
-  { icon: Bot, title: 'AI-Powered', desc: 'Leverage machine learning and automation to stay ahead of the curve.', color: '#0891b2' },
-  { icon: RefreshCw, title: 'Agile Process', desc: 'Transparent, iterative development with continuous delivery and feedback.', color: '#ef4444' },
+  { icon: Zap, glassColor: 'orange' as const, title: 'Lightning Fast', desc: 'Optimized for performance with sub-second load times that keep users engaged.', color: '#f59e0b' },
+  { icon: Shield, glassColor: 'green' as const, title: 'Secure by Design', desc: 'Enterprise-grade security built into every layer of your application.', color: '#22c55e' },
+  { icon: TrendingUp, glassColor: 'blue' as const, title: 'Scalable Architecture', desc: 'Solutions that grow with your business, from startup to enterprise.', color: '#3b82f6' },
+  { icon: Palette, glassColor: 'pink' as const, title: 'Pixel-Perfect Design', desc: 'Every interface crafted with precision, ensuring a premium user experience.', color: '#f472b6' },
+  { icon: Bot, glassColor: 'cyan' as const, title: 'AI-Powered', desc: 'Leverage machine learning and automation to stay ahead of the curve.', color: '#0891b2' },
+  { icon: RefreshCw, glassColor: 'red' as const, title: 'Agile Process', desc: 'Transparent, iterative development with continuous delivery and feedback.', color: '#ef4444' },
 ];
 
 const clientCommitments = [
   {
     icon: Shield,
+    glassColor: 'cyan' as const,
     color: '#0891b2',
     title: 'NDA on Day One',
     detail: 'Every engagement starts with a signed NDA. Your ideas, business data, and IP are fully protected before any discussion begins.',
   },
   {
     icon: TrendingUp,
+    glassColor: 'blue' as const,
     color: '#3b82f6',
     title: 'Milestone Based Delivery',
     detail: 'Work is broken into clear milestones with agreed deliverables. You review and approve each phase before we proceed. No surprises, ever.',
   },
   {
     icon: RefreshCw,
+    glassColor: 'green' as const,
     color: '#22c55e',
     title: 'Direct Developer Access',
     detail: 'You work directly with the lead developer on your project. No account managers, no middlemen. Just fast, clear communication throughout.',
@@ -347,7 +354,7 @@ export default function HomePage() {
                 {serviceHighlights.map((service) => (
                   <div key={service.title} className={styles.serviceHighlight}>
                     <div className={styles.serviceHighlightIcon}>
-                      <service.icon size={20} strokeWidth={1.8} />
+                      <service.icon size={44} />
                     </div>
                     <div>
                       <h3 className={styles.serviceHighlightTitle}>{service.title}</h3>
@@ -362,8 +369,8 @@ export default function HomePage() {
               <div className={styles.heroStatsGrid}>
                 {heroStats.map((stat) => (
                   <div key={stat.label} className={styles.heroStatItem}>
-                    <div className={styles.heroStatIcon} style={{ background: stat.bg, color: stat.color }}>
-                      <stat.icon size={18} strokeWidth={2} />
+                    <div className={styles.heroStatIcon}>
+                      <stat.icon size={40} />
                     </div>
                     <div>
                       <div className={styles.heroStatValue}>{stat.value}</div>
@@ -447,8 +454,8 @@ export default function HomePage() {
                     whileHover={{ y: -6 }}
                     transition={{ duration: 0.3 }}
                   >
-                    <div className={styles.advantageIcon} style={{ color: item.color, background: `${item.color}15` }}>
-                      <item.icon size={22} strokeWidth={1.8} />
+                    <div className={styles.advantageIcon}>
+                      <GlassIcon icon={<item.icon size={22} strokeWidth={1.8} />} color={item.glassColor} size={48} />
                     </div>
                     <h3 className={styles.advantageTitle}>{item.title}</h3>
                     <p className={styles.advantageDesc}>{item.desc}</p>
@@ -483,8 +490,8 @@ export default function HomePage() {
                     whileHover={{ y: -6 }}
                     transition={{ duration: 0.3 }}
                   >
-                    <div style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: '48px', height: '48px', borderRadius: '12px', background: `${item.color}18`, color: item.color, marginBottom: '1rem' }}>
-                      <item.icon size={24} strokeWidth={1.6} />
+                    <div style={{ display: 'inline-flex', marginBottom: '1rem' }}>
+                      <GlassIcon icon={<item.icon size={24} strokeWidth={1.6} />} color={item.glassColor} size={48} />
                     </div>
                     <h3 style={{ fontSize: '18px', fontWeight: 700, color: 'var(--text-primary)', margin: '0 0 0.75rem' }}>{item.title}</h3>
                     <p style={{ fontSize: '14px', color: 'var(--text-secondary)', lineHeight: '1.7', margin: 0, hyphens: 'none', flex: 1 }}>{item.detail}</p>

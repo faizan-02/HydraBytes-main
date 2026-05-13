@@ -183,19 +183,12 @@
 }
 
 .serviceHighlightIcon {
-  width: 42px;
-  height: 42px;
-  border-radius: var(--radius-md);
+  width: 44px;
+  height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(0, 180, 216, 0.08);
-  color: var(--accent-primary);
-  border: 1px solid var(--border-color);
-}
-
-[data-theme='light'] .serviceHighlightIcon {
-  background: rgba(0, 151, 167, 0.06);
+  flex-shrink: 0;
 }
 
 .serviceHighlightTitle {
@@ -242,9 +235,8 @@
 }
 
 .heroStatIcon {
-  width: 36px;
-  height: 36px;
-  border-radius: 0.5rem;
+  width: 40px;
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -287,10 +279,7 @@
 }
 
 .advantageIcon {
-  width: 48px;
-  height: 48px;
-  border-radius: var(--radius-md);
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
 }
