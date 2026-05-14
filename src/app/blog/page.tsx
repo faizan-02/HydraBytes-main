@@ -11,16 +11,34 @@ import { TextScramble } from '@/components/ui/text-scramble';
 import styles from './blog.module.css';
 
 const featured = {
-  title: 'How We Built an AI-Powered Retinal Disease Detector',
-  excerpt: 'From CNN architecture to handling imbalanced medical datasets: a technical breakdown of OptiPro, our AI system that helps clinicians detect retinal diseases from fundus images.',
-  date: 'Apr 11, 2025',
-  category: 'AI & ML',
-  readTime: '1 min read',
-  image: '/blog-optipro.png',
-  url: 'https://dev.to/thehydrabytes/how-we-built-an-ai-powered-retinal-disease-detector-7fp',
+  title: 'Why We Started HydraBytes: Building Tech Solutions From Islamabad',
+  excerpt: 'Pakistan has no shortage of talented developers. What it lacks is agencies that treat client projects with the same rigor as their own products. Here is why we built HydraBytes.',
+  date: 'May 14, 2026',
+  category: 'Company',
+  readTime: '5 min read',
+  image: '/psott.jpg',
+  url: 'https://dev.to/thehydrabytes/why-we-started-hydrabytes-building-tech-solutions-from-islamabad-2hn9',
 };
 
 const posts = [
+  {
+    title: 'Building CPAi: An AI-Powered Bank Statement Analysis Dashboard',
+    excerpt: 'How we built a client-side dashboard that auto-detects 12 Malaysian bank formats from uploaded PDFs, extracts transactions, and generates credit analysis reports without any data leaving the browser.',
+    date: 'May 14, 2026',
+    category: 'Fintech',
+    readTime: '7 min read',
+    image: '/Bank Statement Analysis Dashboard/thumbnail.png',
+    url: 'https://dev.to/thehydrabytes/building-cpai-an-ai-powered-bank-statement-analysis-dashboard-1ka4',
+  },
+  {
+    title: 'Safe-Sawar: Building Pakistan\'s First NADRA-Verified Carpooling App with React Native',
+    excerpt: 'How we built a women-first carpooling platform with biometric identity verification, trust circles, and an offline emergency SOS system using Bluetooth mesh networking.',
+    date: 'May 14, 2026',
+    category: 'Mobile',
+    readTime: '8 min read',
+    image: '/portfolio/safe-sawar.png',
+    url: 'https://dev.to/thehydrabytes/safe-sawar-building-pakistans-first-nadra-verified-carpooling-app-with-react-native-4ia8',
+  },
   {
     title: 'Building a 3-Class Lung Cancer Image Classifier with TensorFlow and Flask',
     excerpt: 'A walkthrough of how we built a CNN-based lung cancer image classifier that distinguishes Adenocarcinoma, Benign, and Squamous Cell Carcinoma tissue, wrapped in a Flask API with a clean upload interface.',
@@ -40,44 +58,40 @@ const posts = [
     url: 'https://dev.to/thehydrabytes/building-an-ai-based-student-stress-management-system-with-python-ml-and-rag-4nj5',
   },
   {
+    title: 'How We Built an AI-Powered Retinal Disease Detector',
+    excerpt: 'From CNN architecture to handling imbalanced medical datasets: a technical breakdown of OptiPro, our AI system that helps clinicians detect retinal diseases from fundus images.',
+    date: 'Apr 11, 2025',
+    category: 'AI & ML',
+    readTime: '1 min read',
+    image: '/blog-optipro.png',
+    url: 'https://dev.to/thehydrabytes/how-we-built-an-ai-powered-retinal-disease-detector-7fp',
+  },
+  {
+    title: 'How We Choose a Tech Stack for Client Projects in 2026',
+    excerpt: 'The honest answer is always "it depends." Here is how we actually make that decision, the questions we ask, and the mistakes we see clients make.',
+    date: 'May 14, 2026',
+    category: 'Web Development',
+    readTime: '6 min read',
+    image: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=800&q=85',
+    url: 'https://dev.to/thehydrabytes/how-we-choose-a-tech-stack-for-client-projects-in-2026-1obh',
+  },
+  {
     title: 'Mobile-First Design: Why It Matters More Than Ever',
     excerpt: 'With mobile traffic dominating the web, discover why mobile-first design is no longer optional.',
-    date: 'Mar 5, 2024',
+    date: 'May 14, 2026',
     category: 'Design',
     readTime: '5 min read',
     image: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=800&q=85',
+    url: 'https://dev.to/thehydrabytes/mobile-first-design-why-it-matters-more-than-ever-4flc',
   },
   {
     title: 'Machine Learning for Business: A Practical Guide',
     excerpt: 'How to identify ML opportunities in your business and implement solutions that deliver ROI.',
-    date: 'Feb 28, 2024',
+    date: 'May 14, 2026',
     category: 'AI & ML',
     readTime: '7 min read',
     image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=85',
-  },
-  {
-    title: 'The Rise of Progressive Web Apps',
-    excerpt: 'PWAs are bridging the gap between web and native apps. Here\'s what you need to know.',
-    date: 'Feb 20, 2024',
-    category: 'Web Development',
-    readTime: '5 min read',
-    image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=85',
-  },
-  {
-    title: 'Cybersecurity Best Practices for Startups',
-    excerpt: 'Essential security measures every startup should implement from day one.',
-    date: 'Feb 15, 2024',
-    category: 'Security',
-    readTime: '6 min read',
-    image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=800&q=85',
-  },
-  {
-    title: 'Optimizing React Performance: Advanced Techniques',
-    excerpt: 'Deep-dive into code splitting, memoization, and rendering optimizations for React apps.',
-    date: 'Feb 10, 2024',
-    category: 'Web Development',
-    readTime: '8 min read',
-    image: 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=800&q=85',
+    url: 'https://dev.to/thehydrabytes/machine-learning-for-business-a-practical-guide-26kj',
   },
 ];
 
@@ -105,7 +119,7 @@ function BlogPostCard({ post }: { post: typeof posts[number] }) {
           src={post.image}
           alt={post.title}
           fill
-          style={{ objectFit: 'cover' }}
+          style={{ objectFit: 'cover', objectPosition: 'right center' }}
           sizes="(max-width: 768px) 100vw, 350px"
         />
         {!hasUrl && (
@@ -223,12 +237,12 @@ function FeaturedCard({ post }: { post: typeof featured }) {
         border: '1px solid var(--border-color)',
       }}>
         <div className={styles.featuredPost}>
-          <div style={{ position: 'relative', width: '100%', height: '280px', overflow: 'hidden', borderRadius: '0.75rem', marginBottom: '1.75rem' }}>
+          <div style={{ position: 'relative', width: '100%', height: '420px', overflow: 'hidden', borderRadius: '0.75rem', marginBottom: '1.75rem' }}>
             <Image
               src={post.image}
               alt={post.title}
               fill
-              style={{ objectFit: 'cover' }}
+              style={{ objectFit: 'cover', objectPosition: 'center' }}
               sizes="(max-width: 768px) 100vw, 900px"
               priority
             />
