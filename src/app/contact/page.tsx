@@ -132,7 +132,7 @@ function ContactForm() {
 
                 <div className={styles.infoCards}>
                   {contactInfo.map((item) => (
-                    <SpotlightCard key={item.label}>
+                    <SpotlightCard key={item.label} disableTilt>
                       {item.href ? (
                         <a href={item.href} className={styles.infoCard} target={item.href.startsWith('http') ? '_blank' : undefined} rel={item.href.startsWith('http') ? 'noopener noreferrer' : undefined}>
                           <span className={styles.infoIcon} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '40px', height: '40px', borderRadius: '10px', background: 'rgba(99,102,241,0.12)', color: '#818cf8', flexShrink: 0 }}>{item.icon}</span>
@@ -166,7 +166,7 @@ function ContactForm() {
             </AnimatedSection>
 
             <AnimatedSection direction="right" delay={0.15}>
-              <SpotlightCard>
+              <SpotlightCard disableTilt>
                 <form className={styles.contactForm} onSubmit={handleSubmit}>
                 <h3 className={styles.formTitle}>Send Us a Message</h3>
 

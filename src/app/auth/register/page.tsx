@@ -4,7 +4,7 @@ import { useState, Suspense } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { signIn } from 'next-auth/react';
-import { motion, AnimatePresence, useMotionValue, useTransform } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Mail, Lock, User, Eye, EyeOff, ArrowRight } from 'lucide-react';
 import { capturePostHogEvent } from '@/components/PostHogProvider';
 import styles from '../signin/signin.module.css';
@@ -19,22 +19,6 @@ function RegisterForm() {
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [focusedInput, setFocusedInput] = useState<string | null>(null);
-
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-  const rotateX = useTransform(mouseY, [-300, 300], [8, -8]);
-  const rotateY = useTransform(mouseX, [-300, 300], [-8, 8]);
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    mouseX.set(e.clientX - rect.left - rect.width / 2);
-    mouseY.set(e.clientY - rect.top - rect.height / 2);
-  };
-
-  const handleMouseLeave = () => {
-    mouseX.set(0);
-    mouseY.set(0);
-  };
 
   return (
     <div className={styles.page}>
@@ -52,15 +36,8 @@ function RegisterForm() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
         className={styles.cardPerspective}
-        style={{ perspective: 1500 }}
       >
-        <motion.div
-          style={{ rotateX, rotateY }}
-          onMouseMove={handleMouseMove}
-          onMouseLeave={handleMouseLeave}
-          whileHover={{ z: 10 }}
-          className={styles.cardWrapper}
-        >
+        <div className={styles.cardWrapper}>
           <div className={styles.card}>
             <div className={styles.beamContainer}>
               <motion.div
@@ -223,7 +200,7 @@ function RegisterForm() {
               </p>
             </form>
           </div>
-        </motion.div>
+        </div>
       </motion.div>
     </div>
   );

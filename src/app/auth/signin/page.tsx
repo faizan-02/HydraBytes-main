@@ -4,7 +4,7 @@ import { useState, useEffect, Suspense } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { signIn, useSession } from 'next-auth/react';
-import { motion, AnimatePresence, useMotionValue, useTransform } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Mail, Lock, Eye, EyeOff, ArrowRight } from 'lucide-react';
 import styles from './signin.module.css';
 
@@ -26,22 +26,6 @@ function SignInForm() {
   const [focusedInput, setFocusedInput] = useState<string | null>(null);
   const [rememberMe, setRememberMe] = useState(false);
 
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-  const rotateX = useTransform(mouseY, [-300, 300], [8, -8]);
-  const rotateY = useTransform(mouseX, [-300, 300], [-8, 8]);
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    mouseX.set(e.clientX - rect.left - rect.width / 2);
-    mouseY.set(e.clientY - rect.top - rect.height / 2);
-  };
-
-  const handleMouseLeave = () => {
-    mouseX.set(0);
-    mouseY.set(0);
-  };
-
   return (
     <div className={styles.page}>
       <div className={styles.backdrop}>
@@ -58,15 +42,8 @@ function SignInForm() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
         className={styles.cardPerspective}
-        style={{ perspective: 1500 }}
       >
-        <motion.div
-          style={{ rotateX, rotateY }}
-          onMouseMove={handleMouseMove}
-          onMouseLeave={handleMouseLeave}
-          whileHover={{ z: 10 }}
-          className={styles.cardWrapper}
-        >
+        <div className={styles.cardWrapper}>
           <div className={styles.card}>
             {/* Traveling light beams */}
             <div className={styles.beamContainer}>
@@ -236,7 +213,7 @@ function SignInForm() {
               </p>
             </form>
           </div>
-        </motion.div>
+        </div>
       </motion.div>
     </div>
   );

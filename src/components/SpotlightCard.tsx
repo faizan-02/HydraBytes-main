@@ -8,12 +8,14 @@ interface SpotlightCardProps {
   children: ReactNode;
   className?: string;
   spotlightColor?: string;
+  disableTilt?: boolean;
 }
 
 export default function SpotlightCard({
   children,
   className = '',
   spotlightColor = 'rgba(0, 180, 216, 0.15)',
+  disableTilt = false,
 }: SpotlightCardProps) {
   const cardRef = useRef<HTMLDivElement>(null);
 
@@ -25,17 +27,19 @@ export default function SpotlightCard({
     const y = e.clientY - rect.top;
     const cx = rect.width / 2;
     const cy = rect.height / 2;
-    const rotateX = ((y - cy) / cy) * -6;
-    const rotateY = ((x - cx) / cx) * 6;
     card.style.setProperty('--spotlight-x', `${x}px`);
     card.style.setProperty('--spotlight-y', `${y}px`);
     card.style.setProperty('--spotlight-color', spotlightColor);
-    card.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+    if (!disableTilt) {
+      const rotateX = ((y - cy) / cy) * -6;
+      const rotateY = ((x - cx) / cx) * 6;
+      card.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+    }
   };
 
   const handleMouseLeave = () => {
     const card = cardRef.current;
-    if (!card) return;
+    if (!card || disableTilt) return;
     card.style.transform = 'perspective(800px) rotateX(0deg) rotateY(0deg) scale(1)';
   };
 

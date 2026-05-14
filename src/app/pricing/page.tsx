@@ -284,6 +284,7 @@ export default function PricingPage() {
               {activePlans.map((plan) => (
                 <SpotlightCard
                   key={plan.name}
+                  disableTilt
                   className={`${styles.planCard} ${plan.popular ? styles.popularCard : ''}`}
                   spotlightColor={plan.popular ? 'rgba(0, 180, 216, 0.2)' : 'rgba(0, 229, 255, 0.15)'}
                 >
