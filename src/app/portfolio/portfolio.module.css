@@ -47,6 +47,12 @@
   grid-template-columns: repeat(3, 1fr);
   gap: 1.5rem;
 }
+.projectLink {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  height: 100%;
+}
 .projectCard {
   padding: 2rem;
   display: flex;
@@ -96,6 +102,16 @@
   font-weight: 600;
   background: var(--bg-tertiary);
   color: var(--text-secondary);
+}
+.viewDetails {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--accent-primary);
+  letter-spacing: 0.04em;
+  margin-top: 0.25rem;
 }
 
 /* ===== Tech Stack Section ===== */

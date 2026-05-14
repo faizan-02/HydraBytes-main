@@ -3,14 +3,17 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
+import Link from 'next/link';
 import {
-  Code, Monitor, Smartphone, Server, Cloud, Cpu,
+  Code, Monitor, Smartphone, Server, Cloud, Cpu, ArrowRight,
 } from 'lucide-react';
 import AnimatedSection from '@/components/AnimatedSection';
 import SpotlightCard from '@/components/SpotlightCard';
+import { TextScramble } from '@/components/ui/text-scramble';
 import FloatingParticles from '@/components/FloatingParticles';
 import { PerspectiveMarquee } from '@/components/ui/perspective-marquee';
 import { useTheme } from '@/lib/ThemeContext';
+import { projects, type Project } from './projects';
 import styles from './portfolio.module.css';
 
 const techCategories = [
@@ -48,74 +51,63 @@ const techCategories = [
 
 const categories = ['All', 'Web', 'Mobile', 'AI/ML'];
 
-const projects = [
-  {
-    title: 'AI Student Stress Management',
-    category: 'AI/ML',
-    desc: 'AI-based platform that detects and helps reduce student stress, anxiety, and depression using machine learning. Analyzes questionnaire data for early mental health detection, delivers personalized recommendations like breathing exercises and relaxation techniques, and includes an AI chatbot for real-time emotional support.',
-    tech: ['Python', 'Machine Learning', 'React', 'PostgreSQL', 'AI Chatbot', 'REST API'],
-    color: '#f472b6',
-    metric: 'Early stress detection',
-    image: '/portfolio/stress-mgmt.png',
-    year: 'Feb 2025',
-  },
-  {
-    title: 'OptiPro: Retinal Disease Detection',
-    category: 'AI/ML',
-    desc: 'End-to-end AI-powered retinal disease detection platform for clinical support. Classifies retinal scans into CNV, DME, Drusen, and Normal using ResNet-101 with Grad-CAM heatmap visualization for explainable AI output. Includes a full doctor panel, patient portal, appointment workflows, and AI-generated PDF medical reports.',
-    tech: ['PyTorch', 'ResNet-101', 'Flask', 'React', 'Supabase', 'PostgreSQL', 'Grad-CAM', 'Gemini API'],
-    color: '#00e5ff',
-    metric: '4 disease classes detected',
-    image: '/portfolio/optipro.png',
-    year: 'Aug 2025',
-  },
-  {
-    title: 'Lung Cancer Image Classifier',
-    category: 'AI/ML',
-    desc: 'CNN-based histopathology classifier that sorts lung tissue images into Adenocarcinoma, Benign, and Squamous Cell Carcinoma. Trained from scratch on a Kaggle dataset with augmentation and dropout, then wrapped in a Flask API with a clean upload-and-predict web interface for real-time inference on uploaded slides.',
-    tech: ['Python', 'TensorFlow', 'Keras', 'CNN', 'Flask', 'NumPy', 'Pillow'],
-    color: '#ef4444',
-    metric: '3-class histopathology detection',
-    image: '/portfolio/lung-cancer.png',
-    year: 'Apr 2026',
-  },
-  {
-    title: 'Inventra: Smart Inventory Management',
-    category: 'Web',
-    desc: 'All-in-one platform for inventory tracking, order management, and real-time profitability analytics. Features advanced margin analytics with separated purchase and selling prices, streamlined order management, automated PDF billing with react-pdf, and deep inventory hierarchy for complex product catalogs.',
-    tech: ['Next.js 16', 'React 19', 'TypeScript', 'Supabase', 'Tailwind CSS', 'Framer Motion', 'React-PDF'],
-    color: '#0891b2',
-    metric: 'Real-time margin analytics',
-    image: '/portfolio/inventra.jpeg',
-    objectPosition: 'left center',
-    year: 'May 2026',
-  },
-  {
-    title: 'AI Voice Chat Agent',
-    category: 'AI/ML',
-    desc: 'Real-time voice conversation platform with 104+ AI characters using OpenAI GPT, TTS, and browser-based mic/speaker support. Features mood detection, session replay, WebRTC-based real-time API, interactive games, story adventures, and support for multiple providers including Claude, xAI, and local Ollama models. Deployable via Docker or Railway.',
-    tech: ['FastAPI', 'WebSockets', 'OpenAI', 'WebRTC', 'Python', 'Docker', 'Railway', 'ElevenLabs'],
-    color: '#0891b2',
-    metric: '104+ AI characters',
-    image: '/portfolio/ai-voice-agent.png',
-    year: 'Nov 2025',
-  },
-  {
-    title: 'Safe-Sawar: Women-First Carpooling',
-    category: 'Mobile',
-    desc: 'Pakistan\'s first NADRA-verified women-first carpooling platform built to tackle rising fuel costs. Features biometric identity verification, institution-based trust circles, live ride tracking, and an offline-capable Emergency SOS system via Bluetooth mesh networking. Male section added to enhance the wider userbase. Currently in beta.',
-    tech: ['React Native', 'TypeScript', 'Firebase', 'Expo', 'Mesh Network', 'NADRA API', 'OpenStreetMap'],
-    color: '#22c55e',
-    metric: 'Beta, launching soon',
-    image: '/portfolio/safe-sawar.png',
-    year: 'Mar 2026',
-  },
-];
-
 const marqueeItems = [
   'React', 'Next.js', 'TypeScript', 'Python', 'Node.js', 'Docker',
   'AWS', 'TensorFlow', 'Flutter', 'FastAPI', 'PostgreSQL', 'Figma',
 ];
+
+function ProjectCard({ project }: { project: Project }) {
+  const [hovered, setHovered] = useState(false);
+  return (
+    <Link
+      href={`/portfolio/${project.slug}`}
+      className={styles.projectLink}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      <SpotlightCard spotlightColor={`${project.color}20`} disableTilt>
+        <div className={styles.projectCard}>
+          <div style={{ position: 'relative', width: '100%', height: '180px', overflow: 'hidden', borderRadius: '0.5rem', marginBottom: '1.25rem' }}>
+            <Image
+              src={project.image}
+              alt={project.title}
+              fill
+              style={{ objectFit: 'cover', objectPosition: project.objectPosition || 'center' }}
+              sizes="(max-width: 768px) 100vw, 400px"
+            />
+          </div>
+          <div className={styles.projectHeader}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <span className={styles.projectCategory}>{project.category}</span>
+              <span style={{ fontSize: '11px', color: '#6c6c85', marginLeft: 'auto' }}>{project.year}</span>
+            </div>
+            <h3 className={styles.projectTitle}>{project.title}</h3>
+          </div>
+          <p className={styles.projectDesc}>{project.desc}</p>
+          <div className={styles.projectMetric}>
+            <span className={styles.metricValue}>{project.metric}</span>
+          </div>
+          <div className={styles.projectTech}>
+            {project.tech.map(t => (
+              <span key={t} className={styles.techTag}>{t}</span>
+            ))}
+          </div>
+          <span
+            className={styles.viewDetails}
+            style={{
+              opacity: hovered ? 1 : 0,
+              transform: hovered ? 'translateY(0) scale(1)' : 'translateY(12px) scale(0.9)',
+              transition: 'opacity 0.35s ease, transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1)',
+            }}
+          >
+            <TextScramble text="VIEW DETAILS" trigger={hovered} speed={25} />
+            <ArrowRight size={14} style={{ opacity: hovered ? 1 : 0, transform: hovered ? 'translateX(0)' : 'translateX(-6px)', transition: 'opacity 0.3s ease 0.1s, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s' }} />
+          </span>
+        </div>
+      </SpotlightCard>
+    </Link>
+  );
+}
 
 export default function PortfolioPage() {
   const { theme } = useTheme();
@@ -167,35 +159,7 @@ export default function PortfolioPage() {
             >
               {filtered.map((project, i) => (
                 <AnimatedSection key={project.title} delay={i * 0.08}>
-                  <SpotlightCard spotlightColor={`${project.color}20`}>
-                    <div className={styles.projectCard}>
-                      <div style={{ position: 'relative', width: '100%', height: '180px', overflow: 'hidden', borderRadius: '0.5rem', marginBottom: '1.25rem' }}>
-                        <Image
-                          src={project.image}
-                          alt={project.title}
-                          fill
-                          style={{ objectFit: 'cover', objectPosition: project.objectPosition || 'center' }}
-                          sizes="(max-width: 768px) 100vw, 400px"
-                        />
-                      </div>
-                      <div className={styles.projectHeader}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                          <span className={styles.projectCategory}>{project.category}</span>
-                          {'year' in project && <span style={{ fontSize: '11px', color: '#6c6c85', marginLeft: 'auto' }}>{(project as { year: string }).year}</span>}
-                        </div>
-                        <h3 className={styles.projectTitle}>{project.title}</h3>
-                      </div>
-                      <p className={styles.projectDesc}>{project.desc}</p>
-                      <div className={styles.projectMetric}>
-                        <span className={styles.metricValue}>{project.metric}</span>
-                      </div>
-                      <div className={styles.projectTech}>
-                        {project.tech.map(t => (
-                          <span key={t} className={styles.techTag}>{t}</span>
-                        ))}
-                      </div>
-                    </div>
-                  </SpotlightCard>
+                  <ProjectCard project={project} />
                 </AnimatedSection>
               ))}
             </motion.div>
