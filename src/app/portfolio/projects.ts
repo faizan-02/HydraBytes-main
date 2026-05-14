@@ -169,7 +169,7 @@ export const projects: Project[] = [
       '/AI_Voice_Agent/screenshot-1.png',
       '/AI_Voice_Agent/screenshot-2.png',
     ],
-    video: ['/AI_Voice_Agent/demo.mp4', '/AI_Voice_Agent/demo-realtime.mp4'],
+    video: ['/AI_Voice_Agent/Ai Voice Agent.mp4', '/AI_Voice_Agent/demo-realtime.mp4'],
   },
   {
     slug: 'safe-sawar-women-first-carpooling',
@@ -242,7 +242,7 @@ export const projects: Project[] = [
       '/Bank Statement Analysis Dashboard/screenshot-10.png',
       '/Bank Statement Analysis Dashboard/screenshot-11.png',
     ],
-    video: '/Bank Statement Analysis Dashboard/demo.mp4',
+    video: '/Bank Statement Analysis Dashboard/Demo.mp4',
   },
   {
     slug: 'politian-voting-platform',
