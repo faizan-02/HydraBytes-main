@@ -299,9 +299,37 @@ export default function Navbar() {
                 </Link>
               </motion.div>
             ))}
-            <Link href="/contact" className="btn btn-primary" style={{ width: '100%', marginTop: '1rem' }}>
-              Get Started
-            </Link>
+            {status === 'authenticated' ? (
+              <>
+                <Link href="/dashboard" className={styles.mobileLink} onClick={() => setIsOpen(false)}>
+                  Dashboard
+                </Link>
+                <Link href="/dashboard/settings" className={styles.mobileLink} onClick={() => setIsOpen(false)}>
+                  Settings
+                </Link>
+                {(session.user as { role?: string })?.role === 'admin' && (
+                  <Link href="/admin" className={styles.mobileLink} onClick={() => setIsOpen(false)}>
+                    Admin Panel
+                  </Link>
+                )}
+                <button
+                  onClick={() => { setIsOpen(false); signOut({ callbackUrl: '/' }); }}
+                  className="btn btn-primary"
+                  style={{ width: '100%', marginTop: '1rem', background: '#ef4444', borderColor: '#ef4444' }}
+                >
+                  Sign Out
+                </button>
+              </>
+            ) : (
+              <>
+                <Link href="/auth/signin" className="btn btn-primary" style={{ width: '100%', marginTop: '1rem' }}>
+                  Sign In
+                </Link>
+                <Link href="/auth/register" className="btn btn-secondary" style={{ width: '100%', marginTop: '0.5rem' }}>
+                  Register
+                </Link>
+              </>
+            )}
           </motion.div>
         )}
       </AnimatePresence>
