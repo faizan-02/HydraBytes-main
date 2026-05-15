@@ -165,13 +165,23 @@
   transform: rotate(-45deg) translate(5px, -5px);
 }
 
+.userNameText {
+  /* visible by default on desktop */
+}
+
+.userMenuBtn {
+  /* default desktop padding set inline */
+}
+
 .mobileMenu {
   display: none;
   flex-direction: column;
   padding: 1rem var(--container-padding) 1.5rem;
   background: var(--bg-secondary);
   border-top: 1px solid var(--border-color);
-  overflow: hidden;
+  overflow-y: auto;
+  max-height: calc(100vh - 70px);
+  padding-bottom: 2rem;
 }
 
 .mobileLink {
@@ -206,5 +216,14 @@
 
   .mobileMenu {
     display: flex;
+  }
+
+  .userNameText {
+    display: none;
+  }
+
+  .userMenuBtn {
+    padding: 4px !important;
+    gap: 0 !important;
   }
 }
