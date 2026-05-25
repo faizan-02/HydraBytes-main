@@ -28,7 +28,14 @@
       "Bash(gh api:*)",
       "Bash(python -c \"import sys,base64; print\\(base64.b64decode\\(sys.stdin.read\\(\\)\\).decode\\('utf-8', errors='replace'\\)\\)\")",
       "Bash(xargs sed:*)",
-      "Bash(sed -i 's/www\\\\.hydrabytes\\\\.it\\\\.com/www.hydrabytes.tech/g; s/hydrabytes\\\\.it\\\\.com/hydrabytes.tech/g' next.config.mjs)"
+      "Bash(sed -i 's/www\\\\.hydrabytes\\\\.it\\\\.com/www.hydrabytes.tech/g; s/hydrabytes\\\\.it\\\\.com/hydrabytes.tech/g' next.config.mjs)",
+      "PowerShell(Copy-Item *)",
+      "PowerShell(Remove-Item *)",
+      "PowerShell(npx tsc --noEmit --pretty 2>&1 | Select-Object -First 40)",
+      "PowerShell(Rename-Item *)",
+      "PowerShell($slugs = @\\('cpai-bank-statement-analysis','politian-voting-platform','ai-student-stress-management'\\); foreach \\($s in $slugs\\) { $r = Invoke-WebRequest -Uri \"http://localhost:3000/portfolio/$s\" -UseBasicParsing -TimeoutSec 10; \"$s : $\\($r.StatusCode\\)\" })",
+      "PowerShell($r = Invoke-WebRequest -Uri \"http://localhost:3000/portfolio\" -UseBasicParsing -TimeoutSec 10; \\($r.Content | Select-String -Pattern '/portfolio/[a-z0-9-]+' -AllMatches\\).Matches.Value | Sort-Object -Unique)",
+      "WebFetch(domain:dev.to)"
     ]
   }
 }

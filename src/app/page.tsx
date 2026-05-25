@@ -87,12 +87,20 @@ const techLogos = [
   { node: <SiMongodb color="#47A248" />, title: 'MongoDB' },
 ];
 
-const featuredProjects = [
+const allGalleryProjects = [
+  {
+    title: 'NutraAI Health Coach',
+    category: 'AI/ML',
+    desc: 'AI-powered wellness assistant providing personalized nutrition, workout plans, and daily activity tracking.',
+    tech: ['RAG', 'AI', 'React', 'Node.js'],
+    color: '#10b981',
+    image: '/Nutra_AI/Thumbnail.png',
+  },
   {
     title: 'OptiPro: Retinal Disease Detection',
     category: 'AI/ML',
     desc: 'End-to-end AI-powered retinal disease detection platform for clinical support with Grad-CAM visualization.',
-    tech: ['PyTorch', 'ResNet-101', 'Flask'],
+    tech: ['Computer Vision', 'PyTorch', 'ResNet-101', 'Flask'],
     color: '#0891b2',
     image: '/portfolio/optipro.png',
   },
@@ -100,7 +108,7 @@ const featuredProjects = [
     title: 'AI Voice Chat Agent',
     category: 'AI/ML',
     desc: 'Real-time voice conversation platform with 104+ AI characters using OpenAI GPT, TTS, and WebRTC.',
-    tech: ['FastAPI', 'WebSockets', 'OpenAI'],
+    tech: ['Voice AI', 'LLM', 'FastAPI', 'WebSockets', 'OpenAI'],
     color: '#06b6d4',
     image: '/portfolio/ai-voice-agent.png',
   },
@@ -113,18 +121,18 @@ const featuredProjects = [
     image: '/portfolio/safe-sawar.png',
   },
   {
-    title: 'AI Student Stress Management',
+    title: 'Traffic Detection YOLO',
     category: 'AI/ML',
-    desc: 'AI-based platform that detects and helps reduce student stress using machine learning.',
-    tech: ['Python', 'Machine Learning', 'React'],
+    desc: 'AI-powered Traffic Monitoring System using YOLO for real-time vehicle detection and traffic analysis.',
+    tech: ['Computer Vision', 'Python', 'YOLO', 'OpenCV'],
     color: '#f59e0b',
-    image: '/portfolio/stress-mgmt.png',
+    image: '/Traffic_Detection_YOLO/Thumbnail.png',
   },
   {
     title: 'Lung Cancer Image Classifier',
     category: 'AI/ML',
     desc: 'CNN-based histopathology classifier for lung tissue images.',
-    tech: ['TensorFlow', 'Keras', 'CNN'],
+    tech: ['Computer Vision', 'TensorFlow', 'Keras', 'CNN'],
     color: '#ef4444',
     image: '/portfolio/lung-cancer.png',
   },
@@ -137,6 +145,30 @@ const featuredProjects = [
     image: '/portfolio/inventra.jpeg',
     objectPosition: 'left center',
   },
+  {
+    title: 'AI Student Stress Management',
+    category: 'AI/ML',
+    desc: 'AI-based platform that detects and helps reduce student stress, anxiety, and depression.',
+    tech: ['Predictive AI', 'NLP', 'Python'],
+    color: '#f472b6',
+    image: '/portfolio/stress-mgmt.png',
+  },
+  {
+    title: 'CPAi: Bank Statement Analysis',
+    category: 'Web',
+    desc: 'AI-powered credit profile analysis platform that auto-detects and parses PDF bank statements.',
+    tech: ['Next.js', 'AI/ML', 'PDF Parsing'],
+    color: '#22c55e',
+    image: '/Bank Statement Analysis Dashboard/thumbnail.png',
+  },
+  {
+    title: 'Politian: Transparent Voting',
+    category: 'Web',
+    desc: 'Secure and transparent online voting platform for elections with real-time tallying.',
+    tech: ['React', 'Node.js', 'MongoDB'],
+    color: '#f59e0b',
+    image: '/Politian/screenshot-1.png',
+  }
 ];
 
 const advantages = [
@@ -241,6 +273,16 @@ function HeroWorkspace() {
 }
 
 export default function HomePage() {
+  const [galleryProjects, setGalleryProjects] = useState(allGalleryProjects.slice(0, 6));
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    // Shuffle projects and pick 6 on the client side to avoid hydration mismatches
+    const shuffled = [...allGalleryProjects].sort(() => 0.5 - Math.random());
+    setGalleryProjects(shuffled.slice(0, 6));
+    setMounted(true);
+  }, []);
+
   return (
     <>
       {/* ===== HERO SECTION ===== */}
@@ -415,7 +457,13 @@ export default function HomePage() {
             </div>
           </BlurFade>
 
-          <CircularGallery items={featuredProjects} />
+          {mounted ? (
+            <CircularGallery items={galleryProjects} />
+          ) : (
+            <div style={{ minHeight: '600px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <div className={styles.accentText}>Loading Projects...</div>
+            </div>
+          )}
 
           <div style={{ textAlign: 'center', marginTop: '2.5rem' }}>
             <MagneticButton>
