@@ -20,7 +20,7 @@ export type Project = {
 export const projects: Project[] = [
   {
     slug: 'nutra-ai-health-coach',
-    title: 'NutraAI Health Coach',
+    title: 'A.I Health Coach',
     category: 'AI/ML',
     desc: 'NutraAI Health Coach is an AI-powered wellness assistant designed to help users achieve their fitness and health goals through personalized guidance and smart recommendations. The platform provides customized nutrition plans, workout suggestions, daily activity tracking, and habit-building support based on each user’s lifestyle and objectives. Powered by intelligent AI interactions, NutraAI acts as a virtual health coach that keeps users motivated, consistent, and focused on improving their overall well-being through data-driven insights and real-time support.',
     tech: ['RAG', 'AI', 'React', 'TypeScript', 'Node.js'],

@@ -89,7 +89,7 @@ const techLogos = [
 
 const allGalleryProjects = [
   {
-    title: 'NutraAI Health Coach',
+    title: 'A.I Health Coach',
     category: 'AI/ML',
     desc: 'AI-powered wellness assistant providing personalized nutrition, workout plans, and daily activity tracking.',
     tech: ['RAG', 'AI', 'React', 'Node.js'],
