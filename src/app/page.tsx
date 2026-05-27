@@ -168,7 +168,23 @@ const allGalleryProjects = [
     tech: ['React', 'Node.js', 'MongoDB'],
     color: '#f59e0b',
     image: '/Politian/screenshot-1.png',
-  }
+  },
+  {
+    title: 'Persona Track A.I',
+    category: 'AI/ML',
+    desc: 'Real-time computer vision pipeline detecting people and classifying perceived gender using YOLOv8 and TorchScript.',
+    tech: ['YOLOv8', 'Python', 'TorchScript', 'OpenCV'],
+    color: '#8b5cf6',
+    image: '/Persona_AI/thumbnail.png',
+  },
+  {
+    title: 'Propex: Real Estate Platform',
+    category: 'Web',
+    desc: 'Full-stack real estate platform with AI price prediction, curated listings, and an admin dashboard.',
+    tech: ['React', 'Node.js', 'PostgreSQL', 'Flask'],
+    color: '#22c55e',
+    image: '/Propex/thumbnail.png',
+  },
 ];
 
 const advantages = [
