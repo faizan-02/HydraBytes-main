@@ -48,6 +48,11 @@ const footerLinks = {
     { href: '/blog', label: 'Resources' },
     { href: '/contact', label: 'Support' },
   ],
+  legal: [
+    { href: '/legal/privacy', label: 'Privacy Policy' },
+    { href: '/legal/terms', label: 'Terms of Service' },
+    { href: '/legal/refund', label: 'Refund Policy' },
+  ],
 };
 
 export default function Footer() {
@@ -96,7 +101,9 @@ export default function Footer() {
             </Link>
             <p className={styles.brandDesc}>
               Transforming ideas into powerful digital experiences through innovative
-              web development, mobile apps, and AI-driven solutions.
+              web development, mobile apps, and AI-driven solutions. We also build
+              SaaS products and integrate official APIs from Meta, Google, and other
+              leading platforms to deliver seamlessly connected digital solutions.
             </p>
             <div className={styles.socials}>
               <a href="https://www.linkedin.com/company/hydrabytes4/" aria-label="LinkedIn" className={styles.socialLink} target="_blank" rel="noopener noreferrer">
@@ -125,6 +132,14 @@ export default function Footer() {
             <div className={styles.footerCol}>
               <h4 className={styles.colTitle}>Support</h4>
               {footerLinks.support.map((link, i) => (
+                <Link key={i} href={link.href} className={styles.footerLink}>
+                  {link.label}
+                </Link>
+              ))}
+            </div>
+            <div className={styles.footerCol}>
+              <h4 className={styles.colTitle}>Legal</h4>
+              {footerLinks.legal.map((link, i) => (
                 <Link key={i} href={link.href} className={styles.footerLink}>
                   {link.label}
                 </Link>
