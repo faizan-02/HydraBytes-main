@@ -8,6 +8,11 @@ export type Project = {
   metric: string;
   image: string;
   objectPosition?: string;
+  // 'cover' (default) fills and may crop; 'contain' shows the whole image (for infographic-style thumbnails).
+  imageFit?: 'cover' | 'contain';
+  // CSS aspect-ratio for the card thumbnail (e.g. '1200 / 896'). Used with imageFit 'contain'
+  // so the card slot matches the image and fills edge to edge with no cropping or empty bars.
+  imageAspect?: string;
   year: string;
   challenge: string;
   solution: string;
@@ -15,6 +20,16 @@ export type Project = {
   features: string[];
   gallery: string[];
   video?: string | string[];
+  // How the project was delivered. 'upwork'/'direct' = built for a paying client,
+  // 'internal' = built in-house by the team as a showcase product.
+  clientType?: 'upwork' | 'direct' | 'internal';
+  // Only ever populated with genuine, verifiable client feedback.
+  testimonial?: {
+    quote: string;
+    author: string;
+    rating: number;
+    source?: string;
+  };
 };
 
 export const projects: Project[] = [
@@ -144,6 +159,7 @@ export const projects: Project[] = [
     color: '#ef4444',
     metric: '3-class histopathology detection',
     image: '/portfolio/lung-cancer.png',
+    clientType: 'internal',
     year: 'Apr 2026',
     challenge: 'Histopathological analysis of lung tissue is critical for cancer diagnosis, but manual microscopy is slow and requires highly trained pathologists. Misclassification can delay treatment or lead to incorrect care plans.',
     solution: 'We trained a CNN from scratch on a Kaggle histopathology dataset with data augmentation and dropout for robust generalization. The model classifies lung tissue images into Adenocarcinoma, Benign, and Squamous Cell Carcinoma. It is served via a Flask API with a clean web interface for uploading slides and getting real-time predictions.',
@@ -237,6 +253,7 @@ export const projects: Project[] = [
     color: '#22c55e',
     metric: 'Beta, launching soon',
     image: '/portfolio/safe-sawar.png',
+    clientType: 'internal',
     year: 'Mar 2026',
     challenge: 'Rising fuel costs and safety concerns make daily commuting difficult for women in Pakistan. Existing ride-sharing platforms don\'t provide identity verification or women-focused safety features, leaving a significant gap in safe, affordable transportation.',
     solution: 'We built Safe-Sawar, Pakistan\'s first NADRA-verified women-first carpooling platform. It features biometric identity verification, institution-based trust circles, live ride tracking, and an offline-capable Emergency SOS system using Bluetooth mesh networking. A male section was added to broaden the userbase while maintaining safety-first design.',
@@ -265,6 +282,49 @@ export const projects: Project[] = [
     ],
   },
   {
+    slug: 'decoding-of-life',
+    title: 'Decoding of Life',
+    category: 'AI/ML',
+    desc: 'Delivered Decoding of Life for a client, deployed on Vercel. It combines the Gemini API with a RAG pipeline built on a Chinese source book to generate instant free previews and secure paid PDF reports in English and Chinese. Built with Next.js, Supabase, and Stripe.',
+    tech: ['Next.js', 'Gemini API', 'RAG', 'Supabase', 'Stripe', 'TypeScript', 'PDF Generation'],
+    color: '#8b5cf6',
+    metric: 'Bilingual AI reports (EN and 中文)',
+    image: '/Decoding Of Life Screenshots/Thumbnail.png',
+    imageFit: 'contain',
+    imageAspect: '1200 / 896',
+    year: 'Jun 2026',
+    clientType: 'upwork',
+    challenge: 'The client needed an AI system that could turn a specialized Chinese source book into accurate, personalized numerology reports, delivered instantly, monetized securely, and readable by both English and Chinese speaking audiences.',
+    solution: 'We built Decoding of Life with Next.js and deployed it on Vercel. A RAG pipeline grounds the Gemini API in the client\'s Chinese source book so every report stays faithful to the source material. Users get an instant free preview, then unlock full analysis and compatibility reports through Stripe, receiving polished bilingual PDFs by email. Supabase powers the data layer and an admin dashboard handles content, exports, and stats.',
+    result: 'The platform delivers instant, grounded, bilingual reports with secure payments and automated delivery, giving the client a production-ready product that monetizes previews into paid PDF reports end to end.',
+    features: [
+      'Free preview, full analysis, and compatibility reports',
+      'Bilingual output in English and Chinese',
+      'Secure Stripe payments',
+      'Automated email delivery with a responsive UI',
+      'Admin dashboard with exports, stats, and content management',
+    ],
+    gallery: [
+      '/Decoding Of Life Screenshots/Thumbnail.png',
+      '/Decoding Of Life Screenshots/1.png',
+      '/Decoding Of Life Screenshots/2.png',
+      '/Decoding Of Life Screenshots/3.png',
+      '/Decoding Of Life Screenshots/4.png',
+      '/Decoding Of Life Screenshots/5.png',
+      '/Decoding Of Life Screenshots/6.png',
+      '/Decoding Of Life Screenshots/7.png',
+      '/Decoding Of Life Screenshots/8.png',
+      '/Decoding Of Life Screenshots/9.png',
+      '/Decoding Of Life Screenshots/10.png',
+    ],
+    testimonial: {
+      quote: 'Professional work by the team which fulfilled the job requirement. Good communication during the project and provide professional solution to tackle the issue arise from the project.',
+      author: 'Vincent Yong',
+      rating: 5,
+      source: 'Upwork',
+    },
+  },
+  {
     slug: 'cpai-bank-statement-analysis',
     title: 'CPAi: Bank Statement Analysis Dashboard',
     category: 'Web',
@@ -274,6 +334,13 @@ export const projects: Project[] = [
     metric: '12 bank formats supported',
     image: '/Bank Statement Analysis Dashboard/thumbnail.png',
     year: 'May 2026',
+    clientType: 'upwork',
+    testimonial: {
+      quote: 'Professional and reliable, excellent service.',
+      author: 'Vincent Yong',
+      rating: 5,
+      source: 'Upwork',
+    },
     challenge: 'Financial institutions manually review bank statements to assess creditworthiness, a tedious process that varies across dozens of bank formats. Errors in manual extraction lead to inaccurate loan decisions and compliance risks.',
     solution: 'We built CPAi, an AI-powered dashboard that auto-detects bank formats from uploaded PDF statements and extracts transaction data automatically. The platform categorizes transactions, checks balances, applies custom filtering rules, and calculates loan eligibility, all processed client-side to protect sensitive financial data.',
     result: 'CPAi reduces bank statement analysis from hours to seconds, supporting 12 Malaysian bank formats with automated extraction, intelligent categorization, and exportable credit reports that streamline the loan assessment pipeline.',
@@ -368,6 +435,7 @@ export const projects: Project[] = [
     color: '#f59e0b',
     metric: 'Secure online voting',
     image: '/Politian/screenshot-1.png',
+    clientType: 'internal',
     year: 'Apr 2026',
     challenge: 'Traditional voting processes in Pakistan face accessibility barriers, long queues, and transparency concerns. Many eligible voters, especially overseas Pakistanis, cannot participate in elections due to logistical constraints.',
     solution: 'We built Politian, a secure online voting platform that allows registered voters to browse election campaigns, cast votes, and view real-time results. The platform features JWT-based authentication, admin controls for managing candidates and elections, and a clean interface designed for maximum accessibility.',

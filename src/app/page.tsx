@@ -13,10 +13,10 @@ import MagneticButton from '@/components/MagneticButton';
 import { BlurFade } from '@/components/BlurFade';
 import { CircularGallery } from '@/components/ui/circular-gallery';
 import {
-  SiVercel, SiMongodb, SiGooglecloud, SiReact, SiNextdotjs,
+  SiVercel, SiMongodb, SiReact, SiNextdotjs,
   SiNodedotjs, SiDocker, SiFirebase, SiTensorflow, SiFigma, SiGithub,
 } from 'react-icons/si';
-import { FaAws, FaMicrosoft } from 'react-icons/fa';
+import { FaAws } from 'react-icons/fa';
 import LogoLoop from '@/components/ui/LogoLoop';
 import {
   WebDevIcon, MobileAppIcon, AIMLIcon, CloudDevOpsIcon,
@@ -25,12 +25,10 @@ import {
 import { GlassIcon } from '@/components/ui/GlassIcons';
 import styles from './page.module.css';
 
-const trustedCompanies = [
-  { name: 'Vercel', Icon: SiVercel },
-  { name: 'Microsoft', Icon: FaMicrosoft },
-  { name: 'AWS', Icon: FaAws },
-  { name: 'Google Cloud', Icon: SiGooglecloud },
-  { name: 'MongoDB', Icon: SiMongodb },
+const proofPoints = [
+  { label: '5.0 on Upwork', Icon: Star, highlight: true },
+  { label: '10+ Projects Delivered', Icon: Award, highlight: false },
+  { label: 'Direct & Upwork Clients', Icon: Users, highlight: false },
 ];
 
 const serviceHighlights = [
@@ -154,12 +152,24 @@ const allGalleryProjects = [
     image: '/portfolio/stress-mgmt.png',
   },
   {
+    title: 'Decoding of Life',
+    category: 'AI/ML',
+    desc: 'Bilingual AI numerology platform combining the Gemini API with a RAG pipeline for instant previews and secure paid PDF reports.',
+    tech: ['Next.js', 'Gemini API', 'RAG', 'Stripe'],
+    color: '#8b5cf6',
+    image: '/Decoding Of Life Screenshots/Thumbnail.png',
+    imageFit: 'contain' as const,
+    imageAspect: '1200 / 896',
+    badge: { rating: 5, source: 'Upwork' },
+  },
+  {
     title: 'CPAi: Bank Statement Analysis',
     category: 'Web',
     desc: 'AI-powered credit profile analysis platform that auto-detects and parses PDF bank statements.',
     tech: ['Next.js', 'AI/ML', 'PDF Parsing'],
     color: '#22c55e',
     image: '/Bank Statement Analysis Dashboard/thumbnail.png',
+    badge: { rating: 5, source: 'Upwork' },
   },
   {
     title: 'Politian: Transparent Voting',
@@ -186,6 +196,10 @@ const allGalleryProjects = [
     image: '/Propex/thumbnail.png',
   },
 ];
+
+// The verified Upwork projects (those with a badge) are always featured first in the home gallery.
+const galleryFeatured = allGalleryProjects.filter((p) => 'badge' in p);
+const galleryRest = allGalleryProjects.filter((p) => !('badge' in p));
 
 const advantages = [
   { icon: Zap, glassColor: 'orange' as const, title: 'Lightning Fast', desc: 'Optimized for performance with sub-second load times that keep users engaged.', color: '#f59e0b' },
@@ -289,13 +303,13 @@ function HeroWorkspace() {
 }
 
 export default function HomePage() {
-  const [galleryProjects, setGalleryProjects] = useState(allGalleryProjects.slice(0, 6));
+  const [galleryProjects, setGalleryProjects] = useState([...galleryFeatured, ...galleryRest].slice(0, 6));
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    // Shuffle projects and pick 6 on the client side to avoid hydration mismatches
-    const shuffled = [...allGalleryProjects].sort(() => 0.5 - Math.random());
-    setGalleryProjects(shuffled.slice(0, 6));
+    // Pin the featured Upwork projects, shuffle the rest on the client to avoid hydration mismatches.
+    const shuffledRest = [...galleryRest].sort(() => 0.5 - Math.random());
+    setGalleryProjects([...galleryFeatured, ...shuffledRest].slice(0, 6));
     setMounted(true);
   }, []);
 
@@ -380,12 +394,18 @@ export default function HomePage() {
 
             <AnimatedSection delay={0.4}>
               <div className={styles.trustedBy}>
-                <span className={styles.trustedLabel}>Trusted by innovators</span>
                 <div className={styles.trustedLogos}>
-                  {trustedCompanies.map(({ name, Icon }) => (
-                    <span key={name} className={styles.trustedLogo}>
-                      <Icon size={16} />
-                      {name}
+                  {proofPoints.map(({ label, Icon, highlight }) => (
+                    <span
+                      key={label}
+                      className={styles.trustedLogo}
+                      style={{ opacity: 1, color: 'var(--text-secondary)' }}
+                    >
+                      <Icon
+                        size={16}
+                        {...(highlight ? { fill: '#fbbf24', color: '#fbbf24' } : {})}
+                      />
+                      {label}
                     </span>
                   ))}
                 </div>

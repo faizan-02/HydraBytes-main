@@ -5,8 +5,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 import {
-  Code, Monitor, Smartphone, Server, Cloud, Cpu, ArrowRight,
+  Code, Monitor, Smartphone, Server, Cloud, Cpu, ArrowRight, Star,
 } from 'lucide-react';
+import { SiUpwork } from 'react-icons/si';
 import AnimatedSection from '@/components/AnimatedSection';
 import SpotlightCard from '@/components/SpotlightCard';
 import { TextScramble } from '@/components/ui/text-scramble';
@@ -67,7 +68,15 @@ function ProjectCard({ project }: { project: Project }) {
     >
       <SpotlightCard spotlightColor={`${project.color}20`} disableTilt>
         <div className={styles.projectCard}>
-          <div style={{ position: 'relative', width: '100%', height: '180px', overflow: 'hidden', borderRadius: '0.5rem', marginBottom: '1.25rem' }}>
+          <div
+            style={{
+              position: 'relative', width: '100%',
+              height: project.imageFit === 'contain' ? 'auto' : '180px',
+              aspectRatio: project.imageFit === 'contain' ? project.imageAspect : undefined,
+              overflow: 'hidden', borderRadius: '0.5rem', marginBottom: '1.25rem',
+              background: 'var(--bg-tertiary)',
+            }}
+          >
             <Image
               src={project.image}
               alt={project.title}
@@ -75,6 +84,24 @@ function ProjectCard({ project }: { project: Project }) {
               style={{ objectFit: 'cover', objectPosition: project.objectPosition || 'center' }}
               sizes="(max-width: 768px) 100vw, 400px"
             />
+            {project.testimonial && (
+              <span
+                style={{
+                  position: 'absolute', top: '10px', right: '10px',
+                  display: 'flex', alignItems: 'center', gap: '4px',
+                  padding: '4px 9px', borderRadius: '999px',
+                  background: 'rgba(10,10,18,0.72)', backdropFilter: 'blur(4px)',
+                  border: '1px solid rgba(255,255,255,0.12)',
+                  fontSize: '11px', fontWeight: 700, color: '#fff', lineHeight: 1,
+                }}
+              >
+                <Star size={11} fill="#fbbf24" color="#fbbf24" />
+                {project.testimonial.rating.toFixed(1)}
+                {project.testimonial.source && (
+                  <span style={{ fontWeight: 500, opacity: 0.85 }}>· {project.testimonial.source}</span>
+                )}
+              </span>
+            )}
           </div>
           <div className={styles.projectHeader}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
@@ -113,7 +140,11 @@ export default function PortfolioPage() {
   const { theme } = useTheme();
   const isDark = theme === 'dark';
   const [active, setActive] = useState('All');
-  const filtered = active === 'All' ? projects : projects.filter(p => p.category === active);
+  // Surface verified Upwork client work first; stable sort keeps the rest in source order.
+  const ordered = [...projects].sort(
+    (a, b) => (a.clientType === 'upwork' ? 0 : 1) - (b.clientType === 'upwork' ? 0 : 1),
+  );
+  const filtered = active === 'All' ? ordered : ordered.filter(p => p.category === active);
 
   return (
     <>
@@ -229,6 +260,37 @@ export default function PortfolioPage() {
               </AnimatedSection>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* ===== UPWORK PROOF ===== */}
+      <section className="section">
+        <div className="container">
+          <AnimatedSection>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '1.25rem', textAlign: 'center' }}>
+              <p style={{ color: 'var(--text-secondary)', maxWidth: '540px', margin: 0 }}>
+                Our client work and reviews are verified on Upwork. See the ratings for yourself.
+              </p>
+              <motion.a
+                href="https://www.upwork.com/freelancers/~016f18e36f0f1c378e?mp_source=share"
+                target="_blank"
+                rel="noopener noreferrer"
+                whileHover={{ y: -5, boxShadow: '0 14px 28px rgba(20,168,0,0.35)' }}
+                whileTap={{ y: -1 }}
+                transition={{ type: 'spring', stiffness: 350, damping: 18 }}
+                style={{
+                  display: 'inline-flex', alignItems: 'center', gap: '0.6rem',
+                  padding: '0.7rem 1.4rem', borderRadius: '999px',
+                  background: '#14a800', color: '#fff', fontWeight: 600,
+                  textDecoration: 'none',
+                  boxShadow: '0 6px 16px rgba(20,168,0,0.22)',
+                }}
+              >
+                <SiUpwork size={20} />
+                View our verified Upwork profile
+              </motion.a>
+            </div>
+          </AnimatedSection>
         </div>
       </section>
     </>

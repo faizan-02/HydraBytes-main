@@ -3,7 +3,7 @@
 import React, { useRef, useState, useCallback, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, ArrowRight, Star } from 'lucide-react';
 import { TextScramble } from '@/components/ui/text-scramble';
 import { GlowingEffect } from '@/components/ui/grid-glow-effect-purple-blue';
 
@@ -15,6 +15,9 @@ interface GalleryItem {
   color: string;
   image: string;
   objectPosition?: string;
+  imageFit?: 'cover' | 'contain';
+  imageAspect?: string;
+  badge?: { rating: number; source?: string };
 }
 
 interface CircularGalleryProps {
@@ -94,8 +97,33 @@ function GalleryCard({ item, cardH, isMobile }: { item: GalleryItem; cardH: numb
           height: '100%',
         }}
       >
-        <div style={{ position: 'relative', width: '100%', height: isMobile ? '45%' : '50%', flexShrink: 0, overflow: 'hidden' }}>
+        <div
+          style={{
+            position: 'relative', width: '100%',
+            height: item.imageFit === 'contain' ? 'auto' : (isMobile ? '45%' : '50%'),
+            aspectRatio: item.imageFit === 'contain' ? item.imageAspect : undefined,
+            flexShrink: 0, overflow: 'hidden', background: 'var(--bg-tertiary)',
+          }}
+        >
           <Image src={item.image} alt={item.title} fill style={{ objectFit: 'cover', objectPosition: item.objectPosition || 'center' }} sizes={isMobile ? '300px' : '520px'} />
+          {item.badge && (
+            <span
+              style={{
+                position: 'absolute', top: '12px', right: '12px',
+                display: 'flex', alignItems: 'center', gap: '5px',
+                padding: '5px 11px', borderRadius: '999px',
+                background: 'rgba(10,10,18,0.72)', backdropFilter: 'blur(4px)',
+                border: '1px solid rgba(255,255,255,0.12)',
+                fontSize: isMobile ? '11px' : '12.5px', fontWeight: 700, color: '#fff', lineHeight: 1,
+              }}
+            >
+              <Star size={isMobile ? 12 : 13} fill="#fbbf24" color="#fbbf24" />
+              {item.badge.rating.toFixed(1)}
+              {item.badge.source && (
+                <span style={{ fontWeight: 500, opacity: 0.85 }}>· {item.badge.source}</span>
+              )}
+            </span>
+          )}
         </div>
 
         <div style={{ padding: isMobile ? '1rem 1.15rem' : '1.5rem 2rem', display: 'flex', flexDirection: 'column', flex: 1, gap: isMobile ? '0.5rem' : '0.75rem' }}>
@@ -105,7 +133,7 @@ function GalleryCard({ item, cardH, isMobile }: { item: GalleryItem; cardH: numb
 
           <p style={{ fontSize: isMobile ? '0.75rem' : '0.9rem', color: 'var(--text-secondary)', lineHeight: 1.6, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{item.desc}</p>
 
-          <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', marginTop: 'auto', gap: '0.75rem' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', marginTop: 'auto', gap: '0.75rem' }}>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem' }}>
               {item.tech.map((t) => (
                 <span key={t} style={{ padding: '0.25rem 0.7rem', borderRadius: '6px', fontSize: isMobile ? '0.55rem' : '0.65rem', fontWeight: 600, letterSpacing: '0.04em', textTransform: 'uppercase', border: '1px solid var(--border-color)', color: 'var(--text-secondary)', background: 'var(--bg-glass)' }}>{t}</span>
@@ -120,9 +148,10 @@ function GalleryCard({ item, cardH, isMobile }: { item: GalleryItem; cardH: numb
                 color: item.color,
                 display: 'flex',
                 alignItems: 'center',
+                justifyContent: 'flex-end',
                 gap: '0.35rem',
                 whiteSpace: 'nowrap',
-                flexShrink: 0,
+                alignSelf: 'flex-end',
                 opacity: hovered ? 1 : 0,
                 transform: hovered ? 'translateY(0) scale(1)' : 'translateY(12px) scale(0.9)',
                 transition: 'opacity 0.35s ease, transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1)',

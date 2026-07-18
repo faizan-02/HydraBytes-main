@@ -4,7 +4,7 @@ import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { ArrowLeft, ArrowRight, Calendar, Tag, Play } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Calendar, Tag, Play, Star } from 'lucide-react';
 import AnimatedSection from '@/components/AnimatedSection';
 import FloatingParticles from '@/components/FloatingParticles';
 import { projects } from '../projects';
@@ -46,6 +46,15 @@ export default function ProjectDetailPage() {
               <span className={styles.dateBadge}>
                 <Calendar size={14} /> {project.year}
               </span>
+              {project.clientType && (
+                <span className={styles.dateBadge}>
+                  {project.clientType === 'internal'
+                    ? 'In-house product'
+                    : project.clientType === 'upwork'
+                      ? 'Client project · Upwork'
+                      : 'Client project'}
+                </span>
+              )}
             </div>
             <h1 className={styles.heroTitle}>{project.title}</h1>
             <p className={styles.heroDesc}>{project.desc}</p>
@@ -159,6 +168,52 @@ export default function ProjectDetailPage() {
           </div>
         </div>
       </section>
+
+      {/* Testimonial */}
+      {project.testimonial && (
+        <section className="section">
+          <div className="container">
+            <AnimatedSection>
+              <figure
+                style={{
+                  maxWidth: '760px',
+                  margin: '0 auto',
+                  textAlign: 'center',
+                  background: 'var(--bg-secondary)',
+                  border: '1px solid var(--border-color)',
+                  borderRadius: '1rem',
+                  padding: '2.5rem 2rem',
+                }}
+              >
+                <div style={{ display: 'flex', gap: '4px', justifyContent: 'center', marginBottom: '1.25rem' }}>
+                  {Array.from({ length: project.testimonial.rating }).map((_, i) => (
+                    <Star key={i} size={20} fill="#fbbf24" color="#fbbf24" />
+                  ))}
+                </div>
+                <blockquote
+                  style={{
+                    fontSize: '1.25rem',
+                    lineHeight: 1.6,
+                    color: 'var(--text-primary)',
+                    fontStyle: 'italic',
+                    margin: 0,
+                  }}
+                >
+                  &ldquo;{project.testimonial.quote}&rdquo;
+                </blockquote>
+                <figcaption style={{ marginTop: '1.5rem', fontWeight: 600, color: 'var(--text-primary)' }}>
+                  {project.testimonial.author}
+                  {project.testimonial.source && (
+                    <span style={{ display: 'block', fontSize: '0.85rem', fontWeight: 400, color: 'var(--text-secondary)', marginTop: '0.25rem' }}>
+                      Verified {project.testimonial.source} review
+                    </span>
+                  )}
+                </figcaption>
+              </figure>
+            </AnimatedSection>
+          </div>
+        </section>
+      )}
 
       {/* CTA */}
       <section className={`section ${styles.ctaSection}`}>
