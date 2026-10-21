@@ -320,21 +320,21 @@ function HeroWorkspace() {
         <div className={styles.heroImgContainer}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/hero-workspace-dark.png"
-            alt="Developer workspace showing VS Code with TypeScript code"
+            src="/hero-desk-dark.jpg"
+            alt="HydraBytes workspace at night: laptop with code open and a HydraBytes mug"
             className={`${styles.heroImg} ${styles.heroImgLayer}`}
             style={{ opacity: isDark ? 1 : 0 }}
-            width={1024}
-            height={1024}
+            width={1672}
+            height={941}
           />
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/hero-workspace-light.png"
-            alt="Developer workspace showing VS Code with TypeScript code"
+            src="/hero-desk-light.jpg"
+            alt="HydraBytes workspace by day: laptop with code open and a HydraBytes mug"
             className={`${styles.heroImg} ${styles.heroImgLayer} ${styles.heroImgLayerAbs}`}
             style={{ opacity: isDark ? 0 : 1 }}
-            width={1024}
-            height={1024}
+            width={1672}
+            height={941}
           />
         </div>
       </motion.div>

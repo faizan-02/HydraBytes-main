@@ -45,6 +45,9 @@ const POSITION_EASE = 5;
 // Height the desktop card front's text block needs (category, two-line title, two-line
 // description, one row of tags, flip hint). Desktop tags never wrap, so this is the worst case.
 const CARD_TEXT_MIN_H = 238;
+// How much wider than a fixed-aspect image a desktop card may get. The image always fills the
+// full width, so this trims at most ~2.5% off its top and bottom (inside the covers' margins)
+const IMAGE_WIDEN = 1.05;
 // Hover this long before the card flips, so sweeping the cursor across doesn't flip it
 const FLIP_DELAY = 180;
 // Tech chips listed on the back before collapsing the rest into "+N"
@@ -72,26 +75,52 @@ const DESKTOP_SIDE_MARGIN = 80;
 const DESKTOP_PERSPECTIVE = 2000;
 const ARROW_INSET = 16;
 const ARROW_SIZE = 52;
-// Space left between a neighbouring card's outer edge and the arrow beside it
-const ARROW_GAP = 60;
+// Smallest gap allowed between the front card and a neighbour, or a neighbour and an arrow
+const MIN_RING_GAP = 24;
+// Narrowest a desktop card is allowed to get while making room for the arrows
+const MIN_DESKTOP_CARD_W = 300;
 
 /**
- * Ring radius that puts the outer edge of the neighbouring cards (one step round the ring)
- * ARROW_GAP px inside the arrows. A card at angle t with half-width u has its outer edge at
- * x = R sin t + u cos t, z = -R (1 - cos t) - u sin t; perspective P projects that to
- * x * P / (P - z). Setting the projection equal to the target and solving for R gives this.
+ * Projected inner and outer edges of a neighbouring card (one step round the ring) for a
+ * radius R. A card at angle t with half-width u has its edges at x = R sin t -/+ u cos t,
+ * z = -R (1 - cos t) +/- u sin t (inner/outer); perspective P projects x to x * P / (P - z).
  */
-function ringRadius(galleryW: number, cardW: number, anglePerItem: number) {
+function neighbourEdges(radius: number, cardW: number, anglePerItem: number) {
   const t = (anglePerItem * Math.PI) / 180;
   const s = Math.sin(t);
   const c = Math.cos(t);
   const u = cardW / 2;
   const P = DESKTOP_PERSPECTIVE;
-  const target = galleryW / 2 - ARROW_INSET - ARROW_SIZE - ARROW_GAP;
-  const denom = P * s - target * (1 - c);
-  const r = denom > 0 ? (target * (P + u * s) - u * c * P) / denom : cardW * 1.5;
-  // Never tighter than the card itself allows, so neighbours don't overlap the front card
-  return Math.round(Math.max(r, cardW * 1.3));
+  const project = (x: number, z: number) => (x * P) / (P - z);
+  return {
+    inner: project(radius * s - u * c, -radius * (1 - c) + u * s),
+    outer: project(radius * s + u * c, -radius * (1 - c) - u * s),
+  };
+}
+
+/**
+ * Balanced ring: the widest card (up to maxW) and the radius that leave the same gap between
+ * the front card and each neighbour as between each neighbour and its arrow, so the free
+ * space is spread evenly across the row instead of pooling at the sides or in the middle.
+ */
+function fitRing(galleryW: number, maxW: number, anglePerItem: number) {
+  const arrowEdge = galleryW / 2 - ARROW_INSET - ARROW_SIZE;
+  let best = { cardW: maxW, radius: Math.round(maxW * 1.3) };
+  for (let cardW = maxW; cardW >= MIN_DESKTOP_CARD_W; cardW -= 10) {
+    // Inner gap grows and outer gap shrinks as the radius grows: bisect for where they meet
+    let lo = cardW * 0.5;
+    let hi = cardW * 4;
+    for (let i = 0; i < 40; i++) {
+      const mid = (lo + hi) / 2;
+      const { inner, outer } = neighbourEdges(mid, cardW, anglePerItem);
+      if (inner - cardW / 2 < arrowEdge - outer) lo = mid;
+      else hi = mid;
+    }
+    const radius = (lo + hi) / 2;
+    best = { cardW, radius: Math.round(radius) };
+    if (neighbourEdges(radius, cardW, anglePerItem).inner - cardW / 2 >= MIN_RING_GAP) break;
+  }
+  return best;
 }
 
 function useResponsiveValues(
@@ -114,18 +143,20 @@ function useResponsiveValues(
       }
 
       // Desktop: size by width, then shrink so the whole card fits under the navbar
-      let cardW = w < 1024 ? 410 : w < 1440 ? 460 : 490;
+      let cardW = w < 1024 ? 440 : w < 1440 ? 520 : 560;
       let cardH = w < 1024 ? 540 : w < 1440 ? 590 : 610;
       const maxH = Math.max(MIN_DESKTOP_CARD_H, window.innerHeight - VERTICAL_CHROME);
       if (cardH > maxH) {
         cardW = Math.round(cardW * (maxH / cardH));
         cardH = maxH;
       }
-      // Narrow the card if needed so fixed-aspect images show in full at full width above the text
-      cardW = Math.min(cardW, Math.floor((cardH - CARD_TEXT_MIN_H) * imageRatio));
+      // Fixed-aspect images fill the card's full width above the text, so the card can only be
+      // a touch (IMAGE_WIDEN) wider than the image before it would crop into the content
+      cardW = Math.min(cardW, Math.floor((cardH - CARD_TEXT_MIN_H) * imageRatio * IMAGE_WIDEN));
       // The gallery sits inside the page container, so space the ring by its own width
       const galleryW = containerRef.current?.clientWidth || w;
-      setValues({ cardW, cardH, radius: ringRadius(galleryW, cardW, anglePerItem), viewH: cardH + 50, isMobile: false });
+      const ring = fitRing(galleryW, cardW, anglePerItem);
+      setValues({ cardW: ring.cardW, cardH, radius: ring.radius, viewH: cardH + 50, isMobile: false });
     };
     update();
     window.addEventListener('resize', update);
@@ -313,7 +344,7 @@ const GalleryCard = React.memo(function GalleryCard({
               flexShrink: 0, overflow: 'hidden', background: 'var(--bg-tertiary)',
             }}
           >
-            <Image src={item.image} alt={item.title} fill style={{ objectFit: 'cover', objectPosition: item.objectPosition || 'center' }} sizes={isMobile ? '300px' : '520px'} />
+            <Image src={item.image} alt={item.title} fill style={{ objectFit: 'cover', objectPosition: item.objectPosition || 'center' }} sizes={isMobile ? '300px' : '560px'} />
             {item.badge && (
               <span
                 style={{
