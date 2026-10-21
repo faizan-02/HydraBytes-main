@@ -208,7 +208,7 @@ export default function Navbar() {
                 className={styles.userMenuBtn}
                 style={{ display: 'flex', alignItems: 'center', gap: '8px', background: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.05)', border: `1px solid ${isDark ? 'rgba(255,255,255,0.12)' : 'rgba(0,0,0,0.1)'}`, borderRadius: '999px', padding: '6px 14px 6px 8px', cursor: 'pointer', color: 'var(--text-primary)' }}
               >
-                <div style={{ width: '28px', height: '28px', borderRadius: '50%', background: 'linear-gradient(135deg, #6366f1, #06b6d4)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', fontWeight: 700, color: '#fff' }}>
+                <div style={{ width: '28px', height: '28px', borderRadius: '50%', background: 'var(--accent-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', fontWeight: 700, color: '#fff' }}>
                   {session.user?.name?.[0]?.toUpperCase() ?? 'U'}
                 </div>
                 <span className={styles.userNameText} style={{ fontSize: '14px', fontWeight: 500 }}>{session.user?.name?.split(' ')[0]}</span>

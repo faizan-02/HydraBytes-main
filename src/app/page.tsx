@@ -12,6 +12,7 @@ import SpotlightCard from '@/components/SpotlightCard';
 import MagneticButton from '@/components/MagneticButton';
 import { BlurFade } from '@/components/BlurFade';
 import { CircularGallery } from '@/components/ui/circular-gallery';
+import { projects } from './portfolio/projects';
 import {
   SiVercel, SiMongodb, SiReact, SiNextdotjs,
   SiNodedotjs, SiDocker, SiFirebase, SiTensorflow, SiFigma, SiGithub,
@@ -85,8 +86,9 @@ const techLogos = [
   { node: <SiMongodb color="#47A248" />, title: 'MongoDB' },
 ];
 
-const allGalleryProjects = [
+const galleryBase = [
   {
+    slug: 'nutra-ai-health-coach',
     title: 'A.I Health Coach',
     category: 'AI/ML',
     desc: 'AI-powered wellness assistant providing personalized nutrition, workout plans, and daily activity tracking.',
@@ -95,6 +97,7 @@ const allGalleryProjects = [
     image: '/Nutra_AI/Thumbnail.png',
   },
   {
+    slug: 'optipro-retinal-disease-detection',
     title: 'OptiPro: Retinal Disease Detection',
     category: 'AI/ML',
     desc: 'End-to-end AI-powered retinal disease detection platform for clinical support with Grad-CAM visualization.',
@@ -103,14 +106,18 @@ const allGalleryProjects = [
     image: '/portfolio/optipro.png',
   },
   {
+    slug: 'ai-voice-chat-agent',
     title: 'AI Voice Chat Agent',
     category: 'AI/ML',
     desc: 'Real-time voice conversation platform with 104+ AI characters using OpenAI GPT, TTS, and WebRTC.',
     tech: ['Voice AI', 'LLM', 'FastAPI', 'WebSockets', 'OpenAI'],
     color: '#06b6d4',
-    image: '/portfolio/ai-voice-agent.png',
+    image: '/portfolio/ai-voice-agent-cover.png',
+    imageFit: 'contain' as const,
+    imageAspect: '1200 / 896',
   },
   {
+    slug: 'safe-sawar-women-first-carpooling',
     title: 'Safe-Sawar: Women-First Carpooling',
     category: 'Mobile',
     desc: 'Pakistan\'s first NADRA-verified women-first carpooling platform with live ride tracking.',
@@ -119,6 +126,7 @@ const allGalleryProjects = [
     image: '/portfolio/safe-sawar.png',
   },
   {
+    slug: 'traffic-detection-yolo',
     title: 'Traffic Detection YOLO',
     category: 'AI/ML',
     desc: 'AI-powered Traffic Monitoring System using YOLO for real-time vehicle detection and traffic analysis.',
@@ -127,23 +135,29 @@ const allGalleryProjects = [
     image: '/Traffic_Detection_YOLO/Thumbnail.png',
   },
   {
+    slug: 'lung-cancer-image-classifier',
     title: 'Lung Cancer Image Classifier',
     category: 'AI/ML',
     desc: 'CNN-based histopathology classifier for lung tissue images.',
     tech: ['Computer Vision', 'TensorFlow', 'Keras', 'CNN'],
     color: '#ef4444',
-    image: '/portfolio/lung-cancer.png',
+    image: '/portfolio/lung-cancer-cover.png',
+    imageFit: 'contain' as const,
+    imageAspect: '1200 / 896',
   },
   {
+    slug: 'inventra-smart-inventory-management',
     title: 'Inventra: Smart Inventory Management',
     category: 'Web',
     desc: 'All-in-one inventory tracking, order management, and real-time profitability analytics platform.',
     tech: ['Next.js', 'TypeScript', 'Supabase'],
     color: '#3b82f6',
-    image: '/portfolio/inventra.jpeg',
-    objectPosition: 'left center',
+    image: '/portfolio/inventra-cover.png',
+    imageFit: 'contain' as const,
+    imageAspect: '1200 / 896',
   },
   {
+    slug: 'ai-student-stress-management',
     title: 'AI Student Stress Management',
     category: 'AI/ML',
     desc: 'AI-based platform that detects and helps reduce student stress, anxiety, and depression.',
@@ -152,6 +166,7 @@ const allGalleryProjects = [
     image: '/portfolio/stress-mgmt.png',
   },
   {
+    slug: 'decoding-of-life',
     title: 'Decoding of Life',
     category: 'AI/ML',
     desc: 'Bilingual AI numerology platform combining the Gemini API with a RAG pipeline for instant previews and secure paid PDF reports.',
@@ -163,23 +178,30 @@ const allGalleryProjects = [
     badge: { rating: 5, source: 'Upwork' },
   },
   {
+    slug: 'cpai-bank-statement-analysis',
     title: 'CPAi: Bank Statement Analysis',
     category: 'Web',
     desc: 'AI-powered credit profile analysis platform that auto-detects and parses PDF bank statements.',
     tech: ['Next.js', 'AI/ML', 'PDF Parsing'],
     color: '#22c55e',
-    image: '/Bank Statement Analysis Dashboard/thumbnail.png',
+    image: '/portfolio/cpai-cover.png',
+    imageFit: 'contain' as const,
+    imageAspect: '1200 / 896',
     badge: { rating: 5, source: 'Upwork' },
   },
   {
+    slug: 'politian-voting-platform',
     title: 'Politian: Transparent Voting',
     category: 'Web',
     desc: 'Secure and transparent online voting platform for elections with real-time tallying.',
     tech: ['React', 'Node.js', 'MongoDB'],
     color: '#f59e0b',
-    image: '/Politian/screenshot-1.png',
+    image: '/portfolio/politian-cover-v2.png',
+    imageFit: 'contain' as const,
+    imageAspect: '1200 / 896',
   },
   {
+    slug: 'persona-track-ai',
     title: 'Persona Track A.I',
     category: 'AI/ML',
     desc: 'Real-time computer vision pipeline detecting people and classifying perceived gender using YOLOv8 and TorchScript.',
@@ -188,14 +210,33 @@ const allGalleryProjects = [
     image: '/Persona_AI/thumbnail.png',
   },
   {
+    slug: 'propex-real-estate-platform',
     title: 'Propex: Real Estate Platform',
     category: 'Web',
     desc: 'Full-stack real estate platform with AI price prediction, curated listings, and an admin dashboard.',
     tech: ['React', 'Node.js', 'PostgreSQL', 'Flask'],
     color: '#22c55e',
-    image: '/Propex/thumbnail.png',
+    image: '/portfolio/propex-cover.png',
+    imageFit: 'contain' as const,
+    imageAspect: '1200 / 896',
   },
 ];
+
+// Attach the full project details (features, metric, full stack, client review) shown on the
+// back of each flip card, plus the link to the project's own page.
+const projectsBySlug = new Map(projects.map((p) => [p.slug, p]));
+const allGalleryProjects = galleryBase.map((item) => {
+  const project = projectsBySlug.get(item.slug);
+  if (!project) return item;
+  return {
+    ...item,
+    href: `/portfolio/${project.slug}`,
+    metric: project.metric,
+    features: project.features,
+    allTech: project.tech,
+    review: project.testimonial,
+  };
+});
 
 // The verified Upwork projects (those with a badge) are always featured first in the home gallery.
 const galleryFeatured = allGalleryProjects.filter((p) => 'badge' in p);

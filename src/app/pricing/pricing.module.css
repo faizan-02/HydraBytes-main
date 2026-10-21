@@ -79,7 +79,7 @@
   top: -14px;
   left: 50%;
   transform: translateX(-50%);
-  background: linear-gradient(135deg, #0891b2, #06b6d4);
+  background: var(--accent-primary);
   color: #fff;
   font-size: 0.68rem;
   font-weight: 700;

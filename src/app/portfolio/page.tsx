@@ -5,12 +5,12 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 import {
-  Code, Monitor, Smartphone, Server, Cloud, Cpu, ArrowRight, Star,
+  Code, Monitor, Smartphone, Server, Cloud, Cpu, Star,
 } from 'lucide-react';
 import { SiUpwork } from 'react-icons/si';
 import AnimatedSection from '@/components/AnimatedSection';
 import SpotlightCard from '@/components/SpotlightCard';
-import { TextScramble } from '@/components/ui/text-scramble';
+import { InteractiveHoverButton } from '@/components/ui/interactive-hover-button';
 import FloatingParticles from '@/components/FloatingParticles';
 import { PerspectiveMarquee } from '@/components/ui/perspective-marquee';
 import { useTheme } from '@/lib/ThemeContext';
@@ -57,6 +57,9 @@ const marqueeItems = [
   'AWS', 'TensorFlow', 'Flutter', 'FastAPI', 'PostgreSQL', 'Figma',
 ];
 
+// Tags shown on a card before the rest collapse into "+N" (the project page lists them all)
+const MAX_CARD_TAGS = 4;
+
 function ProjectCard({ project }: { project: Project }) {
   const [hovered, setHovered] = useState(false);
   return (
@@ -65,23 +68,19 @@ function ProjectCard({ project }: { project: Project }) {
       className={styles.projectLink}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
+      onFocus={() => setHovered(true)}
+      onBlur={() => setHovered(false)}
     >
-      <SpotlightCard spotlightColor={`${project.color}20`} disableTilt>
-        <div className={styles.projectCard}>
-          <div
-            style={{
-              position: 'relative', width: '100%',
-              height: project.imageFit === 'contain' ? 'auto' : '180px',
-              aspectRatio: project.imageFit === 'contain' ? project.imageAspect : undefined,
-              overflow: 'hidden', borderRadius: '0.5rem', marginBottom: '1.25rem',
-              background: 'var(--bg-tertiary)',
-            }}
-          >
+      <div className={styles.projectCard}>
+          {/* Same image shape on every card so cards in a row line up; infographic-style
+              ('contain') thumbnails keep their title by anchoring the crop to the top */}
+          <div className={styles.projectMedia}>
             <Image
               src={project.image}
               alt={project.title}
               fill
-              style={{ objectFit: 'cover', objectPosition: project.objectPosition || 'center' }}
+              className={styles.projectImg}
+              style={{ objectFit: 'cover', objectPosition: project.objectPosition || (project.imageFit === 'contain' ? 'top' : 'center') }}
               sizes="(max-width: 768px) 100vw, 400px"
             />
             {project.testimonial && (
@@ -115,23 +114,20 @@ function ProjectCard({ project }: { project: Project }) {
             <span className={styles.metricValue}>{project.metric}</span>
           </div>
           <div className={styles.projectTech}>
-            {project.tech.map(t => (
+            {project.tech.slice(0, MAX_CARD_TAGS).map(t => (
               <span key={t} className={styles.techTag}>{t}</span>
             ))}
+            {project.tech.length > MAX_CARD_TAGS && (
+              <span className={styles.techTag} title={project.tech.slice(MAX_CARD_TAGS).join(', ')}>
+                +{project.tech.length - MAX_CARD_TAGS}
+              </span>
+            )}
           </div>
-          <span
-            className={styles.viewDetails}
-            style={{
-              opacity: hovered ? 1 : 0,
-              transform: hovered ? 'translateY(0) scale(1)' : 'translateY(12px) scale(0.9)',
-              transition: 'opacity 0.35s ease, transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1)',
-            }}
-          >
-            <TextScramble text="VIEW DETAILS" trigger={hovered} speed={25} />
-            <ArrowRight size={14} style={{ opacity: hovered ? 1 : 0, transform: hovered ? 'translateX(0)' : 'translateX(-6px)', transition: 'opacity 0.3s ease 0.1s, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s' }} />
-          </span>
-        </div>
-      </SpotlightCard>
+          {/* Same animated View Details as the home gallery; the whole card is the link */}
+          <div className={styles.projectFooter}>
+            <InteractiveHoverButton as="span" text="VIEW DETAILS" revealed={hovered} />
+          </div>
+      </div>
     </Link>
   );
 }

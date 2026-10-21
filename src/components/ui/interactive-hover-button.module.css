@@ -1,0 +1,165 @@
+.button {
+  --ihb-ease: cubic-bezier(0.76, 0, 0.24, 1);
+  --ihb-duration: 0.5s;
+
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 0.25rem;
+  border: none;
+  background: transparent;
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  line-height: 1.2;
+  white-space: nowrap;
+  cursor: pointer;
+  outline: none;
+}
+
+.sm {
+  font-size: 0.64rem;
+}
+
+/* Reveal: hidden and unclickable until the parent marks it revealed */
+.hideable {
+  opacity: 0;
+  transform: translateY(8px);
+  pointer-events: none;
+  transition: opacity 0.4s ease, transform 0.5s var(--ihb-ease);
+}
+
+.hideable.revealed,
+.hideable:focus-visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* Touch devices have no hover, so the button is always shown there */
+@media (hover: none) {
+  .hideable {
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+  }
+}
+
+/* Resting (card hover) state is muted; hovering the button itself lifts it,
+   brings it to full strength and adds a soft shadow */
+.lift {
+  --ihb-lift-ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+  position: relative;
+  display: inline-flex;
+  opacity: 0.5;
+  transform-origin: right center;
+  transition:
+    transform 0.4s var(--ihb-lift-ease),
+    opacity 0.3s ease,
+    text-shadow 0.4s ease;
+}
+
+.button:hover .lift,
+.button:focus-visible .lift {
+  opacity: 1;
+  transform: translateY(-4px) scale(1.06);
+  text-shadow: 0 6px 16px color-mix(in srgb, currentColor 30%, transparent);
+}
+
+.button:hover .arrow,
+.button:focus-visible .arrow {
+  transform: translateX(3px);
+}
+
+.inner {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+/* Letter roll: each character is a 1-line window holding two stacked copies.
+   The roll replays every time .rolling is remounted. */
+.char {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  height: 1.2em;
+}
+
+.char span {
+  display: block;
+}
+
+.char span + span {
+  position: absolute;
+  inset: 0;
+  transform: translateY(100%);
+}
+
+.rolling .char span {
+  animation: ihb-out var(--ihb-duration) var(--ihb-ease) calc(var(--i) * 18ms) both;
+}
+
+.rolling .char span + span {
+  animation-name: ihb-in;
+}
+
+/* Arrow: exits right, re-enters from the left */
+.arrow {
+  position: relative;
+  display: inline-flex;
+  overflow: hidden;
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.arrow svg + svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translateX(-120%);
+}
+
+.rolling .arrow svg {
+  animation: ihb-arrow-out var(--ihb-duration) var(--ihb-ease) 0.12s both;
+}
+
+.rolling .arrow svg + svg {
+  animation-name: ihb-arrow-in;
+}
+
+@keyframes ihb-out {
+  from { transform: translateY(0); }
+  to { transform: translateY(-100%); }
+}
+
+@keyframes ihb-in {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+@keyframes ihb-arrow-out {
+  from { transform: translateX(0); }
+  to { transform: translateX(120%); }
+}
+
+@keyframes ihb-arrow-in {
+  from { transform: translateX(-120%); }
+  to { transform: translateX(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rolling .char span,
+  .rolling .arrow svg {
+    animation: none;
+  }
+
+  .hideable,
+  .lift,
+  .arrow {
+    transition: opacity 0.2s ease;
+    transform: none !important;
+  }
+}

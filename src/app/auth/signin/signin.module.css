@@ -366,7 +366,7 @@
 }
 
 .submitBtn:hover {
-  box-shadow: 0 4px 20px var(--accent-glow);
+  filter: brightness(1.1);
 }
 
 .submitBtn:disabled {
@@ -468,4 +468,9 @@
 }
 [data-theme='light'] .blob3 {
   background: radial-gradient(circle, rgba(219, 39, 119, 0.08) 0%, transparent 70%);
+}
+
+/* Decorative glow blobs and gradient beams removed site-wide (they read as generic). */
+.blob1, .blob2, .blob3, .glowSpot1, .glowSpot2, .beamTop, .beamRight, .beamBottom, .beamLeft {
+  display: none;
 }

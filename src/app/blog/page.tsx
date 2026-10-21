@@ -6,7 +6,6 @@ import { ArrowRight } from 'lucide-react';
 import AnimatedSection from '@/components/AnimatedSection';
 import MagneticButton from '@/components/MagneticButton';
 import FloatingParticles from '@/components/FloatingParticles';
-import { GlowingEffect } from '@/components/ui/grid-glow-effect-purple-blue';
 import { TextScramble } from '@/components/ui/text-scramble';
 import styles from './blog.module.css';
 
@@ -144,8 +143,10 @@ function BlogPostCard({ post }: { post: typeof posts[number] }) {
             transition: 'opacity 0.35s ease, transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1)',
           }}
         >
-          <TextScramble text="READ FULL ARTICLE" trigger={hovered} speed={25} />
-          <ArrowRight size={14} style={{ opacity: hovered ? 1 : 0, transform: hovered ? 'translateX(0)' : 'translateX(-6px)', transition: 'opacity 0.3s ease 0.1s, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s' }} />
+          <span className={styles.readMoreLift}>
+            <TextScramble text="READ FULL ARTICLE" trigger={hovered} speed={25} />
+            <ArrowRight size={14} style={{ opacity: hovered ? 1 : 0, transform: hovered ? 'translateX(0)' : 'translateX(-6px)', transition: 'opacity 0.3s ease 0.1s, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s' }} />
+          </span>
         </span>
       ) : (
         <span className={styles.postDate}>{post.date}</span>
@@ -159,17 +160,6 @@ function BlogPostCard({ post }: { post: typeof posts[number] }) {
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <GlowingEffect
-        spread={40}
-        glow
-        disabled={false}
-        proximity={64}
-        inactiveZone={0.01}
-        borderWidth={2}
-        variant="blue-purple"
-        blur={0}
-        movementDuration={1.5}
-      />
       <div style={{
         borderRadius: '1rem',
         overflow: 'hidden',
@@ -219,17 +209,6 @@ function FeaturedCard({ post }: { post: typeof featured }) {
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <GlowingEffect
-        spread={40}
-        glow
-        disabled={false}
-        proximity={64}
-        inactiveZone={0.01}
-        borderWidth={2}
-        variant="blue-purple"
-        blur={0}
-        movementDuration={1.5}
-      />
       <div style={{
         borderRadius: '1rem',
         overflow: 'hidden',
@@ -269,8 +248,10 @@ function FeaturedCard({ post }: { post: typeof featured }) {
               transition: 'opacity 0.35s ease, transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1)',
             }}
           >
-            <TextScramble text="READ FULL ARTICLE" trigger={hovered} speed={25} />
-            <ArrowRight size={16} style={{ opacity: hovered ? 1 : 0, transform: hovered ? 'translateX(0)' : 'translateX(-6px)', transition: 'opacity 0.3s ease 0.1s, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s' }} />
+            <span className={styles.readMoreLift}>
+              <TextScramble text="READ FULL ARTICLE" trigger={hovered} speed={25} />
+              <ArrowRight size={16} style={{ opacity: hovered ? 1 : 0, transform: hovered ? 'translateX(0)' : 'translateX(-6px)', transition: 'opacity 0.3s ease 0.1s, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s' }} />
+            </span>
           </a>
         </div>
       </div>

@@ -33,6 +33,13 @@
 .missionStat {
   padding: 1.5rem;
   text-align: center;
+  border-radius: var(--radius-lg);
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  transition: border-color 0.25s ease;
+}
+.missionStat:hover {
+  border-color: var(--border-color-hover);
 }
 .missionStatValue {
   display: block;
@@ -121,7 +128,6 @@
   border-radius: 50%;
   background: var(--accent-primary);
   flex-shrink: 0;
-  box-shadow: 0 0 10px var(--accent-glow);
 }
 .timelineContent {
   padding: 1.25rem 1.5rem;

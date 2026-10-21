@@ -82,7 +82,7 @@ function UnsubscribeContent() {
               href="/"
               style={{
                 display: 'inline-block', padding: '12px 28px',
-                background: 'linear-gradient(135deg, #1a6b7a, #00b4d8)',
+                background: 'var(--accent-primary)',
                 color: '#fff', textDecoration: 'none', borderRadius: '999px',
                 fontWeight: 600, fontSize: '14px',
               }}

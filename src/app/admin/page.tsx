@@ -431,7 +431,7 @@ export default function AdminPage() {
                       style={{
                         marginTop: '16px',
                         padding: '10px 24px',
-                        background: 'linear-gradient(135deg, #6366f1, #06b6d4)',
+                        background: 'var(--accent-primary)',
                         color: '#fff',
                         border: 'none',
                         borderRadius: '8px',

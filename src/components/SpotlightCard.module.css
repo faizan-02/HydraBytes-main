@@ -3,37 +3,15 @@
   border-radius: var(--radius-lg);
   background: var(--bg-card);
   border: 1px solid var(--border-color);
-  transition: transform 0.15s ease, border-color 0.25s ease, box-shadow 0.25s ease;
-  will-change: transform;
+  transition: border-color 0.25s ease;
   height: 100%;
 }
 
 .spotlightCard:hover {
   border-color: var(--border-color-hover);
-  box-shadow: 0 0 30px rgba(0, 229, 255, 0.08), var(--shadow-glow);
-}
-
-.spotlightOverlay {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.4s ease;
-  background: radial-gradient(
-    600px circle at var(--spotlight-x, 50%) var(--spotlight-y, 50%),
-    var(--spotlight-color, rgba(0, 180, 216, 0.15)),
-    transparent 40%
-  );
-  z-index: 1;
-  border-radius: inherit;
-}
-
-.spotlightCard:hover .spotlightOverlay {
-  opacity: 1;
 }
 
 .spotlightContent {
   position: relative;
-  z-index: 2;
   height: 100%;
 }

@@ -30,6 +30,32 @@
 .featuredTitle { font-size: 1.8rem; font-weight: 800; margin-bottom: 0.75rem; }
 .featuredExcerpt { font-size: 1.05rem; color: var(--text-secondary); line-height: 1.7; max-width: 700px; margin-bottom: 1.5rem; }
 .readMore { font-size: 0.82rem; font-weight: 600; color: var(--accent-primary); letter-spacing: 0.04em; min-height: 1.5em; }
+/* Hovering the link itself lifts it like the gallery and portfolio View Details */
+.readMoreLift {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  transform-origin: left center;
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), text-shadow 0.4s ease;
+}
+.readMoreLift svg {
+  transition: translate 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.readMore:hover .readMoreLift,
+.readMore:focus-visible .readMoreLift {
+  transform: translateY(-4px) scale(1.06);
+  text-shadow: 0 6px 16px color-mix(in srgb, currentColor 30%, transparent);
+}
+.readMore:hover .readMoreLift svg,
+.readMore:focus-visible .readMoreLift svg {
+  translate: 3px 0;
+}
+@media (prefers-reduced-motion: reduce) {
+  .readMore:hover .readMoreLift,
+  .readMore:focus-visible .readMoreLift {
+    transform: none;
+  }
+}
 
 .postsGrid {
   display: grid;

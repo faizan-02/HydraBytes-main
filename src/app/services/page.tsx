@@ -3,12 +3,18 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { Globe, Smartphone, Brain, Check, ArrowRight, Rocket, Layers, Headphones, ShieldCheck } from 'lucide-react';
+import { Globe, Smartphone, Brain, Check, ArrowRight } from 'lucide-react';
 import AnimatedSection from '@/components/AnimatedSection';
 import SpotlightCard from '@/components/SpotlightCard';
 import MagneticButton from '@/components/MagneticButton';
-import OrbitingSkills from '@/components/ui/orbiting-skills';
-import { GlowingEffect } from '@/components/ui/grid-glow-effect-purple-blue';
+import { IconCloud } from '@/components/ui/interactive-icon-cloud';
+import {
+  siTypescript, siJavascript, siReact, siNextdotjs, siNodedotjs, siExpress, siPython,
+  siTensorflow, siPytorch, siFastapi, siFlask, siPostgresql, siMongodb, siSupabase,
+  siFirebase, siPrisma, siDocker, siKubernetes, siVercel, siGooglecloud, siTailwindcss,
+  siFigma, siGit, siGithub, siFlutter, siKotlin, siSwift, siLangchain, siRedis,
+  siGraphql, siStripe, siOpencv, siScikitlearn,
+} from 'simple-icons';
 import { GlassIcon, type GlassIconColor } from '@/components/ui/GlassIcons';
 import styles from './services.module.css';
 
@@ -25,11 +31,30 @@ const services: Array<{
   tech: string[];
 }> = [
   {
+    id: 'ai',
+    icon: Brain,
+    color: '#f472b6',
+    glassColor: 'pink',
+    image: '/services/service-ai.jpg',
+    title: 'AI & ML Solutions',
+    subtitle: 'Intelligent systems that learn and adapt',
+    desc: 'Harness the power of artificial intelligence and machine learning to automate processes, gain insights from data, and create intelligent products that evolve with your business.',
+    features: [
+      'Custom ML Model Development',
+      'Natural Language Processing',
+      'Computer Vision Solutions',
+      'Predictive Analytics',
+      'Chatbot & Virtual Assistants',
+      'Data Pipeline Engineering',
+    ],
+    tech: ['Python', 'TensorFlow', 'PyTorch', 'OpenAI', 'LangChain', 'Docker'],
+  },
+  {
     id: 'web',
     icon: Globe,
     color: '#0891b2',
     glassColor: 'purple',
-    image: 'https://images.unsplash.com/photo-1587620962725-abab7fe55159?auto=format&fit=crop&w=1200&q=90',
+    image: '/services/service-web.jpg',
     title: 'Web Development',
     subtitle: 'Custom websites that convert visitors into customers',
     desc: 'We build blazing-fast, SEO-optimized websites and web applications using the latest technologies. From marketing pages to complex SaaS platforms, we deliver solutions that drive real business results.',
@@ -48,7 +73,7 @@ const services: Array<{
     icon: Smartphone,
     color: '#00e5ff',
     glassColor: 'blue',
-    image: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=1200&q=90',
+    image: '/services/service-app.jpg',
     title: 'App Development',
     subtitle: 'Mobile experiences that users love',
     desc: 'We create native and cross-platform mobile applications that deliver seamless, intuitive experiences. Our apps are built for performance, scalability, and user engagement.',
@@ -62,25 +87,22 @@ const services: Array<{
     ],
     tech: ['React Native', 'Swift', 'Kotlin', 'Firebase', 'GraphQL', 'Redis'],
   },
-  {
-    id: 'ai',
-    icon: Brain,
-    color: '#f472b6',
-    glassColor: 'pink',
-    image: 'https://images.unsplash.com/photo-1488229297570-58520851e868?auto=format&fit=crop&w=1200&q=90',
-    title: 'AI & ML Solutions',
-    subtitle: 'Intelligent systems that learn and adapt',
-    desc: 'Harness the power of artificial intelligence and machine learning to automate processes, gain insights from data, and create intelligent products that evolve with your business.',
-    features: [
-      'Custom ML Model Development',
-      'Natural Language Processing',
-      'Computer Vision Solutions',
-      'Predictive Analytics',
-      'Chatbot & Virtual Assistants',
-      'Data Pipeline Engineering',
-    ],
-    tech: ['Python', 'TensorFlow', 'PyTorch', 'OpenAI', 'LangChain', 'Docker'],
-  },
+];
+
+// The stack we actually build with, shown in the hero's icon cloud
+const stackIcons = [
+  siTypescript, siJavascript, siReact, siNextdotjs, siNodedotjs, siExpress, siPython,
+  siTensorflow, siPytorch, siFastapi, siFlask, siPostgresql, siMongodb, siSupabase,
+  siFirebase, siPrisma, siDocker, siKubernetes, siVercel, siGooglecloud, siTailwindcss,
+  siFigma, siGit, siGithub, siFlutter, siKotlin, siSwift, siLangchain, siRedis,
+  siGraphql, siStripe, siOpencv, siScikitlearn,
+];
+
+const facts = [
+  { value: '10+', label: 'Projects delivered' },
+  { value: 'Full-stack', label: 'End-to-end solutions' },
+  { value: '24/7', label: 'Support available' },
+  { value: 'NDA', label: 'Protected process' },
 ];
 
 const process = [
@@ -126,104 +148,38 @@ export default function ServicesPage() {
             </p>
           </AnimatedSection>
 
-          <div className={styles.orbitSection}>
-            <div className={styles.orbitFloaters}>
-              <motion.div
-                className={styles.floaterCard}
-                initial={{ opacity: 0, x: -30 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6, delay: 0.4 }}
-                style={{ top: '10%' }}
-              >
-                <motion.div
-                  animate={{ y: [0, -6, 0] }}
-                  transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
-                  className={styles.floaterInner}
-                >
-                  <GlowingEffect spread={40} glow disabled={false} proximity={300} inactiveZone={0.01} borderWidth={1.5} variant="blue-purple" blur={0} movementDuration={1.5} />
-                  <div className={styles.floaterIcon}>
-                    <GlassIcon icon={<Rocket size={16} strokeWidth={1.8} />} color="purple" size={36} />
-                  </div>
-                  <div>
-                    <span className={styles.floaterValue}>10+</span>
-                    <span className={styles.floaterLabel}>Projects Delivered</span>
-                  </div>
-                </motion.div>
-              </motion.div>
+          <div className={styles.stackSection}>
+            <motion.ul
+              className={styles.factsCol}
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+            >
+              {facts.slice(0, 2).map((fact) => (
+                <li key={fact.label} className={styles.fact}>
+                  <span className={styles.factValue}>{fact.value}</span>
+                  <span className={styles.factLabel}>{fact.label}</span>
+                </li>
+              ))}
+            </motion.ul>
 
-              <motion.div
-                className={styles.floaterCard}
-                initial={{ opacity: 0, x: -30 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6, delay: 0.7 }}
-                style={{ bottom: '15%' }}
-              >
-                <motion.div
-                  animate={{ y: [0, -8, 0] }}
-                  transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
-                  className={styles.floaterInner}
-                >
-                  <GlowingEffect spread={40} glow disabled={false} proximity={300} inactiveZone={0.01} borderWidth={1.5} variant="blue-purple" blur={0} movementDuration={1.5} />
-                  <div className={styles.floaterIcon}>
-                    <GlassIcon icon={<Layers size={16} strokeWidth={1.8} />} color="blue" size={36} />
-                  </div>
-                  <div>
-                    <span className={styles.floaterValue}>Full-Stack</span>
-                    <span className={styles.floaterLabel}>End-to-End Solutions</span>
-                  </div>
-                </motion.div>
-              </motion.div>
+            <div className={styles.cloudWrap}>
+              <IconCloud icons={stackIcons} id="services-stack-cloud" />
             </div>
 
-            <OrbitingSkills />
-
-            <div className={styles.orbitFloaters} style={{ alignItems: 'flex-end' }}>
-              <motion.div
-                className={styles.floaterCard}
-                initial={{ opacity: 0, x: 30 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6, delay: 0.5 }}
-                style={{ top: '12%' }}
-              >
-                <motion.div
-                  animate={{ y: [0, -7, 0] }}
-                  transition={{ duration: 5.5, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}
-                  className={styles.floaterInner}
-                >
-                  <GlowingEffect spread={40} glow disabled={false} proximity={300} inactiveZone={0.01} borderWidth={1.5} variant="blue-purple" blur={0} movementDuration={1.5} />
-                  <div className={styles.floaterIcon}>
-                    <GlassIcon icon={<Headphones size={16} strokeWidth={1.8} />} color="green" size={36} />
-                  </div>
-                  <div>
-                    <span className={styles.floaterValue}>24/7</span>
-                    <span className={styles.floaterLabel}>Support Available</span>
-                  </div>
-                </motion.div>
-              </motion.div>
-
-              <motion.div
-                className={styles.floaterCard}
-                initial={{ opacity: 0, x: 30 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6, delay: 0.8 }}
-                style={{ bottom: '18%' }}
-              >
-                <motion.div
-                  animate={{ y: [0, -6, 0] }}
-                  transition={{ duration: 6.5, repeat: Infinity, ease: 'easeInOut', delay: 1.5 }}
-                  className={styles.floaterInner}
-                >
-                  <GlowingEffect spread={40} glow disabled={false} proximity={300} inactiveZone={0.01} borderWidth={1.5} variant="blue-purple" blur={0} movementDuration={1.5} />
-                  <div className={styles.floaterIcon}>
-                    <GlassIcon icon={<ShieldCheck size={16} strokeWidth={1.8} />} color="pink" size={36} />
-                  </div>
-                  <div>
-                    <span className={styles.floaterValue}>NDA</span>
-                    <span className={styles.floaterLabel}>Protected Process</span>
-                  </div>
-                </motion.div>
-              </motion.div>
-            </div>
+            <motion.ul
+              className={`${styles.factsCol} ${styles.factsRight}`}
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.45 }}
+            >
+              {facts.slice(2).map((fact) => (
+                <li key={fact.label} className={styles.fact}>
+                  <span className={styles.factValue}>{fact.value}</span>
+                  <span className={styles.factLabel}>{fact.label}</span>
+                </li>
+              ))}
+            </motion.ul>
           </div>
         </div>
       </section>
@@ -255,15 +211,14 @@ export default function ServicesPage() {
 
               <AnimatedSection direction={i % 2 === 0 ? 'right' : 'left'} delay={0.15}>
                 <div className={styles.serviceDetails}>
-                  <div style={{ position: 'relative', width: '100%', height: '220px', borderRadius: '1rem', overflow: 'hidden', marginBottom: '1.5rem' }}>
+                  <div style={{ position: 'relative', width: '100%', aspectRatio: '16 / 7', borderRadius: '1rem', overflow: 'hidden', marginBottom: '1.5rem', border: '1px solid var(--border-color)' }}>
                     <Image
                       src={service.image}
-                      alt={service.title}
+                      alt={`${service.title} illustration`}
                       fill
-                      style={{ objectFit: 'cover', objectPosition: 'center center' }}
-                      sizes="(max-width: 768px) 100vw, 500px"
+                      style={{ objectFit: 'cover' }}
+                      sizes="(max-width: 768px) 100vw, 640px"
                     />
-                    <div style={{ position: 'absolute', inset: 0, background: `linear-gradient(135deg, ${service.color}30, transparent)` }} />
                   </div>
                   <SpotlightCard spotlightColor={`${service.color}20`} className={styles.featuresCard}>
                     <div className={styles.featuresCardInner}>

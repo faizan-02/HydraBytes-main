@@ -85,7 +85,7 @@ export default function CompleteProfilePage() {
       >
         {/* Header */}
         <div style={{ textAlign: 'center', marginBottom: '32px' }}>
-          <div style={{ width: 56, height: 56, borderRadius: '16px', background: 'linear-gradient(135deg, #6366f1, #06b6d4)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px' }}>
+          <div style={{ width: 56, height: 56, borderRadius: '16px', background: 'var(--accent-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px' }}>
             <Building2 size={24} color="#fff" />
           </div>
           <h1 style={{ fontSize: '22px', fontWeight: 700, margin: '0 0 8px' }}>One last step</h1>
@@ -157,7 +157,7 @@ export default function CompleteProfilePage() {
             <button
               type="submit"
               disabled={loading || !phone.trim() || !company.trim()}
-              style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', padding: '13px 24px', background: 'linear-gradient(135deg, #6366f1, #06b6d4)', color: '#fff', border: 'none', borderRadius: '12px', fontWeight: 700, fontSize: '15px', cursor: loading || !phone.trim() || !company.trim() ? 'not-allowed' : 'pointer', opacity: loading || !phone.trim() || !company.trim() ? 0.6 : 1, transition: 'opacity 0.2s' }}
+              style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', padding: '13px 24px', background: 'var(--accent-primary)', color: '#fff', border: 'none', borderRadius: '12px', fontWeight: 700, fontSize: '15px', cursor: loading || !phone.trim() || !company.trim() ? 'not-allowed' : 'pointer', opacity: loading || !phone.trim() || !company.trim() ? 0.6 : 1, transition: 'opacity 0.2s' }}
             >
               {loading ? 'Saving…' : <><span>Continue to Dashboard</span> <ArrowRight size={16} /></>}
             </button>

@@ -51,8 +51,8 @@
   --accent-primary: #0891b2;
   --accent-primary-hover: #06b6d4;
   --accent-secondary: #00b4d8;
-  --accent-gradient: linear-gradient(135deg, #1a6b7a 0%, #00b4d8 100%);
-  --accent-gradient-reverse: linear-gradient(135deg, #00b4d8 0%, #1a6b7a 100%);
+  --accent-gradient: var(--accent-primary); /* solid: no gradients site-wide */
+  --accent-gradient-reverse: var(--accent-primary);
   --accent-glow: rgba(0, 180, 216, 0.3);
   --accent-glow-cyan: rgba(0, 180, 216, 0.15);
 
@@ -62,7 +62,7 @@
   --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
   --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
   --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
-  --shadow-glow: 0 0 30px rgba(0, 180, 216, 0.15);
+  --shadow-glow: none; /* glow shadows removed site-wide */
   --shadow-gallery-card: rgba(0, 0, 0, 0.35);
 
   --nav-bg: rgba(10, 10, 18, 0.8);
@@ -84,8 +84,8 @@
   --accent-primary: #0e7490;
   --accent-primary-hover: #0891b2;
   --accent-secondary: #06b6d4;
-  --accent-gradient: linear-gradient(135deg, #1e3a8a 0%, #0891b2 100%);
-  --accent-gradient-reverse: linear-gradient(135deg, #0891b2 0%, #1e3a8a 100%);
+  --accent-gradient: var(--accent-primary); /* solid: no gradients site-wide */
+  --accent-gradient-reverse: var(--accent-primary);
   --accent-glow: rgba(14, 116, 144, 0.15);
   --accent-glow-cyan: rgba(14, 116, 144, 0.08);
 
@@ -95,7 +95,7 @@
   --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
   --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
   --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.12);
-  --shadow-glow: 0 0 30px rgba(14, 116, 144, 0.08);
+  --shadow-glow: none; /* glow shadows removed site-wide */
   --shadow-gallery-card: rgba(0, 0, 0, 0.08);
 
   --nav-bg: rgba(248, 248, 252, 0.85);
@@ -237,8 +237,6 @@ h1, h2, h3, h4, h5, h6 {
 
 .glass-card:hover {
   border-color: var(--border-color-hover);
-  box-shadow: var(--shadow-glow);
-  transform: translateY(-2px);
 }
 
 /* ====== BUTTONS ====== */
@@ -262,15 +260,13 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .btn-primary {
-  background: var(--accent-gradient);
+  background: var(--accent-primary);
   color: #ffffff;
-  box-shadow: 0 4px 15px var(--accent-glow);
 }
 
 .btn-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 25px var(--accent-glow);
-  filter: brightness(1.15);
+  filter: brightness(1.1);
 }
 
 .btn-secondary {

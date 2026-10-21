@@ -543,3 +543,8 @@
     padding: 3rem 1.5rem;
   }
 }
+
+/* Hero glow removed: no decorative gradients site-wide */
+.heroTealGlow {
+  display: none;
+}

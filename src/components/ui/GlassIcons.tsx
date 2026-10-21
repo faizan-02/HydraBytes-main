@@ -78,30 +78,40 @@ type GlassIconProps = {
   className?: string;
 };
 
+// Solid brand hues for the flat icon tile (the tilted gradient glass look was removed)
+const solidMapping: Record<string, string> = {
+  blue: 'hsl(215, 85%, 52%)',
+  purple: 'hsl(275, 75%, 55%)',
+  red: 'hsl(355, 80%, 52%)',
+  indigo: 'hsl(245, 70%, 58%)',
+  orange: 'hsl(35, 90%, 48%)',
+  green: 'hsl(140, 65%, 38%)',
+  cyan: 'hsl(190, 85%, 38%)',
+  pink: 'hsl(325, 75%, 52%)',
+};
+
 export const GlassIcon: React.FC<GlassIconProps> = ({
   icon,
   color,
   size = 44,
   className,
-}) => (
-  <span
-    className={`glass-icon ${className || ''}`}
-    style={
-      {
-        width: size,
-        height: size,
-        '--glass-radius': `${Math.round(size * 0.22)}px`,
-      } as React.CSSProperties
-    }
-  >
+}) => {
+  const solid = solidMapping[color] ?? color;
+  return (
     <span
-      className="glass-icon__back"
-      style={{ background: resolveBackground(color) }}
-    />
-    <span className="glass-icon__front">
+      className={`glass-icon ${className || ''}`}
+      style={
+        {
+          width: size,
+          height: size,
+          '--glass-radius': `${Math.round(size * 0.24)}px`,
+          '--glass-color': solid,
+        } as React.CSSProperties
+      }
+    >
       <span className="glass-icon__icon" aria-hidden="true">
         {icon}
       </span>
     </span>
-  </span>
-);
+  );
+};

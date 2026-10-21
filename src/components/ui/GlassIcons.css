@@ -115,42 +115,18 @@
 }
 
 /* ---------- Single-icon inline variant (no label, no grid) ---------- */
+/* Flat icon tile: soft tint of the icon's colour, no tilt, gradient, glass or glow */
 .glass-icon {
-  position: relative;
-  display: inline-block;
-  width: 44px;
-  height: 44px;
-  perspective: 200px;
-  transform-style: preserve-3d;
-  flex-shrink: 0;
-}
-
-.glass-icon__back,
-.glass-icon__front {
-  position: absolute;
-  inset: 0;
-  border-radius: var(--glass-radius, 10px);
-  transition: transform 0.35s cubic-bezier(0.83, 0, 0.17, 1);
-}
-
-.glass-icon__back {
-  box-shadow: 4px -4px 10px rgba(0, 0, 0, 0.22);
-  transform: rotate(15deg);
-  transform-origin: 100% 100%;
-  will-change: transform;
-}
-
-.glass-icon__front {
-  background-color: hsla(0, 0%, 100%, 0.15);
-  box-shadow: 0 0 0 1px hsla(0, 0%, 100%, 0.32) inset;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  transform-origin: 80% 50%;
-  color: #fff;
-  will-change: transform;
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  border-radius: var(--glass-radius, 10px);
+  color: var(--glass-color);
+  background: color-mix(in srgb, var(--glass-color) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--glass-color) 22%, transparent);
 }
 
 .glass-icon__icon {
@@ -164,24 +140,4 @@
 .glass-icon__icon svg {
   width: 100%;
   height: 100%;
-}
-
-/* Subtle hover lift when the parent card is hovered */
-.glass-icon:hover .glass-icon__back,
-*:hover > .glass-icon .glass-icon__back {
-  transform: rotate(22deg) translate3d(-3px, -3px, 4px);
-}
-
-.glass-icon:hover .glass-icon__front,
-*:hover > .glass-icon .glass-icon__front {
-  transform: translate3d(0, 0, 8px);
-}
-
-[data-theme='light'] .glass-icon__back {
-  box-shadow: 4px -4px 10px rgba(0, 0, 0, 0.14);
-}
-
-[data-theme='light'] .glass-icon__front {
-  background-color: hsla(0, 0%, 100%, 0.35);
-  box-shadow: 0 0 0 1px hsla(0, 0%, 100%, 0.55) inset;
 }

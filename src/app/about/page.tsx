@@ -40,6 +40,13 @@ const timeline = [
   { year: '2025', title: 'AI Division', desc: 'Launched our dedicated AI & ML division, helping clients automate processes and build intelligent products.' },
 ];
 
+const missionStats = [
+  { value: '3+', label: 'Years of Innovation' },
+  { value: '6', label: 'Core Team Members' },
+  { value: '5+', label: 'Countries Served' },
+  { value: '10+', label: 'Projects Completed' },
+];
+
 export default function AboutPage() {
   return (
     <>
@@ -81,40 +88,23 @@ export default function AboutPage() {
             </AnimatedSection>
             <AnimatedSection direction="right" delay={0.15}>
               <div style={{ position: 'relative', width: '100%', height: '220px', borderRadius: '1rem', overflow: 'hidden', marginBottom: '1.5rem' }}>
+                {/* 4K source served at the column's real width (it was upscaled from 500px before) */}
                 <Image
-                  src="https://images.unsplash.com/photo-1587620962725-abab7fe55159?auto=format&fit=crop&w=1200&q=90"
-                  alt="HydraBytes team collaborating"
+                  src="/about/team-at-work.jpg"
+                  alt="A small software team working together at a shared table"
                   fill
                   style={{ objectFit: 'cover' }}
-                  sizes="(max-width: 768px) 100vw, 500px"
+                  sizes="(max-width: 1024px) 100vw, 50vw"
                 />
-                <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(0,180,216,0.35), rgba(0,229,255,0.15))' }} />
               </div>
+              {/* Plain cards: no glow or cursor gradient, just a quiet border change on hover */}
               <div className={styles.missionStats}>
-                <SpotlightCard>
-                  <div className={styles.missionStat}>
-                    <span className={styles.missionStatValue}>3+</span>
-                    <span className={styles.missionStatLabel}>Years of Innovation</span>
+                {missionStats.map((stat) => (
+                  <div key={stat.label} className={styles.missionStat}>
+                    <span className={styles.missionStatValue}>{stat.value}</span>
+                    <span className={styles.missionStatLabel}>{stat.label}</span>
                   </div>
-                </SpotlightCard>
-                <SpotlightCard>
-                  <div className={styles.missionStat}>
-                    <span className={styles.missionStatValue}>6</span>
-                    <span className={styles.missionStatLabel}>Core Team Members</span>
-                  </div>
-                </SpotlightCard>
-                <SpotlightCard>
-                  <div className={styles.missionStat}>
-                    <span className={styles.missionStatValue}>5+</span>
-                    <span className={styles.missionStatLabel}>Countries Served</span>
-                  </div>
-                </SpotlightCard>
-                <SpotlightCard>
-                  <div className={styles.missionStat}>
-                    <span className={styles.missionStatValue}>10+</span>
-                    <span className={styles.missionStatLabel}>Projects Completed</span>
-                  </div>
-                </SpotlightCard>
+                ))}
               </div>
             </AnimatedSection>
           </div>
@@ -165,7 +155,7 @@ export default function AboutPage() {
               <AnimatedSection key={member.name} delay={i * 0.1}>
                 <SpotlightCard spotlightColor={`${member.color}20`}>
                   <div className={styles.teamCard}>
-                    <div className={styles.teamAvatar} style={{ background: `linear-gradient(135deg, ${member.color}, ${member.color}88)`, overflow: 'hidden', padding: 0 }}>
+                    <div className={styles.teamAvatar} style={{ background: member.color, overflow: 'hidden', padding: 0 }}>
                       {(member as typeof member & { image?: string }).image ? (
                         <Image src={(member as typeof member & { image?: string }).image!} alt={member.name} width={80} height={80} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                       ) : member.initials}
