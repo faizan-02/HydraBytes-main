@@ -4,7 +4,7 @@
 
 HydraBytes is a Pakistan-based IT agency website and client management platform. It serves as both a marketing site (services, portfolio, pricing, blog, contact) and a client portal (auth, dashboard, invoicing, project tracking). Live at **https://www.hydrabytes.tech**.
 
-Founded in 2024 by Faizan Jawad. The team includes co-founders Asad Ali Khan and Haris Munir (AI Lead), plus designers and developers. Team data lives in `src/app/about/page.tsx` (the `team` array).
+Founded in 2024. Asad Ali Khan is CEO & Founder; Faizan Jawad and Haris Munir are Directors & Co-Founders. The team also includes designers and developers. Team data lives in `src/app/about/page.tsx` (the `team` array).
 
 ## Tech Stack
 

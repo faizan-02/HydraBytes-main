@@ -672,6 +672,9 @@ export function CircularGallery({ items }: CircularGalleryProps) {
                 marginLeft: `${-cardW / 2}px`,
                 marginTop: `${-cardH / 2}px`,
                 willChange: 'transform, opacity',
+                // Hidden until the first layout pass positions it (avoids a stacked flash before
+                // hydration); updateCards sets the real opacity
+                opacity: 0,
                 cursor: 'pointer',
                 backfaceVisibility: 'visible',
               }}

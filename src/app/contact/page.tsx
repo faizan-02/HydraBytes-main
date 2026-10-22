@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, Suspense } from 'react';
+import { useState, useEffect, useCallback, Suspense } from 'react';
 import { useSession } from 'next-auth/react';
 import { useSearchParams } from 'next/navigation';
 import { Mail, Phone, MapPin, Clock } from 'lucide-react';
@@ -41,16 +41,28 @@ const contactInfo = [
   { icon: <Clock size={20} strokeWidth={1.5} />, label: 'Hours', value: 'Mon-Sat, 8AM-8PM PST', href: null },
 ];
 
+// Reads ?service= from the URL to pre-fill the form. Kept in its own Suspense boundary so only
+// this invisible piece waits for the browser; the rest of the page is in the initial HTML.
+function ServicePrefill({ onService }: { onService: (service: string) => void }) {
+  const service = useSearchParams().get('service');
+  useEffect(() => {
+    if (service) onService(service);
+  }, [service, onService]);
+  return null;
+}
+
 function ContactForm() {
   const { data: session } = useSession();
-  const searchParams = useSearchParams();
   const [formData, setFormData] = useState({
     name: session?.user?.name ?? '',
     email: session?.user?.email ?? '',
-    service: searchParams.get('service') ?? '',
+    service: '',
     budget: '',
     message: '',
   });
+  const prefillService = useCallback((service: string) => {
+    setFormData((prev) => (prev.service ? prev : { ...prev, service }));
+  }, []);
 
   // Pre-fill name/email once session loads
   useEffect(() => {
@@ -104,6 +116,9 @@ function ContactForm() {
 
   return (
     <>
+      <Suspense fallback={null}>
+        <ServicePrefill onService={prefillService} />
+      </Suspense>
       <section className={styles.hero} style={{ position: 'relative', overflow: 'hidden' }}>
         <FloatingParticles />
         <div className="container">
@@ -347,9 +362,5 @@ function ContactForm() {
 }
 
 export default function ContactPage() {
-  return (
-    <Suspense>
-      <ContactForm />
-    </Suspense>
-  );
+  return <ContactForm />;
 }

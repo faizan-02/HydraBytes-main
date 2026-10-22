@@ -82,7 +82,7 @@ const posts = [
     date: 'May 14, 2026',
     category: 'Design',
     readTime: '5 min read',
-    image: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=800&q=85',
+    image: 'https://images.unsplash.com/photo-1547658719-da2b51169166?auto=format&fit=crop&w=1200&q=85',
     url: 'https://dev.to/thehydrabytes/mobile-first-design-why-it-matters-more-than-ever-4flc',
   },
   {
@@ -91,7 +91,7 @@ const posts = [
     date: 'May 14, 2026',
     category: 'AI & ML',
     readTime: '7 min read',
-    image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=85',
+    image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=85',
     url: 'https://dev.to/thehydrabytes/machine-learning-for-business-a-practical-guide-26kj',
   },
 ];

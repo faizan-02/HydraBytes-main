@@ -8,6 +8,7 @@ import {
   FiLayers,
   FiClock,
   FiShield,
+  FiStar,
 } from 'react-icons/fi';
 import { GlassIcon } from './ui/GlassIcons';
 
@@ -41,6 +42,10 @@ export const TechStackIcon: React.FC<IconProps> = ({ size = 40 }) => (
 
 export const OnTimeIcon: React.FC<IconProps> = ({ size = 40 }) => (
   <GlassIcon icon={<FiClock />} color="indigo" size={size} />
+);
+
+export const RatingIcon: React.FC<IconProps> = ({ size = 40 }) => (
+  <GlassIcon icon={<FiStar />} color="indigo" size={size} />
 );
 
 export const SupportIcon: React.FC<IconProps> = ({ size = 40 }) => (

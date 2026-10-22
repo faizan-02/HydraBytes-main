@@ -12,9 +12,10 @@ import { GlassIcon, type GlassIconColor } from '@/components/ui/GlassIcons';
 import styles from './about.module.css';
 
 const team = [
-  { name: 'Faizan Jawad', role: 'CEO & Founder', initials: 'FJ', color: '#0891b2' },
-  { name: 'Asad Ali Khan', role: 'Co-Founder', initials: 'AA', color: '#00e5ff' },
-  { name: 'Haris Munir', role: 'Co-Founder & AI Lead', initials: 'HM', color: '#22c55e' },
+  { name: 'Asad Ali Khan', role: 'CEO & Founder', initials: 'AA', color: '#00e5ff' },
+  { name: 'Haris Munir', role: 'Director & Co-Founder', initials: 'HM', color: '#22c55e' },
+  { name: 'Faizan Jawad', role: 'Director & Co-Founder', initials: 'FJ', color: '#0891b2' },
+  { name: 'Atif Rafique', role: 'Senior Graphic Designer & WordPress Developer', initials: 'AR', color: '#a78bfa' },
   { name: 'Suhayb Saleem', role: 'Lead Designer', initials: 'SS', color: '#f472b6' },
   { name: 'Muhammad Usman', role: 'Mobile App Developer', initials: 'MU', color: '#f59e0b' },
   { name: 'Umair Khan', role: 'Web Developer', initials: 'UK', color: '#38bdf8' },
@@ -41,8 +42,8 @@ const timeline = [
 ];
 
 const missionStats = [
-  { value: '3+', label: 'Years of Innovation' },
-  { value: '6', label: 'Core Team Members' },
+  { value: '2024', label: 'Founded' },
+  { value: String(team.length), label: 'Core Team Members' },
   { value: '5+', label: 'Countries Served' },
   { value: '10+', label: 'Projects Completed' },
 ];

@@ -21,7 +21,7 @@ import { FaAws } from 'react-icons/fa';
 import LogoLoop from '@/components/ui/LogoLoop';
 import {
   WebDevIcon, MobileAppIcon, AIMLIcon, CloudDevOpsIcon,
-  ProjectsIcon, TechStackIcon, OnTimeIcon, SupportIcon,
+  ProjectsIcon, TechStackIcon, RatingIcon, SupportIcon,
 } from '@/components/ServiceIcons';
 import { GlassIcon } from '@/components/ui/GlassIcons';
 import styles from './page.module.css';
@@ -60,7 +60,7 @@ const serviceHighlights = [
 const heroStats = [
   { icon: ProjectsIcon, value: '10+', label: 'Projects Delivered' },
   { icon: TechStackIcon, value: '3+', label: 'Technologies Per Stack' },
-  { icon: OnTimeIcon, value: '100%', label: 'On-Time Delivery' },
+  { icon: RatingIcon, value: '5.0', label: 'Upwork Rating' },
   { icon: SupportIcon, value: '24/7', label: 'Support Available' },
 ];
 
@@ -347,13 +347,11 @@ function HeroWorkspace() {
 
 export default function HomePage() {
   const [galleryProjects, setGalleryProjects] = useState([...galleryFeatured, ...galleryRest].slice(0, 6));
-  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     // Pin the featured Upwork projects, shuffle the rest on the client to avoid hydration mismatches.
     const shuffledRest = [...galleryRest].sort(() => 0.5 - Math.random());
     setGalleryProjects([...galleryFeatured, ...shuffledRest].slice(0, 6));
-    setMounted(true);
   }, []);
 
   return (
@@ -510,13 +508,8 @@ export default function HomePage() {
             </div>
           </BlurFade>
 
-          {mounted ? (
-            <CircularGallery items={galleryProjects} />
-          ) : (
-            <div style={{ minHeight: '600px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <div className={styles.accentText}>Loading Projects...</div>
-            </div>
-          )}
+          {/* Rendered on the server too, so the project content is in the initial HTML */}
+          <CircularGallery items={galleryProjects} />
 
           <div style={{ textAlign: 'center', marginTop: '2.5rem' }}>
             <MagneticButton>
@@ -640,8 +633,8 @@ export default function HomePage() {
                 {[
                   { icon: <Shield size={13} strokeWidth={1.8} />, label: 'NDA Protected' },
                   { icon: <Clock size={13} strokeWidth={1.8} />, label: '24h Response' },
-                  { icon: <Star size={13} strokeWidth={1.8} />, label: '99% Satisfaction' },
-                  { icon: <Award size={13} strokeWidth={1.8} />, label: '5+ Years Experience' },
+                  { icon: <Star size={13} strokeWidth={1.8} />, label: '5.0 Upwork Rating' },
+                  { icon: <Award size={13} strokeWidth={1.8} />, label: 'Since 2024' },
                 ].map((b) => (
                   <div key={b.label} className={styles.ctaBadge}>
                     <span style={{ display: 'flex' }}>{b.icon}</span>
