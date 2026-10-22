@@ -168,10 +168,10 @@
   inset: 0;
 }
 
-/* Dark scene: the night room (sharp, no blur, no extensions) fills the hero top to bottom,
+/* Day and night scenes: the room (sharp, no blur, no extensions) fills the hero top to bottom,
    anchored right; our laptop is drawn at the same on-screen size as in light mode. A short top
    fade and a long eased left fade blend it into the page behind the copy. */
-.heroImgDark {
+.heroImgScene {
   inset: 0 0 0 auto;
   width: auto;
   height: 100%;
@@ -475,8 +475,8 @@
     mask-image: linear-gradient(to bottom, black 0%, black 88%, transparent 100%);
     -webkit-mask-image: linear-gradient(to bottom, black 0%, black 88%, transparent 100%);
   }
-  /* The dark scene is just the photo, so it simply fills the block */
-  .heroImgDark {
+  /* The scene images are the real photo, so they simply fill the block */
+  .heroImgScene {
     left: auto;
     top: auto;
     width: 100%;
