@@ -207,17 +207,19 @@ function FeaturedCard({ post }: { post: typeof featured }) {
     >
       <div className={styles.cardSurface}>
         <div className={styles.featuredPost}>
-          <div style={{ position: 'relative', width: '100%', height: '420px', overflow: 'hidden', borderRadius: '0.75rem', marginBottom: '1.75rem' }}>
+          {/* Shown whole at its natural shape (the cover has its title in it) and at about its own
+              resolution, so nothing is cropped or blurred by upscaling */}
+          <div className={styles.featuredMedia}>
             <Image
               src={post.image}
               alt={post.title}
               fill
-              style={{ objectFit: 'cover', objectPosition: 'center' }}
-              sizes="(max-width: 768px) 100vw, 900px"
+              style={{ objectFit: 'cover' }}
+              sizes="(max-width: 900px) 100vw, 640px"
               priority
             />
-            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(10,10,18,0.85) 0%, transparent 60%)' }} />
           </div>
+          <div className={styles.featuredBody}>
           <div className={styles.featuredMeta}>
             <span className={styles.featuredCategory}>{post.category}</span>
             <span className={styles.featuredDate}>{post.date} · {post.readTime}</span>
@@ -247,6 +249,7 @@ function FeaturedCard({ post }: { post: typeof featured }) {
               <ArrowRight size={16} style={{ opacity: hovered ? 1 : 0, transform: hovered ? 'translateX(0)' : 'translateX(-6px)', transition: 'opacity 0.3s ease 0.1s, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s' }} />
             </span>
           </a>
+          </div>
         </div>
       </div>
     </div>

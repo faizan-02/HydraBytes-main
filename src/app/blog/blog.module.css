@@ -2,18 +2,32 @@
 .heroTitle { font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 900; margin-bottom: 1rem; }
 .heroSubtitle { font-size: 1.1rem; color: var(--text-secondary); max-width: 550px; margin: 0 auto; line-height: 1.7; }
 
+/* Image on the left at the cover's own shape, text on the right; stacked on smaller screens */
 .featuredPost {
-  display: block;
-  padding: 3rem;
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  gap: 2.5rem;
+  align-items: center;
+  padding: 2rem;
   position: relative;
   overflow: hidden;
 }
-.featuredPost::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 3px;
-  background: var(--accent-gradient);
+.featuredMedia {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1024 / 572;
+  overflow: hidden;
+  border-radius: 0.75rem;
+}
+.featuredBody {
+  min-width: 0;
+}
+@media (max-width: 900px) {
+  .featuredPost {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    padding: 1.25rem;
+  }
 }
 .featuredMeta { display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem; }
 .featuredCategory {
