@@ -322,11 +322,11 @@ function HeroWorkspace() {
         <div className={styles.heroImgContainer}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/hero-scene-v3-dark.jpg"
+            src="/hero-scene-v14-dark.jpg"
             alt="HydraBytes workspace at night: laptop with code open and a HydraBytes mug"
-            className={`${styles.heroImg} ${styles.heroImgLayer}`}
+            className={`${styles.heroImg} ${styles.heroImgLayer} ${styles.heroImgDark}`}
             style={{ opacity: isDark ? 1 : 0 }}
-            width={2272}
+            width={2098}
             height={1181}
           />
           {/* eslint-disable-next-line @next/next/no-img-element */}
