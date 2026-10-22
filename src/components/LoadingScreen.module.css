@@ -41,23 +41,6 @@
   animation: logoPulse 2s ease-in-out infinite;
 }
 
-.logoSvg {
-  width: 100%;
-  height: auto;
-}
-
-.hexPath {
-  stroke-dasharray: 200;
-  stroke-dashoffset: 200;
-  animation: drawHex 1.8s ease-in-out forwards;
-}
-
-@keyframes drawHex {
-  to {
-    stroke-dashoffset: 0;
-  }
-}
-
 @keyframes logoPulse {
   0%, 100% {
     transform: scale(1);

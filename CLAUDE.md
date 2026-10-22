@@ -81,7 +81,6 @@ src/
     layout.tsx              # Root layout (fonts, metadata, JsonLd, FOUC-prevention script)
     ClientLayout.tsx        # Client-side providers (Session, Theme, Navbar, Footer, WhatsApp FAB)
     globals.css             # CSS custom properties, resets, utility classes
-    loading.tsx             # Route-level loading screen (hexagon logo + progress bar)
     error.tsx               # Global error boundary
     not-found.tsx           # Custom 404 page
     robots.ts               # robots.txt generation (disallows /api, /admin, /dashboard, /payment)
