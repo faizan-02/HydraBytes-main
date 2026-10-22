@@ -1,15 +1,18 @@
 /* ===== HERO ===== */
 .hero {
   position: relative;
-  min-height: calc(100vh - 80px);
+  /* Fills the screen, but capped on very tall screens so the workspace scene never has to be
+     enlarged to fill the hero height */
+  min-height: min(calc(100vh - 80px), 44vw);
   display: flex;
   align-items: center;
-  padding: 2rem 0 4rem;
+  padding: 2rem 0 2.5rem;
   overflow: hidden;
 }
 
 .heroContainer {
   display: grid;
+  /* Copy stays in the left column, clear of the workspace scene behind the right side */
   grid-template-columns: 1fr 1.15fr;
   gap: 3rem;
   align-items: center;
@@ -31,7 +34,7 @@
 }
 
 .heroTitle {
-  font-size: clamp(2.2rem, 4.5vw, 3.5rem);
+  font-size: clamp(2.1rem, 3.6vw, 3rem);
   font-weight: 800;
   line-height: 1.1;
   margin-bottom: 1.5rem;
@@ -54,54 +57,72 @@
   display: flex;
   gap: 1rem;
   align-items: center;
-  margin-bottom: 3rem;
+  margin-bottom: 2.25rem;
 }
 
-/* ===== TRUSTED BY ===== */
-.trustedBy {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-}
-
-.trustedLabel {
-  font-size: 0.75rem;
-  color: var(--text-tertiary);
-}
-
-.trustedLogos {
-  display: flex;
-  gap: 1.75rem;
-  align-items: center;
-  flex-wrap: wrap;
-}
-
-.trustedLogo {
+/* ===== HERO PROOF POINTS =====
+   One row of large outline icons with two-line labels and thin dividers, sized to stay inside
+   the copy column (clear of the workspace scene) */
+.heroProof {
   display: flex;
   align-items: center;
-  gap: 0.4rem;
-  font-size: 0.82rem;
-  font-weight: 600;
-  color: var(--text-tertiary);
-  opacity: 0.6;
-  transition: opacity var(--transition-fast);
+  list-style: none;
 }
-
-.trustedLogo:hover {
-  opacity: 0.9;
+.heroProofItem {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0 0.95rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+  line-height: 1.4;
+  white-space: nowrap;
+  color: var(--text-secondary);
+}
+.heroProofItem:first-child {
+  padding-left: 0;
+}
+.heroProofItem:last-child {
+  padding-right: 0;
+}
+.heroProofItem + .heroProofItem {
+  border-left: 1px solid var(--border-color);
+}
+.heroProofIcon {
+  flex-shrink: 0;
+  color: var(--text-primary);
+}
+.heroProofStar {
+  flex-shrink: 0;
+  color: #fbbf24;
+  fill: #fbbf24;
+}
+@media (max-width: 768px) {
+  .heroProof {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem 1rem;
+  }
+  .heroProofItem,
+  .heroProofItem + .heroProofItem {
+    padding: 0;
+    border-left: none;
+  }
 }
 
 /* ===== HERO WORKSPACE =====
-   Desktop: the workspace scene sits behind the right of the hero,
-   shown at its natural framing (not cropped in) so the desk keeps its breathing room, with every
-   edge faded into the page so the headline sits on clean background. Light/dark scenes cross-fade with the theme. */
+   Desktop: the workspace scene sits behind the right of the hero at its natural framing,
+   anchored to the bottom so the desk runs to the section edge, and fades out gradually toward the copy column on the left (the copy
+   never runs into it). Light/dark scenes cross-fade with the theme. */
 .heroImageWrap {
   position: absolute;
-  top: 50%;
+  top: 0;
   right: 0;
-  width: 58vw;
-  aspect-ratio: 1672 / 941;
-  transform: translateY(-50%);
+  bottom: 0;
+  /* Sized by the hero height so the laptop keeps its size; the scene's soft left extension
+     runs on behind the copy, where the fade keeps it faint */
+  height: 100%;
+  aspect-ratio: 2272 / 1181;
   z-index: 0;
   pointer-events: none;
 }
@@ -118,27 +139,35 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  /* The scene images extend the room upward (soft, out of focus) so they can fill the full
+     hero height; anchoring to the bottom keeps the desk and laptop at their natural size */
+  object-position: right bottom;
 }
 
 .heroImgLayer {
   position: absolute;
   inset: 0;
   transition: opacity 0.6s cubic-bezier(0.25, 0.4, 0.25, 1);
-  /* Edge fades (masks only, nothing painted): left into the copy, bottom into the next section */
+  /* Masks only, nothing painted. A long, eased fade from the left keeps the room faint behind
+     the copy and solid from the mug onward; an ellipse anchored at the bottom right tilts it, so
+     the upper left (behind the headline) fades out first. Top and bottom edges fade softly. */
   mask-image:
-    linear-gradient(to right, transparent 0%, black 30%, black 92%, transparent 100%),
-    linear-gradient(to bottom, transparent 0%, black 16%, black 80%, transparent 100%);
+    radial-gradient(ellipse 80% 150% at 100% 100%, black 65%, transparent 110%),
+    linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 0.1) 14%, rgba(0, 0, 0, 0.25) 26%, rgba(0, 0, 0, 0.6) 34%, black 42%),
+    linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.5) 14%, black 32%, black 90%, transparent 100%);
   mask-composite: intersect;
   -webkit-mask-image:
-    linear-gradient(to right, transparent 0%, black 30%, black 92%, transparent 100%),
-    linear-gradient(to bottom, transparent 0%, black 16%, black 80%, transparent 100%);
-  -webkit-mask-composite: source-in;
+    radial-gradient(ellipse 80% 150% at 100% 100%, black 65%, transparent 110%),
+    linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 0.1) 14%, rgba(0, 0, 0, 0.25) 26%, rgba(0, 0, 0, 0.6) 34%, black 42%),
+    linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.5) 14%, black 32%, black 90%, transparent 100%);
+  -webkit-mask-composite: source-in, source-in;
 }
 
 .heroImgLayerAbs {
   position: absolute;
   inset: 0;
 }
+
 
 .heroTealGlow {
   position: absolute;
@@ -409,12 +438,22 @@
     width: 100%;
     max-width: 680px;
     margin: 0 auto;
+    height: auto;
     aspect-ratio: 16 / 9;
     transform: none;
   }
+  .heroImg {
+    object-position: right bottom;
+  }
   .heroImgLayer {
-    mask-image: linear-gradient(to bottom, black 0%, black 85%, transparent 100%);
-    -webkit-mask-image: linear-gradient(to bottom, black 0%, black 85%, transparent 100%);
+    mask-image:
+      linear-gradient(to right, transparent 0%, black 35%),
+      linear-gradient(to bottom, black 0%, black 85%, transparent 100%);
+    mask-composite: intersect;
+    -webkit-mask-image:
+      linear-gradient(to right, transparent 0%, black 35%),
+      linear-gradient(to bottom, black 0%, black 85%, transparent 100%);
+    -webkit-mask-composite: source-in;
   }
   .advantagesGrid,
   .testimonialsGrid {
@@ -487,12 +526,6 @@
   }
   .heroTealGlow {
     display: none;
-  }
-  .trustedBy {
-    align-items: flex-start;
-  }
-  .trustedLogos {
-    justify-content: flex-start;
   }
   .servicesStrip {
     padding: 2.5rem 0;

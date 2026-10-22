@@ -69,13 +69,13 @@
 }
 /* Hover: the card lifts with a soft neutral shadow (no glow, no gradient) */
 .projectLink:hover .projectCard,
-.projectLink:focus-visible .projectCard {
+.projectLink:focus-within .projectCard {
   transform: translateY(-6px);
   border-color: var(--border-color-hover);
   box-shadow: 0 22px 40px -18px rgba(15, 23, 42, 0.28);
 }
 [data-theme='dark'] .projectLink:hover .projectCard,
-[data-theme='dark'] .projectLink:focus-visible .projectCard {
+[data-theme='dark'] .projectLink:focus-within .projectCard {
   box-shadow: 0 22px 40px -18px rgba(0, 0, 0, 0.7);
 }
 
@@ -99,7 +99,7 @@
     transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .projectLink:hover .projectImg,
-.projectLink:focus-visible .projectImg {
+.projectLink:focus-within .projectImg {
   opacity: 1;
   filter: saturate(1);
   transform: scale(1.05);
@@ -112,9 +112,9 @@
 }
 @media (prefers-reduced-motion: reduce) {
   .projectLink:hover .projectCard,
-  .projectLink:focus-visible .projectCard,
+  .projectLink:focus-within .projectCard,
   .projectLink:hover .projectImg,
-  .projectLink:focus-visible .projectImg {
+  .projectLink:focus-within .projectImg {
     transform: none;
   }
 }

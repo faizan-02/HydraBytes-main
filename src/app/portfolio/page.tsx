@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
-import Link from 'next/link';
 import {
   Code, Monitor, Smartphone, Server, Cloud, Cpu, Star,
 } from 'lucide-react';
@@ -63,8 +62,7 @@ const MAX_CARD_TAGS = 4;
 function ProjectCard({ project }: { project: Project }) {
   const [hovered, setHovered] = useState(false);
   return (
-    <Link
-      href={`/portfolio/${project.slug}`}
+    <div
       className={styles.projectLink}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
@@ -123,12 +121,17 @@ function ProjectCard({ project }: { project: Project }) {
               </span>
             )}
           </div>
-          {/* Same animated View Details as the home gallery; the whole card is the link */}
+          {/* Same animated View Details as the home gallery; only this button opens the project */}
           <div className={styles.projectFooter}>
-            <InteractiveHoverButton as="span" text="VIEW DETAILS" revealed={hovered} />
+            <InteractiveHoverButton
+              href={`/portfolio/${project.slug}`}
+              text="VIEW DETAILS"
+              aria-label={`View details: ${project.title}`}
+              revealed={hovered}
+            />
           </div>
       </div>
-    </Link>
+    </div>
   );
 }
 

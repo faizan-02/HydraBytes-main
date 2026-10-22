@@ -8,7 +8,7 @@ import { useTheme } from '@/lib/ThemeContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sun, Moon, LayoutDashboard, LogOut, ChevronDown, ShieldCheck, Settings } from 'lucide-react';
 import styles from './Navbar.module.css';
-import LogoNetworkAnimation from './LogoNetworkAnimation';
+import LogoPulse from './LogoPulse';
 
 const navLinks = [
   { href: '/', label: 'Home' },
@@ -33,6 +33,14 @@ export default function Navbar() {
   const mobileMenuRef = useRef<HTMLDivElement>(null);
   const hamburgerRef = useRef<HTMLButtonElement>(null);
   const [cursorPos, setCursorPos] = useState({ left: 0, width: 0, opacity: 0 });
+  // Logo branch pulse: 0 until it first plays; bumping the key remounts it, which replays it
+  const [pulseKey, setPulseKey] = useState(0);
+
+  useEffect(() => {
+    // Play once after the navbar has slid in
+    const t = setTimeout(() => setPulseKey((k) => k + 1), 700);
+    return () => clearTimeout(t);
+  }, []);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -131,11 +139,17 @@ export default function Navbar() {
       transition={{ duration: 0.5, ease: 'easeOut' }}
     >
       <div className={`container ${styles.navContainer}`}>
-        <Link href="/" className={styles.logo} onClick={handleLogoClick} style={{ position: 'relative' }}>
-          <LogoNetworkAnimation />
+        <Link
+          href="/"
+          className={styles.logo}
+          onClick={handleLogoClick}
+          onMouseEnter={() => setPulseKey((k) => k + 1)}
+          style={{ position: 'relative' }}
+        >
           <div style={{ width: '180px', height: '86px', overflow: 'hidden', position: 'relative', flexShrink: 0 }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/transparent.png" alt="HydraBytes" width={226} height={196} style={{ position: 'absolute', width: '226px', top: '-55px', left: '-22px' }} />
+            {pulseKey > 0 && <LogoPulse key={pulseKey} style={{ top: '-55px', left: '-22px' }} />}
           </div>
         </Link>
 

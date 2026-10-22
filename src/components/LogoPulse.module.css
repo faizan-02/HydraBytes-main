@@ -1,0 +1,49 @@
+/* Overlay on the navbar logo: a short, bright segment travels each branch, then the hexagon
+   at its end brightens and fades. Everything starts invisible and ends invisible. */
+.pulse {
+  position: absolute;
+  /* Sized exactly like the logo image it sits on (226px wide, capped to its container) */
+  width: 226px;
+  max-width: 100%;
+  height: auto;
+  pointer-events: none;
+  overflow: visible;
+}
+
+.trail {
+  stroke: #b8f6ff;
+  stroke-width: 9;
+  stroke-linecap: round;
+  stroke-dasharray: 34 200;
+  stroke-dashoffset: 34;
+  opacity: 0;
+  filter: drop-shadow(0 0 6px rgba(34, 211, 238, 0.55));
+  animation-name: logo-trail;
+  animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1);
+  animation-fill-mode: both;
+}
+
+.node {
+  fill: #c9f8ff;
+  opacity: 0;
+  mix-blend-mode: screen;
+  animation: logo-node 0.5s ease-out both;
+}
+
+@keyframes logo-trail {
+  0% { stroke-dashoffset: 34; opacity: 1; }
+  85% { opacity: 1; }
+  100% { stroke-dashoffset: -100; opacity: 0; }
+}
+
+@keyframes logo-node {
+  0% { opacity: 0; }
+  20% { opacity: 0.6; }
+  100% { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pulse {
+    display: none;
+  }
+}

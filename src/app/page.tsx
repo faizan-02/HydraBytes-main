@@ -4,8 +4,8 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import {
-  ArrowRight, Users, Zap, Shield, TrendingUp, RefreshCw, Palette,
-  Bot, Clock, Star, Award,
+  ArrowRight, Zap, Shield, TrendingUp, RefreshCw, Palette,
+  Bot, Clock, Star, Award, Headphones,
 } from 'lucide-react';
 import AnimatedSection from '@/components/AnimatedSection';
 import SpotlightCard from '@/components/SpotlightCard';
@@ -26,10 +26,12 @@ import {
 import { GlassIcon } from '@/components/ui/GlassIcons';
 import styles from './page.module.css';
 
+// Hero proof points, one row with two-line labels
 const proofPoints = [
-  { label: '5.0 on Upwork', Icon: Star, highlight: true },
-  { label: '10+ Projects Delivered', Icon: Award, highlight: false },
-  { label: 'Direct & Upwork Clients', Icon: Users, highlight: false },
+  { lines: ['5.0 Rating', 'on Upwork'], Icon: Star, highlight: true },
+  { lines: ['10+ Projects', 'Delivered'], Icon: Award, highlight: false },
+  { lines: ['On-Time', 'Delivery'], Icon: Clock, highlight: false },
+  { lines: ['Dedicated', 'Support'], Icon: Headphones, highlight: false },
 ];
 
 const serviceHighlights = [
@@ -320,21 +322,21 @@ function HeroWorkspace() {
         <div className={styles.heroImgContainer}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/hero-desk-dark.jpg"
+            src="/hero-scene-v3-dark.jpg"
             alt="HydraBytes workspace at night: laptop with code open and a HydraBytes mug"
             className={`${styles.heroImg} ${styles.heroImgLayer}`}
             style={{ opacity: isDark ? 1 : 0 }}
-            width={1672}
-            height={941}
+            width={2272}
+            height={1181}
           />
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/hero-desk-light.jpg"
+            src="/hero-scene-v3-light.jpg"
             alt="HydraBytes workspace by day: laptop with code open and a HydraBytes mug"
             className={`${styles.heroImg} ${styles.heroImgLayer} ${styles.heroImgLayerAbs}`}
             style={{ opacity: isDark ? 0 : 1 }}
-            width={1672}
-            height={941}
+            width={2272}
+            height={1181}
           />
         </div>
       </motion.div>
@@ -361,7 +363,7 @@ export default function HomePage() {
         <div className={`container ${styles.heroContainer}`}>
           <div className={styles.heroContent}>
             <AnimatedSection>
-              <span className={styles.heroLabel}>NEXT-GEN DIGITAL SOLUTIONS</span>
+              <span className={styles.heroLabel}>AI SOLUTIONS · WEB DEVELOPMENT · MOBILE APPS</span>
             </AnimatedSection>
 
             <motion.h1
@@ -370,7 +372,7 @@ export default function HomePage() {
               animate="visible"
               variants={{ visible: { transition: { staggerChildren: 0.08, delayChildren: 0.15 } } }}
             >
-              {['We', 'Build', 'Digital'].map((word) => (
+              {['We', 'Turn', 'Complex', 'Ideas', 'Into', 'Software', 'That', 'Works.'].map((word, i) => (
                 <motion.span
                   key={word}
                   variants={{
@@ -379,42 +381,15 @@ export default function HomePage() {
                   }}
                   style={{ display: 'inline-block', marginRight: '0.25em' }}
                 >
-                  {word}
-                </motion.span>
-              ))}
-              <br />
-              {['Experiences', 'That'].map((word, i) => (
-                <motion.span
-                  key={word}
-                  variants={{
-                    hidden: { opacity: 0, y: 24 },
-                    visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: [0.25, 0.4, 0.25, 1] } },
-                  }}
-                  style={{ display: 'inline-block', marginRight: '0.25em' }}
-                >
-                  {i === 0 ? <span className={styles.accentText}>{word}</span> : word}
-                </motion.span>
-              ))}
-              <br />
-              {['Drive', 'Growth'].map((word) => (
-                <motion.span
-                  key={word}
-                  variants={{
-                    hidden: { opacity: 0, y: 24 },
-                    visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: [0.25, 0.4, 0.25, 1] } },
-                  }}
-                  style={{ display: 'inline-block', marginRight: '0.25em' }}
-                >
-                  {word}
+                  {i >= 5 ? <span className={styles.accentText}>{word}</span> : word}
                 </motion.span>
               ))}
             </motion.h1>
 
             <AnimatedSection delay={0.2}>
               <p className={styles.heroSubtitle}>
-                HydraBytes is a cutting-edge IT startup specializing in web development,
-                mobile apps, and AI-driven solutions. We turn complex challenges into
-                elegant, scalable products.
+                Custom AI solutions, web platforms, and mobile applications built to
+                solve real business problems.
               </p>
             </AnimatedSection>
 
@@ -422,36 +397,37 @@ export default function HomePage() {
               <div className={styles.heroCtas}>
                 <MagneticButton>
                   <Link href="/contact" className="btn btn-primary">
-                    Get Started
+                    Discuss Your Project
                     <ArrowRight size={18} />
                   </Link>
                 </MagneticButton>
                 <Link href="/portfolio" className="btn btn-secondary">
-                  View Our Work
+                  Explore Our Work
                   <ArrowRight size={16} />
                 </Link>
               </div>
             </AnimatedSection>
 
             <AnimatedSection delay={0.4}>
-              <div className={styles.trustedBy}>
-                <div className={styles.trustedLogos}>
-                  {proofPoints.map(({ label, Icon, highlight }) => (
-                    <span
-                      key={label}
-                      className={styles.trustedLogo}
-                      style={{ opacity: 1, color: 'var(--text-secondary)' }}
-                    >
-                      <Icon
-                        size={16}
-                        {...(highlight ? { fill: '#fbbf24', color: '#fbbf24' } : {})}
-                      />
-                      {label}
+              <ul className={styles.heroProof}>
+                {proofPoints.map(({ lines, Icon, highlight }) => (
+                  <li key={lines[0]} className={styles.heroProofItem}>
+                    <Icon
+                      size={26}
+                      strokeWidth={1.6}
+                      className={highlight ? styles.heroProofStar : styles.heroProofIcon}
+                      aria-hidden="true"
+                    />
+                    <span>
+                      {lines[0]}
+                      <br />
+                      {lines[1]}
                     </span>
-                  ))}
-                </div>
-              </div>
+                  </li>
+                ))}
+              </ul>
             </AnimatedSection>
+
           </div>
 
           <HeroWorkspace />

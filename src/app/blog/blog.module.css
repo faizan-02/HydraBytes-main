@@ -30,6 +30,43 @@
 .featuredTitle { font-size: 1.8rem; font-weight: 800; margin-bottom: 0.75rem; }
 .featuredExcerpt { font-size: 1.05rem; color: var(--text-secondary); line-height: 1.7; max-width: 700px; margin-bottom: 1.5rem; }
 .readMore { font-size: 0.82rem; font-weight: 600; color: var(--accent-primary); letter-spacing: 0.04em; min-height: 1.5em; }
+/* Touch screens have no hover, so the link is always shown there */
+@media (hover: none) {
+  .readMore {
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    transform: none !important;
+  }
+}
+
+/* Cards lift with a soft neutral shadow on hover, like the portfolio cards. Only the
+   "Read full article" link opens the post; the card itself isn't clickable. */
+.cardSurface {
+  border-radius: 1rem;
+  overflow: hidden;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  transition:
+    transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.25s ease;
+}
+.cardLift:hover .cardSurface,
+.cardLift:focus-within .cardSurface {
+  transform: translateY(-6px);
+  border-color: var(--border-color-hover);
+  box-shadow: 0 22px 40px -18px rgba(15, 23, 42, 0.28);
+}
+[data-theme='dark'] .cardLift:hover .cardSurface,
+[data-theme='dark'] .cardLift:focus-within .cardSurface {
+  box-shadow: 0 22px 40px -18px rgba(0, 0, 0, 0.7);
+}
+@media (hover: none), (prefers-reduced-motion: reduce) {
+  .cardLift:hover .cardSurface,
+  .cardLift:focus-within .cardSurface {
+    transform: none;
+  }
+}
 /* Hovering the link itself lifts it like the gallery and portfolio View Details */
 .readMoreLift {
   display: inline-flex;

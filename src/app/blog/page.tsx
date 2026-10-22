@@ -26,7 +26,8 @@ const posts = [
     date: 'May 14, 2026',
     category: 'Fintech',
     readTime: '7 min read',
-    image: '/Bank Statement Analysis Dashboard/thumbnail.png',
+    image: '/portfolio/cpai-cover.png',
+    imagePosition: 'top',
     url: 'https://dev.to/thehydrabytes/building-cpai-an-ai-powered-bank-statement-analysis-dashboard-1ka4',
   },
   {
@@ -44,7 +45,8 @@ const posts = [
     date: 'Apr 14, 2026',
     category: 'AI & ML',
     readTime: '6 min read',
-    image: '/blog-lung-cancer.png',
+    image: '/portfolio/lung-cancer-cover.png',
+    imagePosition: 'top',
     url: 'https://dev.to/thehydrabytes/building-a-3-class-lung-cancer-image-classifier-with-tensorflow-and-flask-4615',
   },
   {
@@ -118,7 +120,7 @@ function BlogPostCard({ post }: { post: typeof posts[number] }) {
           src={post.image}
           alt={post.title}
           fill
-          style={{ objectFit: 'cover', objectPosition: 'right center' }}
+          style={{ objectFit: 'cover', objectPosition: post.imagePosition || 'right center' }}
           sizes="(max-width: 768px) 100vw, 350px"
         />
         {!hasUrl && (
@@ -132,13 +134,20 @@ function BlogPostCard({ post }: { post: typeof posts[number] }) {
       <h3 className={styles.postTitle}>{post.title}</h3>
       <p className={styles.postExcerpt}>{post.excerpt}</p>
       {hasUrl ? (
-        <span
+        <a
+          href={post.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={`Read full article: ${post.title}`}
           className={styles.readMore}
           style={{
-            display: 'flex',
+            display: 'inline-flex',
             alignItems: 'center',
             gap: '0.35rem',
+            alignSelf: 'flex-start',
+            textDecoration: 'none',
             opacity: hovered ? 1 : 0,
+            pointerEvents: hovered ? 'auto' : 'none',
             transform: hovered ? 'translateY(0) scale(1)' : 'translateY(12px) scale(0.9)',
             transition: 'opacity 0.35s ease, transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1)',
           }}
@@ -147,7 +156,7 @@ function BlogPostCard({ post }: { post: typeof posts[number] }) {
             <TextScramble text="READ FULL ARTICLE" trigger={hovered} speed={25} />
             <ArrowRight size={14} style={{ opacity: hovered ? 1 : 0, transform: hovered ? 'translateX(0)' : 'translateX(-6px)', transition: 'opacity 0.3s ease 0.1s, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s' }} />
           </span>
-        </span>
+        </a>
       ) : (
         <span className={styles.postDate}>{post.date}</span>
       )}
@@ -156,33 +165,17 @@ function BlogPostCard({ post }: { post: typeof posts[number] }) {
 
   return (
     <div
+      className={styles.cardLift}
       style={{ position: 'relative', borderRadius: '1rem', height: '100%' }}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      onFocus={() => setHovered(true)}
+      onBlur={() => setHovered(false)}
     >
-      <div style={{
-        borderRadius: '1rem',
-        overflow: 'hidden',
-        background: 'var(--bg-card)',
-        border: '1px solid var(--border-color)',
-        height: '100%',
-      }}>
-        {hasUrl ? (
-          <a
-            href={post.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.postCard}
-            aria-label={`Read article: ${post.title}`}
-            style={{ display: 'flex', flexDirection: 'column', textDecoration: 'none', color: 'inherit', cursor: 'pointer', height: '100%' }}
-          >
-            {cardContent}
-          </a>
-        ) : (
-          <div className={styles.postCard} style={{ cursor: 'default', height: '100%' }}>
-            {cardContent}
-          </div>
-        )}
+      <div className={styles.cardSurface} style={{ height: '100%' }}>
+        <div className={styles.postCard} style={{ height: '100%' }}>
+          {cardContent}
+        </div>
       </div>
     </div>
   );
@@ -205,16 +198,14 @@ function FeaturedCard({ post }: { post: typeof featured }) {
 
   return (
     <div
+      className={styles.cardLift}
       style={{ position: 'relative', borderRadius: '1rem' }}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      onFocus={() => setHovered(true)}
+      onBlur={() => setHovered(false)}
     >
-      <div style={{
-        borderRadius: '1rem',
-        overflow: 'hidden',
-        background: 'var(--bg-card)',
-        border: '1px solid var(--border-color)',
-      }}>
+      <div className={styles.cardSurface}>
         <div className={styles.featuredPost}>
           <div style={{ position: 'relative', width: '100%', height: '420px', overflow: 'hidden', borderRadius: '0.75rem', marginBottom: '1.75rem' }}>
             <Image
@@ -240,10 +231,13 @@ function FeaturedCard({ post }: { post: typeof featured }) {
             aria-label={`Read full article: ${post.title}`}
             className={styles.readMore}
             style={{
-              display: 'flex',
+              display: 'inline-flex',
               alignItems: 'center',
               gap: '0.35rem',
+              alignSelf: 'flex-start',
+              textDecoration: 'none',
               opacity: hovered ? 1 : 0,
+              pointerEvents: hovered ? 'auto' : 'none',
               transform: hovered ? 'translateY(0) scale(1)' : 'translateY(12px) scale(0.9)',
               transition: 'opacity 0.35s ease, transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1)',
             }}

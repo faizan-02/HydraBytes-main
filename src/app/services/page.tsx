@@ -35,7 +35,7 @@ const services: Array<{
     icon: Brain,
     color: '#f472b6',
     glassColor: 'pink',
-    image: '/services/service-ai.jpg',
+    image: '/services/service-ai-v3.jpg',
     title: 'AI & ML Solutions',
     subtitle: 'Intelligent systems that learn and adapt',
     desc: 'Harness the power of artificial intelligence and machine learning to automate processes, gain insights from data, and create intelligent products that evolve with your business.',
